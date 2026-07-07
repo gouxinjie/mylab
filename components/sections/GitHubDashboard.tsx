@@ -124,17 +124,17 @@ export default function GitHubDashboard() {
           {/* Profile Card */}
           <div className="card flex items-center gap-4 overflow-hidden p-5">
             <img
-              src={
-                error
-                  ? "/images/avatar-placeholder.png"
-                  : `https://avatars.githubusercontent.com/gouxinjie?v=4`
-              }
+              src={`https://avatars.githubusercontent.com/gouxinjie?v=4`}
               alt="xinjie avatar"
               width={96}
               height={96}
               className="h-24 w-24 rounded-xl object-cover"
               onError={(e) => {
-                e.currentTarget.src = "/images/avatar-placeholder.png";
+                // 避免无限循环，只处理一次错误
+                if (!e.currentTarget.dataset.errorHandled) {
+                  e.currentTarget.dataset.errorHandled = "true";
+                  e.currentTarget.src = "/images/avatar-placeholder.svg";
+                }
               }}
             />
             <div>
