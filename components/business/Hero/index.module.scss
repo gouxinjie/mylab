@@ -16,7 +16,7 @@
   }
 }
 
-// 背景横幅：承载背景图，并为内容层提供定位上下文
+// 背景横幅：承载背景图，并作为内容定位/纵向排列容器（合并原 banner__content）
 .banner {
   position: relative;
   overflow: hidden;
@@ -24,29 +24,22 @@
   background-repeat: no-repeat;
   background-position: right center;
   background-size: cover;
-
-  // 横幅内容层：置于背景图之上，左对齐纵向排列
-  &__content {
-    position: relative;
-    z-index: 10;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-  }
+  // 内容纵向排列、左对齐
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
 }
 
-// 信息区：包含问候语、主标题、描述与操作按钮
+// 信息区：浮于背景遮罩之上，包含问候语、主标题、描述与操作按钮（合并原 info__inner）
 .info {
+  position: relative;
+  z-index: 10; // 确保内容在横幅遮罩之上
   width: 100%;
+  max-width: 42rem; // 2xl
   padding-top: 6rem;
 
   @media (min-width: 1024px) {
     padding-top: 0;
-  }
-
-  // 信息内容最大宽度容器（2xl）
-  &__inner {
-    max-width: 42rem; // 2xl
   }
 
   // 问候语：小号次要文字
@@ -78,11 +71,11 @@
     @media (min-width: 1024px) {
       font-size: 2.8rem; // 大屏时字号稍微减小
     }
+  }
 
-    // 标题中高亮的 "Web" 强调词，使用强调色
-    &__highlight {
-      color: var(--color-accent);
-    }
+  // 标题中高亮的 "Web" 强调词，使用强调色（扁平化以匹配 TSX 的 .info__highlight）
+  &__highlight {
+    color: var(--color-accent);
   }
 
   // 描述文本：次要色，大屏限制最大宽度

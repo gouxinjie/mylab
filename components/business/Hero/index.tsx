@@ -25,21 +25,18 @@ export default function Hero() {
         {/* 背景横幅 */}
         <div className={styles.banner}>
           <div className={styles.banner__overlay} />
-          {/* 横幅内容层 */}
-          <div className={styles.banner__content}>
-            {/* 信息区：问候/标题/描述/按钮 */}
-            <div className={styles.info}>
-              <div className={styles.info__inner}>
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5 }}
-                >
-                  {/* 问候语 */}
-                <span className={styles.info__greeting}>
-                    {t("greeting")}
-                  </span>
-                </motion.div>
+          {/* 信息区：问候/标题/描述/按钮 */}
+          <div className={styles.info}>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+            >
+              {/* 问候语 */}
+              <span className={styles.info__greeting}>
+                {t("greeting")}
+              </span>
+            </motion.div>
 
                 {/* 主标题 */}
                 <motion.h1
@@ -102,8 +99,6 @@ export default function Hero() {
                     {t("learn_more")}
                   </Link>
                 </motion.div>
-              </div>
-            </div>
           </div>
         </div>
       </div>
