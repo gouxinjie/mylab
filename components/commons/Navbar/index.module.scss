@@ -4,6 +4,7 @@
  * @author gouxinjie
  */
 
+// 顶部导航栏容器：吸顶、底部边框、浅色背景
 .header {
   position: sticky;
   top: 0;
@@ -13,6 +14,7 @@
   padding-top: 0.75rem;
   padding-bottom: 0.75rem;
 
+  // 导航栏内部容器：两端对齐
   &__container {
     display: flex;
     height: 3rem;
@@ -21,6 +23,7 @@
   }
 }
 
+// 品牌区：logo + 名称
 .brand {
   display: flex;
   align-items: center;
@@ -37,6 +40,7 @@
     transform: scale(0.95);
   }
 
+  // 品牌 logo：渐变圆角方块，hover 旋转
   &__logo {
     display: flex;
     height: 2rem;
@@ -56,6 +60,7 @@
     transform: rotate(12deg);
   }
 
+  // 品牌名称：渐变文字，小屏隐藏
   &__name {
     display: none;
     background: linear-gradient(to right, var(--color-text-primary), var(--color-text-secondary));
@@ -69,6 +74,7 @@
   }
 }
 
+// 主导航：中屏以上横向显示
 .nav {
   display: none;
   align-items: center;
@@ -78,6 +84,7 @@
     display: flex;
   }
 
+  // 导航链接：hover 浅灰背景、主色文字
   &__link {
     position: relative;
     display: flex;
@@ -95,6 +102,7 @@
       background-color: var(--color-bg-secondary);
     }
 
+    // 当前激活链接：强调色 + 底部下划线
     &--active {
       color: var(--color-accent);
 
@@ -111,6 +119,7 @@
       }
     }
 
+    // 链接内图标
     &__icon {
       opacity: 0.7;
       display: flex;
@@ -120,6 +129,7 @@
   }
 }
 
+// 右侧操作区：主题/语言/菜单按钮组
 .actions {
   display: flex;
   align-items: center;
@@ -130,9 +140,11 @@
   }
 }
 
+// 语言切换菜单：相对定位容器
 .lang-menu {
   position: relative;
 
+  // 触发器：显示当前语言，hover 主色
   &__trigger {
     display: flex;
     align-items: center;
@@ -154,11 +166,13 @@
       transform: scale(0.95);
     }
 
+    // 语言文本：最小宽度避免抖动
     &__text {
       min-width: 1.25rem;
     }
   }
 
+  // 下拉面板：绝对定位，顶部弹出动画
   &__dropdown {
     position: absolute;
     right: 0;
@@ -174,6 +188,7 @@
     animation: dropdownIn 0.1s ease-out;
   }
 
+  // 下拉项：hover 浅灰背景，激活态强调色
   &__item {
     display: flex;
     width: 100%;
@@ -196,6 +211,7 @@
     }
   }
 
+  // 下拉遮罩：覆盖全屏用于点击关闭
   &__overlay {
     position: fixed;
     inset: 0;
@@ -203,6 +219,7 @@
   }
 }
 
+// 主题按钮与移动端菜单按钮：统一圆角描边方块
 .theme-btn, .menu-btn {
   display: flex;
   height: 2.25rem;
@@ -223,12 +240,14 @@
   }
 }
 
+// 移动端菜单按钮：中屏以上隐藏
 .menu-btn {
   @media (min-width: 768px) {
     display: none;
   }
 }
 
+// 移动端全屏菜单：覆盖全屏，顶部下拉动画
 .mobile-menu {
   position: fixed;
   inset: 0;
@@ -241,12 +260,14 @@
     display: none;
   }
 
+  // 移动端导航列表：纵向排列
   &__nav {
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
   }
 
+  // 移动端导航链接：大字号，激活态强调色
   &__link {
     display: flex;
     align-items: center;
@@ -271,6 +292,7 @@
     }
   }
 
+  // 移动端导航链接图标
   &__icon {
     color: var(--color-text-muted);
     display: flex;
@@ -278,6 +300,7 @@
     justify-content: center;
   }
 
+  // 移动端菜单底部操作区
   &__footer {
     margin-top: 2rem;
     display: grid;
@@ -287,6 +310,7 @@
     padding-top: 2rem;
   }
 
+  // 移动端底部按钮：主题/语言切换
   &__foot-btn {
     display: flex;
     align-items: center;
@@ -306,6 +330,7 @@
   }
 }
 
+// 下拉面板弹出动画
 @keyframes dropdownIn {
   from {
     opacity: 0;
@@ -317,6 +342,7 @@
   }
 }
 
+// 移动端菜单下拉进入动画
 @keyframes fadeInDown {
   from {
     opacity: 0;

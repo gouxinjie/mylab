@@ -4,12 +4,14 @@
  * @author gouxinjie
  */
 
+// 水平垂直居中混合宏
 @mixin flex-center {
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
+// 内容容器混合宏：居中、固定最大宽度、响应式左右内边距
 @mixin container-custom {
   margin-left: auto;
   margin-right: auto;
@@ -28,6 +30,7 @@
   }
 }
 
+// 按钮基础混合宏：内联弹性、圆角、过渡与悬浮/点击反馈
 @mixin btn-base {
   display: inline-flex;
   align-items: center;
@@ -49,6 +52,7 @@
   }
 }
 
+// 卡片基础混合宏：圆角边框、浅色背景、悬浮主色高亮与阴影
 @mixin card-base {
   border-radius: var(--radius-xl);
   border: 1px solid var(--color-border);

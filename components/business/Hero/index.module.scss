@@ -4,6 +4,7 @@
  * @author gouxinjie
  */
 
+// 英雄区域整体容器，控制上下内边距（移动端偏小，大屏增大）
 .hero {
   background-color: var(--color-bg);
   padding-top: 2rem;
@@ -15,6 +16,7 @@
   }
 }
 
+// 背景横幅：承载背景图，并为内容层提供定位上下文
 .banner {
   position: relative;
   overflow: hidden;
@@ -23,6 +25,7 @@
   background-position: right center;
   background-size: cover;
 
+  // 横幅内容层：置于背景图之上，左对齐纵向排列
   &__content {
     position: relative;
     z-index: 10;
@@ -32,6 +35,7 @@
   }
 }
 
+// 信息区：包含问候语、主标题、描述与操作按钮
 .info {
   width: 100%;
   padding-top: 6rem;
@@ -40,10 +44,12 @@
     padding-top: 0;
   }
 
+  // 信息内容最大宽度容器（2xl）
   &__inner {
     max-width: 42rem; // 2xl
   }
 
+  // 问候语：小号次要文字
   &__greeting {
     display: block;
     font-size: 0.88rem;
@@ -55,6 +61,7 @@
     }
   }
 
+  // 主标题：支持换行，字号随屏幕尺寸递增
   &__title {
     margin-top: 1rem;
     white-space: pre-line;
@@ -72,11 +79,13 @@
       font-size: 2.8rem; // 大屏时字号稍微减小
     }
 
+    // 标题中高亮的 "Web" 强调词，使用强调色
     &__highlight {
       color: var(--color-accent);
     }
   }
 
+  // 描述文本：次要色，大屏限制最大宽度
   &__desc {
     margin-top: 0.75rem;
     font-size: 1rem;
@@ -92,6 +101,7 @@
     }
   }
 
+  // 操作按钮组：横向排列，允许换行
   &__actions {
     margin-top: 1.25rem;
     display: flex;
@@ -101,6 +111,7 @@
   }
 }
 
+// 英雄区按钮：统一高度与圆角、点击缩放反馈
 .btn-hero {
   display: inline-flex;
   height: 3rem;
@@ -117,6 +128,7 @@
     transform: scale(0.95);
   }
 
+  // 主按钮：强调色填充
   &--primary {
     background-color: var(--color-accent);
     color: white;
@@ -127,6 +139,7 @@
     }
   }
 
+  // 描边按钮：浅色背景，hover 切换为浅灰表面
   &--outline {
     border: 1px solid var(--color-border);
     background-color: white;

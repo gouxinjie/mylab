@@ -4,6 +4,7 @@
  * @author gouxinjie
  */
 
+// 居中容器：占满视口高度，纵向排列
 .container {
   display: flex;
   min-height: 80vh;
@@ -15,9 +16,11 @@
   text-align: center;
 }
 
+// 视觉装饰区：大号 "404" 背景 + 居中图标
 .visual {
   position: relative;
-  
+
+  // 背景大号数字：主色低透明度
   &__bg {
     display: block;
     font-size: 120px;
@@ -31,6 +34,7 @@
     }
   }
 
+  // 内容层：叠在数字之上、绝对居中
   &__content {
     position: absolute;
     inset: 0;
@@ -39,11 +43,13 @@
     justify-content: center;
   }
 
+  // 中央图标：浅灰
   &__icon {
     color: var(--color-text-muted);
   }
 }
 
+// 标题
 .title {
   margin-top: 1.5rem;
   font-size: 1.25rem;
@@ -54,6 +60,7 @@
   }
 }
 
+// 描述文本：次要色、限制最大宽度
 .desc {
   margin-top: 0.5rem;
   max-width: 28rem;
@@ -61,6 +68,7 @@
   color: var(--color-text-secondary);
 }
 
+// 操作按钮组
 .actions {
   margin-top: 2rem;
   display: flex;

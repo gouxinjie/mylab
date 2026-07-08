@@ -90,6 +90,8 @@ export default async function RootLayout({
 
   return (
     <html lang={locale} suppressHydrationWarning className={`${inter.variable} ${jetbrainsMono.variable} ${notoSansSC.variable}`}>
+      {/* 根元素：注入字体 CSS 变量类 */}
+      {/* 头部：注入结构化数据 JSON-LD */}
       <head>
         <script
           type="application/ld+json"
@@ -109,13 +111,16 @@ export default async function RootLayout({
           }}
         />
       </head>
+      {/* 主体：i18n 提供 + 主题/导航/页脚 */}
       <body>
         <NextIntlClientProvider locale={locale} messages={messages}>
           <AppProvider>
+            {/* 顶部导航栏 */}
             <Navbar />
             <main>
               <PageTransition>{children}</PageTransition>
             </main>
+            {/* 页脚 */}
             <Footer />
           </AppProvider>
         </NextIntlClientProvider>

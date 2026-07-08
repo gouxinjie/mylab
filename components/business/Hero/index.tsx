@@ -20,10 +20,14 @@ export default function Hero() {
 
   return (
     <section className={styles.hero}>
+      {/* 英雄区域容器 */}
       <div className="container-custom">
+        {/* 背景横幅 */}
         <div className={styles.banner}>
           <div className={styles.banner__overlay} />
+          {/* 横幅内容层 */}
           <div className={styles.banner__content}>
+            {/* 信息区：问候/标题/描述/按钮 */}
             <div className={styles.info}>
               <div className={styles.info__inner}>
                 <motion.div
@@ -31,11 +35,13 @@ export default function Hero() {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5 }}
                 >
-                  <span className={styles.info__greeting}>
+                  {/* 问候语 */}
+                <span className={styles.info__greeting}>
                     {t("greeting")}
                   </span>
                 </motion.div>
 
+                {/* 主标题 */}
                 <motion.h1
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -53,6 +59,7 @@ export default function Hero() {
                   )}
                 </motion.h1>
 
+                {/* 描述 */}
                 <motion.p
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -62,6 +69,7 @@ export default function Hero() {
                   {t("description")}
                 </motion.p>
 
+                {/* 操作按钮组 */}
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}

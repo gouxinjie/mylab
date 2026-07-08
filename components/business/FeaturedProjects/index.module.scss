@@ -4,18 +4,21 @@
  * @author gouxinjie
  */
 
+// 精选项目区块：上下内边距、浅色背景
 .projects {
   padding-top: 2rem;
   padding-bottom: 2rem;
   background-color: var(--color-bg);
 }
 
+// 区块头部：标题 + "查看全部" 链接
 .header {
   display: flex;
   align-items: center;
   justify-content: space-between;
   margin-bottom: 1.5rem;
 
+  // 区块标题：大字号加粗
   &__title {
     font-size: 1.5rem;
     font-weight: bold;
@@ -26,6 +29,7 @@
     }
   }
 
+  // "查看全部" 链接：强调色，hover 深强调色，箭头右移
   &__link {
     display: inline-flex;
     align-items: center;
@@ -51,6 +55,7 @@
   }
 }
 
+// 项目栅格：移动端单列，中屏两列，大屏三列
 .grid {
   display: grid;
   gap: 2rem;
@@ -64,6 +69,7 @@
   }
 }
 
+// 项目卡片：复用 card-base，hover 加深阴影、图片放大
 .card {
   @include card-base;
   overflow: hidden;
@@ -73,6 +79,7 @@
     box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.1);
   }
 
+  // 图片容器：固定宽高比，占位浅灰表面
   &__image-box {
     position: relative;
     aspect-ratio: 16 / 10;
@@ -81,6 +88,7 @@
     background-color: var(--color-surface-muted);
   }
 
+  // 图片加载失败兜底：深色渐变
   &__fallback {
     position: absolute;
     inset: 0;
@@ -91,6 +99,7 @@
     color: rgba(255, 255, 255, 0.1);
   }
 
+  // 项目封面图：hover 放大
   &__img {
     height: 100%;
     width: 100%;
@@ -102,10 +111,12 @@
     transform: scale(1.1);
   }
 
+  // 卡片内容区
   &__content {
     padding: 1.5rem;
   }
 
+  // 顶部行：标题 + 外链图标
   &__top {
     margin-bottom: 0.75rem;
     display: flex;
@@ -113,12 +124,14 @@
     justify-content: space-between;
   }
 
+  // 项目标题
   &__title {
     font-size: 1.12rem;
     font-weight: bold;
     color: var(--color-text-primary);
   }
 
+  // 外链图标：hover 主色
   &__external {
     color: var(--color-text-muted);
     transition: color 0.2s;
@@ -128,6 +141,7 @@
     }
   }
 
+  // 项目描述：两行截断
   &__desc {
     margin-bottom: 1.5rem;
     font-size: 0.88rem;
@@ -139,12 +153,14 @@
     overflow: hidden;
   }
 
+  // 标签列表：横向换行
   &__tags {
     display: flex;
     flex-wrap: wrap;
     gap: 0.5rem;
   }
 
+  // 单个标签：浅色底描边
   &__tag {
     border-radius: var(--radius-xl);
     background-color: var(--color-surface);

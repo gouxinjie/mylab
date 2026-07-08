@@ -17,17 +17,21 @@ import FadeIn from "@/components/commons/FadeIn";
 export default function HomePage() {
   return (
     <>
+      {/* 英雄区域 */}
       <Hero />
       
       <FadeIn delay={0.1}>
+        {/* 服务区域 */}
         <Services />
       </FadeIn>
       
       <FadeIn delay={0.2}>
+        {/* 精选项目区域 */}
         <FeaturedProjects />
       </FadeIn>
       
       <FadeIn delay={0.3}>
+        {/* 引用与社交区域 */}
         <QuoteSection />
       </FadeIn>
     </>

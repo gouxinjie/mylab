@@ -4,6 +4,7 @@
  * @author gouxinjie
  */
 
+// 页面容器：上下内边距随屏幕增大
 .contact-page {
   padding-top: 3rem;
   padding-bottom: 3rem;
@@ -14,9 +15,11 @@
   }
 }
 
+// 页头：标题 + 副标题
 .header {
   margin-bottom: 2.5rem;
 
+  // 页头大标题
   &__title {
     font-size: 1.88rem;
     line-height: 2.25rem;
@@ -28,12 +31,14 @@
     }
   }
 
+  // 页头副标题：次要色
   &__subtitle {
     margin-top: 0.5rem;
     color: var(--color-text-secondary);
   }
 }
 
+// 联系方式栅格：移动端单列，中屏两列
 .grid {
   display: grid;
   gap: 1rem;
@@ -43,6 +48,7 @@
   }
 }
 
+// 联系方式卡片：图标 + 标题 + 值，hover 主色高亮
 .contact-item {
   display: flex;
   align-items: center;
@@ -58,6 +64,7 @@
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
   }
 
+  // 图标盒子：主色浅底，hover 主色填充白图标
   &__icon-wrapper {
     display: flex;
     height: 3rem;
@@ -76,10 +83,12 @@
     color: white;
   }
 
+  // 联系方式标题
   &__title {
     font-weight: 600;
   }
 
+  // 联系方式值：浅灰，单行截断
   &__value {
     margin-top: 0.13rem;
     font-size: 0.75rem;
@@ -90,6 +99,7 @@
     max-width: 11.25rem;
   }
 
+  // 右侧箭头：默认隐藏，hover 显示主色
   &__arrow {
     margin-left: auto;
     flex-shrink: 0;
@@ -104,6 +114,7 @@
   }
 }
 
+// 备注提示区：虚线边框浅底
 .note {
   margin-top: 3rem;
   border-radius: 0.75rem;
@@ -112,11 +123,13 @@
   padding: 1.5rem;
   text-align: center;
 
+  // 备注文字：浅灰
   &__text {
     font-size: 0.88rem;
     color: var(--color-text-muted);
   }
 
+  // 备注内链接：主色，hover 下划线
   &__link {
     font-weight: 500;
     color: var(--color-primary);

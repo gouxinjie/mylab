@@ -4,6 +4,7 @@
  * @author gouxinjie
  */
 
+// 页面整体容器：上下内边距，随屏幕增大
 .about {
   padding-top: 3rem;
   padding-bottom: 3rem;
@@ -14,9 +15,11 @@
   }
 }
 
+// 页头区域：标题区块
 .header {
   margin-bottom: 2.5rem;
 
+  // 页头标题：大字号加粗
   &__title {
     font-size: 1.88rem;
     font-weight: bold;
@@ -27,6 +30,7 @@
   }
 }
 
+// 个人简介卡片：圆角边框 + 浅色背景
 .bio {
   margin-bottom: 3rem;
   border-radius: var(--radius-xl);
@@ -38,12 +42,14 @@
     padding: 2rem;
   }
 
+  // 简介标题
   &__title {
     font-size: 1.25rem;
     font-weight: bold;
     margin-bottom: 1rem;
   }
 
+  // 简介正文：次要色、行高宽松
   &__text {
     font-size: 1rem;
     line-height: 1.625;
@@ -51,20 +57,24 @@
   }
 }
 
+// 通用内容区块：与下方区块保持间距
 .section {
   margin-bottom: 3rem;
 
+  // 区块标题
   &__title {
     margin-bottom: 1.5rem;
   }
 }
 
+// 技能标签列表：横向换行排列
 .skill-list {
   display: flex;
   flex-wrap: wrap;
   gap: 0.75rem;
 }
 
+// 单个技能标签：圆角描边，hover 主色高亮
 .skill-tag {
   border-radius: var(--radius-xl);
   border: 1px solid var(--color-border);
@@ -79,9 +89,11 @@
   }
 }
 
+// 时间轴容器：左侧竖线装饰
 .timeline {
   position: relative;
-  
+
+  // 竖线：贯穿时间轴左侧
   &::before {
     content: "";
     position: absolute;
@@ -92,12 +104,14 @@
     background-color: var(--color-border);
   }
 
+  // 时间轴单个节点
   &__item {
     position: relative;
     padding-bottom: 2rem;
     padding-left: 2.5rem;
   }
 
+  // 节点圆点：默认边框样式
   &__dot {
     position: absolute;
     left: 0.5rem;
@@ -111,6 +125,7 @@
     border-color: var(--color-border);
     z-index: 1;
 
+    // 当前节点：主色实心 + 外发光
     &--current {
       background-color: var(--color-primary);
       border-color: var(--color-primary);
@@ -119,9 +134,11 @@
   }
 }
 
+// 经历卡片：复用 card-base 混合宏
 .exp-card {
   @include card-base;
 
+  // 卡片头部：角色与时间，小屏纵向、大屏横向
   &__header {
     display: flex;
     flex-direction: column;
@@ -134,15 +151,18 @@
     }
   }
 
+  // 角色名称
   &__role {
     font-weight: 600;
   }
 
+  // 公司名称：次要色
   &__company {
     font-size: 0.88rem;
     color: var(--color-text-secondary);
   }
 
+  // 时间段标签：圆角描边小标签
   &__period {
     flex-shrink: 0;
     border-radius: var(--radius-xl);
@@ -152,6 +172,7 @@
     color: var(--color-text-muted);
   }
 
+  // 经历描述：次要色、行高宽松
   &__desc {
     margin-top: 0.75rem;
     font-size: 0.88rem;

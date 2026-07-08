@@ -4,6 +4,7 @@
  * @author gouxinjie
  */
 
+// 技能区块：上下内边距随屏幕增大
 .skills {
   padding-top: 3rem;
   padding-bottom: 3rem;
@@ -19,6 +20,7 @@
   }
 }
 
+// 区块头部：标题 + 副标题 + 链接
 .header {
   display: flex;
   flex-direction: column;
@@ -30,6 +32,7 @@
     justify-content: space-between;
   }
 
+  // 副标题：次要色
   &__subtitle {
     margin-top: 0.38rem;
     font-size: 0.88rem;
@@ -40,6 +43,7 @@
     }
   }
 
+  // 桌面端 "查看全部" 链接：主色，hover 深主色
   &__link {
     display: none;
     font-size: 0.88rem;
@@ -55,6 +59,7 @@
       display: block;
     }
 
+    // 移动端专属链接：小屏显示，大屏隐藏
     &--mobile {
       display: flex;
       align-items: center;
@@ -71,6 +76,7 @@
   }
 }
 
+// 技能栅格：移动端 4 列，中屏 5 列
 .grid {
   margin-top: 1.5rem;
   display: grid;
@@ -84,6 +90,7 @@
   }
 }
 
+// 技能项：图标 + 名称，hover 主色边框
 .item {
   display: flex;
   flex-direction: column;
@@ -108,6 +115,7 @@
     transform: scale(0.95);
   }
 
+  // 技能图标（emoji/字符）
   &__icon {
     font-family: monospace;
     font-size: 0.69rem;
@@ -117,6 +125,7 @@
     }
   }
 
+  // 技能名称：次要色，hover 主文字色
   &__name {
     font-size: 0.69rem;
     font-weight: 500;

@@ -55,6 +55,7 @@ export default function SkillsSection() {
   return (
     <section className={styles.skills}>
       <div className="container-custom">
+        {/* 头部：标题 + 查看全部链接 */}
         <div className={styles.header}>
           <div>
             <h2 className="section-title">{t("title")}</h2>
@@ -70,6 +71,7 @@ export default function SkillsSection() {
           </Link>
         </div>
 
+        {/* 技能网格 */}
         <div className={styles.grid}>
           {skills.map((skill) => (
             <div
@@ -86,6 +88,7 @@ export default function SkillsSection() {
           ))}
         </div>
 
+        {/* 移动端查看全部链接 */}
         <div className={styles['header__link--mobile']}>
           <Link
             href="/about"

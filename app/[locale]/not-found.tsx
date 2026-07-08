@@ -4,6 +4,7 @@ import styles from "./not-found.module.scss";
 export default function NotFound() {
   return (
     <div className={styles.container}>
+      {/* 404 视觉装饰 */}
       <div className={styles.visual}>
         <span className={styles.visual__bg}>
           404
@@ -17,11 +18,14 @@ export default function NotFound() {
         </div>
       </div>
       
+      {/* 标题 */}
       <h1 className={styles.title}>页面走丢了</h1>
+      {/* 描述 */}
       <p className={styles.desc}>
         抱歉，您访问的页面不存在或已被移除。您可以尝试返回首页或通过导航栏寻找您需要的内容。
       </p>
       
+      {/* 操作按钮 */}
       <div className={styles.actions}>
         <Link href="/" className="btn-primary">
           返回首页

@@ -4,12 +4,14 @@
  * @author gouxinjie
  */
 
+// 引言区块：上下内边距、浅色表面背景
 .quote-section {
   padding-top: 2rem;
   padding-bottom: 2rem;
   background-color: rgba(var(--color-surface-rgb), 0.3);
 }
 
+// 引言卡片：圆角白底，大屏横向排列
 .box {
   display: flex;
   flex-direction: column;
@@ -28,6 +30,7 @@
   }
 }
 
+// 引言内容：图标 + 文本
 .quote {
   display: flex;
   align-items: flex-start;
@@ -37,11 +40,13 @@
     max-width: 42rem; // 2xl
   }
 
+  // 引号图标：强调色
   &__icon {
     color: var(--color-accent);
     flex-shrink: 0;
   }
 
+  // 引言主文本：大字号加粗
   &__text {
     font-size: 1.25rem;
     font-weight: bold;
@@ -52,6 +57,7 @@
     }
   }
 
+  // 引言副文本：次要色
   &__subtext {
     margin-top: 0.5rem;
     font-size: 0.88rem;
@@ -59,11 +65,13 @@
   }
 }
 
+// 社交链接区：横向排列
 .social {
   display: flex;
   align-items: center;
   gap: 1rem;
 
+  // 单个社交链接：浅色底，hover 强调色填充
   &__link {
     display: flex;
     height: 3rem;

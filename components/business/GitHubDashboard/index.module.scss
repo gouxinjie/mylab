@@ -4,6 +4,7 @@
  * @author gouxinjie
  */
 
+// 看板区块：上下内边距随屏幕增大
 .github {
   padding-top: 3rem;
   padding-bottom: 3rem;
@@ -19,6 +20,7 @@
   }
 }
 
+// 区块头部：标题 + 副标题 + GitHub 链接
 .header {
   display: flex;
   flex-direction: column;
@@ -30,6 +32,7 @@
     justify-content: space-between;
   }
 
+  // 副标题：次要色
   &__subtitle {
     margin-top: 0.38rem;
     font-size: 0.88rem;
@@ -40,6 +43,7 @@
     }
   }
 
+  // GitHub 链接：主色，hover 深主色
   &__link {
     display: inline-flex;
     align-items: center;
@@ -55,6 +59,7 @@
   }
 }
 
+// 主栅格：统计网格 + 个人卡片，大屏三列
 .grid {
   margin-top: 1.5rem;
   display: grid;
@@ -70,6 +75,7 @@
   }
 }
 
+// 统计网格：大屏占两列，内部三列小卡片
 .stats-grid {
   @media (min-width: 1024px) {
     grid-column: span 2;
@@ -82,6 +88,7 @@
     gap: 1rem;
   }
 
+  // 单个统计小卡片
   &__card {
     @include card-base;
     display: flex;
@@ -90,6 +97,7 @@
   }
 }
 
+// 个人资料卡片：头像 + 信息
 .profile-card {
   @include card-base;
   display: flex;
@@ -103,6 +111,7 @@
     padding: 1.25rem;
   }
 
+  // 头像：圆角方形，随屏幕增大
   &__avatar {
     height: 4rem;
     width: 4rem;
@@ -120,11 +129,13 @@
     }
   }
 
+  // 信息容器：占据剩余宽度
   &__info {
     min-width: 0;
     flex: 1;
   }
 
+  // 用户名
   &__name {
     font-weight: 600;
     font-size: 0.88rem;
@@ -134,6 +145,7 @@
     }
   }
 
+  // 角色/简介：次要色，支持换行
   &__role {
     margin-top: 0.12rem;
     font-size: 0.69rem;
@@ -145,6 +157,7 @@
     }
   }
 
+  // 个人主页链接：主色，hover 深主色
   &__link {
     margin-top: 0.38rem;
     display: inline-flex;
@@ -165,6 +178,7 @@
   }
 }
 
+// 贡献热力图卡片
 .heatmap {
   @include card-base;
   margin-top: 1.5rem;
@@ -174,6 +188,7 @@
     margin-top: 2rem;
   }
 
+  // 标题
   &__title {
     margin-bottom: 0.75rem;
     font-size: 0.88rem;
@@ -185,10 +200,12 @@
     }
   }
 
+  // 横向滚动容器
   &__scroll {
     overflow-x: auto;
   }
 
+  // 热力图行容器
   &__container {
     display: flex;
     gap: 0.12rem;
@@ -196,12 +213,14 @@
     min-width: max-content;
   }
 
+  // 单个星期列：纵向排列七天
   &__week {
     display: flex;
     flex-direction: column;
     gap: 2px;
   }
 
+  // 单个贡献方块：hover 主色描边
   &__day {
     height: 0.38rem;
     width: 0.5rem;
@@ -218,6 +237,7 @@
     }
   }
 
+  // 图例：右对齐，浅灰文字
   &__legend {
     margin-top: 0.62rem;
     display: flex;
@@ -233,6 +253,7 @@
     }
   }
 
+  // 图例色块
   &__level {
     height: 0.5rem;
     width: 0.5rem;
@@ -245,6 +266,7 @@
   }
 }
 
+// 加载骨架屏：数值/标签/副标签占位
 .skeleton {
   &__val {
     height: 1.5rem;
@@ -270,6 +292,7 @@
   }
 }
 
+// 错误状态卡片：数值 + 标签
 .error-card {
   &__val {
     font-size: 1.25rem;
@@ -291,6 +314,7 @@
   }
 }
 
+// 骨架屏闪烁动画
 @keyframes pulse {
   0%, 100% {
     opacity: 1;

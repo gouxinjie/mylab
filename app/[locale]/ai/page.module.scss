@@ -4,6 +4,7 @@
  * @author gouxinjie
  */
 
+// 页面容器：上下内边距随屏幕增大
 .ai-page {
   padding-top: 3rem;
   padding-bottom: 3rem;
@@ -14,9 +15,11 @@
   }
 }
 
+// 页头：标题 + 副标题
 .header {
   margin-bottom: 2.5rem;
 
+  // 页头大标题
   &__title {
     font-size: 1.88rem;
     line-height: 2.25rem;
@@ -28,6 +31,7 @@
     }
   }
 
+  // 页头副标题：次要色
   &__subtitle {
     margin-top: 0.5rem;
     max-width: 36rem;
@@ -35,13 +39,16 @@
   }
 }
 
+// 内容区块：与下方保持间距
 .section {
   margin-bottom: 4rem;
 
+  // 最后一个区块取消下边距
   &--last {
     margin-bottom: 0;
   }
 
+  // 区块标题
   &__title {
     margin-bottom: 1.5rem;
     font-size: 1.13rem;
@@ -49,6 +56,7 @@
   }
 }
 
+// 项目栅格：移动端单列，中屏两列
 .project-grid {
   display: grid;
   gap: 1.5rem;
@@ -58,9 +66,11 @@
   }
 }
 
+// 项目卡片：复用 card-base
 .project-card {
   @include card-base;
 
+  // 预览图区：渐变背景占位
   &__preview {
     margin-bottom: 0.75rem;
     height: 10rem;
@@ -72,10 +82,12 @@
     color: rgba(255, 255, 255, 0.2);
   }
 
+  // 项目标题
   &__title {
     font-weight: 600;
   }
 
+  // 项目描述：三行截断
   &__desc {
     margin-top: 0.25rem;
     font-size: 0.88rem;
@@ -87,6 +99,7 @@
     overflow: hidden;
   }
 
+  // 标签列表
   &__tags {
     margin-top: 0.75rem;
     display: flex;
@@ -94,6 +107,7 @@
     gap: 0.38rem;
   }
 
+  // 单个标签：圆角描边
   &__tag {
     border-radius: 9999px;
     border: 1px solid var(--color-border);
@@ -103,12 +117,14 @@
   }
 }
 
+// 工具栈：横向换行排列
 .tool-stack {
   display: flex;
   flex-wrap: wrap;
   gap: 0.75rem;
 }
 
+// 工具项：圆角描边，hover 主色边框
 .tool-item {
   display: inline-flex;
   align-items: center;
@@ -125,6 +141,7 @@
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
   }
 
+  // 分类小标签：hover 主色浅底
   &__category {
     border-radius: 0.25rem;
     background-color: var(--color-border);
@@ -140,13 +157,16 @@
   }
 }
 
+// 文章列表区
 .articles {
+  // 文章列表副标题
   &__subtitle {
     margin-bottom: 1rem;
     font-size: 0.88rem;
     color: var(--color-text-secondary);
   }
 
+  // 文章列表：纵向排列
   &__list {
     display: flex;
     flex-direction: column;
@@ -154,6 +174,7 @@
   }
 }
 
+// 文章项：标题 + 元信息，hover 主色高亮
 .article-item {
   display: flex;
   align-items: center;
@@ -168,17 +189,20 @@
     background-color: var(--color-bg-secondary);
   }
 
+  // 文章标题
   &__title {
     font-size: 0.88rem;
     font-weight: 500;
   }
 
+  // 文章元信息：浅灰小字
   &__meta {
     margin-top: 0.25rem;
     font-size: 0.75rem;
     color: var(--color-text-muted);
   }
 
+  // 文章箭头图标：hover 右移
   &__icon {
     flex-shrink: 0;
     color: var(--color-text-muted);

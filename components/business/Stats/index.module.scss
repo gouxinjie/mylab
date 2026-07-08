@@ -4,6 +4,7 @@
  * @author gouxinjie
  */
 
+// 数据指标区块：负上边距上浮，上下内边距随屏幕增大
 .stats {
   margin-top: -1rem;
   padding-top: 2rem;
@@ -21,6 +22,7 @@
   }
 }
 
+// 指标栅格：移动端两列，中屏四列
 .grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -36,6 +38,7 @@
   }
 }
 
+// 指标卡片：居中纵向排列，hover 主色边框
 .card {
   @include card-base;
   display: flex;
@@ -55,6 +58,7 @@
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
   }
 
+  // 图标盒子：主色浅底圆角
   &__icon-box {
     display: flex;
     height: 2.25rem;
@@ -74,6 +78,7 @@
     }
   }
 
+  // 指标数值：大字号加粗
   &__value {
     font-size: 1.25rem;
     font-weight: bold;
@@ -83,6 +88,7 @@
     }
   }
 
+  // 指标标签：浅灰小字
   &__label {
     font-size: 0.69rem;
     color: var(--color-text-muted);
