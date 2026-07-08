@@ -1,6 +1,15 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useTranslations } from "next-intl";
+
+/**
+ * @component GitHubDashboard
+ * @description GitHub数据看板组件，展示GitHub用户数据和热力图
+ * @author gouxinjie
+ * @created 2024
+ * @updated 2024
+ */
 
 interface GithubData {
   public_repos: number;
@@ -9,6 +18,7 @@ interface GithubData {
 }
 
 export default function GitHubDashboard() {
+  const t = useTranslations("GitHubDashboard");
   const [data, setData] = useState<GithubData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -19,16 +29,14 @@ export default function GitHubDashboard() {
         setLoading(true);
         // Fetch user profile
         const userRes = await fetch(
-          "https://api.github.com/users/gouxinjie",
-          { next: { revalidate: 300 } } // Cache for 5 minutes
+          "https://api.github.com/users/gouxinjie"
         );
         if (!userRes.ok) throw new Error("GitHub API error");
         const userData = await userRes.json();
 
         // Fetch repos to calculate stars
         const reposRes = await fetch(
-          "https://api.github.com/users/gouxinjie/repos?per_page=100&sort=updated&type=public",
-          { next: { revalidate: 300 } }
+          "https://api.github.com/users/gouxinjie/repos?per_page=100&sort=updated&type=public"
         );
         const reposData: Array<{ stargazers_count: number }> =
           await reposRes.json();
@@ -58,13 +66,13 @@ export default function GitHubDashboard() {
   const heatmapDays = 7;
 
   return (
-    <section className="py-16 sm:py-20">
+    <section className="py-12 sm:py-16 lg:py-20">
       <div className="container-custom">
-        <div className="flex items-center justify-between">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
           <div>
-            <h2 className="section-title">GitHub 数据看板</h2>
-            <p className="mt-2 text-sm text-[var(--color-text-secondary)]">
-              实时数据，刷新查看最新
+            <h2 className="section-title">{t("title")}</h2>
+            <p className="mt-1.5 sm:mt-2 text-sm text-[var(--color-text-secondary)]">
+              {t("subtitle")}
             </p>
           </div>
           <a
@@ -73,48 +81,71 @@ export default function GitHubDashboard() {
             rel="noopener noreferrer"
             className="inline-flex items-center gap-1 text-sm font-medium text-[var(--color-primary)] hover:text-[var(--color-primary-dark)]"
           >
-            访问我的 GitHub →
+            {t("view_github")}
           </a>
         </div>
 
-        <div className="mt-8 grid gap-6 lg:grid-cols-3">
+        <div className="mt-6 sm:mt-8 grid gap-4 sm:gap-6 lg:grid-cols-3">
           {/* Stats Cards */}
-          <div className="lg:col-span-2 grid grid-cols-3 gap-4">
-            {/* Skeleton or Data */}
+          <div className="lg:col-span-2 grid grid-cols-3 gap-3 sm:gap-4">
+            {/* Skeleton */}
             {loading ? (
               <>
                 {[1, 2, 3].map((i) => (
                   <div key={i} className="card animate-pulse">
-                    <div className="h-8 w-16 rounded bg-gray-200" />
-                    <div className="mt-4 h-6 w-20 rounded bg-gray-200" />
-                    <div className="mt-1 h-3 w-12 rounded bg-gray-200" />
+                    <div className="h-6 sm:h-8 w-12 sm:w-16 rounded bg-gray-200" />
+                    <div className="mt-3 sm:mt-4 h-5 sm:h-6 w-16 sm:w-20 rounded bg-gray-200" />
+                    <div className="mt-1 h-2.5 sm:h-3 w-10 sm:w-12 rounded bg-gray-200" />
                   </div>
                 ))}
               </>
-            ) : (
+            ) : error ? (
+              // 错误状态
               <>
                 <div className="card">
-                  <span className="text-2xl font-bold">
-                    {error ? "36" : data?.public_repos || "—"}
-                  </span>
-                  <p className="mt-1 text-xs text-[var(--color-text-muted)]">
-                    公开仓库<br />Repositories
+                  <span className="text-xl sm:text-2xl font-bold">36</span>
+                  <p className="mt-1 text-[11px] sm:text-xs text-[var(--color-text-muted)]">
+                    {t("repos")}
                   </p>
                 </div>
                 <div className="card">
-                  <span className="text-2xl font-bold">
-                    {error ? "1.2k+" : `${((data?.total_stars || 0) / 1000).toFixed(1)}k+`}
-                  </span>
-                  <p className="mt-1 text-xs text-[var(--color-text-muted)]">
-                    Stars 总计<br />Stars
+                  <span className="text-xl sm:text-2xl font-bold">1.2k+</span>
+                  <p className="mt-1 text-[11px] sm:text-xs text-[var(--color-text-muted)]">
+                    {t("stars")}
                   </p>
                 </div>
                 <div className="card">
-                  <span className="text-2xl font-bold">
-                    {error ? "480+" : `${data?.followers || 0}+`}
+                  <span className="text-xl sm:text-2xl font-bold">480+</span>
+                  <p className="mt-1 text-[11px] sm:text-xs text-[var(--color-text-muted)]">
+                    {t("followers")}
+                  </p>
+                </div>
+              </>
+            ) : (
+              // 数据状态
+              <>
+                <div className="card">
+                  <span className="text-xl sm:text-2xl font-bold">
+                    {data?.public_repos || "—"}
                   </span>
-                  <p className="mt-1 text-xs text-[var(--color-text-muted)]">
-                    关注者<br />Followers
+                  <p className="mt-1 text-[11px] sm:text-xs text-[var(--color-text-muted)]">
+                    {t("repos")}
+                  </p>
+                </div>
+                <div className="card">
+                  <span className="text-xl sm:text-2xl font-bold">
+                    {`${((data?.total_stars || 0) / 1000).toFixed(1)}k+`}
+                  </span>
+                  <p className="mt-1 text-[11px] sm:text-xs text-[var(--color-text-muted)]">
+                    {t("stars")}
+                  </p>
+                </div>
+                <div className="card">
+                  <span className="text-xl sm:text-2xl font-bold">
+                    {`${data?.followers || 0}+`}
+                  </span>
+                  <p className="mt-1 text-[11px] sm:text-xs text-[var(--color-text-muted)]">
+                    {t("followers")}
                   </p>
                 </div>
               </>
@@ -122,33 +153,30 @@ export default function GitHubDashboard() {
           </div>
 
           {/* Profile Card */}
-          <div className="card flex items-center gap-4 overflow-hidden p-5">
+          <div className="card flex items-center gap-3 sm:gap-4 overflow-hidden p-4 sm:p-5">
             <img
               src={`https://avatars.githubusercontent.com/gouxinjie?v=4`}
               alt="xinjie avatar"
-              width={96}
-              height={96}
-              className="h-24 w-24 rounded-xl object-cover"
+              width={72}
+              height={72}
+              className="h-16 w-16 sm:h-20 sm:w-20 lg:h-24 lg:w-24 rounded-xl object-cover"
               onError={(e) => {
-                // 避免无限循环，只处理一次错误
                 if (!e.currentTarget.dataset.errorHandled) {
                   e.currentTarget.dataset.errorHandled = "true";
                   e.currentTarget.src = "/images/avatar-placeholder.svg";
                 }
               }}
             />
-            <div>
-              <h3 className="font-semibold">xinjie</h3>
-              <p className="mt-0.5 text-xs text-[var(--color-text-secondary)]">
-                Full Stack Developer
-                <br />
-                AI Explorer
+            <div className="min-w-0 flex-1">
+              <h3 className="font-semibold text-sm sm:text-base">{t("profile_name")}</h3>
+              <p className="mt-0.5 text-[11px] sm:text-xs text-[var(--color-text-secondary)] whitespace-pre-line">
+                {t("profile_role")}
               </p>
               <a
                 href="https://github.com/gouxinjie"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="mt-2 inline-flex items-center gap-1 text-xs font-medium text-[var(--color-primary)] hover:text-[var(--color-primary-dark)]"
+                className="mt-1.5 sm:mt-2 inline-flex items-center gap-1 text-[11px] sm:text-xs font-medium text-[var(--color-primary)] hover:text-[var(--color-primary-dark)]"
               >
                 GitHub →
               </a>
@@ -157,16 +185,15 @@ export default function GitHubDashboard() {
         </div>
 
         {/* Contribution Heatmap */}
-        <div className="mt-8 card">
-          <h3 className="mb-4 text-sm font-medium text-[var(--color-text-secondary)]">
-            贡献热力图（最近一年）
+        <div className="mt-6 sm:mt-8 card overflow-hidden">
+          <h3 className="mb-3 sm:mb-4 text-sm font-medium text-[var(--color-text-secondary)]">
+            {t("heatmap_title")}
           </h3>
           <div className="overflow-x-auto">
-            <div className="flex gap-0.5 pb-2">
+            <div className="flex gap-0.5 pb-2 min-w-max">
               {Array.from({ length: heatmapWeeks }).map((_, weekIdx) => (
                 <div key={weekIdx} className="flex flex-col gap-[2px]">
                   {Array.from({ length: heatmapDays }).map((_, dayIdx) => {
-                    // Deterministic pseudo-random based on index (avoids hydration mismatch)
                     const seed = weekIdx * 7 + dayIdx;
                     const pseudoRandom = ((seed * 2654435761) >>> 0) % 100 / 100;
                     const level = Math.floor(pseudoRandom * 5);
@@ -177,7 +204,7 @@ export default function GitHubDashboard() {
                     return (
                       <div
                         key={dayIdx}
-                        className="h-2 w-2.5 rounded-sm transition-colors hover:ring-1 hover:ring-[var(--color-primary)]"
+                        className="h-1.5 w-2 sm:h-2 sm:w-2.5 rounded-sm transition-colors hover:ring-1 hover:ring-[var(--color-primary)]"
                         style={{ backgroundColor: bgColor }}
                         title={`Week ${weekIdx}, Day ${dayIdx}`}
                       />
@@ -188,16 +215,16 @@ export default function GitHubDashboard() {
             </div>
           </div>
           {/* Legend */}
-          <div className="mt-3 flex items-center justify-end gap-1 text-xs text-[var(--color-text-muted)]">
-            <span>Less</span>
+          <div className="mt-2.5 sm:mt-3 flex items-center justify-end gap-1 text-[11px] sm:text-xs text-[var(--color-text-muted)]">
+            <span>{t("less")}</span>
             {[0.05, 0.25, 0.5, 0.75, 1].map((op, i) => (
               <div
                 key={i}
-                className="h-2.5 w-2.5 rounded-sm"
+                className="h-2 w-2 sm:h-2.5 sm:w-2.5 rounded-sm"
                 style={{ backgroundColor: `rgba(245, 158, 11, ${op})` }}
               />
             ))}
-            <span>More</span>
+            <span>{t("more")}</span>
           </div>
         </div>
       </div>

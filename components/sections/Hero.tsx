@@ -1,10 +1,21 @@
 "use client";
 
-import Link from "next/link";
+import { Link } from "@/lib/navigation";
+import { useTranslations } from "next-intl";
+
+/**
+ * @component Hero
+ * @description 首页英雄区域组件，展示个人介绍和CTA按钮
+ * @author gouxinjie
+ * @created 2024
+ * @updated 2024
+ */
 
 export default function Hero() {
+  const t = useTranslations("Hero");
+
   return (
-    <section className="relative overflow-hidden bg-gradient-to-br from-[var(--color-bg-warm)] via-[var(--color-bg)] to-white py-20 sm:py-28">
+    <section className="relative overflow-hidden bg-gradient-to-br from-[var(--color-bg-warm)] via-[var(--color-bg)] to-white py-16 sm:py-20 lg:py-28">
       {/* Background decoration */}
       <div className="absolute inset-0 -z-10">
         <div className="absolute right-0 top-0 h-full w-1/2 bg-gradient-to-l from-orange-50/40 to-transparent" />
@@ -12,33 +23,25 @@ export default function Hero() {
       </div>
 
       <div className="container-custom">
-        <div className="grid items-center gap-12 lg:grid-cols-2">
+        <div className="grid items-center gap-10 lg:gap-12 lg:grid-cols-2">
           {/* Left: Content */}
           <div>
             {/* Tag */}
-            <span className="mb-4 inline-block rounded-full border border-[var(--color-primary)]/20 bg-[var(--color-primary)]/5 px-4 py-1 text-xs font-medium text-[var(--color-primary-dark)]">
-              ⚡ 全栈开发 · AI 探索者 · 开源爱好者
+            <span className="mb-3 sm:mb-4 inline-block rounded-full border border-[var(--color-primary)]/20 bg-[var(--color-primary)]/5 px-3 sm:px-4 py-1.5 text-[11px] sm:text-xs font-medium text-[var(--color-primary-dark)]">
+              {t("tag")}
             </span>
 
-            <h1 className="mt-4 text-4xl font-bold leading-tight tracking-tight sm:text-5xl lg:text-6xl">
-              用代码构建价值，
-              <br />
-              用{" "}
-              <span className="bg-gradient-to-r from-[var(--color-accent-orange)] to-[var(--color-primary)] bg-clip-text text-transparent">
-                AI
-              </span>{" "}
-              探索未来。
+            <h1 className="mt-3 sm:mt-4 text-2xl sm:text-3xl lg:text-4xl font-bold leading-tight tracking-tight lg:text-5xl xl:text-6xl whitespace-pre-line">
+              {t("title")}
             </h1>
 
-            <p className="mt-6 max-w-lg text-base leading-relaxed text-[var(--color-text-secondary)] sm:text-lg">
-              你好，我是 xinjie，一名热爱技术的全栈开发者。
-              <br />
-              我专注于构建高质量的 Web 应用，探索 AI 的无限可能，并通过开源项目分享与成长。
+            <p className="mt-4 sm:mt-6 max-w-none lg:max-w-lg text-sm sm:text-base leading-relaxed text-[var(--color-text-secondary)] whitespace-pre-line">
+              {t("description")}
             </p>
 
             {/* CTA Buttons */}
-            <div className="mt-8 flex flex-wrap gap-4">
-              <Link href="/projects" className="btn-primary group">
+            <div className="mt-6 sm:mt-8 flex flex-col sm:flex-row gap-3 sm:gap-4">
+              <Link href="/projects" className="btn-primary group w-full sm:w-auto justify-center">
                 <svg
                   width="16"
                   height="16"
@@ -52,36 +55,38 @@ export default function Hero() {
                 >
                   <path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z" />
                 </svg>
-                查看我的项目
+                {t("view_projects")}
               </Link>
-              <Link href="/about" className="btn-outline">
-                了解更多关于我 →
+              <Link href="/about" className="btn-outline w-full sm:w-auto justify-center">
+                {t("learn_more")}
               </Link>
             </div>
 
             {/* Social Links */}
-            <div className="mt-8 flex items-center gap-4">
-              <span className="text-sm text-[var(--color-text-muted)]">Find me on</span>
-              {["github", "twitter", "linkedin", "zhihu", "email"].map((social) => (
-                <a
-                  key={social}
-                  href="#"
-                  aria-label={social}
-                  className="flex h-9 w-9 items-center justify-center rounded-full border border-[var(--color-border)] text-[var(--color-text-secondary)] transition-all hover:border-[var(--color-primary)] hover:text-[var(--color-primary)]"
-                >
-                  <SocialIcon name={social} />
-                </a>
-              ))}
+            <div className="mt-6 sm:mt-8 flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4">
+              <span className="text-xs sm:text-sm text-[var(--color-text-muted)]">{t("find_me")}</span>
+              <div className="flex gap-2 sm:gap-3">
+                {["github", "twitter", "linkedin", "zhihu", "email"].map((social) => (
+                  <a
+                    key={social}
+                    href="#"
+                    aria-label={social}
+                    className="flex h-8 w-8 sm:h-9 sm:w-9 items-center justify-center rounded-full border border-[var(--color-border)] text-[var(--color-text-secondary)] transition-all hover:border-[var(--color-primary)] hover:text-[var(--color-primary)] active:scale-95"
+                  >
+                    <SocialIcon name={social} />
+                  </a>
+                ))}
+              </div>
             </div>
           </div>
 
           {/* Right: Code Block Visual */}
           <div className="hidden lg:block">
-            <div className="rounded-xl border border-gray-200 bg-gray-900 p-6 font-mono text-sm shadow-2xl">
-              <div className="mb-4 flex gap-2">
-                <span className="h-3 w-3 rounded-full bg-red-500" />
-                <span className="h-3 w-3 rounded-full bg-yellow-500" />
-                <span className="h-3 w-3 rounded-full bg-green-500" />
+            <div className="rounded-xl border border-gray-200 bg-gray-900 p-4 sm:p-6 font-mono text-xs sm:text-sm shadow-2xl">
+              <div className="mb-3 sm:mb-4 flex gap-2">
+                <span className="h-2.5 w-2.5 sm:h-3 sm:w-3 rounded-full bg-red-500" />
+                <span className="h-2.5 w-2.5 sm:h-3 sm:w-3 rounded-full bg-yellow-500" />
+                <span className="h-2.5 w-2.5 sm:h-3 sm:w-3 rounded-full bg-green-500" />
               </div>
               <pre className="text-gray-300 leading-relaxed">
                 <code>{`const xinjie = {
@@ -98,10 +103,10 @@ export default function Hero() {
         </div>
 
         {/* Scroll indicator */}
-        <div className="mt-16 flex justify-center">
-          <div className="flex flex-col items-center gap-2 animate-bounce">
-            <span className="text-xs text-[var(--color-text-muted)]">向下了解我 ↓</span>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-[var(--color-text-muted)]">
+        <div className="mt-12 sm:mt-16 flex justify-center">
+          <div className="flex flex-col items-center gap-1.5 sm:gap-2 animate-bounce">
+            <span className="text-[11px] sm:text-xs text-[var(--color-text-muted)]">{t("scroll_down")}</span>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-[var(--color-text-muted)]">
               <polyline points="6 9 12 15 18 9" />
             </svg>
           </div>

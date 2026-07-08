@@ -1,0 +1,112 @@
+{
+  "Navbar": {
+    "home": "首页",
+    "about": "关于我",
+    "projects": "项目",
+    "ai": "AI 探索",
+    "contact": "联系",
+    "switch_locale": "English",
+    "theme_toggle": "切换主题"
+  },
+  "Hero": {
+    "tag": "⚡ 全栈开发 · AI 探索者 · 开源爱好者",
+    "title": "用代码构建价值，\n用 AI 探索未来。",
+    "description": "你好，我是 xinjie，一名热爱技术的全栈开发者。\n我专注于构建高质量的 Web 应用，探索 AI 的无限可能，并通过开源项目分享与成长。",
+    "view_projects": "查看我的项目",
+    "learn_more": "了解更多关于我 →",
+    "find_me": "Find me on",
+    "scroll_down": "向下了解我 ↓"
+  },
+  "Stats": {
+    "projects": "项目总量",
+    "stars": "GitHub Stars",
+    "repos": "开源仓库",
+    "commits": "提交次数"
+  },
+  "FeaturedProjects": {
+    "title": "精选项目",
+    "subtitle": "一些我引以为豪的作品",
+    "view_all": "查看全部项目 →",
+    "categories": {
+      "all": "全部",
+      "fullstack": "全栈",
+      "ai": "AI",
+      "tool": "工具",
+      "opensource": "开源"
+    }
+  },
+  "About": {
+    "title": "关于我",
+    "bio_title": "个人简介",
+    "bio_1": "你好！我是 xinjie，一名热爱技术的全栈开发者和 AI 探索者。",
+    "bio_2": "我专注于构建高质量的 Web 应用，从前端交互到后端架构都有涉猎。近年来投入大量时间在 AI 领域，探索大语言模型、RAG、Agent 等技术如何融入实际产品中。我相信代码的价值在于解决真实的问题，而 AI 是放大这种价值的有力工具。",
+    "bio_3": "工作之余我喜欢通过开源项目分享所学，也乐于写技术博客记录踩坑经验。如果你对我的项目或想法感兴趣，欢迎随时联系我交流！",
+    "skills_title": "技术栈",
+    "experience_title": "工作经历"
+  },
+  "Projects": {
+    "title": "全部项目",
+    "subtitle": "从全栈应用到 AI 工具，这些是我投入热情的作品"
+  },
+  "GitHubDashboard": {
+    "title": "GitHub 数据看板",
+    "subtitle": "实时数据，刷新查看最新",
+    "view_github": "访问我的 GitHub →",
+    "repos": "公开仓库",
+    "stars": "Stars 总计",
+    "followers": "关注者",
+    "heatmap_title": "贡献热力图（最近一年）",
+    "less": "少",
+    "more": "多",
+    "profile_name": "xinjie",
+    "profile_role": "全栈开发工程师\nAI 探索者"
+  },
+  "BlogEntry": {
+    "title": "探索更多技术分享与思考",
+    "subtitle": "欢迎访问我的博客，阅读最新的技术文章和教程",
+    "button": "访问博客 →"
+  },
+  "Skills": {
+    "title": "技术栈",
+    "subtitle": "我常用的技术和工具",
+    "view_more": "查看更多技术 →"
+  },
+  "Footer": {
+    "description": "用代码构建价值，用 AI 探索未来。",
+    "rights": "© 2024 xinjie. All rights reserved.",
+    "nav_title": "导航",
+    "resources_title": "资源",
+    "social_title": "社交",
+    "blog": "博客 (blog.gouxinjie.com)"
+  },
+  "Contact": {
+    "title": "联系",
+    "subtitle": "欢迎通过以下方式联系我，期待与你交流！",
+    "blog_note": "💡 如果你想了解我的技术文章，欢迎访问"
+  },
+  "AI": {
+    "title": "AI 探索",
+    "subtitle": "探索人工智能的边界，将 LLM、RAG、Agent 等技术融入实际产品中。",
+    "projects_title": "AI 项目",
+    "tool_stack_title": "AI 工具栈",
+    "articles_title": "AI 相关文章",
+    "articles_subtitle": "从博客中精选的 AI 技术文章",
+    "projects": [
+      {
+        "title": "AI Chat Hub",
+        "desc": "多模型聚合对话平台，支持 OpenAI / Dify / 自定义模型，内置 RAG 检索增强",
+        "tags": ["React", "OpenAI", "Dify", "RAG"]
+      },
+      {
+        "title": "Dify Workflow Builder",
+        "desc": "基于 Dify 的可视化工作流编排器，拖拽式构建复杂 AI Agent",
+        "tags": ["Dify", "LangChain", "TypeScript"]
+      }
+    ],
+    "articles": [
+      { "title": "从零搭建 RAG 知识库系统" },
+      { "title": "Dify 工作流实战：构建智能客服 Agent" },
+      { "title": "Prompt Engineering 最佳实践指南" }
+    ]
+  }
+}

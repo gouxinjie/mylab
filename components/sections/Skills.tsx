@@ -1,7 +1,16 @@
 "use client";
 
-import Link from "next/link";
+import { Link } from "@/lib/navigation";
 import { skills } from "@/lib/data";
+import { useTranslations } from "next-intl";
+
+/**
+ * @component SkillsSection
+ * @description 技术栈展示组件，展示常用的技能和工具
+ * @author gouxinjie
+ * @created 2024
+ * @updated 2024
+ */
 
 const skillIcons: Record<string, JSX.Element> = {
   ts: (
@@ -40,34 +49,36 @@ const skillIcons: Record<string, JSX.Element> = {
 };
 
 export default function SkillsSection() {
+  const t = useTranslations("Skills");
+
   return (
-    <section className="py-16 sm:py-20">
+    <section className="py-12 sm:py-16 lg:py-20">
       <div className="container-custom">
-        <div className="flex items-center justify-between">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
           <div>
-            <h2 className="section-title">技术栈</h2>
-            <p className="mt-2 text-sm text-[var(--color-text-secondary)]">
-              我常用的技术和工具
+            <h2 className="section-title">{t("title")}</h2>
+            <p className="mt-1.5 sm:mt-2 text-sm text-[var(--color-text-secondary)]">
+              {t("subtitle")}
             </p>
           </div>
           <Link
             href="/about"
             className="hidden text-sm font-medium text-[var(--color-primary)] transition-colors hover:text-[var(--color-primary-dark)] sm:block"
           >
-            查看更多技术 →
+            {t("view_more")}
           </Link>
         </div>
 
-        <div className="mt-8 grid grid-cols-3 gap-3 sm:grid-cols-5 sm:gap-5">
+        <div className="mt-6 sm:mt-8 grid grid-cols-4 gap-2.5 sm:grid-cols-5 sm:gap-5">
           {skills.map((skill) => (
             <div
               key={skill.name}
-              className="group flex flex-col items-center gap-2 rounded-xl border border-[var(--color-border)] bg-[var(--color-bg-secondary)] p-4 transition-all hover:border-[var(--color-primary)] hover:shadow-md"
+              className="group flex flex-col items-center gap-2 rounded-xl border border-[var(--color-border)] bg-[var(--color-bg-secondary)] p-3 sm:p-4 transition-all hover:border-[var(--color-primary)] hover:shadow-md active:scale-95"
             >
               {skillIcons[skill.icon] || (
-                <span className="text-xs font-mono">{skill.icon}</span>
+                <span className="text-[11px] sm:text-xs font-mono">{skill.icon}</span>
               )}
-              <span className="text-xs font-medium text-[var(--color-text-secondary)] group-hover:text-[var(--color-text-primary)]">
+              <span className="text-[11px] sm:text-xs font-medium text-[var(--color-text-secondary)] group-hover:text-[var(--color-text-primary)] text-center">
                 {skill.name}
               </span>
             </div>
@@ -79,7 +90,7 @@ export default function SkillsSection() {
             href="/about"
             className="inline-flex items-center gap-1 text-sm font-medium text-[var(--color-primary)]"
           >
-            查看更多技术 →
+            {t("view_more")}
           </Link>
         </div>
       </div>

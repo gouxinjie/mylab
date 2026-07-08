@@ -111,14 +111,14 @@ export const skills: Skill[] = [
 // ─── AI Tools ────────────────────────────────────
 
 export const aiTools = [
-  { name: "OpenAI API", category: "LLM" },
-  { name: "Dify", category: "Platform" },
-  { name: "LangChain", category: "Framework" },
-  { name: "Coze", category: "Platform" },
-  { name: "RAG", category: "Technique" },
-  { name: "向量数据库", category: "Database" },
-  { name: "Agent", category: "Architecture" },
-  { name: "Prompt Engineering", category: "Technique" },
+  { name: "OpenAI API", category: "LLM", categoryEn: "LLM" },
+  { name: "Dify", category: "平台", categoryEn: "Platform" },
+  { name: "LangChain", category: "框架", categoryEn: "Framework" },
+  { name: "Coze", category: "平台", categoryEn: "Platform" },
+  { name: "RAG", category: "技术", categoryEn: "Technique" },
+  { name: "向量数据库", category: "数据库", categoryEn: "Database" },
+  { name: "Agent", category: "架构", categoryEn: "Architecture" },
+  { name: "Prompt Engineering", category: "技术", categoryEn: "Technique" },
 ];
 
 // ─── Experience ───────────────────────────────────

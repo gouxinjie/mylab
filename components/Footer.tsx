@@ -1,6 +1,17 @@
-import Link from "next/link";
+import { Link } from "@/lib/navigation";
+import { useTranslations } from "next-intl";
 
+/**
+ * @component Footer
+ * @description 页面底部组件，包含导航链接、资源链接和社交媒体
+ * @author gouxinjie
+ * @created 2024
+ * @updated 2024
+ */
 export default function Footer() {
+  const t = useTranslations("Footer");
+  const navT = useTranslations("Navbar");
+
   return (
     <footer className="border-t border-[var(--color-border)] bg-[var(--color-bg-dark)] text-white">
       <div className="container-custom py-12">
@@ -14,27 +25,25 @@ export default function Footer() {
               <span>xinjie</span>
             </Link>
             <p className="mt-3 text-sm leading-relaxed text-gray-400">
-              用代码构建价值，用 AI 探索未来。
-              <br />
-              Full Stack Developer & AI Explorer.
+              {t("description")}
             </p>
             <p className="mt-4 text-xs text-gray-500">
-              &copy; 2024 xinjie. All rights reserved.
+              {t("rights")}
             </p>
           </div>
 
           {/* Navigation */}
           <div>
             <h3 className="mb-4 text-sm font-semibold uppercase tracking-wider text-gray-400">
-              导航
+              {t("nav_title")}
             </h3>
             <ul className="space-y-2.5">
               {[
-                { label: "首页", href: "/" },
-                { label: "关于我", href: "/about" },
-                { label: "项目", href: "/projects" },
-                { label: "AI 探索", href: "/ai" },
-                { label: "联系", href: "/contact" },
+                { label: navT("home"), href: "/" },
+                { label: navT("about"), href: "/about" },
+                { label: navT("projects"), href: "/projects" },
+                { label: navT("ai"), href: "/ai" },
+                { label: navT("contact"), href: "/contact" },
               ].map((item) => (
                 <li key={item.href}>
                   <Link
@@ -51,11 +60,11 @@ export default function Footer() {
           {/* Resources */}
           <div>
             <h3 className="mb-4 text-sm font-semibold uppercase tracking-wider text-gray-400">
-              资源
+              {t("resources_title")}
             </h3>
             <ul className="space-y-2.5">
               {[
-                { label: "博客 (blog.gouxinjie.com)", href: "https://blog.gouxinjie.com", external: true },
+                { label: t("blog"), href: "https://blog.gouxinjie.com", external: true },
                 { label: "GitHub", href: "https://github.com/gouxinjie", external: true },
                 { label: "RSS", href: "#", external: true },
                 { label: "Sitemap", href: "/sitemap.xml", external: false },
@@ -91,7 +100,7 @@ export default function Footer() {
           {/* Social / Subscribe */}
           <div>
             <h3 className="mb-4 text-sm font-semibold uppercase tracking-wider text-gray-400">
-              社交
+              {t("social_title")}
             </h3>
             <div className="flex flex-wrap gap-3">
               {[

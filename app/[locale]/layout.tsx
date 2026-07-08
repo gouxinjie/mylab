@@ -1,8 +1,19 @@
 import type { Metadata, Viewport } from "next";
-import "./globals.css";
+import "../globals.css";
 import { AppProvider } from "@/components/AppProviders";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import PageTransition from "@/components/PageTransition";
+import { NextIntlClientProvider } from 'next-intl';
+import { getMessages } from 'next-intl/server';
+import { locales } from '@/i18n';
+import { notFound } from 'next/navigation';
+
+/**
+ * RootLayout
+ * @description 根布局组件，集成 i18n、主题、导航和动画
+ * @author gouxinjie
+ */
 
 export const metadata: Metadata = {
   title: {
@@ -21,63 +32,45 @@ export const metadata: Metadata = {
     "Next.js",
     "TypeScript",
     "Node.js",
+    "TypeScript",
   ],
   authors: [{ name: "xinjie", url: "https://gouxinjie.com" }],
   creator: "xinjie",
-  openGraph: {
-    type: "website",
-    locale: "zh_CN",
-    alternateLocale: "en_US",
-    url: "https://gouxinjie.com",
-    siteName: "xinjie",
-    title: "xinjie - Full Stack Developer & AI Explorer",
-    description:
-      "全栈开发者，AI 探索者。用代码构建价值，用 AI 探索未来。",
-    images: [
-      {
-        url: "/og-image.png",
-        width: 1200,
-        height: 630,
-        alt: "xinjie Portfolio",
-      },
-    ],
-  },
-  twitter: {
-    card: "summary_large_image",
-    title: "xinjie - Full Stack Developer & AI Explorer",
-    description:
-      "全栈开发者，AI 探索者。用代码构建价值，用 AI 探索未来。",
-    images: ["/og-image.png"],
-  },
-  robots: {
-    index: true,
-    follow: true,
-    googleBot: {
-      index: true,
-      follow: true,
-      "max-video-preview": -1,
-      "max-image-preview": "large",
-      "max-snippet": -1,
-    },
-  },
 };
 
 export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 5,
+  userScalable: true,
   themeColor: [
     { media: "(prefers-color-scheme: light)", color: "#FAFAFA" },
     { media: "(prefers-color-scheme: dark)", color: "#0F172A" },
   ],
 };
 
-export default function RootLayout({
+export function generateStaticParams() {
+  return locales.map((locale) => ({ locale }));
+}
+
+export default async function RootLayout({
   children,
+  params: { locale }
 }: Readonly<{
   children: React.ReactNode;
+  params: { locale: string };
 }>) {
+  // 验证 locale
+  if (!locales.includes(locale as any)) {
+    notFound();
+  }
+
+  // 获取翻译消息
+  const messages = await getMessages();
+
   return (
-    <html lang="zh-CN" suppressHydrationWarning>
+    <html lang={locale} suppressHydrationWarning>
       <head>
-        {/* JSON-LD Structured Data */}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
@@ -97,11 +90,15 @@ export default function RootLayout({
         />
       </head>
       <body className="font-sans antialiased">
-        <AppProvider>
-          <Navbar />
-          <main className="min-h-screen">{children}</main>
-          <Footer />
-        </AppProvider>
+        <NextIntlClientProvider locale={locale} messages={messages}>
+          <AppProvider>
+            <Navbar />
+            <main className="min-h-screen">
+              <PageTransition>{children}</PageTransition>
+            </main>
+            <Footer />
+          </AppProvider>
+        </NextIntlClientProvider>
       </body>
     </html>
   );

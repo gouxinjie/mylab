@@ -4,9 +4,7 @@
 
 :root {
   --color-primary: #F59E0B;
-  --color-primary-light: #FBBF24;
   --color-primary-dark: #D97706;
-  --color-accent-orange: #F97316;
   --color-bg: #FFFFFF;
   --color-bg-secondary: #FAFAFA;
   --color-bg-warm: #FFF9F0;
@@ -19,7 +17,6 @@
 
 .dark {
   --color-primary: #F59E0B;
-  --color-primary-light: #FCD34D;
   --color-primary-dark: #F59E0B;
   --color-bg: #0F172A;
   --color-bg-secondary: #1E293B;

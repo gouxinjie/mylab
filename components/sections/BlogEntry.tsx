@@ -1,6 +1,17 @@
+"use client";
+
 import Link from "next/link";
+import { useTranslations } from "next-intl";
+
+/**
+ * @component BlogEntry
+ * @description 博客入口组件
+ * @author gouxinjie
+ */
 
 export default function BlogEntry() {
+  const t = useTranslations("BlogEntry");
+
   return (
     <section className="py-10">
       <div className="container-custom">
@@ -21,15 +32,15 @@ export default function BlogEntry() {
 
           {/* Center: Text */}
           <div className="text-center sm:text-left">
-            <h3 className="text-lg font-semibold">探索更多技术分享与思考</h3>
+            <h3 className="text-lg font-semibold">{t("title")}</h3>
             <p className="mt-1 text-sm text-gray-400">
-              欢迎访问我的博客，阅读最新的技术文章和教程
+              {t("subtitle")}
             </p>
           </div>
 
           {/* Right: Button */}
           <span className="btn-primary shrink-0 whitespace-nowrap bg-white/10 hover:bg-white/20 group-hover:bg-[var(--color-primary)]">
-            访问博客 →
+            {t("button")}
           </span>
         </Link>
       </div>
