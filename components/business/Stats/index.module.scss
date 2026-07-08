@@ -51,7 +51,7 @@
   }
 
   &:hover {
-    border-color: rgba(245, 158, 11, 0.3); // primary/30
+    border-color: rgba(var(--color-primary-rgb), 0.3);
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
   }
 
@@ -62,7 +62,7 @@
     align-items: center;
     justify-content: center;
     border-radius: var(--radius-xl);
-    background-color: rgba(245, 158, 11, 0.1); // primary/10
+    background-color: rgba(var(--color-primary-rgb), 0.1);
 
     @media (min-width: 640px) {
       height: 2.75rem;

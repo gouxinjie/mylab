@@ -1,6 +1,7 @@
 /**
  * @file not-found.module.scss
  * @description 404 页面样式
+ * @author gouxinjie
  */
 
 .container {
@@ -36,10 +37,10 @@
     display: flex;
     align-items: center;
     justify-content: center;
+  }
 
-    &__icon {
-      color: var(--color-text-muted);
-    }
+  &__icon {
+    color: var(--color-text-muted);
   }
 }
 

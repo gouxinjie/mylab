@@ -7,6 +7,8 @@
 :root {
   --color-primary: #F59E0B;
   --color-primary-dark: #D97706;
+  --color-accent: #10B981;
+  --color-accent-dark: #059669;
   --color-bg: #FFFFFF;
   --color-bg-secondary: #FAFAFA;
   --color-bg-warm: #FFF9F0;
@@ -31,11 +33,23 @@
   // 圆角变量
   --radius-xl: 0.75rem;
   --radius-full: 9999px;
+
+  // RGB 通道变量（供 rgba() 使用，避免硬编码主色通道值）
+  --color-primary-rgb: 245, 158, 11;
+  --color-accent-rgb: 16, 185, 129;
+  --color-bg-secondary-rgb: 250, 250, 250;
+
+  // 浅色表面变量（卡片/占位灰）
+  --color-surface: #F9FAFB;
+  --color-surface-rgb: 249, 250, 251;
+  --color-surface-muted: #F3F4F6;
 }
 
 .dark {
   --color-primary: #F59E0B;
   --color-primary-dark: #F59E0B;
+  --color-accent: #10B981;
+  --color-accent-dark: #059669;
   --color-bg: #0F172A;
   --color-bg-secondary: #1E293B;
   --color-bg-warm: #1A1A2E;
@@ -44,4 +58,12 @@
   --color-text-secondary: #CBD5E1;
   --color-text-muted: #94A3B8;
   --color-border: #334155;
+
+  --color-primary-rgb: 245, 158, 11;
+  --color-accent-rgb: 16, 185, 129;
+  --color-bg-secondary-rgb: 30, 41, 59;
+
+  --color-surface: #1E293B;
+  --color-surface-rgb: 30, 41, 59;
+  --color-surface-muted: #334155;
 }

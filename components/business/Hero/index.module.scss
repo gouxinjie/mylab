@@ -5,7 +5,7 @@
  */
 
 .hero {
-  background-color: white;
+  background-color: var(--color-bg);
   padding-top: 2rem;
   padding-bottom: 1.5rem;
 
@@ -73,7 +73,7 @@
     }
 
     &__highlight {
-      color: #10b981;
+      color: var(--color-accent);
     }
   }
 
@@ -118,11 +118,11 @@
   }
 
   &--primary {
-    background-color: #10b981;
+    background-color: var(--color-accent);
     color: white;
 
     &:hover {
-      background-color: #059669;
+      background-color: var(--color-accent-dark);
       box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
     }
   }
@@ -133,7 +133,7 @@
     color: var(--color-text-primary);
 
     &:hover {
-      background-color: #f9fafb;
+      background-color: var(--color-surface);
     }
 
     svg {

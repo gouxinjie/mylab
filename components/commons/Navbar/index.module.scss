@@ -44,7 +44,7 @@
     align-items: center;
     justify-content: center;
     border-radius: var(--radius-xl);
-    background: linear-gradient(to bottom right, #10b981, #059669);
+    background: linear-gradient(to bottom right, var(--color-accent), var(--color-accent-dark));
     font-size: 0.88rem;
     font-weight: bold;
     color: white;
@@ -96,7 +96,7 @@
     }
 
     &--active {
-      color: #10b981;
+      color: var(--color-accent);
 
       &::after {
         content: "";
@@ -107,7 +107,7 @@
         width: 1.25rem;
         transform: translateX(-50%);
         border-radius: var(--radius-full);
-        background-color: #10b981;
+        background-color: var(--color-accent);
       }
     }
 
@@ -146,8 +146,8 @@
     transition: all 0.2s;
 
     &:hover {
-      border-color: #10b981;
-      color: #10b981;
+      border-color: var(--color-accent);
+      color: var(--color-accent);
     }
 
     &:active {
@@ -191,8 +191,8 @@
     }
 
     &--active {
-      background-color: rgba(16, 185, 129, 0.1);
-      color: #10b981;
+      background-color: rgba(var(--color-accent-rgb), 0.1);
+      color: var(--color-accent);
     }
   }
 
@@ -214,8 +214,8 @@
   transition: all 0.2s;
 
   &:hover {
-    border-color: #10b981;
-    color: #10b981;
+    border-color: var(--color-accent);
+    color: var(--color-accent);
   }
 
   &:active {
@@ -263,10 +263,10 @@
     }
 
     &--active {
-      color: #10b981;
+      color: var(--color-accent);
 
       .mobile-menu__icon {
-        color: #10b981;
+        color: var(--color-accent);
       }
     }
   }

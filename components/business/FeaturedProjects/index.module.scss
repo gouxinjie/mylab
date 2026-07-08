@@ -7,7 +7,7 @@
 .projects {
   padding-top: 2rem;
   padding-bottom: 2rem;
-  background-color: white;
+  background-color: var(--color-bg);
 }
 
 .header {
@@ -31,11 +31,11 @@
     align-items: center;
     font-size: 0.88rem;
     font-weight: 500;
-    color: #10b981;
+    color: var(--color-accent);
     transition: color 0.2s;
 
     &:hover {
-      color: #059669;
+      color: var(--color-accent-dark);
     }
 
     svg {
@@ -78,7 +78,7 @@
     aspect-ratio: 16 / 10;
     width: 100%;
     overflow: hidden;
-    background-color: #f3f4f6;
+    background-color: var(--color-surface-muted);
   }
 
   &__fallback {
@@ -120,11 +120,11 @@
   }
 
   &__external {
-    color: #9ca3af;
+    color: var(--color-text-muted);
     transition: color 0.2s;
 
     &:hover {
-      color: #10b981;
+      color: var(--color-accent);
     }
   }
 
@@ -147,11 +147,11 @@
 
   &__tag {
     border-radius: var(--radius-xl);
-    background-color: #f9fafb;
-    border: 1px solid #f3f4f6;
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-surface-muted);
     padding: 0.25rem 0.75rem;
     font-size: 0.75rem;
     font-weight: 500;
-    color: #4b5563;
+    color: var(--color-border);
   }
 }

@@ -127,10 +127,10 @@
 
   &__category {
     border-radius: 0.25rem;
-    background-color: #e5e7eb;
+    background-color: var(--color-border);
     padding: 0.13rem 0.38rem;
     font-size: 0.63rem;
-    color: #6b7280;
+    color: var(--color-text-secondary);
     transition: colors 0.2s;
   }
 

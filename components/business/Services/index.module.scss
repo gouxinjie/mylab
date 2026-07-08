@@ -7,7 +7,7 @@
 .services {
   padding-top: 2rem;
   padding-bottom: 2rem;
-  background-color: white;
+  background-color: var(--color-bg);
 }
 
 .header {
@@ -39,13 +39,13 @@
 
 .item {
   border-radius: var(--radius-xl);
-  border: 1px solid #f3f4f6;
-  background-color: rgba(249, 250, 251, 0.5);
+  border: 1px solid var(--color-surface-muted);
+  background-color: rgba(var(--color-surface-rgb), 0.5);
   padding: 1.25rem;
   transition: all 0.2s;
 
   &:hover {
-    background-color: white;
+    background-color: var(--color-bg);
     box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
   }
 
@@ -57,10 +57,10 @@
     align-items: center;
     justify-content: center;
     border-radius: var(--radius-xl);
-    background-color: white;
+    background-color: var(--color-bg);
     box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
     transition: transform 0.2s;
-    color: #10b981;
+    color: var(--color-accent);
   }
 
   &:hover &__icon-box {
