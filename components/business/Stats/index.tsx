@@ -1,14 +1,15 @@
-"use client";
-
-import { useTranslations } from "next-intl";
-
 /**
  * @component Stats
- * @description 统计数字展示组件，展示项目和技能数据
+ * @description 统计数字展示组件
  * @author gouxinjie
  * @created 2024
  * @updated 2024
  */
+
+"use client";
+
+import { useTranslations } from "next-intl";
+import styles from "./index.module.scss";
 
 export default function Stats() {
   const t = useTranslations("Stats");
@@ -18,7 +19,7 @@ export default function Stats() {
       label: t("projects"),
       value: "50+",
       icon: (
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="text-[var(--color-primary)]">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
           <path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z" />
         </svg>
       ),
@@ -27,7 +28,7 @@ export default function Stats() {
       label: t("stars"),
       value: "1.2k+",
       icon: (
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" className="text-[var(--color-primary)]">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
           <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2" />
         </svg>
       ),
@@ -36,7 +37,7 @@ export default function Stats() {
       label: t("repos"),
       value: "30+",
       icon: (
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="text-[var(--color-primary)]">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
           <rect x="3" y="3" width="18" height="18" rx="2" />
           <line x1="9" y1="3" x2="9" y2="21" />
           <line x1="15" y1="8" x2="17" y2="8" />
@@ -48,7 +49,7 @@ export default function Stats() {
       label: t("commits"),
       value: "1.3k+",
       icon: (
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="text-[var(--color-primary)]">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
           <circle cx="12" cy="12" r="4" />
           <line x1="12" y1="16" x2="12" y2="21" />
           <line x1="12" y1="8" x2="12" y2="3" />
@@ -62,19 +63,19 @@ export default function Stats() {
   ];
 
   return (
-    <section className="-mt-4 sm:-mt-6 py-8 sm:py-10 lg:py-14">
+    <section className={styles.stats}>
       <div className="container-custom">
-        <div className="grid grid-cols-2 gap-3 sm:gap-4 sm:grid-cols-4 sm:gap-6 lg:gap-8">
+        <div className={styles.grid}>
           {statCards.map((stat) => (
             <div
               key={stat.label}
-              className="flex flex-col items-center gap-2 sm:gap-2.5 rounded-2xl border border-[var(--color-border)] bg-[var(--color-bg-secondary)] p-4 sm:p-5 text-center transition-all hover:border-[var(--color-primary)]/30 hover:shadow-md"
+              className={styles.card}
             >
-              <span className="flex h-9 w-9 sm:h-11 sm:w-11 items-center justify-center rounded-xl bg-[var(--color-primary)]/10">
+              <span className={styles['card__icon-box']}>
                 {stat.icon}
               </span>
-              <span className="text-xl sm:text-2xl font-bold">{stat.value}</span>
-              <span className="text-[11px] sm:text-xs text-[var(--color-text-muted)]">{stat.label}</span>
+              <span className={styles.card__value}>{stat.value}</span>
+              <span className={styles.card__label}>{stat.label}</span>
             </div>
           ))}
         </div>

@@ -1,9 +1,3 @@
-"use client";
-
-import { motion } from "framer-motion";
-import { usePathname } from "next/navigation";
-import { ReactNode } from "react";
-
 /**
  * @component PageTransition
  * @description 页面切换动画组件
@@ -11,6 +5,13 @@ import { ReactNode } from "react";
  * @created 2024
  * @updated 2024
  */
+
+"use client";
+
+import { motion } from "framer-motion";
+import { usePathname } from "next/navigation";
+import { ReactNode } from "react";
+
 interface PageTransitionProps {
   children: ReactNode;
 }
@@ -27,8 +28,8 @@ const pageVariants = {
 };
 
 const pageTransition = {
-  type: "tween",
-  ease: "easeInOut",
+  type: "tween" as const,
+  ease: "easeInOut" as const,
   duration: 0.25,
 };
 

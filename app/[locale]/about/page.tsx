@@ -1,42 +1,41 @@
-import { Metadata } from "next";
-import { experiences, skills } from "@/lib/data";
-import GitHubDashboard from "@/components/sections/GitHubDashboard";
-import FadeIn from "@/components/FadeIn";
-import { useTranslations, useLocale } from "next-intl";
-
 /**
  * AboutPage
- * @description 关于我页面，展示个人简介、技术栈和工作经历
+ * @description 关于我页面
  * @author gouxinjie
  */
+
+import { Metadata } from "next";
+import { experiences, skills } from "@/lib/data";
+import GitHubDashboard from "@/components/business/GitHubDashboard";
+import FadeIn from "@/components/commons/FadeIn";
+import { useTranslations, useLocale } from "next-intl";
+import styles from "./page.module.scss";
 
 export default function AboutPage() {
   const t = useTranslations("About");
   const locale = useLocale();
 
   return (
-    <div className="py-12 sm:py-16">
-      <div className="container-custom max-w-4xl">
+    <div className={styles.about}>
+      <div className="container-custom" style={{ maxWidth: '56rem' }}>
         {/* Header */}
         <FadeIn>
-          <div className="mb-10">
-            <h1 className="text-3xl font-bold sm:text-4xl">{t("title")}</h1>
+          <div className={styles.header}>
+            <h1 className={styles.header__title}>{t("title")}</h1>
           </div>
         </FadeIn>
 
         {/* Bio */}
         <FadeIn delay={0.1}>
-          <section className="mb-12 rounded-2xl border border-[var(--color-border)] bg-[var(--color-bg-secondary)] p-6 sm:p-8">
-            <h2 className="text-xl font-bold mb-4">{t("bio_title")}</h2>
-            <p className="text-base leading-relaxed text-[var(--color-text-secondary)]">
+          <section className={styles.bio}>
+            <h2 className={styles.bio__title}>{t("bio_title")}</h2>
+            <p className={styles.bio__text}>
               {t("bio_1")}
             </p>
-            <br />
-            <p className="text-base leading-relaxed text-[var(--color-text-secondary)]">
+            <p className={styles.bio__text} style={{ marginTop: '1rem' }}>
               {t("bio_2")}
             </p>
-            <br />
-            <p className="text-base leading-relaxed text-[var(--color-text-secondary)]">
+            <p className={styles.bio__text} style={{ marginTop: '1rem' }}>
               {t("bio_3")}
             </p>
           </section>
@@ -44,13 +43,13 @@ export default function AboutPage() {
 
         {/* Skills */}
         <FadeIn delay={0.2}>
-          <section className="mb-12">
-            <h2 className="section-title mb-6">{t("skills_title")}</h2>
-            <div className="flex flex-wrap gap-3">
+          <section className={styles.section}>
+            <h2 className={`section-title ${styles.section__title}`}>{t("skills_title")}</h2>
+            <div className={styles['skill-list']}>
               {skills.map((skill) => (
                 <span
                   key={skill.name}
-                  className="rounded-full border border-[var(--color-border)] px-4 py-2 text-sm font-medium transition-all hover:border-[var(--color-primary)] hover:bg-[var(--color-primary)]/5"
+                  className={styles['skill-tag']}
                 >
                   {skill.name}
                 </span>
@@ -61,35 +60,30 @@ export default function AboutPage() {
 
         {/* Experience Timeline */}
         <FadeIn delay={0.3}>
-          <section className="mb-12">
-            <h2 className="section-title mb-6">{t("experience_title")}</h2>
-            <div className="relative space-y-0 before:absolute before:left-3.5 before:top-2 before:h-[calc(100%-1rem)] before:w-px before:bg-[var(--color-border)]">
+          <section className={styles.section}>
+            <h2 className={`section-title ${styles.section__title}`}>{t("experience_title")}</h2>
+            <div className={styles.timeline}>
               {experiences.map((exp, idx) => (
                 <FadeIn key={exp.id} delay={0.1 * idx}>
-                  <div className="relative pb-8 pl-10">
+                  <div className={styles.timeline__item}>
                     <span
-                      className={`absolute left-2 top-1 h-3 w-3 rounded-full border-2 ${
-                        exp.current
-                          ? "bg-[var(--color-primary)] border-[var(--color-primary)]"
-                          : "bg-[var(--color-bg)] border-[var(--color-border)]"
-                      }`}
-                      style={{ boxShadow: exp.current ? `0 0 0 4px var(--color-primary)/20` : "none" }}
+                      className={`${styles.timeline__dot} ${exp.current ? styles['timeline__dot--current'] : ''}`}
                     />
-                    <div className="card">
-                      <div className="flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between">
+                    <div className={styles['exp-card']}>
+                      <div className={styles['exp-card__header']}>
                         <div>
-                          <h3 className="font-semibold">
+                          <h3 className={styles['exp-card__role']}>
                             {locale === "zh" ? exp.role : exp.roleEn}
                           </h3>
-                          <p className="text-sm text-[var(--color-text-secondary)]">
+                          <p className={styles['exp-card__company']}>
                             {locale === "zh" ? exp.company : exp.companyEn}
                           </p>
                         </div>
-                        <span className="shrink-0 rounded-full border border-[var(--color-border)] px-3 py-0.5 text-xs text-[var(--color-text-muted)]">
+                        <span className={styles['exp-card__period']}>
                           {exp.period}
                         </span>
                       </div>
-                      <p className="mt-3 text-sm leading-relaxed text-[var(--color-text-secondary)]">
+                      <p className={styles['exp-card__desc']}>
                         {locale === "zh" ? exp.description : exp.descriptionEn}
                       </p>
                     </div>

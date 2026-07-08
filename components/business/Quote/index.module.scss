@@ -1,0 +1,88 @@
+/**
+ * @file index.scss
+ * @description Quote 区域样式
+ * @author gouxinjie
+ */
+
+.quote-section {
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+  background-color: rgba(249, 250, 251, 0.3);
+}
+
+.box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.25rem;
+  border-radius: 1.5rem;
+  background-color: white;
+  padding: 1.5rem;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  border: 1px solid #f3f4f6;
+
+  @media (min-width: 1024px) {
+    flex-direction: row;
+    padding: 2rem;
+  }
+}
+
+.quote {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+
+  @media (min-width: 1024px) {
+    max-width: 42rem; // 2xl
+  }
+
+  &__icon {
+    color: #10b981;
+    flex-shrink: 0;
+  }
+
+  &__text {
+    font-size: 1.25rem;
+    font-weight: bold;
+    color: var(--color-text-primary);
+
+    @media (min-width: 640px) {
+      font-size: 1.5rem;
+    }
+  }
+
+  &__subtext {
+    margin-top: 0.5rem;
+    font-size: 0.875rem;
+    color: var(--color-text-secondary);
+  }
+}
+
+.social {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+
+  &__link {
+    display: flex;
+    height: 3rem;
+    width: 3rem;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--radius-xl);
+    background-color: #f9fafb;
+    color: #9ca3af;
+    transition: all 0.2s;
+
+    &:hover {
+      background-color: #10b981;
+      color: white;
+      box-shadow: 0 10px 15px -3px rgba(16, 185, 129, 0.2);
+    }
+
+    &:active {
+      transform: scale(0.95);
+    }
+  }
+}

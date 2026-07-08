@@ -1,12 +1,12 @@
-"use client";
-
-import { createContext, useContext, useEffect, useState, ReactNode } from "react";
-
 /**
  * AppProviders
  * @description 提供全局状态管理，包括主题切换
  * @author gouxinjie
  */
+
+"use client";
+
+import { createContext, useContext, useEffect, useState, ReactNode } from "react";
 
 type Theme = "light" | "dark" | "system";
 

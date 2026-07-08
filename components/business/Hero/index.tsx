@@ -1,16 +1,17 @@
+/**
+ * @component Hero
+ * @description 首页英雄区域组件
+ * @author gouxinjie
+ * @created 2024
+ * @updated 2024-07-08
+ */
+
 "use client";
 
 import { Link } from "@/lib/navigation";
 import { useTranslations } from "next-intl";
 import { motion } from "framer-motion";
-
-/**
- * @component Hero
- * @description 首页英雄区域组件，按照设计稿重新实现
- * @author gouxinjie
- * @created 2024
- * @updated 2024-07-08
- */
+import styles from "./index.module.scss";
 
 export default function Hero() {
   const t = useTranslations("Hero");
@@ -18,27 +19,19 @@ export default function Hero() {
   const titleParts = title.split("Web");
 
   return (
-    <section className="bg-white pt-8 pb-6 sm:pt-12 sm:pb-8">
+    <section className={styles.hero}>
       <div className="container-custom">
-        <div
-          className="relative overflow-hidden"
-          style={{
-            backgroundImage: "url('/images/hero-bg.png')",
-            backgroundRepeat: "no-repeat",
-            backgroundPosition: "right center",
-            backgroundSize: "cover",
-          }}
-        >
-          <div className="absolute inset-0 bg-gradient-to-r from-white via-white/85 to-white/40 lg:to-transparent" />
-          <div className="relative z-10 flex flex-col items-start">
-            <div className="w-full pt-24 lg:pt-0">
-              <div className="max-w-2xl">
+        <div className={styles.banner}>
+          <div className={styles.banner__overlay} />
+          <div className={styles.banner__content}>
+            <div className={styles.info}>
+              <div className={styles.info__inner}>
                 <motion.div
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5 }}
                 >
-                  <span className="text-sm font-medium text-[var(--color-text-secondary)] sm:text-base">
+                  <span className={styles.info__greeting}>
                     {t("greeting")}
                   </span>
                 </motion.div>
@@ -47,12 +40,12 @@ export default function Hero() {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5, delay: 0.1 }}
-                  className="mt-4 whitespace-pre-line text-3xl font-bold leading-tight tracking-tight text-[var(--color-text-primary)] sm:text-4xl lg:text-5xl xl:text-6xl"
+                  className={styles.info__title}
                 >
                   {titleParts.length > 1 ? (
                     <>
                       {titleParts[0]}
-                      <span className="text-[#10b981]">Web</span>
+                      <span className={styles.info__title__highlight}>Web</span>
                       {titleParts.slice(1).join("Web")}
                     </>
                   ) : (
@@ -64,7 +57,7 @@ export default function Hero() {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5, delay: 0.2 }}
-                  className="mt-3 text-base leading-relaxed text-[var(--color-text-secondary)] sm:text-lg lg:max-w-xl"
+                  className={styles.info__desc}
                 >
                   {t("description")}
                 </motion.p>
@@ -73,17 +66,17 @@ export default function Hero() {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5, delay: 0.3 }}
-                  className="mt-5 flex flex-wrap items-center gap-4"
+                  className={styles.info__actions}
                 >
                   <Link
                     href="/projects"
-                    className="inline-flex h-12 items-center justify-center rounded-full bg-[#10b981] px-8 text-sm font-medium text-white transition-all hover:bg-[#059669] hover:shadow-lg active:scale-95"
+                    className={`${styles['btn-hero']} ${styles['btn-hero--primary']}`}
                   >
                     {t("view_projects")}
                   </Link>
                   <Link
                     href="/about"
-                    className="inline-flex h-12 items-center justify-center rounded-full border border-[var(--color-border)] bg-white px-8 text-sm font-medium text-[var(--color-text-primary)] transition-all hover:bg-gray-50 active:scale-95"
+                    className={`${styles['btn-hero']} ${styles['btn-hero--outline']}`}
                   >
                     <svg
                       width="16"
@@ -94,7 +87,6 @@ export default function Hero() {
                       strokeWidth="2"
                       strokeLinecap="round"
                       strokeLinejoin="round"
-                      className="mr-2"
                     >
                       <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
                       <circle cx="12" cy="7" r="4" />

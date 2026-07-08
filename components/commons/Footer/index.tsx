@@ -1,6 +1,3 @@
-import { Link } from "@/lib/navigation";
-import { useTranslations } from "next-intl";
-
 /**
  * @component Footer
  * @description 页面底部组件，包含导航链接、资源链接和社交媒体
@@ -8,36 +5,41 @@ import { useTranslations } from "next-intl";
  * @created 2024
  * @updated 2024
  */
+
+import { Link } from "@/lib/navigation";
+import { useTranslations } from "next-intl";
+import styles from "./index.module.scss";
+
 export default function Footer() {
   const t = useTranslations("Footer");
   const navT = useTranslations("Navbar");
 
   return (
-    <footer className="border-t border-[var(--color-border)] bg-[var(--color-bg-dark)] text-white">
-      <div className="container-custom py-12">
-        <div className="grid grid-cols-1 gap-10 md:grid-cols-4">
+    <footer className={styles.footer}>
+      <div className="container-custom">
+        <div className={styles.grid}>
           {/* 品牌信息 */}
-          <div className="md:col-span-1">
-            <Link href="/" className="flex items-center gap-2 font-bold text-lg">
-              <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#10b981] text-sm font-bold text-white">
+          <div className={styles.brand}>
+            <Link href="/" className={styles.brand__link}>
+              <span className={styles.brand__logo}>
                 K
               </span>
               <span>Kiro</span>
             </Link>
-            <p className="mt-3 text-sm leading-relaxed text-gray-400">
+            <p className={styles.brand__desc}>
               {t("description")}
             </p>
-            <p className="mt-4 text-xs text-gray-500">
+            <p className={styles.brand__rights}>
               {t("rights")}
             </p>
           </div>
 
           {/* 导航 */}
           <div>
-            <h3 className="mb-4 text-sm font-semibold uppercase tracking-wider text-gray-400">
+            <h3 className={styles.section__title}>
               {t("nav_title")}
             </h3>
-            <ul className="space-y-2.5">
+            <ul className={styles.section__list}>
               {[
                 { label: navT("home"), href: "/" },
                 { label: navT("about"), href: "/about" },
@@ -48,7 +50,7 @@ export default function Footer() {
                 <li key={item.href}>
                   <Link
                     href={item.href}
-                    className="text-sm text-gray-400 transition-colors hover:text-[var(--color-primary)]"
+                    className={styles.section__link}
                   >
                     {item.label}
                   </Link>
@@ -59,10 +61,10 @@ export default function Footer() {
 
           {/* 资源 */}
           <div>
-            <h3 className="mb-4 text-sm font-semibold uppercase tracking-wider text-gray-400">
+            <h3 className={styles.section__title}>
               {t("resources_title")}
             </h3>
-            <ul className="space-y-2.5">
+            <ul className={styles.section__list}>
               {[
                 { label: t("blog"), href: "https://blog.gouxinjie.com", external: true },
                 { label: "GitHub", href: "https://github.com/gouxinjie", external: true },
@@ -75,10 +77,10 @@ export default function Footer() {
                       href={item.href}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-sm text-gray-400 transition-colors hover:text-[var(--color-primary)]"
+                      className={styles.section__link}
                     >
                       {item.label}
-                      <svg className="ml-0.5 inline-block w-3 h-3" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <svg className={styles.section__link__icon} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                         <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6" />
                         <polyline points="15 3 21 3 21 9" />
                         <line x1="10" y1="14" x2="21" y2="3" />
@@ -87,7 +89,7 @@ export default function Footer() {
                   ) : (
                     <Link
                       href={item.href}
-                      className="text-sm text-gray-400 transition-colors hover:text-[var(--color-primary)]"
+                      className={styles.section__link}
                     >
                       {item.label}
                     </Link>
@@ -99,10 +101,10 @@ export default function Footer() {
 
           {/* 社交 */}
           <div>
-            <h3 className="mb-4 text-sm font-semibold uppercase tracking-wider text-gray-400">
+            <h3 className={styles.section__title}>
               {t("social_title")}
             </h3>
-            <div className="flex flex-wrap gap-3">
+            <div className={styles.social}>
               {[
                 {
                   name: "GitHub",
@@ -138,7 +140,7 @@ export default function Footer() {
                   href={social.href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="flex h-10 w-10 items-center justify-center rounded-full border border-gray-600 text-gray-400 transition-all hover:border-[var(--color-primary)] hover:text-[var(--color-primary)]"
+                  className={styles.social__link}
                   aria-label={social.name}
                 >
                   {social.icon}

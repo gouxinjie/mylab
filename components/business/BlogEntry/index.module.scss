@@ -1,0 +1,85 @@
+/**
+ * @file index.scss
+ * @description 博客入口样式
+ * @author gouxinjie
+ */
+
+.blog-section {
+  padding-top: 2.5rem;
+  padding-bottom: 2.5rem;
+}
+
+.entry {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  border-radius: 1rem;
+  border: 1px solid rgba(245, 158, 11, 0.2);
+  background-color: var(--color-bg-dark);
+  padding: 2rem;
+  color: white;
+  transition: all 0.2s;
+
+  @media (min-width: 640px) {
+    flex-direction: row;
+  }
+
+  &:hover {
+    border-color: rgba(245, 158, 11, 0.5);
+  }
+
+  &__icon-box {
+    display: flex;
+    height: 5rem;
+    width: 5rem;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--radius-full);
+    background-color: rgba(255, 255, 255, 0.05);
+  }
+
+  &__icon {
+    color: var(--color-primary);
+  }
+
+  &__info {
+    text-align: center;
+
+    @media (min-width: 640px) {
+      text-align: left;
+    }
+  }
+
+  &__title {
+    font-size: 1.125rem;
+    font-weight: 600;
+  }
+
+  &__subtitle {
+    margin-top: 0.25rem;
+    font-size: 0.875rem;
+    color: #9ca3af;
+  }
+
+  &__btn {
+    flex-shrink: 0;
+    white-space: nowrap;
+    background-color: rgba(255, 255, 255, 0.1);
+    color: white;
+    padding: 0.625rem 1.5rem;
+    border-radius: var(--radius-xl);
+    font-weight: 500;
+    transition: background-color 0.2s;
+
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.2);
+    }
+  }
+
+  &:hover &__btn {
+    background-color: var(--color-primary);
+  }
+}

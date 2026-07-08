@@ -1,0 +1,35 @@
+/**
+ * @file page.module.scss
+ * @description 项目列表页面样式
+ * @author gouxinjie
+ */
+
+.projects {
+  padding-top: 3rem;
+  padding-bottom: 3rem;
+
+  @media (min-width: 640px) {
+    padding-top: 4rem;
+    padding-bottom: 4rem;
+  }
+}
+
+.header {
+  margin-bottom: 2.5rem;
+
+  &__title {
+    font-size: 1.875rem;
+    line-height: 2.25rem;
+    font-weight: 700;
+
+    @media (min-width: 640px) {
+      font-size: 2.25rem;
+      line-height: 2.5rem;
+    }
+  }
+
+  &__subtitle {
+    margin-top: 0.5rem;
+    color: var(--color-text-secondary);
+  }
+}

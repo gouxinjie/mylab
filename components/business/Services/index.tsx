@@ -1,14 +1,15 @@
-"use client";
-
-import { useTranslations } from "next-intl";
-import { motion } from "framer-motion";
-
 /**
  * @component Services
  * @description "我能做什么" 区域组件
  * @author gouxinjie
  * @created 2024-07-08
  */
+
+"use client";
+
+import { useTranslations } from "next-intl";
+import { motion } from "framer-motion";
+import styles from "./index.module.scss";
 
 const iconMap = {
   code: (
@@ -45,21 +46,21 @@ export default function Services() {
   const items = t.raw("items") as Array<{ title: string; description: string; icon: string }>;
 
   return (
-    <section className="py-8 bg-white">
+    <section className={styles.services}>
       <div className="container-custom">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.5 }}
-          className="mb-6"
+          className={styles.header}
         >
-          <h2 className="text-2xl font-bold text-[var(--color-text-primary)] sm:text-3xl">
+          <h2 className={styles.header__title}>
             {t("title")}
           </h2>
         </motion.div>
 
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        <div className={styles.grid}>
           {items.map((item, idx) => {
             const Icon = iconMap[item.icon as keyof typeof iconMap] || iconMap.code;
             return (
@@ -69,15 +70,15 @@ export default function Services() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.5, delay: idx * 0.1 }}
-                className="group rounded-2xl border border-gray-100 bg-gray-50/50 p-5 transition-all hover:bg-white hover:shadow-xl hover:shadow-gray-200/50"
+                className={styles.item}
               >
-                <div className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-xl bg-white shadow-sm transition-transform group-hover:scale-110 text-[#10b981]">
+                <div className={styles['item__icon-box']}>
                   {Icon}
                 </div>
-                <h3 className="mb-2 text-lg font-bold text-[var(--color-text-primary)]">
+                <h3 className={styles.item__title}>
                   {item.title}
                 </h3>
-                <p className="text-sm leading-relaxed text-[var(--color-text-secondary)]">
+                <p className={styles.item__desc}>
                   {item.description}
                 </p>
               </motion.div>

@@ -1,8 +1,3 @@
-"use client";
-
-import { motion, useInView } from "framer-motion";
-import { ReactNode, useRef } from "react";
-
 /**
  * @component FadeIn
  * @description 元素渐入动画组件
@@ -10,6 +5,12 @@ import { ReactNode, useRef } from "react";
  * @created 2024
  * @updated 2024
  */
+
+"use client";
+
+import { motion, useInView } from "framer-motion";
+import { ReactNode, useRef } from "react";
+
 interface FadeInProps {
   children: ReactNode;
   delay?: number;
@@ -34,7 +35,7 @@ export default function FadeIn({
       opacity: 1,
       y: 0,
       transition: {
-        type: "spring",
+        type: "spring" as const,
         duration: 0.6,
         delay,
         bounce: 0,

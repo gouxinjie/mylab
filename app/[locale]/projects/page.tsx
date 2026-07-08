@@ -1,7 +1,8 @@
 import { Metadata } from "next";
-import FeaturedProjects from "@/components/sections/FeaturedProjects";
-import FadeIn from "@/components/FadeIn";
+import FeaturedProjects from "@/components/business/FeaturedProjects";
+import FadeIn from "@/components/commons/FadeIn";
 import { useTranslations } from "next-intl";
+import styles from "./page.module.scss";
 
 /**
  * ProjectsPage
@@ -13,13 +14,13 @@ export default function ProjectsPage() {
   const t = useTranslations("Projects");
 
   return (
-    <div className="py-12 sm:py-16">
+    <div className={styles.projects}>
       <div className="container-custom">
         {/* Page Header */}
         <FadeIn>
-          <div className="mb-10">
-            <h1 className="text-3xl font-bold sm:text-4xl">{t("title")}</h1>
-            <p className="mt-2 text-[var(--color-text-secondary)]">
+          <div className={styles.header}>
+            <h1 className={styles.header__title}>{t("title")}</h1>
+            <p className={styles.header__subtitle}>
               {t("subtitle")}
             </p>
           </div>

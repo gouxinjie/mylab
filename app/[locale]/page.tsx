@@ -1,8 +1,11 @@
-import Hero from "@/components/sections/Hero";
-import Services from "@/components/sections/Services";
-import FeaturedProjects from "@/components/sections/FeaturedProjects";
-import QuoteSection from "@/components/sections/Quote";
-import FadeIn from "@/components/FadeIn";
+import Hero from "@/components/business/Hero";
+import Services from "@/components/business/Services";
+import FeaturedProjects from "@/components/business/FeaturedProjects";
+import QuoteSection from "@/components/business/Quote";
+import BlogEntry from "@/components/business/BlogEntry";
+import SkillsSection from "@/components/business/Skills";
+import Stats from "@/components/business/Stats";
+import FadeIn from "@/components/commons/FadeIn";
 
 /**
  * HomePage

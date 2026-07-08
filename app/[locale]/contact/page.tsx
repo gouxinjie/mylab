@@ -1,7 +1,8 @@
 import { Metadata } from "next";
 import { socialLinks } from "@/lib/data";
-import FadeIn from "@/components/FadeIn";
+import FadeIn from "@/components/commons/FadeIn";
 import { useTranslations } from "next-intl";
+import styles from "./page.module.scss";
 
 export const metadata: Metadata = {
   title: "Contact",
@@ -26,33 +27,33 @@ export default function ContactPage() {
   const t = useTranslations("Contact");
 
   return (
-    <div className="py-12 sm:py-16">
-      <div className="container-custom max-w-2xl">
+    <div className={styles['contact-page']}>
+      <div className="container-custom" style={{ maxWidth: '42rem' }}>
         <FadeIn>
-          <div className="mb-10">
-            <h1 className="text-3xl font-bold sm:text-4xl">{t("title")}</h1>
-            <p className="mt-2 text-[var(--color-text-secondary)]">
+          <div className={styles.header}>
+            <h1 className={styles.header__title}>{t("title")}</h1>
+            <p className={styles.header__subtitle}>
               {t("subtitle")}
             </p>
           </div>
         </FadeIn>
 
         <FadeIn delay={0.1}>
-          <div className="grid gap-4 sm:grid-cols-2">
+          <div className={styles.grid}>
             {socialLinks.map((link, idx) => (
               <FadeIn key={link.name} delay={0.1 * idx}>
                 <a
                   href={link.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="group flex items-center gap-4 rounded-xl border border-[var(--color-border)] bg-[var(--color-bg-secondary)] p-5 transition-all hover:border-[var(--color-primary)] hover:shadow-md"
+                  className={styles['contact-item']}
                 >
-                  <span className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-[var(--color-primary)]/10 text-[var(--color-primary)] transition-colors group-hover:bg-[var(--color-primary)] group-hover:text-white">
+                  <span className={styles['contact-item__icon-wrapper']}>
                     {socialIcons[link.icon] || null}
                   </span>
                   <div>
-                    <h3 className="font-semibold">{link.name}</h3>
-                    <p className="mt-0.5 text-xs text-[var(--color-text-muted)] truncate max-w-[180px]">{link.url.replace("mailto:", "").replace("https://", "")}</p>
+                    <h3 className={styles['contact-item__title']}>{link.name}</h3>
+                    <p className={styles['contact-item__value']}>{link.url.replace("mailto:", "").replace("https://", "")}</p>
                   </div>
                   <svg
                     width="16"
@@ -61,7 +62,7 @@ export default function ContactPage() {
                     fill="none"
                     stroke="currentColor"
                     strokeWidth="2"
-                    className="ml-auto shrink-0 text-[var(--color-text-muted)] opacity-0 transition-all group-hover:opacity-100 group-hover:text-[var(--color-primary)]"
+                    className={styles['contact-item__arrow']}
                   >
                     <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6" />
                     <polyline points="15 3 21 3 21 9" />
@@ -75,15 +76,15 @@ export default function ContactPage() {
 
         {/* Additional note */}
         <FadeIn delay={0.3}>
-          <div className="mt-12 rounded-xl border border-dashed border-[var(--color-border)] bg-[var(--color-bg-secondary)]/50 p-6 text-center">
-            <p className="text-sm text-[var(--color-text-muted)]">
+          <div className={styles.note}>
+            <p className={styles.note__text}>
               {t("blog_note")}
               {" "}
               <a
                 href="https://blog.gouxinjie.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="font-medium text-[var(--color-primary)] hover:underline"
+                className={styles.note__link}
               >
                 blog.gouxinjie.com
               </a>

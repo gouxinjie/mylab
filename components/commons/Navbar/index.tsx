@@ -1,9 +1,18 @@
+/**
+ * @component Navbar
+ * @description 导航栏组件，包含主题切换、语言切换、移动端菜单
+ * @author gouxinjie
+ * @created 2024
+ * @updated 2024
+ */
+
 "use client";
 
 import { Link, usePathname, useRouter } from "@/lib/navigation";
-import { useApp } from "./AppProviders";
+import { useApp } from "@/components/commons/AppProviders";
 import { useEffect, useState } from "react";
 import { useTranslations, useLocale } from "next-intl";
+import styles from "./index.module.scss";
 
 // 图标
 function HomeIcon() {
@@ -63,14 +72,6 @@ function MenuIcon({ open }: { open: boolean }) {
   );
 }
 
-/**
- * @component Navbar
- * @description 导航栏组件，包含主题切换、语言切换、移动端菜单
- * @author gouxinjie
- * @created 2024
- * @updated 2024
- */
-
 export default function Navbar() {
   const pathname = usePathname();
   const router = useRouter();
@@ -96,7 +97,7 @@ export default function Navbar() {
     localStorage.setItem("theme", next);
   };
 
-  const switchLocale = (nextLocale: string) => {
+  const switchLocale = (nextLocale: "zh" | "en") => {
     router.push(pathname, { locale: nextLocale });
     setLangMenuOpen(false);
   };
@@ -113,20 +114,18 @@ export default function Navbar() {
   }, [pathname]);
 
   return (
-    <header 
-      className="sticky top-0 z-50 border-b border-[var(--color-border)] bg-[var(--color-bg)] py-3"
-    >
-      <div className="container-custom flex h-12 items-center justify-between">
+    <header className={styles.header}>
+      <div className={`container-custom ${styles.header__container}`}>
         {/* 品牌标识 */}
-        <Link href="/" className="flex items-center gap-2 font-bold text-base sm:text-lg active:scale-95 transition-transform group">
-          <span className="flex h-8 w-8 items-center justify-center rounded-xl bg-gradient-to-br from-[#10b981] to-[#059669] text-sm font-bold text-white shadow-lg group-hover:rotate-12 transition-transform">
+        <Link href="/" className={styles.brand}>
+          <span className={styles.brand__logo}>
             K
           </span>
-          <span className="hidden sm:inline bg-gradient-to-r from-[var(--color-text-primary)] to-[var(--color-text-secondary)] bg-clip-text text-transparent">Kiro</span>
+          <span className={styles.brand__name}>Kiro</span>
         </Link>
 
         {/* 桌面端导航 */}
-        <nav className="hidden items-center gap-1 md:flex">
+        <nav className={styles.nav}>
           {navItems.map((item) => {
             const [basePath, hash] = item.href.split("#");
             const isHashLink = item.href.includes("#") && hash;
@@ -138,54 +137,43 @@ export default function Navbar() {
               <Link
                 key={item.href}
                 href={item.href}
-                className={`relative flex items-center gap-1.5 rounded-xl px-4 py-2 text-sm font-medium transition-all ${
-                  isActive
-                    ? "text-[#10b981] bg-[#10b981]/5"
-                    : "text-[var(--color-text-secondary)] hover:text-[var(--color-text-primary)] hover:bg-[var(--color-bg-secondary)]"
-                }`}
+                className={`${styles.nav__link} ${isActive ? styles['nav__link--active'] : ''}`}
               >
-                <span className="opacity-70">{item.icon}</span>
+                <span className={styles.nav__link__icon}>{item.icon}</span>
                 {item.label}
-                {isActive && (
-                  <span className="absolute bottom-1 left-1/2 h-0.5 w-2 -translate-x-1/2 rounded-full bg-[#10b981]" />
-                )}
               </Link>
             );
           })}
         </nav>
 
         {/* 右侧操作区 */}
-        <div className="flex items-center gap-1 sm:gap-2">
+        <div className={styles.actions}>
           {/* 语言切换 */}
-          <div className="relative">
+          <div className={styles['lang-menu']}>
             <button
               onClick={() => setLangMenuOpen(!langMenuOpen)}
-              className="flex items-center gap-1.5 rounded-xl border border-[var(--color-border)] px-3 py-1.5 text-xs font-medium text-[var(--color-text-secondary)] transition-all hover:border-[#10b981] hover:text-[#10b981] active:scale-95"
+              className={styles['lang-menu__trigger']}
               title={t("switch_locale")}
             >
               <GlobeIcon />
-              <span className="min-w-[20px]">{locale === "zh" ? "中" : "EN"}</span>
+              <span className={styles['lang-menu__trigger__text']}>{locale === "zh" ? "中" : "EN"}</span>
             </button>
             
             {langMenuOpen && (
               <>
                 <div 
-                  className="fixed inset-0 z-10" 
+                  className={styles['lang-menu__overlay']} 
                   onClick={() => setLangMenuOpen(false)} 
                 />
-                <div className="absolute right-0 mt-2 w-32 origin-top-right rounded-xl border border-[var(--color-border)] bg-[var(--color-bg)] p-1 shadow-xl ring-1 ring-black ring-opacity-5 focus:outline-none z-20 animate-in fade-in zoom-in-95 duration-100">
+                <div className={styles['lang-menu__dropdown']}>
                   {[
-                    { id: "zh", label: "简体中文" },
-                    { id: "en", label: "English" },
+                    { id: "zh" as const, label: "简体中文" },
+                    { id: "en" as const, label: "English" },
                   ].map((item) => (
                     <button
                       key={item.id}
                       onClick={() => switchLocale(item.id)}
-                      className={`flex w-full items-center px-3 py-2 text-xs font-medium rounded-lg transition-colors ${
-                        locale === item.id
-                          ? "bg-[#10b981]/10 text-[#10b981]"
-                          : "text-[var(--color-text-secondary)] hover:bg-[var(--color-bg-secondary)] hover:text-[var(--color-text-primary)]"
-                      }`}
+                      className={`${styles['lang-menu__item']} ${locale === item.id ? styles['lang-menu__item--active'] : ''}`}
                     >
                       {item.label}
                     </button>
@@ -198,7 +186,7 @@ export default function Navbar() {
           {/* 主题切换 */}
           <button
             onClick={toggleTheme}
-            className="flex h-9 w-9 items-center justify-center rounded-xl border border-[var(--color-border)] transition-all hover:border-[#10b981] hover:text-[#10b981] active:scale-95"
+            className={styles['theme-btn']}
             aria-label={t("theme_toggle")}
           >
             {resolvedTheme === "dark" ? <MoonIcon /> : <SunIcon />}
@@ -207,7 +195,7 @@ export default function Navbar() {
           {/* 移动端菜单按钮 */}
           <button
             onClick={() => setMobileOpen(!mobileOpen)}
-            className="flex h-9 w-9 items-center justify-center rounded-xl md:hidden active:scale-95 transition-transform border border-[var(--color-border)]"
+            className={styles['menu-btn']}
             aria-label="Menu"
           >
             <MenuIcon open={mobileOpen} />
@@ -217,45 +205,43 @@ export default function Navbar() {
 
       {/* 移动端菜单 */}
       {mobileOpen && (
-        <div className="fixed inset-0 z-40 md:hidden pt-20 bg-[var(--color-bg)]/95 backdrop-blur-lg animate-in fade-in slide-in-from-top-4 duration-300">
-          <nav className="container-custom space-y-2">
-            {navItems.map((item) => {
-              const [basePath, hash] = item.href.split("#");
-              const isHashLink = item.href.includes("#") && hash;
-              const isActive = isHashLink
-                ? pathname === basePath && currentHash === `#${hash}`
-                : pathname === item.href;
+        <div className={styles['mobile-menu']}>
+          <nav className="container-custom">
+            <div className={styles['mobile-menu__nav']}>
+              {navItems.map((item) => {
+                const [basePath, hash] = item.href.split("#");
+                const isHashLink = item.href.includes("#") && hash;
+                const isActive = isHashLink
+                  ? pathname === basePath && currentHash === `#${hash}`
+                  : pathname === item.href;
 
-              return (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  onClick={() => setMobileOpen(false)}
-                  className={`flex items-center gap-4 rounded-xl px-5 py-4 text-lg font-medium transition-all active:scale-95 ${
-                    isActive
-                      ? "bg-[#10b981]/10 text-[#10b981]"
-                      : "text-[var(--color-text-secondary)] hover:bg-[var(--color-bg-secondary)]"
-                  }`}
-                >
-                  <span className={isActive ? "text-[#10b981]" : "text-[var(--color-text-muted)]"}>
-                    {item.icon}
-                  </span>
-                  {item.label}
-                </Link>
-              );
-            })}
+                return (
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    onClick={() => setMobileOpen(false)}
+                    className={`${styles['mobile-menu__link']} ${isActive ? styles['mobile-menu__link--active'] : ''}`}
+                  >
+                    <span className={styles['mobile-menu__icon']}>
+                      {item.icon}
+                    </span>
+                    {item.label}
+                  </Link>
+                );
+              })}
+            </div>
             
-            <div className="mt-8 grid grid-cols-2 gap-4 border-t border-[var(--color-border)] pt-8">
+            <div className={styles['mobile-menu__footer']}>
               <button
                 onClick={() => switchLocale(locale === "zh" ? "en" : "zh")}
-                className="flex items-center justify-center gap-2 rounded-xl border border-[var(--color-border)] py-4 text-sm font-medium text-[var(--color-text-secondary)] active:scale-95"
+                className={styles['mobile-menu__foot-btn']}
               >
                 <GlobeIcon />
                 {locale === "zh" ? "English" : "简体中文"}
               </button>
               <button
                 onClick={toggleTheme}
-                className="flex items-center justify-center gap-2 rounded-xl border border-[var(--color-border)] py-4 text-sm font-medium text-[var(--color-text-secondary)] active:scale-95"
+                className={styles['mobile-menu__foot-btn']}
               >
                 {resolvedTheme === "dark" ? <MoonIcon /> : <SunIcon />}
                 {resolvedTheme === "dark" ? "Dark" : "Light"}

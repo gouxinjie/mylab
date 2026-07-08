@@ -1,17 +1,18 @@
+/**
+ * @component FeaturedProjects
+ * @description 精选项目展示组件
+ * @author gouxinjie
+ * @created 2024
+ * @updated 2024-07-08
+ */
+
 "use client";
 
 import { Link } from "@/lib/navigation";
 import { projects, Project } from "@/lib/data";
 import { useTranslations, useLocale } from "next-intl";
 import { motion } from "framer-motion";
-
-/**
- * @component FeaturedProjects
- * @description 精选项目展示组件，按照设计稿重新实现
- * @author gouxinjie
- * @created 2024
- * @updated 2024-07-08
- */
+import styles from "./index.module.scss";
 
 export default function FeaturedProjects() {
   const t = useTranslations("FeaturedProjects");
@@ -19,19 +20,18 @@ export default function FeaturedProjects() {
   const featured = projects.filter((p) => p.featured).slice(0, 3);
 
   return (
-    <section className="py-8 bg-white">
+    <section className={styles.projects}>
       <div className="container-custom">
-        <div className="flex items-center justify-between mb-6">
-          <h2 className="text-2xl font-bold text-[var(--color-text-primary)] sm:text-3xl">
+        <div className={styles.header}>
+          <h2 className={styles.header__title}>
             {t("title")}
           </h2>
           <Link
             href="/projects"
-            className="group inline-flex items-center text-sm font-medium text-[#10b981] transition-colors hover:text-[#059669]"
+            className={styles.header__link}
           >
             {t("view_all")}
             <svg
-              className="ml-1 h-4 w-4 transition-transform group-hover:translate-x-1"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
@@ -42,7 +42,7 @@ export default function FeaturedProjects() {
         </div>
 
         {/* 项目列表 */}
-        <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+        <div className={styles.grid}>
           {featured.map((project, idx) => (
             <motion.div
               key={project.id}
@@ -65,10 +65,10 @@ function ProjectCard({ project }: { project: Project }) {
   const externalUrl = project.githubUrl ?? project.demoUrl;
   
   return (
-    <article className="group overflow-hidden rounded-2xl border border-gray-100 bg-white transition-all hover:shadow-2xl hover:shadow-gray-200/50">
+    <article className={styles.card}>
       {/* 图片区域 */}
-      <div className="relative aspect-[16/10] w-full overflow-hidden bg-gray-100">
-        <div className="absolute inset-0 flex items-center justify-center bg-gradient-to-br from-gray-900 to-gray-800 text-white/10">
+      <div className={styles['card__image-box']}>
+        <div className={styles.card__fallback}>
           <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1">
             <path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z"/>
           </svg>
@@ -77,7 +77,7 @@ function ProjectCard({ project }: { project: Project }) {
           <img
             src={project.image}
             alt={project.title}
-            className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
+            className={styles.card__img}
             onError={(e) => {
               const img = e.currentTarget;
               if (img.dataset.fallbackApplied === "1") return;
@@ -89,9 +89,9 @@ function ProjectCard({ project }: { project: Project }) {
       </div>
 
       {/* 内容区域 */}
-      <div className="p-6">
-        <div className="mb-3 flex items-center justify-between">
-          <h3 className="text-lg font-bold text-[var(--color-text-primary)]">
+      <div className={styles.card__content}>
+        <div className={styles.card__top}>
+          <h3 className={styles.card__title}>
             {locale === "zh" ? project.title : project.titleEn}
           </h3>
           {externalUrl ? (
@@ -99,7 +99,7 @@ function ProjectCard({ project }: { project: Project }) {
               href={externalUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="text-gray-400 transition-colors hover:text-[#10b981]"
+              className={styles.card__external}
             >
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
@@ -109,16 +109,16 @@ function ProjectCard({ project }: { project: Project }) {
             </a>
           ) : null}
         </div>
-        <p className="mb-6 text-sm leading-relaxed text-[var(--color-text-secondary)] line-clamp-2">
+        <p className={styles.card__desc}>
           {locale === "zh" ? project.description : project.descriptionEn}
         </p>
 
         {/* 标签 */}
-        <div className="flex flex-wrap gap-2">
+        <div className={styles.card__tags}>
           {project.tags.map((tag) => (
             <span
               key={tag}
-              className="rounded-full bg-gray-50 px-3 py-1 text-xs font-medium text-gray-600 border border-gray-100"
+              className={styles.card__tag}
             >
               {tag}
             </span>

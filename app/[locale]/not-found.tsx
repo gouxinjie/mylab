@@ -1,33 +1,34 @@
-"use client";
-
-import Link from "next/link";
+import { Link } from "@/lib/navigation";
+import styles from "./not-found.module.scss";
 
 export default function NotFound() {
   return (
-    <div className="flex min-h-[80vh] flex-col items-center justify-center px-4 text-center">
-      {/* Big number */}
-      <div className="relative">
-        <span className="block text-[120px] sm:text-[180px] font-bold leading-none text-[var(--color-primary)]/10">
+    <div className={styles.container}>
+      <div className={styles.visual}>
+        <span className={styles.visual__bg}>
           404
         </span>
-        <div className="absolute inset-0 flex items-center justify-center">
-          <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="text-[var(--color-text-muted)]">
-            <circle cx="12" cy="12" r="10" />
-            <path d="M16 16s-1.5-2-4-2-4 2-4 2" />
-            <line x1="9" y1="9" x2="9.01" y2="9" />
-            <line x1="15" y1="9" x2="15.01" y2="9" />
+        <div className={styles.visual__content}>
+          <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className={styles.visual__content__icon}>
+            <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z" />
+            <line x1="12" y1="9" x2="12" y2="13" />
+            <line x1="12" y1="17" x2="12.01" y2="17" />
           </svg>
         </div>
       </div>
-
-      <h1 className="mt-6 text-xl font-semibold sm:text-2xl">页面走丢了</h1>
-      <p className="mt-2 max-w-md text-sm text-[var(--color-text-secondary)]">
-        你访问的页面不存在，或者已经被移到了其他地方。
+      
+      <h1 className={styles.title}>页面走丢了</h1>
+      <p className={styles.desc}>
+        抱歉，您访问的页面不存在或已被移除。您可以尝试返回首页或通过导航栏寻找您需要的内容。
       </p>
-
-      <div className="mt-8 flex gap-3">
-        <Link href="/" className="btn-primary">返回首页</Link>
-        <Link href="/projects" className="btn-outline">查看项目</Link>
+      
+      <div className={styles.actions}>
+        <Link href="/" className="btn-primary">
+          返回首页
+        </Link>
+        <Link href="/projects" className="btn-outline">
+          查看项目
+        </Link>
       </div>
     </div>
   );

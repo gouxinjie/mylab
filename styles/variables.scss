@@ -1,0 +1,43 @@
+/**
+ * @file variables.scss
+ * @description 全局 SCSS 变量定义
+ * @author gouxinjie
+ */
+
+:root {
+  --color-primary: #F59E0B;
+  --color-primary-dark: #D97706;
+  --color-bg: #FFFFFF;
+  --color-bg-secondary: #FAFAFA;
+  --color-bg-warm: #FFF9F0;
+  --color-bg-dark: #0F172A;
+  --color-text-primary: #111827;
+  --color-text-secondary: #6B7280;
+  --color-text-muted: #9CA3AF;
+  --color-border: #E5E7EB;
+
+  // 间距变量
+  --spacing-xs: 0.25rem;
+  --spacing-sm: 0.5rem;
+  --spacing-md: 1rem;
+  --spacing-lg: 1.5rem;
+  --spacing-xl: 2rem;
+  --spacing-2xl: 3rem;
+
+  // 圆角变量
+  --radius-xl: 0.75rem;
+  --radius-full: 9999px;
+}
+
+.dark {
+  --color-primary: #F59E0B;
+  --color-primary-dark: #F59E0B;
+  --color-bg: #0F172A;
+  --color-bg-secondary: #1E293B;
+  --color-bg-warm: #1A1A2E;
+  --color-bg-dark: #020617;
+  --color-text-primary: #F9FAFB;
+  --color-text-secondary: #CBD5E1;
+  --color-text-muted: #94A3B8;
+  --color-border: #334155;
+}

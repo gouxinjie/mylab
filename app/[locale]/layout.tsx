@@ -1,9 +1,9 @@
 import type { Metadata, Viewport } from "next";
-import "../globals.css";
-import { AppProvider } from "@/components/AppProviders";
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
-import PageTransition from "@/components/PageTransition";
+import "@/styles/global.scss";
+import { AppProvider } from "@/components/commons/AppProviders";
+import Navbar from "@/components/commons/Navbar";
+import Footer from "@/components/commons/Footer";
+import PageTransition from "@/components/commons/PageTransition";
 import { NextIntlClientProvider } from 'next-intl';
 import { getMessages } from 'next-intl/server';
 import { locales } from '@/i18n';
@@ -89,11 +89,11 @@ export default async function RootLayout({
           }}
         />
       </head>
-      <body className="font-sans antialiased">
+      <body>
         <NextIntlClientProvider locale={locale} messages={messages}>
           <AppProvider>
             <Navbar />
-            <main className="min-h-screen">
+            <main>
               <PageTransition>{children}</PageTransition>
             </main>
             <Footer />
