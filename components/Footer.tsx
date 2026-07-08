@@ -16,13 +16,13 @@ export default function Footer() {
     <footer className="border-t border-[var(--color-border)] bg-[var(--color-bg-dark)] text-white">
       <div className="container-custom py-12">
         <div className="grid grid-cols-1 gap-10 md:grid-cols-4">
-          {/* Brand */}
+          {/* 品牌信息 */}
           <div className="md:col-span-1">
             <Link href="/" className="flex items-center gap-2 font-bold text-lg">
-              <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-[var(--color-primary)] text-sm font-bold text-[var(--color-bg-dark)]">
-                XJ
+              <span className="flex h-8 w-8 items-center justify-center rounded-lg bg-[#10b981] text-sm font-bold text-white">
+                K
               </span>
-              <span>xinjie</span>
+              <span>Kiro</span>
             </Link>
             <p className="mt-3 text-sm leading-relaxed text-gray-400">
               {t("description")}
@@ -32,7 +32,7 @@ export default function Footer() {
             </p>
           </div>
 
-          {/* Navigation */}
+          {/* 导航 */}
           <div>
             <h3 className="mb-4 text-sm font-semibold uppercase tracking-wider text-gray-400">
               {t("nav_title")}
@@ -41,8 +41,8 @@ export default function Footer() {
               {[
                 { label: navT("home"), href: "/" },
                 { label: navT("about"), href: "/about" },
+                { label: navT("skills"), href: "/about#skills" },
                 { label: navT("projects"), href: "/projects" },
-                { label: navT("ai"), href: "/ai" },
                 { label: navT("contact"), href: "/contact" },
               ].map((item) => (
                 <li key={item.href}>
@@ -57,7 +57,7 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Resources */}
+          {/* 资源 */}
           <div>
             <h3 className="mb-4 text-sm font-semibold uppercase tracking-wider text-gray-400">
               {t("resources_title")}
@@ -97,7 +97,7 @@ export default function Footer() {
             </ul>
           </div>
 
-          {/* Social / Subscribe */}
+          {/* 社交 */}
           <div>
             <h3 className="mb-4 text-sm font-semibold uppercase tracking-wider text-gray-400">
               {t("social_title")}

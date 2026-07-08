@@ -3,19 +3,48 @@
     "home": "Home",
     "about": "About",
     "projects": "Projects",
-    "ai": "AI Exploration",
+    "skills": "Skills",
     "contact": "Contact",
     "switch_locale": "简体中文",
     "theme_toggle": "Toggle Theme"
   },
   "Hero": {
-    "tag": "⚡ Full Stack · AI Explorer · OSS Enthusiast",
-    "title": "Building Value with Code,\nExploring the Future with AI.",
-    "description": "Hi, I'm xinjie, a full-stack developer passionate about technology.\nI focus on building high-quality web applications, exploring the infinite possibilities of AI, and growing through open source sharing.",
-    "view_projects": "View My Projects",
-    "learn_more": "Learn More About Me →",
+    "greeting": "👋 Hi, I'm Kiro",
+    "title": "Focused on building high-quality\nWeb Applications & Tools",
+    "description": "Passionate about technology, I enjoy the process from idea to implementation. Dedicated to solving real problems through code, pursuing simplicity, maintainability, and ultimate user experience.",
+    "view_projects": "View My Projects →",
+    "learn_more": "Learn More About Me",
     "find_me": "Find me on",
     "scroll_down": "Scroll Down ↓"
+  },
+  "Services": {
+    "title": "What I Can Do",
+    "items": [
+      {
+        "title": "Web Development",
+        "description": "Building high-performance, responsive web applications with modern tech stacks.",
+        "icon": "code"
+      },
+      {
+        "title": "Backend Development",
+        "description": "Designing and implementing stable, scalable backend services and APIs.",
+        "icon": "database"
+      },
+      {
+        "title": "User Experience",
+        "description": "Focusing on details, creating simple, intuitive, and smooth user experiences.",
+        "icon": "palette"
+      },
+      {
+        "title": "Efficiency Tools",
+        "description": "Developing practical small tools to enhance development and daily efficiency.",
+        "icon": "zap"
+      }
+    ]
+  },
+  "Quote": {
+    "text": "Code is the expression of thought, design is the bridge of experience.",
+    "subtext": "Keep learning, keep building."
   },
   "Stats": {
     "projects": "Projects",
@@ -73,7 +102,7 @@
   },
   "Footer": {
     "description": "Building value with code, exploring the future with AI.",
-    "rights": "© 2024 xinjie. All rights reserved.",
+    "rights": "© 2024 Kiro.dev. All rights reserved.",
     "nav_title": "Navigation",
     "resources_title": "Resources",
     "social_title": "Social",

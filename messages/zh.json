@@ -1,21 +1,50 @@
 {
   "Navbar": {
     "home": "首页",
-    "about": "关于我",
     "projects": "项目",
-    "ai": "AI 探索",
+    "about": "关于",
+    "skills": "技术栈",
     "contact": "联系",
     "switch_locale": "English",
     "theme_toggle": "切换主题"
   },
   "Hero": {
-    "tag": "⚡ 全栈开发 · AI 探索者 · 开源爱好者",
-    "title": "用代码构建价值，\n用 AI 探索未来。",
-    "description": "你好，我是 xinjie，一名热爱技术的全栈开发者。\n我专注于构建高质量的 Web 应用，探索 AI 的无限可能，并通过开源项目分享与成长。",
-    "view_projects": "查看我的项目",
-    "learn_more": "了解更多关于我 →",
+    "greeting": "👋 你好，我是 Kiro",
+    "title": "专注于构建高质量的\nWeb 应用与工具",
+    "description": "热爱技术，喜欢从想法到实现的过程，致力于通过代码解决实际问题，追求简洁、可维护和极致的用户体验。",
+    "view_projects": "查看我的项目 →",
+    "learn_more": "了解我更多",
     "find_me": "Find me on",
     "scroll_down": "向下了解我 ↓"
+  },
+  "Services": {
+    "title": "我能做什么",
+    "items": [
+      {
+        "title": "Web 开发",
+        "description": "使用现代化技术栈构建高性能、响应式的 Web 应用。",
+        "icon": "code"
+      },
+      {
+        "title": "后端开发",
+        "description": "设计和实现稳定、可扩展的后端服务与 API。",
+        "icon": "database"
+      },
+      {
+        "title": "用户体验",
+        "description": "关注细节，打造简洁直观、流畅的用户体验。",
+        "icon": "palette"
+      },
+      {
+        "title": "效率工具",
+        "description": "开发实用的小工具，提升开发与日常效率。",
+        "icon": "zap"
+      }
+    ]
+  },
+  "Quote": {
+    "text": "代码是思维的表达，设计是体验的桥梁。",
+    "subtext": "持续学习，持续构建。"
   },
   "Stats": {
     "projects": "项目总量",
@@ -73,7 +102,7 @@
   },
   "Footer": {
     "description": "用代码构建价值，用 AI 探索未来。",
-    "rights": "© 2024 xinjie. All rights reserved.",
+    "rights": "© 2024 Kiro.dev. All rights reserved.",
     "nav_title": "导航",
     "resources_title": "资源",
     "social_title": "社交",
