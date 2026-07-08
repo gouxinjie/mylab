@@ -19,7 +19,7 @@
     color: var(--color-text-primary);
 
     @media (min-width: 640px) {
-      font-size: 1.875rem;
+      font-size: 1.88rem;
     }
   }
 }
@@ -69,13 +69,13 @@
 
   &__title {
     margin-bottom: 0.5rem;
-    font-size: 1.125rem;
+    font-size: 1.12rem;
     font-weight: bold;
     color: var(--color-text-primary);
   }
 
   &__desc {
-    font-size: 0.875rem;
+    font-size: 0.88rem;
     line-height: 1.625;
     color: var(--color-text-secondary);
   }

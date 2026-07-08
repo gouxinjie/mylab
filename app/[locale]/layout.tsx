@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from "next";
+import { Inter, JetBrains_Mono, Noto_Sans_SC } from "next/font/google";
 import "@/styles/global.scss";
 import { AppProvider } from "@/components/commons/AppProviders";
 import Navbar from "@/components/commons/Navbar";
@@ -8,6 +9,25 @@ import { NextIntlClientProvider } from 'next-intl';
 import { getMessages } from 'next-intl/server';
 import { locales } from '@/i18n';
 import { notFound } from 'next/navigation';
+
+const inter = Inter({
+  subsets: ["latin"],
+  variable: "--font-inter",
+  display: "swap",
+});
+
+const jetbrainsMono = JetBrains_Mono({
+  subsets: ["latin"],
+  variable: "--font-jetbrains-mono",
+  display: "swap",
+});
+
+const notoSansSC = Noto_Sans_SC({
+  weight: ["400", "500", "700"],
+  variable: "--font-noto-sans-sc",
+  display: "swap",
+  preload: false,
+});
 
 /**
  * RootLayout
@@ -69,7 +89,7 @@ export default async function RootLayout({
   const messages = await getMessages();
 
   return (
-    <html lang={locale} suppressHydrationWarning>
+    <html lang={locale} suppressHydrationWarning className={`${inter.variable} ${jetbrainsMono.variable} ${notoSansSC.variable}`}>
       <head>
         <script
           type="application/ld+json"

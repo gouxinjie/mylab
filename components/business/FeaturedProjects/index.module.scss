@@ -22,14 +22,14 @@
     color: var(--color-text-primary);
 
     @media (min-width: 640px) {
-      font-size: 1.875rem;
+      font-size: 1.88rem;
     }
   }
 
   &__link {
     display: inline-flex;
     align-items: center;
-    font-size: 0.875rem;
+    font-size: 0.88rem;
     font-weight: 500;
     color: #10b981;
     transition: color 0.2s;
@@ -114,7 +114,7 @@
   }
 
   &__title {
-    font-size: 1.125rem;
+    font-size: 1.12rem;
     font-weight: bold;
     color: var(--color-text-primary);
   }
@@ -130,7 +130,7 @@
 
   &__desc {
     margin-bottom: 1.5rem;
-    font-size: 0.875rem;
+    font-size: 0.88rem;
     line-height: 1.625;
     color: var(--color-text-secondary);
     display: -webkit-box;

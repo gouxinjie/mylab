@@ -18,20 +18,10 @@
 .banner {
   position: relative;
   overflow: hidden;
-  background-image: url('/images/hero-bg.png');
+  background-image: url("/images/hero-bg.png");
   background-repeat: no-repeat;
   background-position: right center;
   background-size: cover;
-
-  &__overlay {
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(to right, white, rgba(255, 255, 255, 0.85) 60%, rgba(255, 255, 255, 0.4) 80%);
-
-    @media (min-width: 1024px) {
-      background: linear-gradient(to right, white, rgba(255, 255, 255, 0.85) 60%, transparent);
-    }
-  }
 
   &__content {
     position: relative;
@@ -56,7 +46,7 @@
 
   &__greeting {
     display: block;
-    font-size: 0.875rem;
+    font-size: 0.88rem;
     font-weight: 500;
     color: var(--color-text-secondary);
 
@@ -68,7 +58,7 @@
   &__title {
     margin-top: 1rem;
     white-space: pre-line;
-    font-size: 1.875rem;
+    font-size: 1.88rem;
     font-weight: bold;
     line-height: 1.25;
     letter-spacing: -0.025em;
@@ -79,11 +69,7 @@
     }
 
     @media (min-width: 1024px) {
-      font-size: 3rem;
-    }
-
-    @media (min-width: 1280px) {
-      font-size: 3.75rem;
+      font-size: 2.8rem; // 大屏时字号稍微减小
     }
 
     &__highlight {
@@ -98,7 +84,7 @@
     color: var(--color-text-secondary);
 
     @media (min-width: 640px) {
-      font-size: 1.125rem;
+      font-size: 1.12rem;
     }
 
     @media (min-width: 1024px) {
@@ -123,7 +109,7 @@
   border-radius: var(--radius-xl);
   padding-left: 2rem;
   padding-right: 2rem;
-  font-size: 0.875rem;
+  font-size: 0.88rem;
   font-weight: 500;
   transition: all 0.2s;
 

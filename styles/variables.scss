@@ -24,6 +24,10 @@
   --spacing-xl: 2rem;
   --spacing-2xl: 3rem;
 
+  // 字体变量
+  --font-base: var(--font-inter), var(--font-noto-sans-sc), "Inter", "Noto Sans SC", "PingFang SC", "Microsoft YaHei", sans-serif;
+  --font-mono: var(--font-jetbrains-mono), "JetBrains Mono", "Fira Code", "Cascadia Code", "Consolas", monospace;
+
   // 圆角变量
   --radius-xl: 0.75rem;
   --radius-full: 9999px;

@@ -32,7 +32,7 @@
     align-items: center;
     gap: 0.5rem;
     font-weight: bold;
-    font-size: 1.125rem;
+    font-size: 1.12rem;
     color: white;
   }
 
@@ -44,14 +44,14 @@
     justify-content: center;
     border-radius: 0.5rem;
     background: linear-gradient(to bottom right, #10b981, #059669);
-    font-size: 0.875rem;
+    font-size: 0.88rem;
     font-weight: bold;
     color: white;
   }
 
   &__desc {
     margin-top: 0.75rem;
-    font-size: 0.875rem;
+    font-size: 0.88rem;
     line-height: 1.625;
     color: #9ca3af;
   }
@@ -66,7 +66,7 @@
 .section {
   &__title {
     margin-bottom: 1rem;
-    font-size: 0.875rem;
+    font-size: 0.88rem;
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.05em;
@@ -77,11 +77,11 @@
     list-style: none;
     display: flex;
     flex-direction: column;
-    gap: 0.625rem;
+    gap: 0.62rem;
   }
 
   &__link {
-    font-size: 0.875rem;
+    font-size: 0.88rem;
     color: #9ca3af;
     transition: color 0.2s;
 
@@ -90,7 +90,7 @@
     }
 
     &__icon {
-      margin-left: 0.125rem;
+      margin-left: 0.12rem;
       display: inline-block;
       width: 0.75rem;
       height: 0.75rem;
