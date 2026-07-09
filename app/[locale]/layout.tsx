@@ -7,7 +7,7 @@ import Footer from "@/components/commons/Footer";
 import PageTransition from "@/components/commons/PageTransition";
 import { NextIntlClientProvider } from 'next-intl';
 import { getMessages } from 'next-intl/server';
-import { locales } from '@/i18n';
+import { locales, type Locale } from '@/i18n';
 import { notFound } from 'next/navigation';
 
 const inter = Inter({
@@ -52,7 +52,6 @@ export const metadata: Metadata = {
     "Next.js",
     "TypeScript",
     "Node.js",
-    "TypeScript",
   ],
   authors: [{ name: "xinjie", url: "https://gouxinjie.com" }],
   creator: "xinjie",
@@ -81,7 +80,7 @@ export default async function RootLayout({
   params: { locale: string };
 }>) {
   // 验证 locale
-  if (!locales.includes(locale as any)) {
+  if (!locales.includes(locale as Locale)) {
     notFound();
   }
 

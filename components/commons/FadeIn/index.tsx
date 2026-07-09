@@ -16,7 +16,6 @@ interface FadeInProps {
   delay?: number;
   className?: string;
   y?: number;
-  delayOffset?: number;
 }
 
 export default function FadeIn({
@@ -24,7 +23,6 @@ export default function FadeIn({
   delay = 0,
   className = "",
   y = 24,
-  delayOffset = 0.1,
 }: FadeInProps) {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px 0px" });

@@ -124,16 +124,6 @@ export const experiences: Experience[] = [
   // 可按需补充更多
 ];
 
-// ─── GitHub 数据 ──────────────────────────────────
-
-export const githubStats = {
-  username: "gouxinjie",
-  repos: 30,
-  stars: 1200,
-  commits: 1300,
-  followers: null, // 从 API 获取
-};
-
 // ─── 社交链接 ──────────────────────────────────────
 
 export const socialLinks = [

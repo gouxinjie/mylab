@@ -4,7 +4,8 @@
  * @author gouxinjie
  */
 
-export interface ApiResponse<T = any> {
+// 统一响应结构：泛型默认使用 unknown，避免 any 违反类型安全规范
+export interface ApiResponse<T = unknown> {
   success: boolean;
   code: number | string;
   message: string;
@@ -17,13 +18,14 @@ export interface UserListParams {
   keyword?: string;
 }
 
+// 索引签名为 unknown，扩展字段需自行收窄类型
 export interface GithubUserData {
   public_repos: number;
   followers: number;
-  [key: string]: any;
+  [key: string]: unknown;
 }
 
 export interface GithubRepoData {
   stargazers_count: number;
-  [key: string]: any;
+  [key: string]: unknown;
 }

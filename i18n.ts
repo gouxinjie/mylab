@@ -12,7 +12,7 @@ export type Locale = (typeof locales)[number];
 
 export default getRequestConfig(async ({ locale }) => {
   // 验证 locale 是否合法
-  if (!locales.includes(locale as any)) notFound();
+  if (!locales.includes(locale as Locale)) notFound();
 
   return {
     messages: (await import(`./messages/${locale}.json`)).default
