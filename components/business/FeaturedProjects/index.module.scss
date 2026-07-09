@@ -6,8 +6,8 @@
 
 // 精选项目区块：上下内边距、浅色背景
 .projects {
-  padding-top: 32px;
-  padding-bottom: 32px;
+  padding-top: 24px;
+  padding-bottom: 24px;
   background-color: var(--color-bg);
 }
 
@@ -16,16 +16,16 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 24px;
+  margin-bottom: 16px;
 
   // 区块标题：大字号加粗
   &__title {
-    font-size: 24px;
+    font-size: 18px;
     font-weight: bold;
     color: var(--color-text-primary);
 
     @media (min-width: 640px) {
-      font-size: 30px;
+      font-size: 20px;
     }
   }
 
@@ -58,7 +58,7 @@
 // 项目栅格：移动端单列，中屏两列，大屏三列
 .grid {
   display: grid;
-  gap: 32px;
+  gap: 20px;
 
   @media (min-width: 640px) {
     grid-template-columns: repeat(2, 1fr);
@@ -76,13 +76,15 @@
   padding: 0;
 
   &:hover {
+    transform: translateY(-4px);
+    border-color: var(--color-accent);
     box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.1);
   }
 
   // 图片容器：固定宽高比，占位浅灰表面
   &__image-box {
     position: relative;
-    aspect-ratio: 16 / 10;
+    aspect-ratio: 16 / 9;
     width: 100%;
     overflow: hidden;
     background-color: var(--color-surface-muted);
@@ -129,9 +131,14 @@
     font-size: 18px;
     font-weight: bold;
     color: var(--color-text-primary);
+    transition: color 0.2s;
+
+    &:hover {
+      color: var(--color-accent);
+    }
   }
 
-  // 外链图标：hover 主色
+  // 外链图标：hover 主题色（绿色）
   &__external {
     color: var(--color-text-muted);
     transition: color 0.2s;
@@ -149,6 +156,7 @@
     color: var(--color-text-secondary);
     display: -webkit-box;
     -webkit-line-clamp: 2;
+    line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
   }
@@ -157,17 +165,17 @@
   &__tags {
     display: flex;
     flex-wrap: wrap;
-    gap: 8px;
+    gap: 6px;
   }
 
   // 单个标签：浅色底描边
   &__tag {
     border-radius: var(--radius-xl);
-    background-color: var(--color-surface);
-    border: 1px solid var(--color-surface-muted);
+    background-color: var(--color-surface-muted);
+    border: 1px solid var(--color-border);
     padding: 4px 12px;
-    font-size: 12px;
-    font-weight: 500;
-    color: var(--color-border);
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--color-text-secondary);
   }
 }

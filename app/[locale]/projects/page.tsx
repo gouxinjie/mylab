@@ -25,10 +25,10 @@ export default function ProjectsPage() {
             </p>
           </div>
         </FadeIn>
-        <FadeIn delay={0.1}>
-          <FeaturedProjects />
-        </FadeIn>
       </div>
+      <FadeIn delay={0.1}>
+        <FeaturedProjects />
+      </FadeIn>
     </div>
   );
 }

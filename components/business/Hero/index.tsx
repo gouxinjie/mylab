@@ -47,7 +47,7 @@ export default function Hero() {
                   {titleParts.length > 1 ? (
                     <>
                       {titleParts[0]}
-                      <span className={styles['info__title__highlight']}>Web</span>
+                      <span className={styles.info__highlight}>Web</span>
                       {titleParts.slice(1).join("Web")}
                     </>
                   ) : (

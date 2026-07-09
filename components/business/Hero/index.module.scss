@@ -11,7 +11,7 @@
 
 // 背景横幅：承载背景图，并作为内容定位/纵向排列容器（合并原 banner__content）
 .banner {
-  padding:64px 16px 48px 16px;
+  padding:74px 16px 48px 16px;
   position: relative;
   overflow: hidden;
   background-image: url("/images/hero-bg.png");
@@ -66,7 +66,7 @@
     }
   }
 
-  // 标题中高亮的 "Web" 强调词，使用强调色（扁平化以匹配 TSX 的 .info__highlight）
+  // 标题中高亮的 "Web" 主题词，使用强调色（绿色，扁平化类名 .info__highlight 匹配 TSX）
   &__highlight {
     color: var(--color-accent);
   }
@@ -80,10 +80,7 @@
 
     @media (min-width: 640px) {
       font-size: 18px;
-    }
-
-    @media (min-width: 1024px) {
-      max-width: 576px; // xl
+      max-width: 480px; // 中屏起限制宽度，提前换行
     }
   }
 

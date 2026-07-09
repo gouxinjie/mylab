@@ -6,23 +6,23 @@
 
 // 服务区块：上下内边距、浅色背景
 .services {
-  padding-top: 32px;
-  padding-bottom: 32px;
+  padding-top: 24px;
+  padding-bottom: 24px;
   background-color: var(--color-bg);
 }
 
 // 区块头部：标题
 .header {
-  margin-bottom: 24px;
+  margin-bottom: 16px;
 
   // 标题：大字号加粗
   &__title {
-    font-size: 24px;
+    font-size: 18px;
     font-weight: bold;
     color: var(--color-text-primary);
 
     @media (min-width: 640px) {
-      font-size: 30px;
+      font-size: 20px;
     }
   }
 }

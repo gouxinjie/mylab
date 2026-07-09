@@ -6,8 +6,8 @@
 
 // 引言区块：上下内边距、浅色表面背景
 .quote-section {
-  padding-top: 32px;
-  padding-bottom: 32px;
+  padding-top: 24px;
+  padding-bottom: 24px;
   background-color: rgba(var(--color-surface-rgb), 0.3);
 }
 
@@ -20,13 +20,13 @@
   gap: 20px;
   border-radius: 24px;
   background-color: var(--color-bg);
-  padding: 24px;
+  padding: 20px;
   box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
   border: 1px solid var(--color-surface-muted);
 
   @media (min-width: 1024px) {
     flex-direction: row;
-    padding: 32px;
+    padding: 24px;
   }
 }
 

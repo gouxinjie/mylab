@@ -23,10 +23,6 @@ function UserIcon() {
   return <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>;
 }
 
-function CodeIcon() {
-  return <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>;
-}
-
 function ProjectIcon() {
   return <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>;
 }
@@ -86,7 +82,6 @@ export default function Navbar() {
   const navItems = [
     { label: t("home"), href: "/", icon: <HomeIcon /> },
     { label: t("about"), href: "/about", icon: <UserIcon /> },
-    { label: t("skills"), href: "/about#skills", icon: <CodeIcon /> },
     { label: t("projects"), href: "/projects", icon: <ProjectIcon /> },
     { label: t("contact"), href: "/contact", icon: <MailIcon /> },
   ];
