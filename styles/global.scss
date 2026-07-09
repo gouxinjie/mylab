@@ -74,3 +74,42 @@ main {
   font-size: 12px;
   font-weight: 500;
 }
+
+// ─── 全局滚动条优化 ────────────────────────────────
+// 细圆角滚动条，主色半透明滑块，随明暗主题（:root / .dark 变量）自动适配
+// 同时支持 WebKit（::-webkit-scrollbar*）与 Firefox（scrollbar-*）两种标准
+
+// Firefox 标准属性（滑块色 / 轨道色）
+html {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-text-muted) var(--color-surface-muted);
+}
+
+// WebKit 滚动条整体宽度（纵向）与高度（横向）
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+// 滚动条轨道
+::-webkit-scrollbar-track {
+  background-color: var(--color-surface-muted);
+  border-radius: var(--radius-full);
+}
+
+// 滚动条滑块
+::-webkit-scrollbar-thumb {
+  background-color: var(--color-text-muted);
+  border-radius: var(--radius-full);
+  border: 2px solid var(--color-surface-muted); // 与轨道同色形成内边距，视觉更精致
+  background-clip: padding-box;
+
+  &:hover {
+    background-color: var(--color-text-secondary);
+  }
+}
+
+// 滚动条角落（横向+纵向交汇处）
+::-webkit-scrollbar-corner {
+  background-color: transparent;
+}
