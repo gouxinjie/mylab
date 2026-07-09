@@ -11,8 +11,8 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding-left: 1rem;
-  padding-right: 1rem;
+  padding-left: 16px;
+  padding-right: 16px;
   text-align: center;
 }
 
@@ -51,26 +51,26 @@
 
 // 标题
 .title {
-  margin-top: 1.5rem;
-  font-size: 1.25rem;
+  margin-top: 24px;
+  font-size: 20px;
   font-weight: 600;
 
   @media (min-width: 640px) {
-    font-size: 1.5rem;
+    font-size: 24px;
   }
 }
 
 // 描述文本：次要色、限制最大宽度
 .desc {
-  margin-top: 0.5rem;
-  max-width: 28rem;
-  font-size: 0.88rem;
+  margin-top: 8px;
+  max-width: 448px;
+  font-size: 14px;
   color: var(--color-text-secondary);
 }
 
 // 操作按钮组
 .actions {
-  margin-top: 2rem;
+  margin-top: 32px;
   display: flex;
-  gap: 0.75rem;
+  gap: 12px;
 }

@@ -24,7 +24,6 @@ export default function Hero() {
       <div className="container-custom">
         {/* 背景横幅 */}
         <div className={styles.banner}>
-          <div className={styles.banner__overlay} />
           {/* 信息区：问候/标题/描述/按钮 */}
           <div className={styles.info}>
             <motion.div
@@ -48,7 +47,7 @@ export default function Hero() {
                   {titleParts.length > 1 ? (
                     <>
                       {titleParts[0]}
-                      <span className={styles.info__highlight}>Web</span>
+                      <span className={styles['info__title__highlight']}>Web</span>
                       {titleParts.slice(1).join("Web")}
                     </>
                   ) : (

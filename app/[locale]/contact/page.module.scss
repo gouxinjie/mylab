@@ -6,34 +6,34 @@
 
 // 页面容器：上下内边距随屏幕增大
 .contact-page {
-  padding-top: 3rem;
-  padding-bottom: 3rem;
+  padding-top: 48px;
+  padding-bottom: 48px;
 
   @media (min-width: 640px) {
-    padding-top: 4rem;
-    padding-bottom: 4rem;
+    padding-top: 64px;
+    padding-bottom: 64px;
   }
 }
 
 // 页头：标题 + 副标题
 .header {
-  margin-bottom: 2.5rem;
+  margin-bottom: 40px;
 
   // 页头大标题
   &__title {
-    font-size: 1.88rem;
-    line-height: 2.25rem;
+    font-size: 30px;
+    line-height: 36px;
     font-weight: 700;
 
     @media (min-width: 640px) {
-      font-size: 2.25rem;
-      line-height: 2.5rem;
+      font-size: 36px;
+      line-height: 40px;
     }
   }
 
   // 页头副标题：次要色
   &__subtitle {
-    margin-top: 0.5rem;
+    margin-top: 8px;
     color: var(--color-text-secondary);
   }
 }
@@ -41,7 +41,7 @@
 // 联系方式栅格：移动端单列，中屏两列
 .grid {
   display: grid;
-  gap: 1rem;
+  gap: 16px;
 
   @media (min-width: 640px) {
     grid-template-columns: repeat(2, 1fr);
@@ -52,11 +52,11 @@
 .contact-item {
   display: flex;
   align-items: center;
-  gap: 1rem;
-  border-radius: 0.75rem;
+  gap: 16px;
+  border-radius: 12px;
   border: 1px solid var(--color-border);
   background-color: var(--color-bg-secondary);
-  padding: 1.25rem;
+  padding: 20px;
   transition: all 0.2s;
 
   &:hover {
@@ -67,12 +67,12 @@
   // 图标盒子：主色浅底，hover 主色填充白图标
   &__icon-wrapper {
     display: flex;
-    height: 3rem;
-    width: 3rem;
+    height: 48px;
+    width: 48px;
     flex-shrink: 0;
     align-items: center;
     justify-content: center;
-    border-radius: 0.75rem;
+    border-radius: 12px;
     background-color: rgba(var(--color-primary-rgb), 0.1);
     color: var(--color-primary);
     transition: all 0.2s;
@@ -90,13 +90,13 @@
 
   // 联系方式值：浅灰，单行截断
   &__value {
-    margin-top: 0.13rem;
-    font-size: 0.75rem;
+    margin-top: 2px;
+    font-size: 12px;
     color: var(--color-text-muted);
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
-    max-width: 11.25rem;
+    max-width: 180px;
   }
 
   // 右侧箭头：默认隐藏，hover 显示主色
@@ -116,16 +116,16 @@
 
 // 备注提示区：虚线边框浅底
 .note {
-  margin-top: 3rem;
-  border-radius: 0.75rem;
+  margin-top: 48px;
+  border-radius: 12px;
   border: 1px dashed var(--color-border);
   background-color: rgba(var(--color-bg-secondary-rgb), 0.5);
-  padding: 1.5rem;
+  padding: 24px;
   text-align: center;
 
   // 备注文字：浅灰
   &__text {
-    font-size: 0.88rem;
+    font-size: 14px;
     color: var(--color-text-muted);
   }
 

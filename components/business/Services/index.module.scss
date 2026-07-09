@@ -6,23 +6,23 @@
 
 // 服务区块：上下内边距、浅色背景
 .services {
-  padding-top: 2rem;
-  padding-bottom: 2rem;
+  padding-top: 32px;
+  padding-bottom: 32px;
   background-color: var(--color-bg);
 }
 
 // 区块头部：标题
 .header {
-  margin-bottom: 1.5rem;
+  margin-bottom: 24px;
 
   // 标题：大字号加粗
   &__title {
-    font-size: 1.5rem;
+    font-size: 24px;
     font-weight: bold;
     color: var(--color-text-primary);
 
     @media (min-width: 640px) {
-      font-size: 1.88rem;
+      font-size: 30px;
     }
   }
 }
@@ -30,7 +30,7 @@
 // 服务栅格：移动端单列，中屏两列，大屏四列
 .grid {
   display: grid;
-  gap: 1.5rem;
+  gap: 24px;
 
   @media (min-width: 640px) {
     grid-template-columns: repeat(2, 1fr);
@@ -46,7 +46,7 @@
   border-radius: var(--radius-xl);
   border: 1px solid var(--color-surface-muted);
   background-color: rgba(var(--color-surface-rgb), 0.5);
-  padding: 1.25rem;
+  padding: 20px;
   transition: all 0.2s;
 
   &:hover {
@@ -56,10 +56,10 @@
 
   // 图标盒子：浅色底、强调色图标，hover 放大
   &__icon-box {
-    margin-bottom: 1rem;
+    margin-bottom: 16px;
     display: inline-flex;
-    height: 3rem;
-    width: 3rem;
+    height: 48px;
+    width: 48px;
     align-items: center;
     justify-content: center;
     border-radius: var(--radius-xl);
@@ -75,15 +75,15 @@
 
   // 服务标题
   &__title {
-    margin-bottom: 0.5rem;
-    font-size: 1.12rem;
+    margin-bottom: 8px;
+    font-size: 18px;
     font-weight: bold;
     color: var(--color-text-primary);
   }
 
   // 服务描述：次要色
   &__desc {
-    font-size: 0.88rem;
+    font-size: 14px;
     line-height: 1.625;
     color: var(--color-text-secondary);
   }

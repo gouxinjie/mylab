@@ -6,17 +6,17 @@
 
 // 看板区块：上下内边距随屏幕增大
 .github {
-  padding-top: 3rem;
-  padding-bottom: 3rem;
+  padding-top: 48px;
+  padding-bottom: 48px;
 
   @media (min-width: 640px) {
-    padding-top: 4rem;
-    padding-bottom: 4rem;
+    padding-top: 64px;
+    padding-bottom: 64px;
   }
 
   @media (min-width: 1024px) {
-    padding-top: 5rem;
-    padding-bottom: 5rem;
+    padding-top: 80px;
+    padding-bottom: 80px;
   }
 }
 
@@ -24,7 +24,7 @@
 .header {
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
+  gap: 12px;
 
   @media (min-width: 640px) {
     flex-direction: row;
@@ -34,12 +34,12 @@
 
   // 副标题：次要色
   &__subtitle {
-    margin-top: 0.38rem;
-    font-size: 0.88rem;
+    margin-top: 6px;
+    font-size: 14px;
     color: var(--color-text-secondary);
 
     @media (min-width: 640px) {
-      margin-top: 0.5rem;
+      margin-top: 8px;
     }
   }
 
@@ -47,8 +47,8 @@
   &__link {
     display: inline-flex;
     align-items: center;
-    gap: 0.25rem;
-    font-size: 0.88rem;
+    gap: 4px;
+    font-size: 14px;
     font-weight: 500;
     color: var(--color-primary);
     transition: color 0.2s;
@@ -61,13 +61,13 @@
 
 // 主栅格：统计网格 + 个人卡片，大屏三列
 .grid {
-  margin-top: 1.5rem;
+  margin-top: 24px;
   display: grid;
-  gap: 1rem;
+  gap: 16px;
 
   @media (min-width: 640px) {
-    margin-top: 2rem;
-    gap: 1.5rem;
+    margin-top: 32px;
+    gap: 24px;
   }
 
   @media (min-width: 1024px) {
@@ -82,10 +82,10 @@
   }
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 0.75rem;
+  gap: 12px;
 
   @media (min-width: 640px) {
-    gap: 1rem;
+    gap: 16px;
   }
 
   // 单个统计小卡片
@@ -102,30 +102,30 @@
   @include card-base;
   display: flex;
   align-items: center;
-  gap: 0.75rem;
+  gap: 12px;
   overflow: hidden;
-  padding: 1rem;
+  padding: 16px;
 
   @media (min-width: 640px) {
-    gap: 1rem;
-    padding: 1.25rem;
+    gap: 16px;
+    padding: 20px;
   }
 
   // 头像：圆角方形，随屏幕增大
   &__avatar {
-    height: 4rem;
-    width: 4rem;
+    height: 64px;
+    width: 64px;
     border-radius: var(--radius-xl);
     object-fit: cover;
 
     @media (min-width: 640px) {
-      height: 5rem;
-      width: 5rem;
+      height: 80px;
+      width: 80px;
     }
 
     @media (min-width: 1024px) {
-      height: 6rem;
-      width: 6rem;
+      height: 96px;
+      width: 96px;
     }
   }
 
@@ -138,38 +138,38 @@
   // 用户名
   &__name {
     font-weight: 600;
-    font-size: 0.88rem;
+    font-size: 14px;
 
     @media (min-width: 640px) {
-      font-size: 1rem;
+      font-size: 16px;
     }
   }
 
   // 角色/简介：次要色，支持换行
   &__role {
-    margin-top: 0.12rem;
-    font-size: 0.69rem;
+    margin-top: 2px;
+    font-size: 11px;
     color: var(--color-text-secondary);
     white-space: pre-line;
 
     @media (min-width: 640px) {
-      font-size: 0.75rem;
+      font-size: 12px;
     }
   }
 
   // 个人主页链接：主色，hover 深主色
   &__link {
-    margin-top: 0.38rem;
+    margin-top: 6px;
     display: inline-flex;
     align-items: center;
-    gap: 0.25rem;
-    font-size: 0.69rem;
+    gap: 4px;
+    font-size: 11px;
     font-weight: 500;
     color: var(--color-primary);
 
     @media (min-width: 640px) {
-      margin-top: 0.5rem;
-      font-size: 0.75rem;
+      margin-top: 8px;
+      font-size: 12px;
     }
 
     &:hover {
@@ -181,22 +181,22 @@
 // 贡献热力图卡片
 .heatmap {
   @include card-base;
-  margin-top: 1.5rem;
+  margin-top: 24px;
   overflow: hidden;
 
   @media (min-width: 640px) {
-    margin-top: 2rem;
+    margin-top: 32px;
   }
 
   // 标题
   &__title {
-    margin-bottom: 0.75rem;
-    font-size: 0.88rem;
+    margin-bottom: 12px;
+    font-size: 14px;
     font-weight: 500;
     color: var(--color-text-secondary);
 
     @media (min-width: 640px) {
-      margin-bottom: 1rem;
+      margin-bottom: 16px;
     }
   }
 
@@ -208,8 +208,8 @@
   // 热力图行容器
   &__container {
     display: flex;
-    gap: 0.12rem;
-    padding-bottom: 0.5rem;
+    gap: 2px;
+    padding-bottom: 8px;
     min-width: max-content;
   }
 
@@ -222,14 +222,14 @@
 
   // 单个贡献方块：hover 主色描边
   &__day {
-    height: 0.38rem;
-    width: 0.5rem;
+    height: 6px;
+    width: 8px;
     border-radius: 2px;
     transition: background-color 0.2s;
 
     @media (min-width: 640px) {
-      height: 0.5rem;
-      width: 0.62rem;
+      height: 8px;
+      width: 10px;
     }
 
     &:hover {
@@ -239,29 +239,29 @@
 
   // 图例：右对齐，浅灰文字
   &__legend {
-    margin-top: 0.62rem;
+    margin-top: 10px;
     display: flex;
     align-items: center;
     justify-content: flex-end;
-    gap: 0.25rem;
-    font-size: 0.69rem;
+    gap: 4px;
+    font-size: 11px;
     color: var(--color-text-muted);
 
     @media (min-width: 640px) {
-      margin-top: 0.75rem;
-      font-size: 0.75rem;
+      margin-top: 12px;
+      font-size: 12px;
     }
   }
 
   // 图例色块
   &__level {
-    height: 0.5rem;
-    width: 0.5rem;
+    height: 8px;
+    width: 8px;
     border-radius: 2px;
 
     @media (min-width: 640px) {
-      height: 0.62rem;
-      width: 0.62rem;
+      height: 10px;
+      width: 10px;
     }
   }
 }
@@ -269,47 +269,47 @@
 // 加载骨架屏：数值/标签/副标签占位
 .skeleton {
   &__val {
-    height: 1.5rem;
-    width: 3rem;
+    height: 24px;
+    width: 48px;
     background-color: var(--color-border);
-    border-radius: 0.25rem;
+    border-radius: 4px;
   }
 
   &__label {
-    margin-top: 0.5rem;
-    height: 0.75rem;
-    width: 4rem;
+    margin-top: 8px;
+    height: 12px;
+    width: 64px;
     background-color: var(--color-border);
-    border-radius: 0.25rem;
+    border-radius: 4px;
   }
 
   &__sub {
-    margin-top: 0.25rem;
-    height: 0.5rem;
-    width: 2rem;
+    margin-top: 4px;
+    height: 8px;
+    width: 32px;
     background-color: var(--color-border);
-    border-radius: 0.25rem;
+    border-radius: 4px;
   }
 }
 
 // 错误状态卡片：数值 + 标签
 .error-card {
   &__val {
-    font-size: 1.25rem;
+    font-size: 20px;
     font-weight: bold;
 
     @media (min-width: 640px) {
-      font-size: 1.5rem;
+      font-size: 24px;
     }
   }
 
   &__label {
-    margin-top: 0.25rem;
+    margin-top: 4px;
     font-size: 11px;
     color: var(--color-text-muted);
 
     @media (min-width: 640px) {
-      font-size: 0.75rem;
+      font-size: 12px;
     }
   }
 }

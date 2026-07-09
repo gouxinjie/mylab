@@ -6,34 +6,34 @@
 
 // 页面容器：上下内边距随屏幕增大
 .projects {
-  padding-top: 3rem;
-  padding-bottom: 3rem;
+  padding-top: 48px;
+  padding-bottom: 48px;
 
   @media (min-width: 640px) {
-    padding-top: 4rem;
-    padding-bottom: 4rem;
+    padding-top: 64px;
+    padding-bottom: 64px;
   }
 }
 
 // 页头：标题 + 副标题
 .header {
-  margin-bottom: 2.5rem;
+  margin-bottom: 40px;
 
   // 页头大标题
   &__title {
-    font-size: 1.88rem;
-    line-height: 2.25rem;
+    font-size: 30px;
+    line-height: 36px;
     font-weight: 700;
 
     @media (min-width: 640px) {
-      font-size: 2.25rem;
-      line-height: 2.5rem;
+      font-size: 36px;
+      line-height: 40px;
     }
   }
 
   // 页头副标题：次要色
   &__subtitle {
-    margin-top: 0.5rem;
+    margin-top: 8px;
     color: var(--color-text-secondary);
   }
 }

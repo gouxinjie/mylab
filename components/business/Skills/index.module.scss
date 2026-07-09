@@ -6,17 +6,17 @@
 
 // 技能区块：上下内边距随屏幕增大
 .skills {
-  padding-top: 3rem;
-  padding-bottom: 3rem;
+  padding-top: 48px;
+  padding-bottom: 48px;
 
   @media (min-width: 640px) {
-    padding-top: 4rem;
-    padding-bottom: 4rem;
+    padding-top: 64px;
+    padding-bottom: 64px;
   }
 
   @media (min-width: 1024px) {
-    padding-top: 5rem;
-    padding-bottom: 5rem;
+    padding-top: 80px;
+    padding-bottom: 80px;
   }
 }
 
@@ -24,7 +24,7 @@
 .header {
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
+  gap: 12px;
 
   @media (min-width: 640px) {
     flex-direction: row;
@@ -34,19 +34,19 @@
 
   // 副标题：次要色
   &__subtitle {
-    margin-top: 0.38rem;
-    font-size: 0.88rem;
+    margin-top: 6px;
+    font-size: 14px;
     color: var(--color-text-secondary);
 
     @media (min-width: 640px) {
-      margin-top: 0.5rem;
+      margin-top: 8px;
     }
   }
 
   // 桌面端 "查看全部" 链接：主色，hover 深主色
   &__link {
     display: none;
-    font-size: 0.88rem;
+    font-size: 14px;
     font-weight: 500;
     color: var(--color-primary);
     transition: color 0.2s;
@@ -63,9 +63,9 @@
     &--mobile {
       display: flex;
       align-items: center;
-      gap: 0.25rem;
-      margin-top: 1.5rem;
-      font-size: 0.88rem;
+      gap: 4px;
+      margin-top: 24px;
+      font-size: 14px;
       font-weight: 500;
       color: var(--color-primary);
 
@@ -78,15 +78,15 @@
 
 // 技能栅格：移动端 4 列，中屏 5 列
 .grid {
-  margin-top: 1.5rem;
+  margin-top: 24px;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 0.62rem;
+  gap: 10px;
 
   @media (min-width: 640px) {
-    margin-top: 2rem;
+    margin-top: 32px;
     grid-template-columns: repeat(5, 1fr);
-    gap: 1.25rem;
+    gap: 20px;
   }
 }
 
@@ -95,15 +95,15 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.5rem;
+  gap: 8px;
   border-radius: var(--radius-xl);
   border: 1px solid var(--color-border);
   background-color: var(--color-bg-secondary);
-  padding: 0.75rem;
+  padding: 12px;
   transition: all 0.2s;
 
   @media (min-width: 640px) {
-    padding: 1rem;
+    padding: 16px;
   }
 
   &:hover {
@@ -118,23 +118,23 @@
   // 技能图标（emoji/字符）
   &__icon {
     font-family: monospace;
-    font-size: 0.69rem;
+    font-size: 11px;
 
     @media (min-width: 640px) {
-      font-size: 0.75rem;
+      font-size: 12px;
     }
   }
 
   // 技能名称：次要色，hover 主文字色
   &__name {
-    font-size: 0.69rem;
+    font-size: 11px;
     font-weight: 500;
     color: var(--color-text-secondary);
     text-align: center;
     transition: color 0.2s;
 
     @media (min-width: 640px) {
-      font-size: 0.75rem;
+      font-size: 12px;
     }
   }
 

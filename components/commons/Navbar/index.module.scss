@@ -11,13 +11,13 @@
   z-index: 50;
   border-bottom: 1px solid var(--color-border);
   background-color: var(--color-bg);
-  padding-top: 0.75rem;
-  padding-bottom: 0.75rem;
+  padding-top: 12px;
+  padding-bottom: 12px;
 
   // 导航栏内部容器：两端对齐
   &__container {
     display: flex;
-    height: 3rem;
+    height: 48px;
     align-items: center;
     justify-content: space-between;
   }
@@ -27,13 +27,13 @@
 .brand {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 8px;
   font-weight: bold;
-  font-size: 1rem;
+  font-size: 16px;
   transition: transform 0.2s;
 
   @media (min-width: 640px) {
-    font-size: 1.12rem;
+    font-size: 18px;
   }
 
   &:active {
@@ -43,13 +43,13 @@
   // 品牌 logo：渐变圆角方块，hover 旋转
   &__logo {
     display: flex;
-    height: 2rem;
-    width: 2rem;
+    height: 32px;
+    width: 32px;
     align-items: center;
     justify-content: center;
     border-radius: var(--radius-xl);
     background: linear-gradient(to bottom right, var(--color-accent), var(--color-accent-dark));
-    font-size: 0.88rem;
+    font-size: 14px;
     font-weight: bold;
     color: white;
     box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
@@ -78,7 +78,7 @@
 .nav {
   display: none;
   align-items: center;
-  gap: 0.25rem;
+  gap: 4px;
 
   @media (min-width: 768px) {
     display: flex;
@@ -89,10 +89,10 @@
     position: relative;
     display: flex;
     align-items: center;
-    gap: 0.38rem;
+    gap: 6px;
     border-radius: var(--radius-xl);
-    padding: 0.5rem 1rem;
-    font-size: 0.88rem;
+    padding: 8px 16px;
+    font-size: 14px;
     font-weight: 500;
     transition: all 0.2s;
     color: var(--color-text-secondary);
@@ -109,10 +109,10 @@
       &::after {
         content: "";
         position: absolute;
-        bottom: 0.15rem;
+        bottom: 2px;
         left: 50%;
-        height: 0.12rem;
-        width: 1.25rem;
+        height: 2px;
+        width: 20px;
         transform: translateX(-50%);
         border-radius: var(--radius-full);
         background-color: var(--color-accent);
@@ -133,10 +133,10 @@
 .actions {
   display: flex;
   align-items: center;
-  gap: 0.25rem;
+  gap: 4px;
 
   @media (min-width: 640px) {
-    gap: 0.5rem;
+    gap: 8px;
   }
 }
 
@@ -148,11 +148,11 @@
   &__trigger {
     display: flex;
     align-items: center;
-    gap: 0.38rem;
+    gap: 6px;
     border-radius: var(--radius-xl);
     border: 1px solid var(--color-border);
-    padding: 0.38rem 0.75rem;
-    font-size: 0.75rem;
+    padding: 6px 12px;
+    font-size: 12px;
     font-weight: 500;
     color: var(--color-text-secondary);
     transition: all 0.2s;
@@ -168,7 +168,7 @@
 
     // 语言文本：最小宽度避免抖动
     &__text {
-      min-width: 1.25rem;
+      min-width: 20px;
     }
   }
 
@@ -176,13 +176,13 @@
   &__dropdown {
     position: absolute;
     right: 0;
-    margin-top: 0.5rem;
-    width: 8rem;
+    margin-top: 8px;
+    width: 128px;
     transform-origin: top right;
     border-radius: var(--radius-xl);
     border: 1px solid var(--color-border);
     background-color: var(--color-bg);
-    padding: 0.25rem;
+    padding: 4px;
     box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
     z-index: 20;
     animation: dropdownIn 0.1s ease-out;
@@ -193,9 +193,9 @@
     display: flex;
     width: 100%;
     align-items: center;
-    border-radius: 0.5rem;
-    padding: 0.5rem 0.75rem;
-    font-size: 0.75rem;
+    border-radius: 8px;
+    padding: 8px 12px;
+    font-size: 12px;
     font-weight: 500;
     transition: color 0.2s, background-color 0.2s;
     color: var(--color-text-secondary);
@@ -222,8 +222,8 @@
 // 主题按钮与移动端菜单按钮：统一圆角描边方块
 .theme-btn, .menu-btn {
   display: flex;
-  height: 2.25rem;
-  width: 2.25rem;
+  height: 36px;
+  width: 36px;
   align-items: center;
   justify-content: center;
   border-radius: var(--radius-xl);
@@ -252,7 +252,7 @@
   position: fixed;
   inset: 0;
   z-index: 40;
-  padding-top: 5rem;
+  padding-top: 80px;
   background-color: var(--color-bg);
   animation: fadeInDown 0.3s ease-out;
 
@@ -264,17 +264,17 @@
   &__nav {
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
+    gap: 8px;
   }
 
   // 移动端导航链接：大字号，激活态强调色
   &__link {
     display: flex;
     align-items: center;
-    gap: 1rem;
+    gap: 16px;
     border-radius: var(--radius-xl);
-    padding: 1rem 1.25rem;
-    font-size: 1.12rem;
+    padding: 16px 20px;
+    font-size: 18px;
     font-weight: 500;
     transition: all 0.2s;
     color: var(--color-text-secondary);
@@ -302,12 +302,12 @@
 
   // 移动端菜单底部操作区
   &__footer {
-    margin-top: 2rem;
+    margin-top: 32px;
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 1rem;
+    gap: 16px;
     border-top: 1px solid var(--color-border);
-    padding-top: 2rem;
+    padding-top: 32px;
   }
 
   // 移动端底部按钮：主题/语言切换
@@ -315,11 +315,11 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 0.5rem;
+    gap: 8px;
     border-radius: var(--radius-xl);
     border: 1px solid var(--color-border);
-    padding: 1rem;
-    font-size: 0.88rem;
+    padding: 16px;
+    font-size: 14px;
     font-weight: 500;
     color: var(--color-text-secondary);
     transition: transform 0.2s;
@@ -346,7 +346,7 @@
 @keyframes fadeInDown {
   from {
     opacity: 0;
-    transform: translateY(-1rem);
+    transform: translateY(-16px);
   }
   to {
     opacity: 1;

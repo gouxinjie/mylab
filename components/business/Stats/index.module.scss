@@ -6,19 +6,19 @@
 
 // 数据指标区块：负上边距上浮，上下内边距随屏幕增大
 .stats {
-  margin-top: -1rem;
-  padding-top: 2rem;
-  padding-bottom: 2rem;
+  margin-top: -16px;
+  padding-top: 32px;
+  padding-bottom: 32px;
 
   @media (min-width: 640px) {
-    margin-top: -1.5rem;
-    padding-top: 2.5rem;
-    padding-bottom: 2.5rem;
+    margin-top: -24px;
+    padding-top: 40px;
+    padding-bottom: 40px;
   }
 
   @media (min-width: 1024px) {
-    padding-top: 3.5rem;
-    padding-bottom: 3.5rem;
+    padding-top: 56px;
+    padding-bottom: 56px;
   }
 }
 
@@ -26,15 +26,15 @@
 .grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 0.75rem;
+  gap: 12px;
 
   @media (min-width: 640px) {
     grid-template-columns: repeat(4, 1fr);
-    gap: 1rem;
+    gap: 16px;
   }
 
   @media (min-width: 1024px) {
-    gap: 2rem;
+    gap: 32px;
   }
 }
 
@@ -44,13 +44,13 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.5rem;
-  padding: 1rem;
+  gap: 8px;
+  padding: 16px;
   text-align: center;
 
   @media (min-width: 640px) {
-    gap: 0.62rem;
-    padding: 1.25rem;
+    gap: 10px;
+    padding: 20px;
   }
 
   &:hover {
@@ -61,16 +61,16 @@
   // 图标盒子：主色浅底圆角
   &__icon-box {
     display: flex;
-    height: 2.25rem;
-    width: 2.25rem;
+    height: 36px;
+    width: 36px;
     align-items: center;
     justify-content: center;
     border-radius: var(--radius-xl);
     background-color: rgba(var(--color-primary-rgb), 0.1);
 
     @media (min-width: 640px) {
-      height: 2.75rem;
-      width: 2.75rem;
+      height: 44px;
+      width: 44px;
     }
 
     svg {
@@ -80,21 +80,21 @@
 
   // 指标数值：大字号加粗
   &__value {
-    font-size: 1.25rem;
+    font-size: 20px;
     font-weight: bold;
 
     @media (min-width: 640px) {
-      font-size: 1.5rem;
+      font-size: 24px;
     }
   }
 
   // 指标标签：浅灰小字
   &__label {
-    font-size: 0.69rem;
+    font-size: 11px;
     color: var(--color-text-muted);
 
     @media (min-width: 640px) {
-      font-size: 0.75rem;
+      font-size: 12px;
     }
   }
 }

@@ -6,8 +6,8 @@
 
 // 引言区块：上下内边距、浅色表面背景
 .quote-section {
-  padding-top: 2rem;
-  padding-bottom: 2rem;
+  padding-top: 32px;
+  padding-bottom: 32px;
   background-color: rgba(var(--color-surface-rgb), 0.3);
 }
 
@@ -17,16 +17,16 @@
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
-  gap: 1.25rem;
-  border-radius: 1.5rem;
+  gap: 20px;
+  border-radius: 24px;
   background-color: var(--color-bg);
-  padding: 1.5rem;
+  padding: 24px;
   box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
   border: 1px solid var(--color-surface-muted);
 
   @media (min-width: 1024px) {
     flex-direction: row;
-    padding: 2rem;
+    padding: 32px;
   }
 }
 
@@ -34,10 +34,10 @@
 .quote {
   display: flex;
   align-items: flex-start;
-  gap: 1rem;
+  gap: 16px;
 
   @media (min-width: 1024px) {
-    max-width: 42rem; // 2xl
+    max-width: 672px; // 2xl
   }
 
   // 引号图标：强调色
@@ -48,19 +48,19 @@
 
   // 引言主文本：大字号加粗
   &__text {
-    font-size: 1.25rem;
+    font-size: 20px;
     font-weight: bold;
     color: var(--color-text-primary);
 
     @media (min-width: 640px) {
-      font-size: 1.5rem;
+      font-size: 24px;
     }
   }
 
   // 引言副文本：次要色
   &__subtext {
-    margin-top: 0.5rem;
-    font-size: 0.88rem;
+    margin-top: 8px;
+    font-size: 14px;
     color: var(--color-text-secondary);
   }
 }
@@ -69,13 +69,13 @@
 .social {
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: 16px;
 
   // 单个社交链接：浅色底，hover 强调色填充
   &__link {
     display: flex;
-    height: 3rem;
-    width: 3rem;
+    height: 48px;
+    width: 48px;
     align-items: center;
     justify-content: center;
     border-radius: var(--radius-xl);

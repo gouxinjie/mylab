@@ -7,17 +7,11 @@
 // 英雄区域整体容器，控制上下内边距（移动端偏小，大屏增大）
 .hero {
   background-color: var(--color-bg);
-  padding-top: 2rem;
-  padding-bottom: 1.5rem;
-
-  @media (min-width: 640px) {
-    padding-top: 3rem;
-    padding-bottom: 2rem;
-  }
 }
 
 // 背景横幅：承载背景图，并作为内容定位/纵向排列容器（合并原 banner__content）
 .banner {
+  padding:64px 16px 48px 16px;
   position: relative;
   overflow: hidden;
   background-image: url("/images/hero-bg.png");
@@ -35,9 +29,8 @@
   position: relative;
   z-index: 10; // 确保内容在横幅遮罩之上
   width: 100%;
-  max-width: 42rem; // 2xl
-  padding-top: 6rem;
-
+  max-width: 672px; // 2xl
+  
   @media (min-width: 1024px) {
     padding-top: 0;
   }
@@ -45,31 +38,31 @@
   // 问候语：小号次要文字
   &__greeting {
     display: block;
-    font-size: 0.88rem;
+    font-size: 14px;
     font-weight: 500;
     color: var(--color-text-secondary);
 
     @media (min-width: 640px) {
-      font-size: 1rem;
+      font-size: 16px;
     }
   }
 
   // 主标题：支持换行，字号随屏幕尺寸递增
   &__title {
-    margin-top: 1rem;
+    margin-top: 16px;
     white-space: pre-line;
-    font-size: 1.88rem;
+    font-size: 30px;
     font-weight: bold;
     line-height: 1.25;
     letter-spacing: -0.025em;
     color: var(--color-text-primary);
 
     @media (min-width: 640px) {
-      font-size: 2.25rem;
+      font-size: 36px;
     }
 
     @media (min-width: 1024px) {
-      font-size: 2.8rem; // 大屏时字号稍微减小
+      font-size: 45px; // 大屏时字号稍微减小
     }
   }
 
@@ -80,40 +73,40 @@
 
   // 描述文本：次要色，大屏限制最大宽度
   &__desc {
-    margin-top: 0.75rem;
-    font-size: 1rem;
+    margin-top: 12px;
+    font-size: 16px;
     line-height: 1.625;
     color: var(--color-text-secondary);
 
     @media (min-width: 640px) {
-      font-size: 1.12rem;
+      font-size: 18px;
     }
 
     @media (min-width: 1024px) {
-      max-width: 36rem; // xl
+      max-width: 576px; // xl
     }
   }
 
   // 操作按钮组：横向排列，允许换行
   &__actions {
-    margin-top: 1.25rem;
+    margin-top: 20px;
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    gap: 1rem;
+    gap: 16px;
   }
 }
 
 // 英雄区按钮：统一高度与圆角、点击缩放反馈
 .btn-hero {
   display: inline-flex;
-  height: 3rem;
+  height: 48px;
   align-items: center;
   justify-content: center;
   border-radius: var(--radius-xl);
-  padding-left: 2rem;
-  padding-right: 2rem;
-  font-size: 0.88rem;
+  padding-left: 32px;
+  padding-right: 32px;
+  font-size: 14px;
   font-weight: 500;
   transition: all 0.2s;
 
@@ -143,7 +136,7 @@
     }
 
     svg {
-      margin-right: 0.5rem;
+      margin-right: 8px;
     }
   }
 }

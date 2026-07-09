@@ -9,15 +9,15 @@
   border-top: 1px solid var(--color-border);
   background-color: var(--color-bg-dark);
   color: white;
-  padding-top: 3rem;
-  padding-bottom: 3rem;
+  padding-top: 48px;
+  padding-bottom: 48px;
 }
 
 // 页脚栅格：移动端单列，中屏四列
 .grid {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 2.5rem;
+  gap: 40px;
 
   @media (min-width: 768px) {
     grid-template-columns: repeat(4, 1fr);
@@ -34,38 +34,38 @@
   &__link {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
+    gap: 8px;
     font-weight: bold;
-    font-size: 1.12rem;
+    font-size: 18px;
     color: white;
   }
 
   // 品牌 logo：渐变圆角方块
   &__logo {
     display: flex;
-    height: 2rem;
-    width: 2rem;
+    height: 32px;
+    width: 32px;
     align-items: center;
     justify-content: center;
-    border-radius: 0.5rem;
+    border-radius: 8px;
     background: linear-gradient(to bottom right, var(--color-accent), var(--color-accent-dark));
-    font-size: 0.88rem;
+    font-size: 14px;
     font-weight: bold;
     color: white;
   }
 
   // 品牌描述：浅灰次要文字
   &__desc {
-    margin-top: 0.75rem;
-    font-size: 0.88rem;
+    margin-top: 12px;
+    font-size: 14px;
     line-height: 1.625;
     color: var(--color-text-muted);
   }
 
   // 版权信息：更小号的浅灰文字
   &__rights {
-    margin-top: 1rem;
-    font-size: 0.75rem;
+    margin-top: 16px;
+    font-size: 12px;
     color: var(--color-text-secondary);
   }
 }
@@ -74,8 +74,8 @@
 .section {
   // 分组标题：大写小号次要文字
   &__title {
-    margin-bottom: 1rem;
-    font-size: 0.88rem;
+    margin-bottom: 16px;
+    font-size: 14px;
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.05em;
@@ -87,12 +87,12 @@
     list-style: none;
     display: flex;
     flex-direction: column;
-    gap: 0.62rem;
+    gap: 10px;
   }
 
   // 单个链接：hover 切换主色
   &__link {
-    font-size: 0.88rem;
+    font-size: 14px;
     color: var(--color-text-muted);
     transition: color 0.2s;
 
@@ -102,10 +102,10 @@
 
     // 链接后小箭头图标
     &__icon {
-      margin-left: 0.12rem;
+      margin-left: 2px;
       display: inline-block;
-      width: 0.75rem;
-      height: 0.75rem;
+      width: 12px;
+      height: 12px;
     }
   }
 }
@@ -114,13 +114,13 @@
 .social {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.75rem;
+  gap: 12px;
 
   // 单个社交链接：圆角描边方块，hover 主色高亮
   &__link {
     display: flex;
-    height: 2.5rem;
-    width: 2.5rem;
+    height: 40px;
+    width: 40px;
     align-items: center;
     justify-content: center;
     border-radius: var(--radius-xl);

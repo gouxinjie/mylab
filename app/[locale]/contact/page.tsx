@@ -28,7 +28,7 @@ export default function ContactPage() {
 
   return (
     <div className={styles['contact-page']}>
-      <div className="container-custom" style={{ maxWidth: '42rem' }}>
+      <div className="container-custom" style={{ maxWidth: '672px' }}>
         <FadeIn>
           <div className={styles.header}>
             <h1 className={styles.header__title}>{t("title")}</h1>
