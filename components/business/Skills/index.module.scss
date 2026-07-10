@@ -48,11 +48,11 @@
     display: none;
     font-size: 14px;
     font-weight: 500;
-    color: var(--color-primary);
+    color: var(--color-accent);
     transition: color 0.2s;
 
     &:hover {
-      color: var(--color-primary-dark);
+      color: var(--color-accent-dark);
     }
 
     @media (min-width: 640px) {
@@ -67,7 +67,7 @@
       margin-top: 24px;
       font-size: 14px;
       font-weight: 500;
-      color: var(--color-primary);
+      color: var(--color-accent);
 
       @media (min-width: 640px) {
         display: none;
@@ -107,7 +107,7 @@
   }
 
   &:hover {
-    border-color: var(--color-primary);
+    border-color: var(--color-accent);
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
   }
 

@@ -97,7 +97,7 @@
     transition: color 0.2s;
 
     &:hover {
-      color: var(--color-primary);
+      color: var(--color-accent);
     }
 
     // 链接后小箭头图标
@@ -129,8 +129,8 @@
     transition: all 0.2s;
 
     &:hover {
-      border-color: var(--color-primary);
-      color: var(--color-primary);
+      border-color: var(--color-accent);
+      color: var(--color-accent);
     }
   }
 }

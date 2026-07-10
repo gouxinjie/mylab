@@ -84,8 +84,8 @@
   transition: all 0.2s;
 
   &:hover {
-    border-color: var(--color-primary);
-    background-color: rgba(var(--color-primary-rgb), 0.05);
+    border-color: var(--color-accent);
+    background-color: rgba(var(--color-accent-rgb), 0.05);
   }
 }
 
@@ -127,9 +127,9 @@
 
     // 当前节点：主色实心 + 外发光
     &--current {
-      background-color: var(--color-primary);
-      border-color: var(--color-primary);
-      box-shadow: 0 0 0 4px rgba(var(--color-primary-rgb), 0.2);
+      background-color: var(--color-accent);
+      border-color: var(--color-accent);
+      box-shadow: 0 0 0 4px rgba(var(--color-accent-rgb), 0.2);
     }
   }
 }

@@ -61,7 +61,7 @@
   transition: all 0.2s;
 
   &:hover {
-    border-color: var(--color-primary);
+    border-color: var(--color-accent);
     box-shadow: var(--shadow-md);
   }
 }

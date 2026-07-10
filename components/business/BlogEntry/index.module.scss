@@ -18,7 +18,7 @@
   justify-content: space-between;
   gap: 24px;
   border-radius: 16px;
-  border: 1px solid rgba(var(--color-primary-rgb), 0.2);
+  border: 1px solid rgba(var(--color-accent-rgb), 0.2);
   background-color: var(--color-bg-dark);
   padding: 32px;
   color: white;
@@ -29,7 +29,7 @@
   }
 
   &:hover {
-    border-color: rgba(var(--color-primary-rgb), 0.5);
+    border-color: rgba(var(--color-accent-rgb), 0.5);
   }
 
   // 图标盒子：圆形浅色底
@@ -46,7 +46,7 @@
 
   // 图标：主色
   &__icon {
-    color: var(--color-primary);
+    color: var(--color-accent);
   }
 
   // 信息区：默认居中，大屏左对齐
@@ -88,6 +88,6 @@
   }
 
   &:hover &__btn {
-    background-color: var(--color-primary);
+    background-color: var(--color-accent);
   }
 }

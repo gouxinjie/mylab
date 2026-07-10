@@ -68,6 +68,39 @@ function MenuIcon({ open }: { open: boolean }) {
   );
 }
 
+// 品牌图标：字母 xj，采用品牌主色翠绿渐变，与站点 icon 保持一致
+function BrandLogo() {
+  return (
+    <svg
+      className={styles.brand__logo}
+      width="32"
+      height="32"
+      viewBox="0 0 512 512"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      aria-hidden="true"
+    >
+      <defs>
+        <linearGradient id="brand-xj" x1="0" y1="0" x2="512" y2="512" gradientUnits="userSpaceOnUse">
+          <stop offset="0" stopColor="#10B981" />
+          <stop offset="1" stopColor="#059669" />
+        </linearGradient>
+      </defs>
+      <rect width="512" height="512" rx="112" fill="url(#brand-xj)" />
+      <g fill="#FFFFFF">
+        {/* 字母 x */}
+        <path d="M118 170 L170 170 L206 224 L242 170 L294 170 L232 258 L296 350 L244 350 L206 292 L168 350 L116 350 L180 258 Z" />
+        {/* 字母 j 竖干 */}
+        <rect x="330" y="170" width="48" height="176" rx="24" />
+        {/* 字母 j 底部弯钩 */}
+        <path d="M330 322 L378 322 L378 356 C378 392 350 418 312 418 L296 418 L296 372 L308 372 C322 372 330 362 330 348 Z" />
+        {/* 字母 j 上方圆点 */}
+        <circle cx="354" cy="118" r="26" />
+      </g>
+    </svg>
+  );
+}
+
 export default function Navbar() {
   const pathname = usePathname();
   const router = useRouter();
@@ -113,10 +146,8 @@ export default function Navbar() {
       <div className={`container-custom ${styles.header__container}`}>
         {/* 品牌标识 */}
         <Link href="/" className={styles.brand}>
-          <span className={styles.brand__logo}>
-            K
-          </span>
-          <span className={styles.brand__name}>Kiro</span>
+          <BrandLogo />
+          <span className={styles.brand__name}>xinjie</span>
         </Link>
 
         {/* 桌面端导航 */}
