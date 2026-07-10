@@ -27,7 +27,7 @@ export default function HomePage() {
       
       <FadeIn delay={0.2}>
         {/* 精选项目区域 */}
-        <FeaturedProjects />
+        <FeaturedProjects limit={3} />
       </FadeIn>
       
       <FadeIn delay={0.3}>

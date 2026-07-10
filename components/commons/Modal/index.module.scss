@@ -1,0 +1,95 @@
+/**
+ * @file index.module.scss
+ * @description Modal 通用弹窗样式
+ * @author gouxinjie
+ */
+
+// 遮罩层：固定铺满视口，居中弹窗，深色半透明背景
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  background-color: rgba(15, 23, 42, 0.6);
+  animation: overlay-fade 0.2s ease;
+}
+
+// 弹窗主体：白色背景、圆角、最大宽高与内部滚动
+.dialog {
+  position: relative;
+  width: 100%;
+  max-width: 880px;
+  max-height: 88vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background-color: var(--color-bg);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
+  animation: dialog-pop 0.2s ease;
+}
+
+// 弹窗头部：标题 + 关闭按钮
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 24px;
+  border-bottom: 1px solid var(--color-border);
+}
+
+// 弹窗标题
+.title {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--color-text-primary);
+}
+
+// 关闭按钮：圆形浅色底，hover 主题色
+.close {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: var(--radius-full);
+  color: var(--color-text-muted);
+  background-color: var(--color-surface-muted);
+  transition: color 0.2s, background-color 0.2s;
+
+  &:hover {
+    color: var(--color-accent);
+    background-color: var(--color-surface);
+  }
+}
+
+// 弹窗内容区：可滚动
+.body {
+  padding: 24px;
+  overflow-y: auto;
+}
+
+// 遮罩淡入
+@keyframes overlay-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+// 弹窗弹出
+@keyframes dialog-pop {
+  from {
+    opacity: 0;
+    transform: translateY(12px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}

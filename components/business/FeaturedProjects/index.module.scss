@@ -4,6 +4,23 @@
  * @author gouxinjie
  */
 
+// 状态徽标差异化配色：不同运行状态使用不同背景色（卡片与详情共用）
+@mixin status-badge-colors {
+  background-color: var(--color-accent);
+
+  &[data-status="维护中"] {
+    background-color: #d97706;
+  }
+
+  &[data-status="开发中"] {
+    background-color: #2563eb;
+  }
+
+  &[data-status="已下线"] {
+    background-color: #6b7280;
+  }
+}
+
 // 精选项目区块：上下内边距、浅色背景
 .projects {
   @include section-padding;
@@ -51,7 +68,7 @@
 // 项目栅格：移动端单列，中屏两列，大屏三列
 .grid {
   display: grid;
-  gap: 20px;
+  gap: 16px;
 
   @media (min-width: 640px) {
     grid-template-columns: repeat(2, 1fr);
@@ -62,15 +79,17 @@
   }
 }
 
-// 项目卡片：复用 card-base，hover 加深阴影、图片放大
+// 项目卡片：复用 card-base，用阴影替代边框营造立体感
 .card {
   @include card-base;
+  border: none;
+  border-radius: var(--radius-lg);
   overflow: hidden;
   padding: 0;
+  box-shadow: var(--shadow-sm);
 
   &:hover {
     transform: translateY(-4px);
-    border-color: var(--color-accent);
     box-shadow: var(--shadow-card);
   }
 
@@ -83,37 +102,58 @@
     background-color: var(--color-surface-muted);
   }
 
-  // 图片加载失败兜底：深色渐变
-  &__fallback {
+  // 封面占位：暂无封面图，深色渐变 + 项目标题占位
+  &__placeholder {
     position: absolute;
     inset: 0;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
+    gap: 8px;
+    padding: 12px;
     background: linear-gradient(to bottom right, #111827, #1f2937);
-    color: rgba(255, 255, 255, 0.1);
+    color: rgba(255, 255, 255, 0.85);
+    text-align: center;
   }
 
-  // 项目封面图：hover 放大
-  &__img {
-    height: 100%;
-    width: 100%;
-    object-fit: cover;
-    transition: transform 0.5s;
+  // 占位图标
+  &__placeholder-icon {
+    width: 32px;
+    height: 32px;
+    opacity: 0.4;
   }
 
-  &:hover &__img {
-    transform: scale(1.1);
+  // 占位标题（项目名）
+  &__placeholder-title {
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+  }
+
+  // 状态徽标：覆盖于封面左上角
+  &__status {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    z-index: 2;
+    padding: 4px 10px;
+    border-radius: 9999px;
+    font-size: 12px;
+    font-weight: 600;
+    color: #fff;
+    backdrop-filter: blur(4px);
+    @include status-badge-colors;
   }
 
   // 卡片内容区
   &__content {
-    padding: 24px;
+    padding: 16px;
   }
 
   // 顶部行：标题 + 外链图标
   &__top {
-    margin-bottom: 12px;
+    margin-bottom: 8px;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -121,7 +161,7 @@
 
   // 项目标题
   &__title {
-    font-size: 18px;
+    font-size: 17px;
     font-weight: bold;
     color: var(--color-text-primary);
     transition: color 0.2s;
@@ -143,7 +183,7 @@
 
   // 项目描述：两行截断
   &__desc {
-    margin-bottom: 24px;
+    margin-bottom: 12px;
     @include desc-text;
     display: -webkit-box;
     -webkit-line-clamp: 2;
@@ -168,5 +208,142 @@
     font-size: 13px;
     font-weight: 600;
     color: var(--color-text-secondary);
+  }
+}
+
+// 项目详情（弹窗内）
+.detail {
+  // 状态 + 外链
+  &__meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+
+  // 状态徽标
+  &__status {
+    padding: 4px 10px;
+    border-radius: 9999px;
+    font-size: 12px;
+    font-weight: 600;
+    color: #fff;
+    @include status-badge-colors;
+  }
+
+  // 外链按钮
+  &__link {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--color-accent);
+    transition: color 0.2s;
+
+    &:hover {
+      color: var(--color-accent-dark);
+    }
+  }
+
+  // 简述
+  &__brief {
+    margin-bottom: 12px;
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--color-text-primary);
+  }
+
+  // 完整描述
+  &__desc {
+    margin-bottom: 20px;
+    font-size: 14px;
+    line-height: 1.7;
+    color: var(--color-text-secondary);
+  }
+
+  // 区块通用
+  &__section {
+    margin-bottom: 20px;
+  }
+
+  // 区块标题
+  &__sectionTitle {
+    margin-bottom: 10px;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--color-text-primary);
+  }
+
+  // 技术栈简述
+  &__techBrief {
+    margin-bottom: 12px;
+    font-size: 13px;
+    line-height: 1.6;
+    color: var(--color-text-muted);
+  }
+
+  // 技术栈明细列表
+  &__techList {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    list-style: none;
+  }
+
+  // 单个技术栈条目：分类 + 技术
+  &__techItem {
+    display: flex;
+    gap: 12px;
+    font-size: 13px;
+    line-height: 1.6;
+  }
+
+  // 技术分类（左侧固定宽度标签）
+  &__techCategory {
+    flex: 0 0 72px;
+    color: var(--color-text-muted);
+  }
+
+  // 技术内容
+  &__techValue {
+    color: var(--color-text-secondary);
+  }
+
+  // 部署与运行信息列表
+  &__list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin: 0;
+  }
+
+  // 单行：标签 + 值
+  &__row {
+    display: flex;
+    gap: 12px;
+    font-size: 13px;
+    line-height: 1.6;
+  }
+
+  // 信息标签（左侧固定宽度）
+  &__label {
+    flex: 0 0 72px;
+    margin: 0;
+    color: var(--color-text-muted);
+  }
+
+  // 信息值
+  &__value {
+    margin: 0;
+    color: var(--color-text-secondary);
+    word-break: break-all;
+
+    a {
+      color: var(--color-accent);
+      text-decoration: none;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
   }
 }

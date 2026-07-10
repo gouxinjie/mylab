@@ -1,20 +1,3 @@
-export interface Project {
-  id: string;
-  title: string;
-  titleEn: string;
-  description: string;
-  descriptionEn: string;
-  category: "fullstack" | "frontend" | "ai" | "tool" | "opensource";
-  categoryLabel: string;
-  tags: string[];
-  stars: number;
-  forks: number;
-  githubUrl?: string;
-  demoUrl?: string;
-  image?: string;
-  featured: boolean;
-}
-
 export interface Skill {
   name: string;
   icon: string;
@@ -31,53 +14,6 @@ export interface Experience {
   descriptionEn: string;
   current?: boolean;
 }
-
-// ─── 项目 ──────────────────────────────────────────
-
-export const projects: Project[] = [
-  {
-    id: "next-dashboard",
-    title: "Next Dashboard",
-    titleEn: "Next Dashboard",
-    description: "基于 Next.js 的现代化后台管理模板，简洁敏捷，开箱即用。",
-    descriptionEn: "A modern admin dashboard template based on Next.js, clean and ready to use.",
-    category: "tool",
-    categoryLabel: "工具",
-    tags: ["Next.js", "TypeScript", "SCSS"],
-    stars: 512,
-    forks: 128,
-    githubUrl: "https://github.com/gouxinjie/next-dashboard",
-    featured: true,
-  },
-  {
-    id: "memo-hub",
-    title: "Memo Hub",
-    titleEn: "Memo Hub",
-    description: "一款简洁的笔记应用，支持 Markdown、标签管理与多端同步。",
-    descriptionEn: "A simple note-taking app with Markdown support, tag management, and multi-device sync.",
-    category: "fullstack",
-    categoryLabel: "全栈",
-    tags: ["React", "Node.js", "MongoDB"],
-    stars: 368,
-    forks: 89,
-    githubUrl: "https://github.com/gouxinjie/memo-hub",
-    featured: true,
-  },
-  {
-    id: "image-toolkit",
-    title: "Image Toolkit",
-    titleEn: "Image Toolkit",
-    description: "在线图片处理工具，支持压缩、格式转换、裁剪等常用功能。",
-    descriptionEn: "Online image processing tool, supporting compression, format conversion, cropping, etc.",
-    category: "tool",
-    categoryLabel: "工具",
-    tags: ["Vue 3", "Vite", "TypeScript"],
-    stars: 274,
-    forks: 67,
-    githubUrl: "https://github.com/gouxinjie/image-toolkit",
-    featured: true,
-  },
-];
 
 // ─── 技术栈 ────────────────────────────────────────
 
