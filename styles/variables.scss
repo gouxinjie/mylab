@@ -32,7 +32,14 @@
 
   // 圆角变量
   --radius-xl: 12px;
+  --radius-lg: 8px;
   --radius-full: 9999px;
+
+  // 阴影变量（统一阴影层级，避免散落硬编码）
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+  --shadow-card: 0 25px 50px -12px rgba(0, 0, 0, 0.1);
 
   // RGB 通道变量（供 rgba() 使用，避免硬编码主色通道值）
   --color-primary-rgb: 245, 158, 11;

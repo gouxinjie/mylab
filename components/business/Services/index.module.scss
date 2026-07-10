@@ -6,8 +6,7 @@
 
 // 服务区块：上下内边距、浅色背景
 .services {
-  padding-top: 24px;
-  padding-bottom: 24px;
+  @include section-padding;
   background-color: var(--color-bg);
 }
 
@@ -17,13 +16,7 @@
 
   // 标题：大字号加粗
   &__title {
-    font-size: 18px;
-    font-weight: bold;
-    color: var(--color-text-primary);
-
-    @media (min-width: 640px) {
-      font-size: 20px;
-    }
+    @include title-lg;
   }
 }
 
@@ -51,20 +44,15 @@
 
   &:hover {
     background-color: var(--color-bg);
-    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+    box-shadow: var(--shadow-lg);
   }
 
   // 图标盒子：浅色底、强调色图标，hover 放大
   &__icon-box {
     margin-bottom: 16px;
-    display: inline-flex;
-    height: 48px;
-    width: 48px;
-    align-items: center;
-    justify-content: center;
-    border-radius: var(--radius-xl);
+    @include icon-square(48px);
     background-color: var(--color-bg);
-    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    box-shadow: var(--shadow-sm);
     transition: transform 0.2s;
     color: var(--color-accent);
   }
@@ -83,8 +71,6 @@
 
   // 服务描述：次要色
   &__desc {
-    font-size: 14px;
-    line-height: 1.625;
-    color: var(--color-text-secondary);
+    @include desc-text;
   }
 }

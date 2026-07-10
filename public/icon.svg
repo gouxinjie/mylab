@@ -1,0 +1,25 @@
+<svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- 项目图标：字母 xj，采用品牌主色翠绿渐变 -->
+  <defs>
+    <!-- 背景渐变：主色翠绿 -> 深绿 -->
+    <linearGradient id="xj-bg" x1="0" y1="0" x2="512" y2="512" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#10B981"/>
+      <stop offset="1" stop-color="#059669"/>
+    </linearGradient>
+  </defs>
+
+  <!-- 圆角方形背景 -->
+  <rect width="512" height="512" rx="112" fill="url(#xj-bg)"/>
+
+  <!-- 字母 x j 主体：白色粗体 -->
+  <g fill="#FFFFFF">
+    <!-- 字母 x -->
+    <path d="M118 170 L170 170 L206 224 L242 170 L294 170 L232 258 L296 350 L244 350 L206 292 L168 350 L116 350 L180 258 Z"/>
+    <!-- 字母 j 竖干 -->
+    <rect x="330" y="170" width="48" height="176" rx="24"/>
+    <!-- 字母 j 底部弯钩 -->
+    <path d="M330 322 L378 322 L378 356 C378 392 350 418 312 418 L296 418 L296 372 L308 372 C322 372 330 362 330 348 Z"/>
+    <!-- 字母 j 上方圆点 -->
+    <circle cx="354" cy="118" r="26"/>
+  </g>
+</svg>

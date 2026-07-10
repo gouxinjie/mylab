@@ -52,7 +52,7 @@
     font-size: 14px;
     font-weight: bold;
     color: white;
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    box-shadow: var(--shadow-md);
     transition: transform 0.2s;
   }
 
@@ -149,7 +149,7 @@
     display: flex;
     align-items: center;
     gap: 6px;
-    border-radius: 8px;
+    border-radius: var(--radius-lg);
     border: 1px solid var(--color-border);
     padding: 6px 12px;
     font-size: 12px;
@@ -183,7 +183,7 @@
     border: 1px solid var(--color-border);
     background-color: var(--color-bg);
     padding: 4px;
-    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+    box-shadow: var(--shadow-lg);
     z-index: 20;
     animation: dropdownIn 0.1s ease-out;
   }
@@ -193,7 +193,7 @@
     display: flex;
     width: 100%;
     align-items: center;
-    border-radius: 8px;
+    border-radius: var(--radius-lg);
     padding: 8px 12px;
     font-size: 12px;
     font-weight: 500;
@@ -226,7 +226,7 @@
   width: 36px;
   align-items: center;
   justify-content: center;
-  border-radius: 8px;
+  border-radius: var(--radius-lg);
   border: 1px solid var(--color-border);
   transition: all 0.2s;
 

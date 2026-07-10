@@ -6,8 +6,7 @@
 
 // 精选项目区块：上下内边距、浅色背景
 .projects {
-  padding-top: 24px;
-  padding-bottom: 24px;
+  @include section-padding;
   background-color: var(--color-bg);
 }
 
@@ -20,13 +19,7 @@
 
   // 区块标题：大字号加粗
   &__title {
-    font-size: 18px;
-    font-weight: bold;
-    color: var(--color-text-primary);
-
-    @media (min-width: 640px) {
-      font-size: 20px;
-    }
+    @include title-lg;
   }
 
   // "查看全部" 链接：强调色，hover 深强调色，箭头右移
@@ -78,7 +71,7 @@
   &:hover {
     transform: translateY(-4px);
     border-color: var(--color-accent);
-    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.1);
+    box-shadow: var(--shadow-card);
   }
 
   // 图片容器：固定宽高比，占位浅灰表面
@@ -151,9 +144,7 @@
   // 项目描述：两行截断
   &__desc {
     margin-bottom: 24px;
-    font-size: 14px;
-    line-height: 1.625;
-    color: var(--color-text-secondary);
+    @include desc-text;
     display: -webkit-box;
     -webkit-line-clamp: 2;
     line-clamp: 2;

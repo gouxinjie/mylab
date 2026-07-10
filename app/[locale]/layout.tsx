@@ -55,6 +55,9 @@ export const metadata: Metadata = {
   ],
   authors: [{ name: "xinjie", url: "https://gouxinjie.com" }],
   creator: "xinjie",
+  icons: {
+    icon: "/icon.svg",
+  },
 };
 
 export const viewport: Viewport = {

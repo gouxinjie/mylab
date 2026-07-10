@@ -6,8 +6,7 @@
 
 // 引言区块：上下内边距、浅色表面背景
 .quote-section {
-  padding-top: 24px;
-  padding-bottom: 24px;
+  @include section-padding;
   background-color: rgba(var(--color-surface-rgb), 0.3);
 }
 
@@ -21,7 +20,7 @@
   border-radius: 24px;
   background-color: var(--color-bg);
   padding: 20px;
-  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  box-shadow: var(--shadow-sm);
   border: 1px solid var(--color-surface-muted);
 
   @media (min-width: 1024px) {
@@ -73,12 +72,7 @@
 
   // 单个社交链接：浅色底，hover 强调色填充
   &__link {
-    display: flex;
-    height: 48px;
-    width: 48px;
-    align-items: center;
-    justify-content: center;
-    border-radius: var(--radius-xl);
+    @include icon-square(48px);
     background-color: var(--color-surface);
     color: var(--color-text-muted);
     transition: all 0.2s;
