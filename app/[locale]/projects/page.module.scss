@@ -4,36 +4,36 @@
  * @author gouxinjie
  */
 
-// 页面容器：上下内边距随屏幕增大
+// 页面容器：上下内边距随屏幕增大（已紧凑化）
 .projects {
-  padding-top: 48px;
-  padding-bottom: 48px;
+  padding-top: 16px;
+  padding-bottom: 16px;
 
   @media (min-width: 640px) {
-    padding-top: 64px;
-    padding-bottom: 64px;
+    padding-top: 24px;
+    padding-bottom: 24px;
   }
 }
 
 // 页头：标题 + 副标题
 .header {
-  margin-bottom: 40px;
+  margin-bottom: 24px;
 
-  // 页头大标题
+  // 页头大标题（已紧凑化）
   &__title {
-    font-size: 30px;
-    line-height: 36px;
+    font-size: 22px;
+    line-height: 28px;
     font-weight: 700;
 
     @media (min-width: 640px) {
-      font-size: 36px;
-      line-height: 40px;
+      font-size: 26px;
+      line-height: 32px;
     }
   }
 
   // 页头副标题：次要色
   &__subtitle {
-    margin-top: 8px;
+    margin-top: 6px;
     color: var(--color-text-secondary);
   }
 }

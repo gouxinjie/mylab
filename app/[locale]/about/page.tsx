@@ -32,10 +32,10 @@ export default function AboutPage() {
             <p className={styles.bio__text}>
               {t("bio_1")}
             </p>
-            <p className={styles.bio__text} style={{ marginTop: '16px' }}>
+            <p className={styles.bio__text} style={{ marginTop: '12px' }}>
               {t("bio_2")}
             </p>
-            <p className={styles.bio__text} style={{ marginTop: '16px' }}>
+            <p className={styles.bio__text} style={{ marginTop: '12px' }}>
               {t("bio_3")}
             </p>
           </section>

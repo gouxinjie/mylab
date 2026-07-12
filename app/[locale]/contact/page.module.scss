@@ -4,44 +4,44 @@
  * @author gouxinjie
  */
 
-// 页面容器：上下内边距随屏幕增大
+// 页面容器：上下内边距随屏幕增大（已紧凑化）
 .contact-page {
-  padding-top: 48px;
-  padding-bottom: 48px;
+  padding-top: 16px;
+  padding-bottom: 16px;
 
   @media (min-width: 640px) {
-    padding-top: 64px;
-    padding-bottom: 64px;
+    padding-top: 24px;
+    padding-bottom: 24px;
   }
 }
 
 // 页头：标题 + 副标题
 .header {
-  margin-bottom: 40px;
+  margin-bottom: 24px;
 
-  // 页头大标题
+  // 页头大标题（已紧凑化）
   &__title {
-    font-size: 30px;
-    line-height: 36px;
+    font-size: 22px;
+    line-height: 28px;
     font-weight: 700;
 
     @media (min-width: 640px) {
-      font-size: 36px;
-      line-height: 40px;
+      font-size: 26px;
+      line-height: 32px;
     }
   }
 
   // 页头副标题：次要色
   &__subtitle {
-    margin-top: 8px;
+    margin-top: 6px;
     color: var(--color-text-secondary);
   }
 }
 
-// 联系方式栅格：移动端单列，中屏两列
+// 联系方式栅格：移动端单列，中屏两列（已紧凑化）
 .grid {
   display: grid;
-  gap: 16px;
+  gap: 12px;
 
   @media (min-width: 640px) {
     grid-template-columns: repeat(2, 1fr);
@@ -56,7 +56,7 @@
   border-radius: 12px;
   border: 1px solid var(--color-border);
   background-color: var(--color-bg-secondary);
-  padding: 20px;
+  padding: 16px;
   transition: all 0.2s;
 
   &:hover {
@@ -114,13 +114,13 @@
   }
 }
 
-// 备注提示区：虚线边框浅底
+// 备注提示区：虚线边框浅底（已紧凑化）
 .note {
-  margin-top: 48px;
+  margin-top: 32px;
   border-radius: 12px;
   border: 1px dashed var(--color-border);
   background-color: rgba(var(--color-bg-secondary-rgb), 0.5);
-  padding: 24px;
+  padding: 20px;
   text-align: center;
 
   // 备注文字：浅灰

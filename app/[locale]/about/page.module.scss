@@ -1,69 +1,71 @@
 /**
  * @file page.module.scss
- * @description About 页面样式
+ * @description About 页面样式（紧凑版）
  * @author gouxinjie
  */
 
-// 页面整体容器：上下内边距，随屏幕增大
+// 页面整体容器：上下内边距，随屏幕增大（已紧凑化）
 .about {
-  padding-top: 48px;
-  padding-bottom: 48px;
+  padding-top: 16px;
+  padding-bottom: 16px;
 
   @media (min-width: 640px) {
-    padding-top: 64px;
-    padding-bottom: 64px;
+    padding-top: 24px;
+    padding-bottom: 24px;
   }
 }
 
 // 页头区域：标题区块
 .header {
-  margin-bottom: 40px;
+  margin-bottom: 24px;
 
-  // 页头标题：大字号加粗
+  // 页头标题：大字号加粗（已紧凑化）
   &__title {
-    font-size: 30px;
+    font-size: 22px;
     font-weight: bold;
 
     @media (min-width: 640px) {
-      font-size: 36px;
+      font-size: 26px;
     }
   }
 }
 
 // 个人简介卡片：圆角边框 + 浅色背景
 .bio {
-  margin-bottom: 48px;
+  margin-bottom: 32px;
   border-radius: var(--radius-xl);
   border: 1px solid var(--color-border);
   background-color: var(--color-bg-secondary);
-  padding: 24px;
+  padding: 20px;
 
   @media (min-width: 640px) {
-    padding: 32px;
+    padding: 24px;
   }
 
   // 简介标题
   &__title {
-    font-size: 20px;
+    font-size: 18px;
     font-weight: bold;
-    margin-bottom: 16px;
+    margin-bottom: 12px;
   }
 
-  // 简介正文：次要色、行高宽松
+  // 简介正文：次要色、行高适中
   &__text {
-    font-size: 16px;
-    line-height: 1.625;
+    font-size: 15px;
+    line-height: 1.6;
     color: var(--color-text-secondary);
   }
 }
 
 // 通用内容区块：与下方区块保持间距
 .section {
-  margin-bottom: 48px;
+  margin-bottom: 32px;
 
-  // 区块标题
+  // 区块标题（已紧凑化）
   &__title {
-    margin-bottom: 24px;
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 16px;
   }
 }
 
@@ -71,15 +73,15 @@
 .skill-list {
   display: flex;
   flex-wrap: wrap;
-  gap: 12px;
+  gap: 8px;
 }
 
 // 单个技能标签：圆角描边，hover 主色高亮
 .skill-tag {
   border-radius: var(--radius-xl);
   border: 1px solid var(--color-border);
-  padding: 8px 16px;
-  font-size: 14px;
+  padding: 6px 12px;
+  font-size: 13px;
   font-weight: 500;
   transition: all 0.2s;
 
@@ -107,8 +109,8 @@
   // 时间轴单个节点
   &__item {
     position: relative;
-    padding-bottom: 32px;
-    padding-left: 40px;
+    padding-bottom: 20px;
+    padding-left: 36px;
   }
 
   // 节点圆点：默认边框样式
@@ -151,8 +153,9 @@
     }
   }
 
-  // 角色名称
+  // 角色名称（已紧凑化）
   &__role {
+    font-size: 15px;
     font-weight: 600;
   }
 
@@ -172,11 +175,11 @@
     color: var(--color-text-muted);
   }
 
-  // 经历描述：次要色、行高宽松
+  // 经历描述：次要色、行高适中
   &__desc {
-    margin-top: 12px;
+    margin-top: 8px;
     font-size: 14px;
-    line-height: 1.625;
+    line-height: 1.55;
     color: var(--color-text-secondary);
   }
 }
