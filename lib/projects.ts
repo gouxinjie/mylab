@@ -1,4 +1,10 @@
 /**
+ * @file 项目数据集（类型定义与全量项目数据）
+ * @description 定义 Project 相关类型，并维护所有项目的展示/筛选/运维数据
+ * @author gouxinjie
+ */
+
+/**
  * 单个技术栈条目的类型
  */
 export interface TechItem {
@@ -11,7 +17,12 @@ export interface TechItem {
 /**
  * 项目状态（可根据实际情况扩展）
  */
-export type ProjectStatus = '正常运行' | '维护中' | '已下线' | '开发中';
+export type ProjectStatus = '正常运行' | '开发中' | '未发布';
+
+/**
+ * 项目分类（用于展示与筛选，可按实际业务扩展）
+ */
+export type ProjectCategory = '平台' | '应用' | '工具' | '数据可视化' | '其他' | '学习研究';
 
 /**
  * 完整项目信息
@@ -33,12 +44,22 @@ export interface Project {
     startMode: string;
     /** 当前运行状态 */
     status: ProjectStatus;
+    /** 项目分类（用于展示与筛选） */
+    category: ProjectCategory;
+    /** 项目标签（比分类更细的展示与筛选维度） */
+    tags: string[];
+    /** 是否精选（用于首页/精选专区优先展示） */
+    featured: boolean;
+    /** 排序权重（数值越小越靠前） */
+    order: number;
     /** 补充备注（如 CI/CD 细节） */
     remark: string;
     /** 端口信息（内外部监听情况） */
     port: string;
     /** 公网访问 URL，若无则 null */
     url: string | null;
+    /** 项目封面/轮播图列表（字符串数组，第一张为封面，用于轮播展示） */
+    covers: string[];
     /** 技术栈简述（一句话概括，用顿号分隔） */
     techStackBrief: string;
     /** 详细技术栈列表（分类 + 技术） */
@@ -52,6 +73,10 @@ export const projects: Project[] = [
     {
         id: 'blog',
         title: 'blog',
+        category: '学习研究',
+        tags: ['VitePress', 'Vue 3', 'TypeScript'],
+        featured: true,
+        order: 1,
         brief: '我的技术博客系统',
         description: '从前端基础到框架实战，从编码提效到工程化部署，记录每个真实项目的踩坑、决策和复盘——不追热点，写自己验证过的东西',
         repoUrl: null,
@@ -61,6 +86,7 @@ export const projects: Project[] = [
         remark: 'GitHub Actions 自动部署，push main 触发 vitepress build → SCP 上传 dist → ECS Nginx reload',
         port: '直接监听的本地80端口',
         url: 'http://gouxinjie.com',
+        covers: [],
         techStackBrief: 'VitePress、Vue 3、TypeScript、Sass、TailwindCSS、Algolia 搜索',
         techStackDetail: [
             { category: '框架', tech: 'VitePress + Vue 3 + TypeScript' },
@@ -78,6 +104,10 @@ export const projects: Project[] = [
     {
         id: 'prompt',
         title: 'Prompt Gallery',
+        category: '平台',
+        tags: ['Next.js', 'React 19', 'Supabase'],
+        featured: true,
+        order: 2,
         brief: '我的提示词案例库平台',
         description: '一个支持管理、展示和投稿 AI 图片生成提示词的完整平台。用户可以按分类/风格/场景筛选浏览案例库、收藏案例、一键复制提示词和下载图片；管理员可发布案例、审核投稿、维护标签体系和查看数据统计——从展示到管理，功能闭环完整。',
         repoUrl: null,
@@ -87,6 +117,7 @@ export const projects: Project[] = [
         remark: 'GitHub Actions 自动部署，push main 触发 `npm run build` → 生成 standalone 运行产物 → rsync 上传 deploy-artifact 到 ECS → PM2 重载 Node 服务 → Nginx reload',
         port: 'Nginx 监听 8080 端口反代到 5174（PM2 管理 Node 进程）',
         url: 'http://prompt.gouxinjie.com',
+        covers: [],
         techStackBrief: 'Next.js 16、React 19、TypeScript、Supabase、SCSS Modules、Radix UI',
         techStackDetail: [
             { category: '框架', tech: 'Next.js + React 19 + TypeScript' },
@@ -108,6 +139,10 @@ export const projects: Project[] = [
     {
         id: 'archive',
         title: 'archive',
+        category: '应用',
+        tags: ['Nuxt 4', 'Vue 3', 'SQLite'],
+        featured: false,
+        order: 3,
         brief: '我的个人档案管理系统',
         description: '一个本地优先的私人资料管理系统，集中保存和管理账号密码、文档资料、简历文件、图片、证件和学习资料。按用户账号隔离数据，面向个人长期沉淀工作记录、生活资料和数字资产。',
         repoUrl: null,
@@ -117,6 +152,7 @@ export const projects: Project[] = [
         remark: 'GitHub Actions 自动部署，push main 触发 `npm run build` → SCP 上传 `.output` → ECS PM2 reload；生产访问链路为 公网 8081 → Nginx → 127.0.0.1:3000 → Nuxt/PM2',
         port: '内部监听 3000，Nginx 对外暴露 8081',
         url: 'http://archive.gouxinjie.com',
+        covers: [],
         techStackBrief: 'Nuxt 4、Vue 3、TypeScript、SCSS、Element Plus、SQLite、better-sqlite3',
         techStackDetail: [
             { category: '框架', tech: 'Nuxt 4 + Vue 3 + TypeScript' },
@@ -135,6 +171,10 @@ export const projects: Project[] = [
     {
         id: 'compress-imgs',
         title: 'compress-imgs',
+        category: '工具',
+        tags: ['FastAPI', 'Python', 'Pillow'],
+        featured: false,
+        order: 4,
         brief: '我的个人在线图片压缩工具',
         description: '一个类似 TinyPNG 的在线图片无损压缩工具，支持 PNG、JPG、JPEG、WebP 格式。提供拖拽上传、点击选择、实时进度展示、单图下载和批量 ZIP 下载。优先使用 Tinify 云端 API 压缩，无 API Key 时回退到本地 Pillow 压缩。面向个人使用和轻量部署场景，不处理高并发。',
         repoUrl: null,
@@ -144,6 +184,7 @@ export const projects: Project[] = [
         remark: 'GitHub Actions 自动部署，push main 触发 → rsync 上传源码到 ECS staging → deploy_on_ecs.sh 校验 venv、安装依赖、重启 systemd 服务、健康检查轮询；生产访问链路为用户直连 ECS 8000 端口',
         port: '内部监听 8000',
         url: 'http://compress-imgs.gouxinjie.com',
+        covers: [],
         techStackBrief: 'FastAPI、Jinja2、原生 JavaScript、CSS、Tinify、Pillow 双引擎压缩、本地文件存储',
         techStackDetail: [
             { category: '框架', tech: 'FastAPI 0.115 + Uvicorn 0.34' },
@@ -164,6 +205,10 @@ export const projects: Project[] = [
     {
         id: 'codeview',
         title: 'codeview',
+        category: '数据可视化',
+        tags: ['React', 'Express', 'ECharts'],
+        featured: true,
+        order: 5,
         brief: '我的个人 GitHub 数据可视化看板',
         description: '一个面向个人开发者的 GitHub 项目数据可视化产品，将分散的 GitHub 仓库数据同步到本地 SQLite 并沉淀为可持续查看的可视化经营面板。支持仓库列表与基础信息同步持久化、提交记录/语言分布/流量数据采集、活跃度趋势与热力图展示、技术栈标签分析、四维度项目评分、自动洞察卡片生成。前端经 Nginx 反向代理透传 `/api` 到 Express 后端，GitHub Token 加密存储并按配置定时增量同步。',
         repoUrl: null,
@@ -173,6 +218,7 @@ export const projects: Project[] = [
         remark: 'GitHub Actions 自动部署，push main 触发 → 类型校验 → 构建 server/web 镜像 → 推送 ACR → SSH 解压发布包 → Docker Compose pull + up -d，自动保留最近 2 个版本；用户经 Nginx 反代访问 Express 后端',
         port: '内部 server 监听 3101，web（Nginx）监听 80',
         url: 'http://codeview.gouxinjie.com/',
+        covers: [],
         techStackBrief: 'Node.js、Express、React、Vite、SQLite、ECharts、GitHub REST API 增量同步',
         techStackDetail: [
             { category: '框架', tech: '前端 React 18 + Vite 6；后端 Express 4（Node.js + TypeScript）' },
@@ -196,6 +242,10 @@ export const projects: Project[] = [
     {
         id: 'flow-calendar',
         title: 'flow-calendar',
+        category: '其他',
+        tags: ['Next.js', 'React 19', 'Prisma'],
+        featured: false,
+        order: 6,
         brief: '以月历为核心的轻量生活记录工具（Web 移动端 H5）',
         description: '一个用来知道"之前做过什么"的记录与回顾工具——不做计划、不设 KPI，只是把已经发生过的生活清晰地留在月历上',
         repoUrl: 'https://github.com/gouxinjie/flow-calendar',
@@ -205,6 +255,7 @@ export const projects: Project[] = [
         remark: 'GitHub Actions 自动部署，push main 触发 Next.js standalone 构建 → rsync 同步 → PM2 热重载（零停机）',
         port: 'Next.js 监听 127.0.0.1:3400，Nginx 反代对外 80',
         url: 'http://flow-calendar.gouxinjie.com',
+        covers: [],
         techStackBrief: 'Next.js、React 19、TypeScript、Prisma、SQLite、Tailwind CSS 4、SCSS',
         techStackDetail: [
             { category: '框架', tech: 'Next.js + React 19 + TypeScript' },
@@ -225,6 +276,10 @@ export const projects: Project[] = [
     {
         id: 'weather-dashboard',
         title: 'weather-dashboard',
+        category: '数据可视化',
+        tags: ['React', 'ECharts', 'Docker'],
+        featured: false,
+        order: 7,
         brief: '以单城市天气与环境为核心的可视化大屏（Web 大屏）',
         description: '一个用来"一眼看懂此刻城市天气"的聚合与展示工具——不做预测规划，只是把实时天气、空气质量、灾害预警、趋势与统计清晰地留在同一屏上',
         repoUrl: 'https://github.com/gouxinjie/weather-dashboard',
@@ -234,6 +289,7 @@ export const projects: Project[] = [
         remark: 'GitHub Actions 自动部署，push main 触发 docker build 前端+后端镜像 → scp 上传 → ECS docker load + compose up -d（滚动替换）',
         port: 'frontend 容器 80 → 宿主 3200，backend 仅内网 3201，宿主 Nginx 对外 80',
         url: 'http://weather.gouxinjie.com',
+        covers: [],
         techStackBrief: 'React 18、Vite、TypeScript 前端、ECharts 图表、Node.js、Express、TypeScript 后端、SQLite、Docker Compose 部署',
         techStackDetail: [
             { category: '前端框架', tech: 'React 18 + Vite + TypeScript' },

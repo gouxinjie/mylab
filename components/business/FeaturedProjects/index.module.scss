@@ -8,15 +8,11 @@
 @mixin status-badge-colors {
   background-color: var(--color-accent);
 
-  &[data-status="维护中"] {
-    background-color: #d97706;
-  }
-
   &[data-status="开发中"] {
     background-color: #2563eb;
   }
 
-  &[data-status="已下线"] {
+  &[data-status="未发布"] {
     background-color: #6b7280;
   }
 }
