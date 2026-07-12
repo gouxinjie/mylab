@@ -87,4 +87,11 @@
       transform: scale(0.95);
     }
   }
+
+  // CSDN 文字标识：CSDN 无符号化官方图标，使用官方文字品牌标识
+  &__csdn-text {
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+  }
 }

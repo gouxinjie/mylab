@@ -80,7 +80,8 @@ export default function FeaturedProjects({ limit }: { limit?: number }) {
       <Modal
         open={selected !== null}
         onClose={() => setSelected(null)}
-        title={selected?.title}
+        title={selected?.brief}
+        subtitle={selected?.title}
       >
         {selected ? <ProjectDetail project={selected} /> : null}
       </Modal>
@@ -141,7 +142,7 @@ function ProjectCard({ project, onOpen }: ProjectCardProps) {
       <div className={styles.card__content}>
         <div className={styles.card__top}>
           <h3 className={styles.card__title}>
-            {project.title}
+            {project.brief}
           </h3>
           {externalUrl ? (
             <a
@@ -152,9 +153,9 @@ function ProjectCard({ project, onOpen }: ProjectCardProps) {
               onClick={(event) => event.stopPropagation()}
             >
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
-                <polyline points="15 3 21 3 21 9" />
-                <line x1="10" y1="14" x2="21" y2="3" />
+                <circle cx="12" cy="12" r="10" />
+                <path d="M2 12h20" />
+                <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
               </svg>
             </a>
           ) : null}
@@ -207,9 +208,6 @@ function ProjectDetail({ project }: { project: Project }) {
           </a>
         ) : null}
       </div>
-
-      {/* 简述 */}
-      <p className={styles.detail__brief}>{project.brief}</p>
 
       {/* 完整描述 */}
       <p className={styles.detail__desc}>{project.description}</p>

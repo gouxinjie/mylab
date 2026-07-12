@@ -22,11 +22,13 @@ interface ModalProps {
   onClose: () => void;
   /** 弹窗标题（可选） */
   title?: string;
+  /** 标题旁的次要文字（可选，缩小显示） */
+  subtitle?: string;
   /** 弹窗内容 */
   children: ReactNode;
 }
 
-export default function Modal({ open, onClose, title, children }: ModalProps) {
+export default function Modal({ open, onClose, title, subtitle, children }: ModalProps) {
   // 用 ref 保存最新的 onClose，避免父组件内联函数导致监听频繁解绑/绑定
   const onCloseRef = useRef(onClose);
   onCloseRef.current = onClose;
@@ -38,10 +40,16 @@ export default function Modal({ open, onClose, title, children }: ModalProps) {
       if (event.key === "Escape") onCloseRef.current();
     };
     document.addEventListener("keydown", handleKeyDown);
+    // 锁定背景滚动：计算滚动条宽度并以等宽 padding 补偿，避免滚动条消失导致页面宽度抖动
+    const scrollBarWidth = window.innerWidth - document.documentElement.clientWidth;
     document.body.style.overflow = "hidden";
+    if (scrollBarWidth > 0) {
+      document.body.style.paddingRight = `${scrollBarWidth}px`;
+    }
     return () => {
       document.removeEventListener("keydown", handleKeyDown);
       document.body.style.overflow = "";
+      document.body.style.paddingRight = "";
     };
   }, [open]);
 
@@ -60,7 +68,10 @@ export default function Modal({ open, onClose, title, children }: ModalProps) {
         onClick={(event) => event.stopPropagation()}
       >
         <div className={styles.header}>
-          {title ? <h3 className={styles.title}>{title}</h3> : <span />}
+          <div className={styles.headerTitles}>
+            {title ? <h3 className={styles.title}>{title}</h3> : <span />}
+            {subtitle ? <span className={styles.subtitle}>{subtitle}</span> : null}
+          </div>
           <button
             type="button"
             className={styles.close}

@@ -11,21 +11,39 @@
   color: white;
   padding-top: 48px;
   padding-bottom: 48px;
+
+  // 超小屏收紧上下内边距
+  @media (max-width: 479px) {
+    padding-top: 32px;
+    padding-bottom: 32px;
+  }
 }
 
-// 页脚栅格：移动端单列，中屏四列
+// 页脚栅格：手机单列、平板两列、中屏四列
 .grid {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 40px;
+  gap: 32px;
+
+  // 平板：两列布局，缩小列间距
+  @media (min-width: 480px) {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 32px 28px;
+  }
 
   @media (min-width: 768px) {
     grid-template-columns: repeat(4, 1fr);
+    gap: 40px;
   }
 }
 
 // 品牌信息区：logo、描述、版权
 .brand {
+  // 平板两列时品牌区独占整行，置于顶部
+  @media (min-width: 480px) and (max-width: 767px) {
+    grid-column: 1 / -1;
+  }
+
   @media (min-width: 768px) {
     grid-column: span 1;
   }
@@ -132,5 +150,12 @@
       border-color: var(--color-accent);
       color: var(--color-accent);
     }
+  }
+
+  // CSDN 文字标识：CSDN 无符号化官方图标，使用官方文字品牌标识
+  &__csdn {
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.02em;
   }
 }

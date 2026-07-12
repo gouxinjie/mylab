@@ -87,6 +87,7 @@
   overflow: hidden;
   padding: 0;
   box-shadow: var(--shadow-sm);
+  cursor: pointer;
 
   &:hover {
     transform: translateY(-4px);
@@ -131,11 +132,11 @@
     letter-spacing: 0.02em;
   }
 
-  // 状态徽标：覆盖于封面左上角
+  // 状态徽标：覆盖于封面右上角
   &__status {
     position: absolute;
     top: 12px;
-    left: 12px;
+    right: 12px;
     z-index: 2;
     padding: 4px 10px;
     border-radius: 9999px;
@@ -171,8 +172,9 @@
     }
   }
 
-  // 外链图标：hover 主题色（绿色）
+  // 外链图标：hover 主题色
   &__external {
+    flex: 0 0 auto;
     color: var(--color-text-muted);
     transition: color 0.2s;
 
@@ -242,14 +244,6 @@
     &:hover {
       color: var(--color-accent-dark);
     }
-  }
-
-  // 简述
-  &__brief {
-    margin-bottom: 12px;
-    font-size: 15px;
-    font-weight: 600;
-    color: var(--color-text-primary);
   }
 
   // 完整描述
