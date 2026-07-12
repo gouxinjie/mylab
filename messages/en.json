@@ -21,24 +21,34 @@
     "title": "What I Can Do",
     "items": [
       {
-        "title": "Web Development",
-        "description": "Building high-performance, responsive web applications with modern tech stacks.",
+        "title": "Full-stack Web Apps",
+        "description": "Building end-to-end web applications with front-end UX and back-end services & APIs, using full-stack frameworks like Vue 3, React, Next.js and Nuxt.",
         "icon": "code"
       },
       {
-        "title": "Backend Development",
-        "description": "Designing and implementing stable, scalable backend services and APIs.",
-        "icon": "database"
+        "title": "Data Visualization Dashboards",
+        "description": "Turning real-time data such as GitHub stats and weather into interactive dashboards and monitoring big screens with charting libraries like ECharts.",
+        "icon": "chart"
       },
       {
-        "title": "User Experience",
-        "description": "Focusing on details, creating simple, intuitive, and smooth user experiences.",
-        "icon": "palette"
+        "title": "AI Tooling Platforms",
+        "description": "Building AI application platforms such as prompt galleries and content management, covering the full loop of display, submission, review and management.",
+        "icon": "sparkles"
       },
       {
-        "title": "Efficiency Tools",
-        "description": "Developing practical small tools to enhance development and daily efficiency.",
+        "title": "Automated Deployment & Ops",
+        "description": "Setting up CI/CD pipelines with GitHub Actions, Docker and Nginx to achieve zero-downtime auto-deployment and process supervision on ECS.",
+        "icon": "rocket"
+      },
+      {
+        "title": "Python Backend & Tooling",
+        "description": "Building Python services like image compression with FastAPI, with cloud Tinify and local Pillow dual engines falling back automatically.",
         "icon": "zap"
+      },
+      {
+        "title": "User Experience Design",
+        "description": "Pursuing clean, restrained visuals and smooth interactions, polishing intuitive and easy-to-use experiences across H5 and big-screen scenarios.",
+        "icon": "palette"
       }
     ]
   },

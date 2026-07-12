@@ -21,24 +21,34 @@
     "title": "我能做什么",
     "items": [
       {
-        "title": "Web 开发",
-        "description": "使用现代化技术栈构建高性能、响应式的 Web 应用。",
+        "title": "全栈 Web 应用",
+        "description": "基于 Vue 3、React、Next.js、Nuxt 等全栈框架，独立构建从前端交互到后端服务与接口闭环的 Web 应用。",
         "icon": "code"
       },
       {
-        "title": "后端开发",
-        "description": "设计和实现稳定、可扩展的后端服务与 API。",
-        "icon": "database"
+        "title": "数据可视化看板",
+        "description": "使用 ECharts 等图表库，将 GitHub 数据、天气环境等实时数据沉淀为可交互的可视化经营面板与监控大屏。",
+        "icon": "chart"
       },
       {
-        "title": "用户体验",
-        "description": "关注细节，打造简洁直观、流畅的用户体验。",
-        "icon": "palette"
+        "title": "AI 工具平台",
+        "description": "构建 Prompt 案例库、内容管理等 AI 应用平台，覆盖展示、投稿、审核与管理的完整业务闭环。",
+        "icon": "sparkles"
       },
       {
-        "title": "效率工具",
-        "description": "开发实用的小工具，提升开发与日常效率。",
+        "title": "自动化部署运维",
+        "description": "基于 GitHub Actions、Docker、Nginx 搭建 CI/CD 流水线，在 ECS 上实现零停机自动部署与进程守护。",
+        "icon": "rocket"
+      },
+      {
+        "title": "Python 后端与工具",
+        "description": "使用 FastAPI 构建图片压缩等 Python 服务，云端 Tinify 与本地 Pillow 双引擎智能回退。",
         "icon": "zap"
+      },
+      {
+        "title": "用户体验设计",
+        "description": "注重清透克制的视觉与流畅交互，在 H5、可视化大屏等场景打磨直观易用的产品体验。",
+        "icon": "palette"
       }
     ]
   },

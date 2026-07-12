@@ -12,7 +12,7 @@
 
 // 区块头部：标题
 .header {
-  margin-bottom: 16px;
+  margin-bottom: 12px;
 
   // 标题：大字号加粗
   &__title {
@@ -20,53 +20,80 @@
   }
 }
 
-// 服务栅格：移动端单列，中屏两列，大屏四列
+// 服务栅格：移动端单列，中屏两列，大屏三列（6 张卡片排成 2×3）
 .grid {
   display: grid;
-  gap: 24px;
+  gap: 16px;
 
   @media (min-width: 640px) {
     grid-template-columns: repeat(2, 1fr);
   }
 
   @media (min-width: 1024px) {
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(3, 1fr);
   }
 }
 
-// 服务项卡片：浅色表面，hover 白底阴影，图标放大
+// 服务项卡片：浅色表面，悬浮上浮、强调色高亮与阴影
 .item {
+  position: relative;
+  overflow: hidden;
   border-radius: var(--radius-xl);
   border: 1px solid var(--color-surface-muted);
   background-color: rgba(var(--color-surface-rgb), 0.5);
-  padding: 20px;
-  transition: all 0.2s;
+  padding: 18px;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease, background-color 0.25s ease;
 
-  &:hover {
-    background-color: var(--color-bg);
-    box-shadow: var(--shadow-lg);
+  // 顶部强调色装饰条：悬浮时从中间向两侧展开
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 2px;
+    width: 100%;
+    background: linear-gradient(90deg, var(--color-accent), var(--color-primary));
+    transform: scaleX(0);
+    transform-origin: center;
+    transition: transform 0.3s ease;
   }
 
-  // 图标盒子：浅色底、强调色图标，hover 放大
-  &__icon-box {
-    margin-bottom: 16px;
-    @include icon-square(48px);
+  &:hover {
+    transform: translateY(-4px);
     background-color: var(--color-bg);
-    box-shadow: var(--shadow-sm);
-    transition: transform 0.2s;
+    border-color: rgba(var(--color-accent-rgb), 0.4);
+    box-shadow: var(--shadow-card);
+  }
+
+  &:hover::before {
+    transform: scaleX(1);
+  }
+
+  // 图标盒子：强调色淡底、强调色图标，hover 旋转放大
+  &__icon-box {
+    margin-bottom: 12px;
+    @include icon-square(44px);
+    background-color: rgba(var(--color-accent-rgb), 0.12);
     color: var(--color-accent);
+    transition: transform 0.25s ease, background-color 0.25s ease;
   }
 
   &:hover &__icon-box {
-    transform: scale(1.1);
+    transform: scale(1.08);
+    background-color: rgba(var(--color-accent-rgb), 0.18);
   }
 
-  // 服务标题
+  // 服务标题：hover 变强调色
   &__title {
-    margin-bottom: 8px;
-    font-size: 18px;
-    font-weight: bold;
+    margin-bottom: 6px;
+    font-size: 16px;
+    font-weight: 700;
     color: var(--color-text-primary);
+    transition: color 0.2s ease;
+  }
+
+  &:hover &__title {
+    color: var(--color-accent-dark);
   }
 
   // 服务描述：次要色
