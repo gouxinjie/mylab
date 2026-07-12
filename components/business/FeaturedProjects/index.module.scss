@@ -88,6 +88,11 @@
   &:hover {
     transform: translateY(-4px);
     box-shadow: var(--shadow-card);
+
+    // hover 时封面图轻微放大
+    .carousel__img {
+      transform: scale(1.05);
+    }
   }
 
   // 图片容器：固定宽高比，占位浅灰表面
@@ -97,6 +102,21 @@
     width: 100%;
     overflow: hidden;
     background-color: var(--color-surface-muted);
+  }
+
+  // 分类徽标：封面左下角
+  &__category {
+    position: absolute;
+    left: 12px;
+    bottom: 12px;
+    z-index: 2;
+    padding: 4px 10px;
+    border-radius: 9999px;
+    font-size: 12px;
+    font-weight: 600;
+    color: #fff;
+    background-color: rgba(17, 24, 39, 0.6);
+    backdrop-filter: blur(4px);
   }
 
   // 封面占位：暂无封面图，深色渐变 + 项目标题占位
@@ -206,6 +226,105 @@
     font-size: 13px;
     font-weight: 600;
     color: var(--color-text-secondary);
+  }
+}
+
+// 详情封面轮播
+.carousel {
+  position: relative;
+  margin-bottom: 16px;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  aspect-ratio: 16 / 9;
+  background-color: var(--color-surface-muted);
+
+  // 轮播图片
+  &__img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+  }
+
+  // 填充父容器变体（卡片封面场景）：去掉外边距与圆角，由父容器约束尺寸
+  &--fill {
+    position: absolute;
+    inset: 0;
+    margin-bottom: 0;
+    border-radius: 0;
+    aspect-ratio: auto;
+  }
+
+  // 左右切换按钮（通用样式）
+  &__btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    border-radius: 9999px;
+    font-size: 22px;
+    line-height: 1;
+    color: #fff;
+    background-color: rgba(17, 24, 39, 0.5);
+    cursor: pointer;
+    transition: background-color 0.2s;
+
+    &:hover {
+      background-color: rgba(17, 24, 39, 0.75);
+    }
+  }
+
+  // 上一张按钮（左侧）
+  &__btn--prev {
+    left: 12px;
+  }
+
+  // 下一张按钮（右侧）
+  &__btn--next {
+    right: 12px;
+  }
+
+  // 指示点容器
+  &__dots {
+    position: absolute;
+    bottom: 12px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 6px;
+  }
+
+  // 单个指示点
+  &__dot {
+    width: 8px;
+    height: 8px;
+    padding: 0;
+    border: none;
+    border-radius: 9999px;
+    background-color: rgba(255, 255, 255, 0.5);
+    cursor: pointer;
+    transition: background-color 0.2s, width 0.2s;
+
+    // 当前激活点：加宽并高亮
+    &--active {
+      width: 20px;
+      background-color: #fff;
+    }
+  }
+
+  // 无封面占位
+  &__empty {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    font-size: 14px;
+    color: var(--color-text-muted);
   }
 }
 

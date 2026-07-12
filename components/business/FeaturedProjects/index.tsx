@@ -8,7 +8,7 @@
 
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "@/lib/navigation";
 import { projects, Project } from "@/lib/projects";
 import { useTranslations } from "next-intl";
@@ -16,27 +16,14 @@ import { motion } from "framer-motion";
 import Modal from "@/components/commons/Modal";
 import styles from "./index.module.scss";
 
-/**
- * 从技术栈简述中提取简短标签
- * techStackBrief 已用「、」分隔各项技术，按此拆分后取前 3 个用于卡片标签展示
- * @param project - 项目数据
- * @returns 简短技术标签数组
- */
-const getTechTags = (project: Project): string[] => {
-  return project.techStackBrief
-    .split("、")
-    .map((tech) => tech.trim())
-    .filter(Boolean)
-    .slice(0, 3);
-};
-
 export default function FeaturedProjects({ limit }: { limit?: number }) {
   const t = useTranslations("FeaturedProjects");
   // 当前选中的项目（用于详情弹窗）
   const [selected, setSelected] = useState<Project | null>(null);
 
-  // 限制展示数量（首页精选 3 个，全部项目页不传则展示全部）
-  const visibleProjects = limit ? projects.slice(0, limit) : projects;
+  // 按排序权重升序排列，再按 limit 截取（首页精选 N 个，全部项目页不传则展示全部）
+  const sortedProjects = [...projects].sort((a, b) => a.order - b.order);
+  const visibleProjects = limit ? sortedProjects.slice(0, limit) : sortedProjects;
 
   return (
     <section className={styles.projects}>
@@ -99,7 +86,7 @@ interface ProjectCardProps {
 function ProjectCard({ project, onOpen }: ProjectCardProps) {
   // 外链优先使用公网访问地址，其次使用仓库地址
   const externalUrl = project.url || project.repoUrl || undefined;
-  const techTags = getTechTags(project);
+  const techTags = project.tags;
 
   return (
     <article
@@ -114,22 +101,36 @@ function ProjectCard({ project, onOpen }: ProjectCardProps) {
         }
       }}
     >
-      {/* 封面区域：暂无封面图，使用标题占位 */}
+      {/* 封面区域：多图自动轮播，单图展示，无图使用标题占位 */}
       <div className={styles['card__image-box']}>
-        <div className={styles.card__placeholder}>
-          <svg
-            className={styles['card__placeholder-icon']}
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth={1}
-          >
-            <path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z" />
-          </svg>
-          <span className={styles['card__placeholder-title']}>
-            {project.title}
-          </span>
-        </div>
+        {project.covers.length > 0 ? (
+          <CoverCarousel
+            covers={project.covers}
+            title={project.title}
+            fill
+            autoPlay
+            showArrows={false}
+          />
+        ) : (
+          <div className={styles.card__placeholder}>
+            <svg
+              className={styles['card__placeholder-icon']}
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth={1}
+            >
+              <path d="M22 19a2 2 0 01-2 2H4a2 2 0 01-2-2V5a2 2 0 012-2h5l2 3h9a2 2 0 012 2z" />
+            </svg>
+            <span className={styles['card__placeholder-title']}>
+              {project.title}
+            </span>
+          </div>
+        )}
+        {/* 分类徽标：封面左下角 */}
+        <span className={styles.card__category}>
+          {project.category}
+        </span>
         <span
           className={styles.card__status}
           data-status={project.status}
@@ -189,6 +190,9 @@ function ProjectDetail({ project }: { project: Project }) {
 
   return (
     <div className={styles.detail}>
+      {/* 封面轮播 */}
+      <CoverCarousel covers={project.covers} title={project.title} />
+
       {/* 状态与外链 */}
       <div className={styles.detail__meta}>
         <span
@@ -268,6 +272,112 @@ function ProjectDetail({ project }: { project: Project }) {
           ))}
         </ul>
       </section>
+    </div>
+  );
+}
+
+/**
+ * 封面轮播组件
+ * @param covers - 封面图地址数组（第一张为封面）
+ * @param title - 项目标题（用于 alt 与无障碍）
+ * @param fill - 是否填充父容器（卡片封面场景），默认 false 为独立块
+ * @param autoPlay - 是否自动轮播（卡片场景常用）
+ * @param showArrows - 是否显示左右切换箭头（详情场景常用）
+ */
+function CoverCarousel({
+  covers,
+  title,
+  fill = false,
+  autoPlay = false,
+  showArrows = true,
+}: {
+  covers: string[];
+  title: string;
+  fill?: boolean;
+  autoPlay?: boolean;
+  showArrows?: boolean;
+}) {
+  const [index, setIndex] = useState(0);
+
+  // 自动轮播：仅多图且开启时生效，组件卸载时清理定时器
+  useEffect(() => {
+    if (!autoPlay || covers.length <= 1) return;
+    const timer = setInterval(() => {
+      setIndex((current) => (current + 1) % covers.length);
+    }, 3500);
+    return () => clearInterval(timer);
+  }, [autoPlay, covers.length]);
+
+  // 无封面时显示占位提示
+  if (covers.length === 0) {
+    return (
+      <div
+        className={`${styles.carousel} ${fill ? styles["carousel--fill"] : ""} ${styles["carousel__empty"]}`}
+      >
+        暂无封面图
+      </div>
+    );
+  }
+
+  // 切换到上一张/下一张（循环）
+  const go = (direction: number) => {
+    setIndex((current) => (current + direction + covers.length) % covers.length);
+  };
+
+  return (
+    <div className={`${styles.carousel} ${fill ? styles["carousel--fill"] : ""}`}>
+      <img
+        src={covers[index]}
+        alt={`${title} 封面 ${index + 1}`}
+        className={styles.carousel__img}
+        loading="lazy"
+      />
+      {covers.length > 1 ? (
+        <>
+          {/* 左右箭头：仅详情场景展示 */}
+          {showArrows ? (
+            <>
+              <button
+                type="button"
+                className={`${styles.carousel__btn} ${styles["carousel__btn--prev"]}`}
+                onClick={(event) => {
+                  event.stopPropagation();
+                  go(-1);
+                }}
+                aria-label="上一张"
+              >
+                ‹
+              </button>
+              <button
+                type="button"
+                className={`${styles.carousel__btn} ${styles["carousel__btn--next"]}`}
+                onClick={(event) => {
+                  event.stopPropagation();
+                  go(1);
+                }}
+                aria-label="下一张"
+              >
+                ›
+              </button>
+            </>
+          ) : null}
+          {/* 指示点：始终展示 */}
+          <div className={styles.carousel__dots}>
+            {covers.map((cover, dotIndex) => (
+              <button
+                type="button"
+                key={cover}
+                className={`${styles.carousel__dot} ${dotIndex === index ? styles["carousel__dot--active"] : ""}`}
+                onClick={(event) => {
+                  event.stopPropagation();
+                  setIndex(dotIndex);
+                }}
+                aria-label={`第 ${dotIndex + 1} 张`}
+              />
+            ))}
+          </div>
+        </>
+      ) : null}
     </div>
   );
 }
