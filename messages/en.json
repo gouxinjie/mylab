@@ -67,12 +67,15 @@
     "subtitle": "Some works I'm proud of",
     "view_all": "View All Projects →",
     "categories": {
-      "all": "All",
-      "fullstack": "Full Stack",
-      "ai": "AI",
+      "all": "All Projects",
+      "platform": "Platform",
+      "application": "Application",
       "tool": "Tool",
-      "opensource": "Open Source"
-    }
+      "dataviz": "Data Visualization",
+      "other": "Other",
+      "learning": "Learning"
+    },
+    "search_placeholder": "Search projects..."
   },
   "About": {
     "title": "About Me",
@@ -84,8 +87,9 @@
     "experience_title": "Work Experience"
   },
   "Projects": {
-    "title": "All Projects",
-    "subtitle": "From full-stack applications to AI tools, these are the works I'm passionate about"
+    "label": "My Projects",
+    "title": "Solving real problems with code,\nbuilding high-quality apps and tools",
+    "subtitle": "Here are some projects I've independently developed or deeply participated in, covering Web applications, tool libraries, backend services, and more."
   },
   "GitHubDashboard": {
     "title": "GitHub Dashboard",

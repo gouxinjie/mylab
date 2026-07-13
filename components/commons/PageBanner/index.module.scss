@@ -1,0 +1,34 @@
+/**
+ * @file index.scss
+ * @description PageBanner 通用页头横幅样式
+ * @author gouxinjie
+ */
+
+// 横幅容器：flex 列布局 + 背景图
+.banner {
+  position: relative;
+  margin-top: 10px;
+  padding: 48px 16px 40px 16px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  background-repeat: no-repeat;
+  background-position: right center;
+  background-size: cover;
+
+  @media (min-width: 640px) {
+    padding: 56px 16px 48px 16px;
+  }
+
+  @media (min-width: 1024px) {
+    padding: 64px 16px 56px 16px;
+  }
+
+  // 内容区：浮于背景之上
+  &__content {
+    position: relative;
+    z-index: 10;
+    width: 100%;
+  }
+}

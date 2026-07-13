@@ -4,38 +4,13 @@
  * @author gouxinjie
  */
 
-// 英雄区域整体容器，控制上下内边距（移动端偏小，大屏增大）
+// 英雄区域整体容器
 .hero {
   background-color: var(--color-bg);
 }
 
-// 背景横幅：承载背景图，并作为内容定位/纵向排列容器（合并原 banner__content）
-.banner {
-  padding:74px 16px 48px 20px;
-  margin-top: 10px;
-  position: relative;
-  overflow: hidden;
-  background-image: url("/images/hero-bg-1.png");
-  background-repeat: no-repeat;
-  background-position: right center;
-  background-size: cover;
-  // 内容纵向排列、左对齐
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-}
-
-// 信息区：浮于背景遮罩之上，包含问候语、主标题、描述与操作按钮（合并原 info__inner）
+// 信息区：文字内容样式（容器由 PageBanner 提供）
 .info {
-  position: relative;
-  z-index: 10; // 确保内容在横幅遮罩之上
-  width: 100%;
-  max-width: 672px; // 2xl
-  
-  @media (min-width: 1024px) {
-    padding-top: 0;
-  }
-
   // 问候语：小号次要文字
   &__greeting {
     display: block;

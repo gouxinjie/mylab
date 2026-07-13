@@ -10,42 +10,115 @@
 
 import { useState, useEffect } from "react";
 import { Link } from "@/lib/navigation";
-import { projects, Project } from "@/lib/projects";
+import { projects, Project, ProjectCategory } from "@/lib/projects";
 import { useTranslations } from "next-intl";
 import { motion } from "framer-motion";
 import Modal from "@/components/commons/Modal";
 import styles from "./index.module.scss";
 
-export default function FeaturedProjects({ limit }: { limit?: number }) {
+export default function FeaturedProjects({ limit, showFilters }: { limit?: number; showFilters?: boolean }) {
   const t = useTranslations("FeaturedProjects");
   // 当前选中的项目（用于详情弹窗）
   const [selected, setSelected] = useState<Project | null>(null);
+  // 当前激活的分类筛选
+  const [activeCategory, setActiveCategory] = useState<ProjectCategory | "all">("all");
+  // 搜索关键词
+  const [searchQuery, setSearchQuery] = useState<string>("");
+
+  // 是否展示筛选栏：首页不展示，全部项目页默认展示
+  const showFilterBar = showFilters ?? !limit;
+
+  // 分类筛选项：键与中文分类值对应，便于与项目数据匹配
+  const CATEGORY_OPTIONS: { key: string; value: ProjectCategory | "all"; label: string }[] = [
+    { key: "all", value: "all", label: t("categories.all") },
+    { key: "platform", value: "平台", label: t("categories.platform") },
+    { key: "application", value: "应用", label: t("categories.application") },
+    { key: "tool", value: "工具", label: t("categories.tool") },
+    { key: "dataviz", value: "数据可视化", label: t("categories.dataviz") },
+    { key: "other", value: "其他", label: t("categories.other") },
+    { key: "learning", value: "学习研究", label: t("categories.learning") },
+  ];
 
   // 按排序权重升序排列，再按 limit 截取（首页精选 N 个，全部项目页不传则展示全部）
   const sortedProjects = [...projects].sort((a, b) => a.order - b.order);
-  const visibleProjects = limit ? sortedProjects.slice(0, limit) : sortedProjects;
+  const baseProjects = limit ? sortedProjects.slice(0, limit) : sortedProjects;
+
+  // 根据分类与搜索关键词过滤
+  const visibleProjects = baseProjects.filter((project) => {
+    const categoryMatch = activeCategory === "all" || project.category === activeCategory;
+    const query = searchQuery.trim().toLowerCase();
+    const searchMatch = !query || (
+      project.title.toLowerCase().includes(query) ||
+      project.brief.toLowerCase().includes(query) ||
+      project.description.toLowerCase().includes(query) ||
+      project.tags.some((tag) => tag.toLowerCase().includes(query))
+    );
+    return categoryMatch && searchMatch;
+  });
 
   return (
     <section className={styles.projects}>
       <div className="container-custom">
-        <div className={styles.header}>
-          <h2 className={styles.header__title}>
-            {t("title")}
-          </h2>
-          <Link
-            href="/projects"
-            className={styles.header__link}
-          >
-            {t("view_all")}
-            <svg
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
+        {showFilterBar ? (
+          <div className={styles.filterBar}>
+            <div className={styles.filterBar__tabs}>
+              {CATEGORY_OPTIONS.map((option) => (
+                <button
+                  key={option.key}
+                  type="button"
+                  className={`${styles.filterBar__tab} ${
+                    activeCategory === option.value ? styles["filterBar__tab--active"] : ""
+                  }`}
+                  onClick={() => setActiveCategory(option.value)}
+                >
+                  {option.label}
+                </button>
+              ))}
+            </div>
+            <div className={styles.filterBar__search}>
+              <svg
+                className={styles.filterBar__icon}
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
+                <circle cx="11" cy="11" r="8" />
+                <path d="M21 21l-4.35-4.35" />
+              </svg>
+              <input
+                type="text"
+                value={searchQuery}
+                placeholder={t("search_placeholder")}
+                onChange={(event) => setSearchQuery(event.target.value)}
+                className={styles.filterBar__input}
+              />
+            </div>
+          </div>
+        ) : (
+          <div className={styles.header}>
+            <h2 className={styles.header__title}>
+              {t("title")}
+            </h2>
+            <Link
+              href="/projects"
+              className={styles.header__link}
             >
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-            </svg>
-          </Link>
-        </div>
+              {t("view_all")}
+              <svg
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+              </svg>
+            </Link>
+          </div>
+        )}
 
         {/* 项目列表 */}
         <div className={styles.grid}>
@@ -84,8 +157,6 @@ interface ProjectCardProps {
 }
 
 function ProjectCard({ project, onOpen }: ProjectCardProps) {
-  // 外链优先使用公网访问地址，其次使用仓库地址
-  const externalUrl = project.url || project.repoUrl || undefined;
   const techTags = project.tags;
 
   return (
@@ -101,15 +172,14 @@ function ProjectCard({ project, onOpen }: ProjectCardProps) {
         }
       }}
     >
-      {/* 封面区域：多图自动轮播，单图展示，无图使用标题占位 */}
+      {/* 封面区域：展示首张静态封面图，无图时使用标题占位 */}
       <div className={styles['card__image-box']}>
         {project.covers.length > 0 ? (
-          <CoverCarousel
-            covers={project.covers}
-            title={project.title}
-            fill
-            autoPlay
-            showArrows={false}
+          <img
+            src={project.covers[0]}
+            alt={`${project.title} 封面`}
+            className={styles.card__cover}
+            loading="lazy"
           />
         ) : (
           <div className={styles.card__placeholder}>
@@ -145,36 +215,58 @@ function ProjectCard({ project, onOpen }: ProjectCardProps) {
           <h3 className={styles.card__title}>
             {project.brief}
           </h3>
-          {externalUrl ? (
-            <a
-              href={externalUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className={styles.card__external}
-              onClick={(event) => event.stopPropagation()}
-            >
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <circle cx="12" cy="12" r="10" />
-                <path d="M2 12h20" />
-                <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
-              </svg>
-            </a>
-          ) : null}
+          <span className={styles.card__categoryTag}>
+            {project.category}
+          </span>
         </div>
         <p className={styles.card__desc}>
           {project.description}
         </p>
 
-        {/* 标签：取自技术栈简述 */}
-        <div className={styles.card__tags}>
-          {techTags.map((tag) => (
-            <span
-              key={tag}
-              className={styles.card__tag}
-            >
-              {tag}
-            </span>
-          ))}
+        {/* 标签与链接：标签居左，仓库/项目图标居右 */}
+        <div className={styles.card__footer}>
+          <div className={styles.card__tags}>
+            {techTags.map((tag) => (
+              <span
+                key={tag}
+                className={styles.card__tag}
+              >
+                {tag}
+              </span>
+            ))}
+          </div>
+          <div className={styles.card__links}>
+            {project.repoUrl ? (
+              <a
+                href={project.repoUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={styles.card__link}
+                onClick={(event) => event.stopPropagation()}
+                aria-label="仓库地址"
+              >
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12Z" />
+                </svg>
+              </a>
+            ) : null}
+            {project.url ? (
+              <a
+                href={project.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={styles.card__link}
+                onClick={(event) => event.stopPropagation()}
+                aria-label="访问项目"
+              >
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+                  <polyline points="15 3 21 3 21 9" />
+                  <line x1="10" y1="14" x2="21" y2="3" />
+                </svg>
+              </a>
+            ) : null}
+          </div>
         </div>
       </div>
     </article>
@@ -191,7 +283,7 @@ function ProjectDetail({ project }: { project: Project }) {
   return (
     <div className={styles.detail}>
       {/* 封面轮播 */}
-      <CoverCarousel covers={project.covers} title={project.title} />
+      <CoverCarousel covers={project.covers} title={project.title} autoPlay />
 
       {/* 状态与外链 */}
       <div className={styles.detail__meta}>

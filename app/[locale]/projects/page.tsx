@@ -1,6 +1,6 @@
-import { Metadata } from "next";
 import FeaturedProjects from "@/components/business/FeaturedProjects";
 import FadeIn from "@/components/commons/FadeIn";
+import PageBanner from "@/components/commons/PageBanner";
 import { useTranslations } from "next-intl";
 import styles from "./page.module.scss";
 
@@ -16,14 +16,15 @@ export default function ProjectsPage() {
   return (
     <div className={styles.projects}>
       <div className="container-custom">
-        {/* Page Header */}
+        {/* 页头横幅：复用 PageBanner 通用组件 */}
         <FadeIn>
-          <div className={styles.header}>
-            <h1 className={styles.header__title}>{t("title")}</h1>
-            <p className={styles.header__subtitle}>
-              {t("subtitle")}
-            </p>
-          </div>
+          <PageBanner bgImage="/images/project-bg.png">
+            <div className={styles.content}>
+              <span className={styles.label}>{t("label")}</span>
+              <h1 className={styles.title}>{t("title")}</h1>
+              <p className={styles.subtitle}>{t("subtitle")}</p>
+            </div>
+          </PageBanner>
         </FadeIn>
       </div>
       <FadeIn delay={0.1}>

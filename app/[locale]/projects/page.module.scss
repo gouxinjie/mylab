@@ -4,36 +4,76 @@
  * @author gouxinjie
  */
 
-// 页面容器：上下内边距随屏幕增大（已紧凑化）
+// 页面容器：参考首页 Hero，仅最小纵向间距
 .projects {
-  padding-top: 16px;
-  padding-bottom: 16px;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  background-color: var(--color-bg);
 
   @media (min-width: 640px) {
-    padding-top: 24px;
-    padding-bottom: 24px;
+    padding-top: 12px;
+    padding-bottom: 12px;
   }
 }
 
-// 页头：标题 + 副标题
-.header {
-  margin-bottom: 24px;
-
-  // 页头大标题（已紧凑化）
-  &__title {
-    font-size: 22px;
-    line-height: 28px;
-    font-weight: 700;
+// 横幅内容区文字样式（容器由 PageBanner 提供）
+.content {
+  // 小标签：竖线 + 文字垂直居中
+  .label {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 0;
+    padding: 0;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1;
+    color: var(--color-text-secondary);
 
     @media (min-width: 640px) {
-      font-size: 26px;
-      line-height: 32px;
+      font-size: 16px;
+    }
+
+    // 标签前的小竖线
+    &::before {
+      content: "";
+      display: inline-block;
+      width: 2px;
+      height: 14px;
+      border-radius: 9999px;
+      background-color: var(--color-accent);
     }
   }
 
-  // 页头副标题：次要色
-  &__subtitle {
-    margin-top: 6px;
+  // 页头大标题
+  .title {
+    margin-top: 16px;
+    white-space: pre-line;
+    font-size: 30px;
+    font-weight: bold;
+    line-height: 1.25;
+    letter-spacing: -0.025em;
+    color: var(--color-text-primary);
+
+    @media (min-width: 640px) {
+      font-size: 36px;
+    }
+
+    @media (min-width: 1024px) {
+      font-size: 45px;
+    }
+  }
+
+  // 副标题
+  .subtitle {
+    margin-top: 12px;
+    font-size: 16px;
+    line-height: 1.625;
     color: var(--color-text-secondary);
+
+    @media (min-width: 640px) {
+      font-size: 18px;
+      max-width: 480px;
+    }
   }
 }

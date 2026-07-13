@@ -67,12 +67,15 @@
     "subtitle": "一些我引以为豪的作品",
     "view_all": "查看全部项目 →",
     "categories": {
-      "all": "全部",
-      "fullstack": "全栈",
-      "ai": "AI",
+      "all": "全部项目",
+      "platform": "平台",
+      "application": "应用",
       "tool": "工具",
-      "opensource": "开源"
-    }
+      "dataviz": "数据可视化",
+      "other": "其他",
+      "learning": "学习研究"
+    },
+    "search_placeholder": "搜索项目..."
   },
   "About": {
     "title": "关于我",
@@ -84,8 +87,9 @@
     "experience_title": "工作经历"
   },
   "Projects": {
-    "title": "全部项目",
-    "subtitle": "从全栈应用到 AI 工具，这些是我投入热情的作品"
+    "label": "我的项目",
+    "title": "用代码解决实际问题，\n构建高质量的应用与工具",
+    "subtitle": "以下是我独立开发或深度参与的一些项目，涵盖 Web 应用、工具库、后端服务等不同领域。"
   },
   "GitHubDashboard": {
     "title": "GitHub 数据看板",
