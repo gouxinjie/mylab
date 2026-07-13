@@ -13,6 +13,12 @@
     padding-top: 24px;
     padding-bottom: 24px;
   }
+
+  // 内容版心容器：复用全局 container-custom 并覆盖最大宽度为 672px
+  &__container {
+    @include container-custom;
+    max-width: 672px;
+  }
 }
 
 // 页头：标题 + 副标题

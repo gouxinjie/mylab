@@ -11,10 +11,11 @@
 
 // 背景横幅：承载背景图，并作为内容定位/纵向排列容器（合并原 banner__content）
 .banner {
-  padding:74px 16px 48px 16px;
+  padding:74px 16px 48px 20px;
+  margin-top: 10px;
   position: relative;
   overflow: hidden;
-  background-image: url("/images/hero-bg.png");
+  background-image: url("/images/hero-bg-1.png");
   background-repeat: no-repeat;
   background-position: right center;
   background-size: cover;

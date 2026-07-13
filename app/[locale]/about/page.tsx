@@ -17,7 +17,7 @@ export default function AboutPage() {
 
   return (
     <div className={styles.about}>
-      <div className="container-custom" style={{ maxWidth: '896px' }}>
+      <div className={styles.about__container}>
         {/* Header */}
         <FadeIn>
           <div className={styles.header}>
@@ -32,10 +32,10 @@ export default function AboutPage() {
             <p className={styles.bio__text}>
               {t("bio_1")}
             </p>
-            <p className={styles.bio__text} style={{ marginTop: '12px' }}>
+            <p className={styles.bio__text}>
               {t("bio_2")}
             </p>
-            <p className={styles.bio__text} style={{ marginTop: '12px' }}>
+            <p className={styles.bio__text}>
               {t("bio_3")}
             </p>
           </section>

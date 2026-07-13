@@ -13,6 +13,12 @@
     padding-top: 24px;
     padding-bottom: 24px;
   }
+
+  // 内容版心容器：复用全局 container-custom 并覆盖最大宽度为 896px
+  &__container {
+    @include container-custom;
+    max-width: 896px;
+  }
 }
 
 // 页头区域：标题区块
@@ -49,11 +55,16 @@
     margin-bottom: 12px;
   }
 
-  // 简介正文：次要色、行高适中
+  // 简介正文：次要色、行高适中，相邻段落有间距
   &__text {
     font-size: 15px;
     line-height: 1.6;
     color: var(--color-text-secondary);
+
+    // 相邻段落间距
+    & + & {
+      margin-top: 12px;
+    }
   }
 }
 
