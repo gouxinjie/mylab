@@ -6,7 +6,7 @@ import Navbar from "@/components/commons/Navbar";
 import Footer from "@/components/commons/Footer";
 import PageTransition from "@/components/commons/PageTransition";
 import { NextIntlClientProvider } from 'next-intl';
-import { getMessages } from 'next-intl/server';
+import { getMessages, setRequestLocale } from 'next-intl/server';
 import { locales, type Locale } from '@/i18n';
 import { notFound } from 'next/navigation';
 
@@ -86,6 +86,9 @@ export default async function RootLayout({
   if (!locales.includes(locale as Locale)) {
     notFound();
   }
+
+  // 启用静态渲染，避免 next-intl 在 Server Component 中强制动态渲染
+  setRequestLocale(locale);
 
   // 获取翻译消息
   const messages = await getMessages();

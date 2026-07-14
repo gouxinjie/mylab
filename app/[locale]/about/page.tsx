@@ -6,7 +6,8 @@
  * @updated 2025-07-14
  */
 
-import { useTranslations, useLocale } from "next-intl";
+import { useTranslations } from "next-intl";
+import { setRequestLocale } from "next-intl/server";
 import {
   MapPin,
   Mail,
@@ -22,6 +23,7 @@ import {
 } from "lucide-react";
 import { experiences, skills, values, type Experience, type Value } from "@/lib/data";
 import FadeIn from "@/components/commons/FadeIn";
+import ResumeButton from "@/components/commons/ResumeButton";
 import styles from "./page.module.scss";
 
 // 技能图标映射：使用 SVG 绘制品牌色块与缩写
@@ -82,9 +84,10 @@ const valueIcons: Record<string, JSX.Element> = {
   lightbulb: <Lightbulb size={24} />,
 };
 
-export default function AboutPage() {
+export default function AboutPage({ params: { locale } }: { params: { locale: string } }) {
+  // 启用静态渲染，避免 next-intl 在 Server Component 中强制动态渲染
+  setRequestLocale(locale);
   const t = useTranslations("About");
-  const locale = useLocale();
 
   return (
     <div className={styles.about}>
@@ -111,14 +114,10 @@ export default function AboutPage() {
                     {t("experience_years")}
                   </span>
                 </div>
-                <a
-                  href="#"
-                  className={styles.hero__resume}
-                  onClick={(e) => e.preventDefault()}
-                >
+                <ResumeButton className={styles.hero__resume}>
                   <Download size={16} />
                   {t("download_resume")}
-                </a>
+                </ResumeButton>
               </div>
             </FadeIn>
             <FadeIn delay={0.15}>

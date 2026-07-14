@@ -2,6 +2,7 @@ import { Metadata } from "next";
 import { socialLinks } from "@/lib/data";
 import FadeIn from "@/components/commons/FadeIn";
 import { useTranslations } from "next-intl";
+import { setRequestLocale } from "next-intl/server";
 import styles from "./page.module.scss";
 
 export const metadata: Metadata = {
@@ -23,7 +24,9 @@ const socialIcons: Record<string, JSX.Element> = {
   ),
 };
 
-export default function ContactPage() {
+export default function ContactPage({ params: { locale } }: { params: { locale: string } }) {
+  // 启用静态渲染，避免 next-intl 在 Server Component 中强制动态渲染
+  setRequestLocale(locale);
   const t = useTranslations("Contact");
 
   return (

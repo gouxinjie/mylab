@@ -1,16 +1,18 @@
 import { Metadata } from "next";
 import { aiTools } from "@/lib/data";
 import FadeIn from "@/components/commons/FadeIn";
-import { useTranslations, useLocale } from "next-intl";
+import { useTranslations } from "next-intl";
+import { setRequestLocale } from "next-intl/server";
 import styles from "./page.module.scss";
 
 export const metadata: Metadata = {
   title: "AI Exploration",
 };
 
-export default function AIPage() {
+export default function AIPage({ params: { locale } }: { params: { locale: string } }) {
+  // 启用静态渲染，避免 next-intl 在 Server Component 中强制动态渲染
+  setRequestLocale(locale);
   const t = useTranslations("AI");
-  const locale = useLocale();
   const projects = t.raw("projects") as Array<{ title: string; desc: string; tags: string[] }>;
   const articles = t.raw("articles") as Array<{ title: string }>;
 
