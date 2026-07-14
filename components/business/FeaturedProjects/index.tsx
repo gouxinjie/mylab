@@ -2,8 +2,8 @@
  * @component FeaturedProjects
  * @description 精选项目展示组件，点击卡片弹出项目详情
  * @author gouxinjie
- * @created 2024
- * @updated 2024-07-10
+ * @created 2024-01-01
+ * @updated 2025-07-14
  */
 
 "use client";
@@ -197,20 +197,18 @@ function ProjectCard({ project, onOpen }: ProjectCardProps) {
             </span>
           </div>
         )}
-        {/* 分类徽标：封面左下角 */}
-        <span className={styles.card__category}>
-          {project.category}
-        </span>
-        <span
-          className={styles.card__status}
-          data-status={project.status}
-        >
-          {project.status}
-        </span>
       </div>
 
       {/* 内容区域 */}
       <div className={styles.card__content}>
+        {/* 状态：圆点 + 文字 */}
+        <span
+          className={styles.card__status}
+          data-status={project.status}
+        >
+          <span className={styles.card__statusDot} />
+          {project.status}
+        </span>
         <div className={styles.card__top}>
           <h3 className={styles.card__title}>
             {project.brief}
@@ -291,6 +289,7 @@ function ProjectDetail({ project }: { project: Project }) {
           className={styles.detail__status}
           data-status={project.status}
         >
+          <span className={styles.detail__statusDot} />
           {project.status}
         </span>
         {externalUrl ? (

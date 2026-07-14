@@ -2,8 +2,8 @@
  * @component Navbar
  * @description 导航栏组件，包含主题切换、语言切换、移动端菜单
  * @author gouxinjie
- * @created 2024
- * @updated 2024
+ * @created 2024-01-01
+ * @updated 2025-07-14
  */
 
 "use client";
@@ -114,8 +114,8 @@ export default function Navbar() {
 
   const navItems = [
     { label: t("home"), href: "/", icon: <HomeIcon /> },
-    { label: t("about"), href: "/about", icon: <UserIcon /> },
     { label: t("projects"), href: "/projects", icon: <ProjectIcon /> },
+    { label: t("about"), href: "/about", icon: <UserIcon /> },
     { label: t("contact"), href: "/contact", icon: <MailIcon /> },
   ];
 

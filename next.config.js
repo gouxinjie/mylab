@@ -23,7 +23,15 @@ const nextConfig = {
         protocol: "https",
         hostname: "opengraph.githubassets.com",
       },
+      {
+        protocol: "https",
+        hostname: "img.shields.io",
+      },
     ],
+  },
+  // 项目尚未接入 ESLint 依赖与配置，构建期跳过 lint 以免 next build 直接失败
+  eslint: {
+    ignoreDuringBuilds: true,
   },
 };
 

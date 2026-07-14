@@ -4,16 +4,29 @@
  * @author gouxinjie
  */
 
-// 状态徽标差异化配色：不同运行状态使用不同背景色（卡片与详情共用）
+// 状态圆点呼吸动画
+@keyframes fproj-pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(var(--color-accent-rgb), 0.6);
+  }
+  70% {
+    box-shadow: 0 0 0 6px rgba(var(--color-accent-rgb), 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(var(--color-accent-rgb), 0);
+  }
+}
+
+// 状态文字差异化配色：不同运行状态使用不同文字色
 @mixin status-badge-colors {
-  background-color: var(--color-accent);
+  color: var(--color-accent);
 
   &[data-status="开发中"] {
-    background-color: #2563eb;
+    color: #2563eb;
   }
 
   &[data-status="未发布"] {
-    background-color: #6b7280;
+    color: #6b7280;
   }
 }
 
@@ -169,7 +182,7 @@
 // 项目卡片：复用 card-base，用阴影替代边框营造立体感
 .card {
   @include card-base;
-  border: none;
+  border: 1px solid transparent;
   border-radius: var(--radius-lg);
   overflow: hidden;
   padding: 0;
@@ -177,17 +190,13 @@
     0 1px 2px rgba(0, 0, 0, 0.04),
     0 4px 16px rgba(0, 0, 0, 0.08);
   cursor: pointer;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
 
   &:hover {
-    transform: translateY(-4px);
+    border-color: var(--color-accent);
     box-shadow:
       0 4px 8px rgba(0, 0, 0, 0.06),
       0 12px 32px rgba(0, 0, 0, 0.12);
-
-    // hover 时封面图轻微放大
-    .card__cover {
-      transform: scale(1.05);
-    }
   }
 
   // 图片容器：固定宽高比，占位浅灰表面
@@ -204,22 +213,6 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transition: transform 0.4s ease;
-  }
-
-  // 分类徽标：封面左下角
-  &__category {
-    position: absolute;
-    left: 8px;
-    bottom: 8px;
-    z-index: 2;
-    padding: 4px 10px;
-    border-radius: 9999px;
-    font-size: 12px;
-    font-weight: 600;
-    color: #fff;
-    background-color: rgba(17, 24, 39, 0.6);
-    backdrop-filter: blur(4px);
   }
 
   // 封面占位：暂无封面图，深色渐变 + 项目标题占位
@@ -251,21 +244,25 @@
     letter-spacing: 0.02em;
   }
 
-  // 状态徽标：覆盖于封面右上角
+  // 状态徽标：圆点 + 文字，内联显示
   &__status {
-    position: absolute;
-    top: 8px;
-    right: 8px;
-    z-index: 2;
-    padding: 3px 10px;
-    border-radius: 9999px;
-    font-size: 11px;
-    font-weight: 600;
-    color: #fff;
-    letter-spacing: 0.02em;
-    backdrop-filter: blur(4px);
-    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.15);
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 8px;
+    font-size: 12px;
+    font-weight: 500;
     @include status-badge-colors;
+  }
+
+  // 状态圆点（呼吸动画）
+  &__statusDot {
+    width: 8px;
+    height: 8px;
+    border-radius: 9999px;
+    background-color: currentColor;
+    box-shadow: 0 0 0 0 rgba(var(--color-accent-rgb), 0.6);
+    animation: fproj-pulse 1.8s infinite;
   }
 
   // 卡片内容区
@@ -310,7 +307,6 @@
     @include desc-text;
     display: -webkit-box;
     -webkit-line-clamp: 2;
-    line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
   }
@@ -480,14 +476,24 @@
     margin-bottom: 16px;
   }
 
-  // 状态徽标
+  // 状态徽标：圆点 + 文字，内联显示
   &__status {
-    padding: 4px 10px;
-    border-radius: 9999px;
-    font-size: 12px;
-    font-weight: 600;
-    color: #fff;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    font-weight: 500;
     @include status-badge-colors;
+  }
+
+  // 状态圆点（呼吸动画）
+  &__statusDot {
+    width: 8px;
+    height: 8px;
+    border-radius: 9999px;
+    background-color: currentColor;
+    box-shadow: 0 0 0 0 rgba(var(--color-accent-rgb), 0.6);
+    animation: fproj-pulse 1.8s infinite;
   }
 
   // 外链按钮

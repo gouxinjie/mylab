@@ -9,151 +9,118 @@
   background-color: var(--color-bg);
 }
 
-// Hero 区域：两栏布局（左文字、右图片）
+// Hero 区域：居中布局、头像 + 光晕背景
 .hero {
-  padding-top: 48px;
+  position: relative;
+  overflow: hidden;
+  padding-top: 64px;
   padding-bottom: 64px;
+  text-align: center;
 
   @media (min-width: 768px) {
-    padding-top: 64px;
+    padding-top: 80px;
     padding-bottom: 80px;
   }
 }
 
-// Hero 网格
-.hero__grid {
-  display: grid;
-  gap: 32px;
-  align-items: center;
-
-  @media (min-width: 768px) {
-    grid-template-columns: 1fr 1fr;
-    gap: 48px;
-  }
-
-  @media (min-width: 1024px) {
-    gap: 64px;
-  }
+// Hero 居中光晕背景
+.hero__glow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 500px;
+  height: 500px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(var(--color-accent-rgb), 0.08) 0%, transparent 70%);
+  transform: translate(-50%, -50%);
+  pointer-events: none;
 }
 
-// Hero 文字内容
-.hero__content {
+// Hero 装饰小圆点背景
+.hero__dots {
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(circle, var(--color-border) 1px, transparent 1px);
+  background-size: 24px 24px;
+  opacity: 0.4;
+  pointer-events: none;
+}
+
+// Hero 内容居中容器
+.hero__inner {
+  position: relative;
+  z-index: 1;
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-}
-
-// Hero 小标签
-.hero__label {
-  display: inline-flex;
   align-items: center;
-  gap: 6px;
-  margin-bottom: 12px;
-  font-size: 14px;
-  font-weight: 500;
-  color: var(--color-accent);
-
-  &::before {
-    content: "";
-    display: inline-block;
-    width: 2px;
-    height: 14px;
-    border-radius: 9999px;
-    background-color: var(--color-accent);
-  }
+  gap: 24px;
 }
 
-// Hero 大标题
-.hero__title {
-  margin-bottom: 16px;
-  font-size: 28px;
-  font-weight: 700;
-  line-height: 1.25;
-  letter-spacing: -0.025em;
-  color: var(--color-text-primary);
-  white-space: pre-line;
+// 头像外框
+.hero__avatar {
+  width: 112px;
+  height: 112px;
+  border-radius: 50%;
+  border: 3px solid var(--color-accent);
+  padding: 4px;
+  background-color: var(--color-bg);
 
   @media (min-width: 640px) {
-    font-size: 36px;
-  }
-
-  @media (min-width: 1024px) {
-    font-size: 42px;
+    width: 128px;
+    height: 128px;
   }
 }
 
-// Hero 描述
-.hero__desc {
-  margin-bottom: 24px;
+// 头像图片
+.hero__avatarImg {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+// Hero 信息区
+.hero__info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+// 姓名
+.hero__name {
+  font-size: 26px;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  color: var(--color-text-primary);
+
+  @media (min-width: 640px) {
+    font-size: 32px;
+  }
+}
+
+// 标语
+.hero__tagline {
   font-size: 15px;
-  line-height: 1.7;
-  color: var(--color-text-secondary);
+  font-weight: 500;
+  color: var(--color-accent);
 
   @media (min-width: 640px) {
     font-size: 16px;
   }
 }
 
-// Hero 信息标签组
-.hero__info {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
-  margin-bottom: 24px;
-
-  @media (min-width: 640px) {
-    gap: 20px;
-  }
-}
-
-// Hero 单个信息标签
-.hero__info__item {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 13px;
-  color: var(--color-text-secondary);
-
-  @media (min-width: 640px) {
-    font-size: 14px;
-  }
-
-  svg {
-    color: var(--color-accent);
-  }
-}
-
-// 下载简历按钮
-.hero__resume {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 10px 20px;
-  border-radius: var(--radius-xl);
-  border: 1px solid var(--color-border);
-  background-color: var(--color-bg);
+// Hero 描述
+.hero__desc {
+  max-width: 640px;
+  margin-top: 8px;
   font-size: 14px;
-  font-weight: 500;
-  color: var(--color-text-primary);
-  transition: all 0.2s ease;
+  line-height: 1.7;
+  color: var(--color-text-secondary);
+  white-space: pre-line;
 
-  &:hover {
-    border-color: var(--color-accent);
-    color: var(--color-accent);
-  }
-}
-
-// Hero 图片
-.hero__image {
-  overflow: hidden;
-  border-radius: var(--radius-xl);
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
-
-  img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    aspect-ratio: 16 / 10;
+  @media (min-width: 640px) {
+    font-size: 15px;
   }
 }
 
@@ -178,15 +145,27 @@
   }
 }
 
-// 技能卡片网格
-.skillGrid {
+// 区块副标题（与标题搭配时上提，保持紧凑间距）
+.section__subtitle {
+  margin-top: -20px;
+  margin-bottom: 32px;
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--color-text-secondary);
+
+  @media (min-width: 640px) {
+    font-size: 15px;
+  }
+}
+
+// 数据概览网格
+.statsGrid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   gap: 16px;
 
   @media (min-width: 640px) {
     grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
   }
 
   @media (min-width: 1024px) {
@@ -194,151 +173,205 @@
   }
 }
 
-// 技能卡片
-.skillCard {
+// 数据概览卡片：渐变底纹 + 悬停抬升
+.statCard {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 12px;
-  padding: 20px 16px;
-  border-radius: var(--radius-xl);
+  gap: 8px;
+  padding: 24px 16px;
   border: 1px solid var(--color-border);
-  background-color: var(--color-bg-secondary);
-  transition: all 0.2s ease;
+  border-radius: var(--radius-xl);
+  background-image: linear-gradient(180deg, #ffffff 0%, var(--color-bg-secondary) 100%);
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
 
   &:hover {
-    transform: translateY(-2px);
-    border-color: var(--color-accent);
+    transform: translateY(-6px);
+    border-color: transparent;
+    box-shadow: var(--shadow-lg);
+  }
+
+  // 暗色模式：深底微渐变
+  :global(.dark) & {
+    background-image: linear-gradient(180deg, #1e293b 0%, #0f172a 100%);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
   }
 }
 
-// 技能图标容器
-.skillCard__icon {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 64px;
-  height: 64px;
-  border-radius: var(--radius-xl);
-  background-color: var(--color-bg);
+// 数据概览图标
+.statCard__icon {
+  font-size: 28px;
+  line-height: 1;
 }
 
-// 技能图标兜底文字
-.skillCard__fallback {
-  font-size: 16px;
+// 数据概览数值
+.statCard__value {
+  font-size: 28px;
   font-weight: 700;
+  letter-spacing: -0.02em;
   color: var(--color-text-primary);
 }
 
-// 技能名称
-.skillCard__name {
-  font-size: 14px;
-  font-weight: 500;
-  color: var(--color-text-primary);
-}
-
-// 工作经历列表
-.experienceList {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
-
-// 经历卡片
-.expCard {
-  display: grid;
-  gap: 16px;
-  padding: 20px;
-  border-radius: var(--radius-xl);
-  border: 1px solid var(--color-border);
-  background-color: var(--color-bg-secondary);
-
-  @media (min-width: 768px) {
-    grid-template-columns: 140px 1fr;
-    gap: 24px;
-    padding: 24px;
-  }
-}
-
-// 经历时间段
-.expCard__date {
+// 数据概览标签
+.statCard__label {
   font-size: 13px;
-  font-weight: 500;
-  color: var(--color-text-muted);
-  white-space: nowrap;
+  color: var(--color-text-secondary);
+}
+
+// 技术清单网格
+.techGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
 
   @media (min-width: 768px) {
-    padding-top: 4px;
+    grid-template-columns: repeat(2, 1fr);
   }
 }
 
-// 经历主内容区
-.expCard__main {
-  display: flex;
-  gap: 16px;
+// 技术分组卡片
+.techGroup {
+  padding: 24px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  background-color: var(--color-bg-secondary);
 }
 
-// 经历图标
-.expCard__icon {
-  flex-shrink: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 40px;
-  height: 40px;
-  border-radius: var(--radius-lg);
-  background-color: var(--color-bg);
-  color: var(--color-accent);
-}
-
-// 经历内容
-.expCard__content {
-  flex: 1;
-}
-
-// 经历角色与公司
-.expCard__role {
-  margin-bottom: 8px;
+// 技术分组标题
+.techGroup__title {
+  margin-bottom: 16px;
   font-size: 15px;
   font-weight: 600;
   color: var(--color-text-primary);
 }
 
-// 经历角色与公司分隔符
-.expCard__divider {
-  margin: 0 8px;
-  color: var(--color-text-muted);
-}
-
-// 经历公司名称
-.expCard__company {
-  font-weight: 400;
-  color: var(--color-text-secondary);
-}
-
-// 经历描述
-.expCard__desc {
-  margin-bottom: 12px;
-  font-size: 14px;
-  line-height: 1.6;
-  color: var(--color-text-secondary);
-}
-
-// 经历标签组
-.expCard__tags {
+// 技术徽章容器（自动换行）
+.techGroup__badges {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
 }
 
-// 经历单个标签
-.expCard__tag {
-  padding: 4px 10px;
+// 技术徽章图片
+.techBadge {
+  height: 20px;
+  width: auto;
+  transition: transform 0.2s ease;
+
+  &:hover {
+    transform: scale(1.06);
+  }
+}
+
+// 成长足迹时间线
+.expTimeline {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding-left: 32px;
+
+  // 左侧竖线
+  &::before {
+    content: "";
+    position: absolute;
+    left: 8px;
+    top: 10px;
+    bottom: 10px;
+    width: 2px;
+    border-radius: 999px;
+    background: linear-gradient(180deg, var(--color-accent) 0%, rgba(var(--color-accent-rgb), 0.2) 100%);
+  }
+}
+
+// 经历单项
+.expItem {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 20px;
+  border: 1px solid var(--color-border);
   border-radius: var(--radius-xl);
+  background-color: var(--color-bg-secondary);
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+  cursor: default;
+
+  // 圆点（圆心精确对齐左侧竖线）
+  &::before {
+    content: "";
+    position: absolute;
+    left: -28px;
+    top: 50%;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: var(--color-accent);
+    transform: translateY(-50%);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  // 移入动效：卡片右移 + 阴影 + 边框高亮 + 圆点放大发实心光
+  &:hover {
+    transform: translateX(8px);
+    border-color: var(--color-accent);
+    box-shadow: 0 4px 24px rgba(var(--color-accent-rgb), 0.12);
+
+    // 圆点反向抵消卡片右移，保持锚定在竖线上
+    &::before {
+      transform: translateY(-50%) translateX(-8px) scale(1.4);
+      box-shadow: 0 0 0 8px rgba(var(--color-accent-rgb), 0.15);
+      background-color: var(--color-accent);
+    }
+  }
+}
+
+// 经历日期
+.expItem__date {
+  display: inline-flex;
+  align-self: flex-start;
+  padding: 4px 10px;
+  border-radius: 999px;
   background-color: var(--color-bg);
   font-size: 12px;
+  font-weight: 600;
+  color: var(--color-accent);
+  letter-spacing: 0.02em;
+}
+
+// 经历职位
+.expItem__title {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--color-text-primary);
+
+  @media (min-width: 640px) {
+    font-size: 17px;
+  }
+}
+
+// 经历职位与公司分隔符
+.expItem__divider {
+  margin: 0 8px;
+  color: var(--color-text-muted);
+}
+
+// 经历公司名称
+.expItem__company {
   font-weight: 500;
   color: var(--color-text-secondary);
+}
+
+// 经历描述
+.expItem__content {
+  font-size: 14px;
+  line-height: 1.7;
+  color: var(--color-text-secondary);
+
+  @media (min-width: 640px) {
+    font-size: 15px;
+  }
 }
 
 // 价值观卡片网格
@@ -399,3 +432,68 @@
   line-height: 1.6;
   color: var(--color-text-secondary);
 }
+
+// 技能进度条网格
+.skillsBarGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+
+  @media (min-width: 768px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+// 技能分组卡片
+.skillsBarGroup {
+  padding: 24px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  background-color: var(--color-bg-secondary);
+}
+
+// 技能分组标题
+.skillsBarGroup__title {
+  margin-bottom: 20px;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+
+// 单条技能进度条
+.skillsBar {
+  margin-bottom: 16px;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+// 进度条标签行（名称 + 百分比）
+.skillsBar__label {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 6px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--color-text-secondary);
+}
+
+// 进度条轨道
+.skillsBar__track {
+  height: 6px;
+  border-radius: 9999px;
+  background-color: var(--color-bg);
+  overflow: hidden;
+}
+
+// 进度条填充
+.skillsBar__fill {
+  height: 100%;
+  border-radius: 9999px;
+  background-image: linear-gradient(90deg, var(--color-accent), #7c3aed);
+  transition: width 0.8s ease;
+}
+
+
+
