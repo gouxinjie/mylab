@@ -92,7 +92,7 @@
     font-weight: 500;
     color: var(--color-text-secondary);
     cursor: pointer;
-    transition: color 0.2s;
+    transition: color 0.2s, background-color 0.2s, font-weight 0.2s;
 
     &:hover {
       color: var(--color-text-primary);

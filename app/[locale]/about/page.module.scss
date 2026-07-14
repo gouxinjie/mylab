@@ -1,38 +1,111 @@
 /**
  * @file page.module.scss
- * @description About 页面样式（紧凑版）
+ * @description About 页面样式
  * @author gouxinjie
  */
 
-// 页面整体容器：上下内边距，随屏幕增大（已紧凑化）
+// 公共版心占位符：896px 居中容器
+%container-896 {
+  @include container-custom;
+  max-width: 896px;
+}
+
+// 页面整体容器：上下内边距
 .about {
-  padding-top: 16px;
   padding-bottom: 16px;
+  background-color: var(--color-bg);
 
   @media (min-width: 640px) {
-    padding-top: 24px;
     padding-bottom: 24px;
   }
 
-  // 内容版心容器：复用全局 container-custom 并覆盖最大宽度为 896px
+  // 内容版心容器
   &__container {
-    @include container-custom;
-    max-width: 896px;
+    @extend %container-896;
   }
 }
 
-// 页头区域：标题区块
-.header {
+// 横幅外层：版心 896px，与下方内容左对齐
+.banner-container {
+  @extend %container-896;
   margin-bottom: 24px;
+}
 
-  // 页头标题：大字号加粗（已紧凑化）
-  &__title {
-    font-size: 22px;
-    font-weight: bold;
+// 横幅：背景图 + 左侧文字
+.banner {
+  position: relative;
+  margin-top: 10px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 48px 16px 40px 16px;
+  background-repeat: no-repeat;
+  background-position: right center;
+  background-size: cover;
 
-    @media (min-width: 640px) {
-      font-size: 26px;
-    }
+  @media (min-width: 640px) {
+    padding: 56px 16px 48px 16px;
+  }
+
+  @media (min-width: 1024px) {
+    padding: 64px 16px 56px 16px;
+  }
+}
+
+// 小标签：竖线 + 文字
+.label {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1;
+  color: var(--color-text-secondary);
+
+  @media (min-width: 640px) {
+    font-size: 16px;
+  }
+
+  &::before {
+    content: "";
+    display: inline-block;
+    width: 2px;
+    height: 14px;
+    border-radius: 9999px;
+    background-color: var(--color-accent);
+  }
+}
+
+// 页头大标题
+.title {
+  margin-top: 16px;
+  white-space: pre-line;
+  font-size: 30px;
+  font-weight: bold;
+  line-height: 1.25;
+  letter-spacing: -0.025em;
+  color: var(--color-text-primary);
+
+  @media (min-width: 640px) {
+    font-size: 36px;
+  }
+
+  @media (min-width: 1024px) {
+    font-size: 45px;
+  }
+}
+
+// 副标题
+.subtitle {
+  margin-top: 12px;
+  font-size: 16px;
+  line-height: 1.625;
+  color: var(--color-text-secondary);
+
+  @media (min-width: 640px) {
+    font-size: 18px;
+    max-width: 480px;
   }
 }
 

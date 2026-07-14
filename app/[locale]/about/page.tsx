@@ -1,10 +1,11 @@
 /**
- * AboutPage
+ * @component AboutPage
  * @description 关于我页面
  * @author gouxinjie
+ * @created 2025-06-01
+ * @updated 2025-07-14
  */
 
-import { Metadata } from "next";
 import { experiences, skills } from "@/lib/data";
 import GitHubDashboard from "@/components/business/GitHubDashboard";
 import FadeIn from "@/components/commons/FadeIn";
@@ -17,14 +18,20 @@ export default function AboutPage() {
 
   return (
     <div className={styles.about}>
-      <div className={styles.about__container}>
-        {/* Header */}
+      {/* 页头横幅：版心 896px，使用 about-bg-1.png 背景 */}
+      <div className={styles['banner-container']}>
         <FadeIn>
-          <div className={styles.header}>
-            <h1 className={styles.header__title}>{t("title")}</h1>
+          <div
+            className={styles.banner}
+            style={{ backgroundImage: 'url("/images/about-bg-1.png")' }}
+          >
+            <span className={styles.label}>{t("label")}</span>
+            <h1 className={styles.title}>{t("title")}</h1>
+            <p className={styles.subtitle}>{t("subtitle")}</p>
           </div>
         </FadeIn>
-
+      </div>
+      <div className={styles.about__container}>
         {/* Bio */}
         <FadeIn delay={0.1}>
           <section className={styles.bio}>

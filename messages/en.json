@@ -78,7 +78,9 @@
     "search_placeholder": "Search projects..."
   },
   "About": {
+    "label": "Learn More",
     "title": "About Me",
+    "subtitle": "Passionate about full-stack development and AI, solving real-world problems through code.",
     "bio_title": "Biography",
     "bio_1": "Hi! I'm xinjie, a full-stack developer and AI explorer passionate about technology.",
     "bio_2": "I focus on building high-quality web applications, from frontend interactions to backend architectures. In recent years, I have invested a lot of time in the AI field, exploring how technologies such as LLMs, RAG, and Agents can be integrated into actual products. I believe the value of code lies in solving real problems, and AI is a powerful tool to amplify this value.",
