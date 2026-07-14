@@ -32,7 +32,7 @@ export default function PageBanner({
   children,
   maxWidth = "672px",
   className = "",
-  bottomMargin = "24px",
+  bottomMargin = "12px",
 }: PageBannerProps) {
   return (
     <div

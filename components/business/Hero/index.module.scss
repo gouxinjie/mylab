@@ -27,18 +27,18 @@
   &__title {
     margin-top: 16px;
     white-space: pre-line;
-    font-size: 30px;
+    font-size: 26px;
     font-weight: bold;
     line-height: 1.25;
     letter-spacing: -0.025em;
     color: var(--color-text-primary);
 
     @media (min-width: 640px) {
-      font-size: 36px;
+      font-size: 32px;
     }
 
     @media (min-width: 1024px) {
-      font-size: 45px; // 大屏时字号稍微减小
+      font-size: 40px;
     }
   }
 

@@ -92,7 +92,7 @@
   &__tabs {
     display: flex;
     flex-wrap: wrap;
-    gap: 8px;
+    gap: 4px;
   }
 
   // 单个分类标签：无背景无边框，仅文字色区分激活态
@@ -143,12 +143,12 @@
     pointer-events: none;
   }
 
-  // 搜索输入框：无背景，带底部边框线
+  // 搜索输入框：透明背景，四周边框 + 圆角
   &__input {
     width: 100%;
     padding: 8px 12px 8px 38px;
-    border: none;
-    border-bottom: 1px solid var(--color-border);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
     background-color: transparent;
     font-size: 14px;
     color: var(--color-text-primary);
@@ -161,7 +161,7 @@
 
     &:focus {
       outline: none;
-      border-bottom-color: var(--color-accent);
+      border-color: var(--color-accent);
     }
   }
 }
@@ -366,13 +366,27 @@
   }
 }
 
+// 淡入过渡动画
+@keyframes fproj-fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
 // 详情封面轮播
 .carousel {
   position: relative;
-  margin-bottom: 16px;
+  margin: 0 auto 16px;
   border-radius: var(--radius-lg);
   overflow: hidden;
   aspect-ratio: 16 / 9;
+  max-height: 360px;
+  max-width: 640px;
   background-color: var(--color-surface-muted);
 
   // 轮播图片
@@ -380,7 +394,7 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transition: transform 0.4s ease;
+    animation: fproj-fadeIn 0.4s ease;
   }
 
   // 填充父容器变体（卡片封面场景）：去掉外边距与圆角，由父容器约束尺寸
@@ -498,6 +512,8 @@
 
   // 外链按钮
   &__link {
+    display: inline-flex;
+    align-items: center;
     font-size: 14px;
     font-weight: 500;
     color: var(--color-accent);
@@ -506,6 +522,24 @@
     &:hover {
       color: var(--color-accent-dark);
     }
+  }
+
+  // 外链箭头
+  &__arrow {
+    margin-left: 4px;
+    transition: transform 0.2s ease;
+  }
+
+  // 箭头 hover 时右移（通过父级 .detail 上下文确保 CSS Module 类名正确匹配）
+  &__link:hover &__arrow {
+    transform: translateX(4px);
+  }
+
+  // 区块分割线
+  &__divider {
+    margin: 16px 0;
+    border: none;
+    border-top: 1px solid var(--color-border);
   }
 
   // 完整描述
@@ -534,7 +568,7 @@
     margin-bottom: 12px;
     font-size: 13px;
     line-height: 1.6;
-    color: var(--color-text-muted);
+    color: var(--color-text-secondary);
   }
 
   // 技术栈明细列表

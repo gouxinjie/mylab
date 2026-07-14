@@ -35,8 +35,8 @@ export default function FeaturedProjects({ limit, showFilters }: { limit?: numbe
     { key: "application", value: "应用", label: t("categories.application") },
     { key: "tool", value: "工具", label: t("categories.tool") },
     { key: "dataviz", value: "数据可视化", label: t("categories.dataviz") },
-    { key: "other", value: "其他", label: t("categories.other") },
     { key: "learning", value: "学习研究", label: t("categories.learning") },
+    { key: "other", value: "其他", label: t("categories.other") },
   ];
 
   // 按排序权重升序排列，再按 limit 截取（首页精选 N 个，全部项目页不传则展示全部）
@@ -280,9 +280,6 @@ function ProjectDetail({ project }: { project: Project }) {
 
   return (
     <div className={styles.detail}>
-      {/* 封面轮播 */}
-      <CoverCarousel covers={project.covers} title={project.title} autoPlay />
-
       {/* 状态与外链 */}
       <div className={styles.detail__meta}>
         <span
@@ -299,13 +296,15 @@ function ProjectDetail({ project }: { project: Project }) {
             rel="noopener noreferrer"
             className={styles.detail__link}
           >
-            访问项目 →
+            访问项目<span className={styles.detail__arrow}>→</span>
           </a>
         ) : null}
       </div>
 
       {/* 完整描述 */}
       <p className={styles.detail__desc}>{project.description}</p>
+
+      <hr className={styles.detail__divider} />
 
       {/* 部署与运行信息 */}
       <dl className={styles.detail__list}>
@@ -347,6 +346,8 @@ function ProjectDetail({ project }: { project: Project }) {
         </div>
       </dl>
 
+      <hr className={styles.detail__divider} />
+
       {/* 技术栈（置于详情底部） */}
       <section className={styles.detail__section}>
         <h4 className={styles.detail__sectionTitle}>技术栈</h4>
@@ -362,6 +363,14 @@ function ProjectDetail({ project }: { project: Project }) {
             </li>
           ))}
         </ul>
+      </section>
+
+      <hr className={styles.detail__divider} />
+
+      {/* 封面轮播（置于详情末尾） */}
+      <section className={styles.detail__section}>
+        <h4 className={styles.detail__sectionTitle}>项目截图</h4>
+        <CoverCarousel covers={project.covers} title={project.title} autoPlay />
       </section>
     </div>
   );
@@ -418,6 +427,7 @@ function CoverCarousel({
   return (
     <div className={`${styles.carousel} ${fill ? styles["carousel--fill"] : ""}`}>
       <img
+        key={index}
         src={covers[index]}
         alt={`${title} 封面 ${index + 1}`}
         className={styles.carousel__img}
