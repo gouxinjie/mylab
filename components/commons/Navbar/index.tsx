@@ -229,53 +229,63 @@ export default function Navbar() {
         </div>
       </div>
 
-      {/* 移动端菜单 */}
-      {mobileOpen && (
-        <div className={styles['mobile-menu']}>
-          <nav className="container-custom">
-            <div className={styles['mobile-menu__nav']}>
-              {navItems.map((item) => {
-                const [basePath, hash] = item.href.split("#");
-                const isHashLink = item.href.includes("#") && hash;
-                const isActive = isHashLink
-                  ? pathname === basePath && currentHash === `#${hash}`
-                  : pathname === item.href;
-
-                return (
-                  <Link
-                    key={item.href}
-                    href={item.href}
-                    onClick={() => setMobileOpen(false)}
-                    className={`${styles['mobile-menu__link']} ${isActive ? styles['mobile-menu__link--active'] : ''}`}
-                  >
-                    <span className={styles['mobile-menu__icon']}>
-                      {item.icon}
-                    </span>
-                    {item.label}
-                  </Link>
-                );
-              })}
-            </div>
-            
-            <div className={styles['mobile-menu__footer']}>
-              <button
-                onClick={() => switchLocale(locale === "zh" ? "en" : "zh")}
-                className={styles['mobile-menu__foot-btn']}
-              >
-                <GlobeIcon />
-                {locale === "zh" ? "English" : "简体中文"}
-              </button>
-              <button
-                onClick={toggleTheme}
-                className={styles['mobile-menu__foot-btn']}
-              >
-                {resolvedTheme === "dark" ? <MoonIcon /> : <SunIcon />}
-                {resolvedTheme === "dark" ? "Dark" : "Light"}
-              </button>
-            </div>
-          </nav>
+      {/* 移动端菜单（始终渲染，通过 transition 控制显隐） */}
+      <div className={`${styles['mobile-menu']} ${mobileOpen ? styles['mobile-menu--open'] : ''}`}>
+        {/* 移动端菜单顶部：品牌 + 关闭按钮 */}
+        <div className={`container-custom ${styles['mobile-menu__top']}`}>
+          <Link href="/" onClick={() => setMobileOpen(false)} className={styles.brand}>
+            <BrandLogo />
+            <span className={styles.brand__name}>xinjie</span>
+          </Link>
+          <button
+            onClick={() => setMobileOpen(false)}
+            className={styles['mobile-menu__close']}
+            aria-label="关闭菜单"
+          >
+            <MenuIcon open={true} />
+          </button>
         </div>
-      )}
+        <nav className="container-custom">
+          <div className={styles['mobile-menu__nav']}>
+            {navItems.map((item) => {
+              const [basePath, hash] = item.href.split("#");
+              const isHashLink = item.href.includes("#") && hash;
+              const isActive = isHashLink
+                ? pathname === basePath && currentHash === `#${hash}`
+                : pathname === item.href;
+
+              return (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  onClick={() => setMobileOpen(false)}
+                  className={`${styles['mobile-menu__link']} ${isActive ? styles['mobile-menu__link--active'] : ''}`}
+                >
+                  <span className={styles['mobile-menu__icon']}>{item.icon}</span>
+                  {item.label}
+                </Link>
+              );
+            })}
+          </div>
+          
+          <div className={styles['mobile-menu__footer']}>
+            <button
+              onClick={() => switchLocale(locale === "zh" ? "en" : "zh")}
+              className={styles['mobile-menu__foot-btn']}
+            >
+              <GlobeIcon />
+              {locale === "zh" ? "English" : "简体中文"}
+            </button>
+            <button
+              onClick={toggleTheme}
+              className={styles['mobile-menu__foot-btn']}
+            >
+              {resolvedTheme === "dark" ? <MoonIcon /> : <SunIcon />}
+              {resolvedTheme === "dark" ? "Dark" : "Light"}
+            </button>
+          </div>
+        </nav>
+      </div>
     </header>
   );
 }

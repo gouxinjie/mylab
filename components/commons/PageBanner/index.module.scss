@@ -18,6 +18,11 @@
   background-position: right center;
   background-size: cover;
 
+  // 移动端（< 640px）隐藏背景图（inline style 优先级高，需 !important 覆盖）
+  @media (max-width: 639px) {
+    background-image: none !important;
+  }
+
   @media (min-width: 640px) {
     padding: 56px 16px 48px 16px;
   }

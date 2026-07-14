@@ -251,67 +251,103 @@
   }
 }
 
-// 移动端全屏菜单：覆盖全屏，顶部下拉动画
+// 移动端全屏菜单：覆盖全屏，始终渲染，通过 transition 控制显隐
 .mobile-menu {
   position: fixed;
   inset: 0;
-  z-index: 40;
-  padding-top: 80px;
+  z-index: 60;
+  padding-top: 0;
   background-color: var(--color-bg);
-  animation: fadeInDown 0.3s ease-out;
+  opacity: 0;
+  transform: translateY(-8px);
+  pointer-events: none;
+  transition: opacity 0.25s ease, transform 0.25s ease;
 
   @media (min-width: 768px) {
     display: none;
   }
 
-  // 移动端导航列表：纵向排列
+  // 展开态
+  &--open {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+  }
+
+  // 移动端导航列表：纵向排列，项间有细线
   &__nav {
     display: flex;
     flex-direction: column;
-    gap: 8px;
   }
 
-  // 移动端导航链接：大字号，激活态强调色
+  // 移动端导航链接：文字 + 底部分割线
   &__link {
     display: flex;
     align-items: center;
-    gap: 16px;
-    border-radius: var(--radius-xl);
-    padding: 16px 20px;
-    font-size: 18px;
+    gap: 10px;
+    padding: 12px 0;
+    font-size: 14px;
     font-weight: 500;
-    transition: all 0.2s;
     color: var(--color-text-secondary);
+    border-bottom: 1px solid var(--color-border);
+    transition: color 0.2s;
 
     &:active {
-      transform: scale(0.95);
+      color: var(--color-text-primary);
     }
 
     &--active {
       color: var(--color-accent);
-
-      .mobile-menu__icon {
-        color: var(--color-accent);
-      }
     }
   }
 
   // 移动端导航链接图标
   &__icon {
-    color: var(--color-text-muted);
     display: flex;
     align-items: center;
     justify-content: center;
+    color: var(--color-text-muted);
   }
 
-  // 移动端菜单底部操作区
+  // 移动端菜单顶部操作区（品牌 + 关闭按钮）
+  &__top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 18px;
+    padding-bottom: 12px;
+  }
+
+  // 移动端菜单关闭按钮
+  &__close {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 40px;
+    width: 40px;
+    border-radius: var(--radius-full);
+    border: 1px solid var(--color-border);
+    color: var(--color-text-secondary);
+    transition: all 0.2s;
+
+    &:hover {
+      border-color: var(--color-accent);
+      color: var(--color-accent);
+    }
+
+    &:active {
+      transform: scale(0.95);
+    }
+  }
+
+  // 移动端菜单底部操作区（紧凑）
   &__footer {
-    margin-top: 32px;
+    margin-top: 20px;
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 16px;
+    gap: 12px;
     border-top: 1px solid var(--color-border);
-    padding-top: 32px;
+    padding-top: 20px;
   }
 
   // 移动端底部按钮：主题/语言切换
@@ -320,13 +356,13 @@
     align-items: center;
     justify-content: center;
     gap: 8px;
-    border-radius: var(--radius-xl);
+    border-radius: var(--radius-lg);
     border: 1px solid var(--color-border);
-    padding: 16px;
+    padding: 12px;
     font-size: 14px;
     font-weight: 500;
     color: var(--color-text-secondary);
-    transition: transform 0.2s;
+    transition: all 0.2s;
 
     &:active {
       transform: scale(0.95);
@@ -346,14 +382,3 @@
   }
 }
 
-// 移动端菜单下拉进入动画
-@keyframes fadeInDown {
-  from {
-    opacity: 0;
-    transform: translateY(-16px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
