@@ -7,19 +7,24 @@
 // 页面整体容器
 .about {
   background-color: var(--color-bg);
+
+  // 收窄版心
+  :global(.container-custom) {
+    max-width: 900px;
+  }
 }
 
 // Hero 区域：居中布局、头像 + 光晕背景
 .hero {
   position: relative;
   overflow: hidden;
-  padding-top: 64px;
-  padding-bottom: 64px;
+  padding-top: 40px;
+  padding-bottom: 40px;
   text-align: center;
 
   @media (min-width: 768px) {
-    padding-top: 80px;
-    padding-bottom: 80px;
+    padding-top: 48px;
+    padding-bottom: 48px;
   }
 }
 
@@ -28,8 +33,8 @@
   position: absolute;
   top: 50%;
   left: 50%;
-  width: 500px;
-  height: 500px;
+  width: 360px;
+  height: 360px;
   border-radius: 50%;
   background: radial-gradient(circle, rgba(var(--color-accent-rgb), 0.08) 0%, transparent 70%);
   transform: translate(-50%, -50%);
@@ -53,7 +58,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 24px;
+  gap: 16px;
 }
 
 // 头像外框
@@ -66,8 +71,8 @@
   background-color: var(--color-bg);
 
   @media (min-width: 640px) {
-    width: 128px;
-    height: 128px;
+    width: 136px;
+    height: 136px;
   }
 }
 
@@ -84,7 +89,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 8px;
+  gap: 4px;
 }
 
 // 姓名
@@ -101,54 +106,54 @@
 
 // 标语
 .hero__tagline {
-  font-size: 15px;
+  font-size: 18px;
   font-weight: 500;
   color: var(--color-accent);
 
   @media (min-width: 640px) {
-    font-size: 16px;
+    font-size: 20px;
   }
 }
 
 // Hero 描述
 .hero__desc {
   max-width: 640px;
-  margin-top: 8px;
-  font-size: 14px;
+  margin-top: 4px;
+  font-size: 15px;
   line-height: 1.7;
   color: var(--color-text-secondary);
   white-space: pre-line;
 
   @media (min-width: 640px) {
-    font-size: 15px;
+    font-size: 16px;
   }
 }
 
 // 通用内容区块
 .section {
-  padding-bottom: 64px;
+  padding-bottom: 40px;
 
   @media (min-width: 768px) {
-    padding-bottom: 80px;
+    padding-bottom: 48px;
   }
 }
 
 // 区块标题
 .section__title {
-  margin-bottom: 32px;
-  font-size: 22px;
+  margin-bottom: 20px;
+  font-size: 18px;
   font-weight: 700;
   color: var(--color-text-primary);
 
   @media (min-width: 640px) {
-    font-size: 26px;
+    font-size: 21px;
   }
 }
 
 // 区块副标题（与标题搭配时上提，保持紧凑间距）
 .section__subtitle {
-  margin-top: -20px;
-  margin-bottom: 32px;
+  margin-top: -12px;
+  margin-bottom: 20px;
   font-size: 14px;
   line-height: 1.6;
   color: var(--color-text-secondary);
@@ -162,7 +167,7 @@
 .statsGrid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 16px;
+  gap: 12px;
 
   @media (min-width: 640px) {
     grid-template-columns: repeat(3, 1fr);
@@ -178,8 +183,8 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 8px;
-  padding: 24px 16px;
+  gap: 4px;
+  padding: 16px 12px;
   border: 1px solid var(--color-border);
   border-radius: var(--radius-xl);
   background-image: linear-gradient(180deg, #ffffff 0%, var(--color-bg-secondary) 100%);
@@ -201,13 +206,13 @@
 
 // 数据概览图标
 .statCard__icon {
-  font-size: 28px;
+  font-size: 24px;
   line-height: 1;
 }
 
 // 数据概览数值
 .statCard__value {
-  font-size: 28px;
+  font-size: 24px;
   font-weight: 700;
   letter-spacing: -0.02em;
   color: var(--color-text-primary);
@@ -232,15 +237,24 @@
 
 // 技术分组卡片
 .techGroup {
-  padding: 24px;
+  padding: 20px;
   border: 1px solid var(--color-border);
   border-radius: var(--radius-xl);
   background-color: var(--color-bg-secondary);
 }
 
+// 技术分类子区块（分组间距）
+.techGroup__section {
+  margin-bottom: 20px;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
 // 技术分组标题
 .techGroup__title {
-  margin-bottom: 16px;
+  margin-bottom: 12px;
   font-size: 15px;
   font-weight: 600;
   color: var(--color-text-primary);
@@ -269,7 +283,7 @@
   position: relative;
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 12px;
   padding-left: 32px;
 
   // 左侧竖线
@@ -290,8 +304,8 @@
   position: relative;
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  padding: 20px;
+  gap: 6px;
+  padding: 16px;
   border: 1px solid var(--color-border);
   border-radius: var(--radius-xl);
   background-color: var(--color-bg-secondary);
@@ -333,7 +347,7 @@
   align-self: flex-start;
   padding: 4px 10px;
   border-radius: 999px;
-  background-color: var(--color-bg);
+  background-color: rgba(var(--color-accent-rgb), 0.1);
   font-size: 12px;
   font-weight: 600;
   color: var(--color-accent);
@@ -360,6 +374,7 @@
 // 经历公司名称
 .expItem__company {
   font-weight: 500;
+  font-size: 14px;
   color: var(--color-text-secondary);
 }
 
@@ -395,8 +410,8 @@
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 12px;
-  padding: 24px;
+  gap: 8px;
+  padding: 20px;
   border-radius: var(--radius-xl);
   border: 1px solid var(--color-border);
   background-color: var(--color-bg-secondary);
@@ -446,7 +461,7 @@
 
 // 技能分组卡片
 .skillsBarGroup {
-  padding: 24px;
+  padding: 20px;
   border: 1px solid var(--color-border);
   border-radius: var(--radius-xl);
   background-color: var(--color-bg-secondary);
@@ -454,7 +469,7 @@
 
 // 技能分组标题
 .skillsBarGroup__title {
-  margin-bottom: 20px;
+  margin-bottom: 14px;
   font-size: 15px;
   font-weight: 600;
   color: var(--color-text-primary);
@@ -462,7 +477,7 @@
 
 // 单条技能进度条
 .skillsBar {
-  margin-bottom: 16px;
+  margin-bottom: 12px;
 
   &:last-child {
     margin-bottom: 0;

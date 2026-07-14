@@ -53,7 +53,7 @@ export default function AboutPage({ params: { locale } }: { params: { locale: st
             <FadeIn>
               <div className={styles.hero__avatar}>
                 <img
-                  src="/images/avatar-placeholder.svg"
+                  src="/images/avatar.png"
                   alt="Avatar"
                   className={styles.hero__avatarImg}
                 />
@@ -134,10 +134,10 @@ export default function AboutPage({ params: { locale } }: { params: { locale: st
             <h2 className={styles.section__title}>{t("tech_title")}</h2>
             <p className={styles.section__subtitle}>{t("tech_subtitle")}</p>
           </FadeIn>
-          <div className={styles.techGrid}>
-            {techCategories.map((category, idx) => (
-              <FadeIn key={category.title} delay={0.05 * idx}>
-                <div className={styles.techGroup}>
+          <FadeIn delay={0.05}>
+            <div className={styles.techGroup}>
+              {techCategories.map((category) => (
+                <div key={category.title} className={styles.techGroup__section}>
                   <h4 className={styles.techGroup__title}>
                     {locale === "zh" ? category.title : category.titleEn}
                   </h4>
@@ -153,9 +153,9 @@ export default function AboutPage({ params: { locale } }: { params: { locale: st
                     ))}
                   </div>
                 </div>
-              </FadeIn>
-            ))}
-          </div>
+              ))}
+            </div>
+          </FadeIn>
         </div>
       </section>
 

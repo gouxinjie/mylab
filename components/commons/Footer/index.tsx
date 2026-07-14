@@ -42,9 +42,8 @@ export default function Footer() {
             <ul className={styles.section__list}>
               {[
                 { label: navT("home"), href: "/" },
-                { label: navT("about"), href: "/about" },
-                { label: navT("skills"), href: "/about#skills" },
                 { label: navT("projects"), href: "/projects" },
+                { label: navT("about"), href: "/about" },
                 { label: navT("contact"), href: "/contact" },
               ].map((item) => (
                 <li key={item.href}>
