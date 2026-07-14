@@ -78,15 +78,16 @@
     "search_placeholder": "Search projects..."
   },
   "About": {
-    "label": "Learn More",
-    "title": "About Me",
-    "subtitle": "Passionate about full-stack development and AI, solving real-world problems through code.",
-    "bio_title": "Biography",
-    "bio_1": "Hi! I'm xinjie, a full-stack developer and AI explorer passionate about technology.",
-    "bio_2": "I focus on building high-quality web applications, from frontend interactions to backend architectures. In recent years, I have invested a lot of time in the AI field, exploring how technologies such as LLMs, RAG, and Agents can be integrated into actual products. I believe the value of code lies in solving real problems, and AI is a powerful tool to amplify this value.",
-    "bio_3": "Outside of work, I enjoy sharing what I learn through open-source projects and writing technical blogs to record my experiences. If you're interested in my projects or ideas, feel free to contact me for an exchange!",
+    "label": "About Me",
+    "title": "Passionate about technology, focused on creating valuable products",
+    "description": "I'm xinjie, a full-stack developer passionate about solving real-world problems through code, building high-quality Web applications and tools, pursuing simplicity, maintainability and ultimate user experience.",
+    "location": "Shenzhen, China",
+    "email": "hello@gouxinjie.com",
+    "experience_years": "5+ years of experience",
+    "download_resume": "Download Resume",
     "skills_title": "Tech Stack",
-    "experience_title": "Work Experience"
+    "experience_title": "Work Experience",
+    "values_title": "My Values"
   },
   "Projects": {
     "label": "My Projects",
