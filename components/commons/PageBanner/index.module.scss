@@ -2,6 +2,7 @@
  * @file index.scss
  * @description PageBanner 通用页头横幅样式
  * @author gouxinjie
+ * @updated 2026-07-15 暗色模式修复：叠加桌面端左侧渐变蒙版，解决白字在浅色背景图上不可读的问题
  */
 
 // 横幅容器：flex 列布局 + 背景图
@@ -36,5 +37,29 @@
     position: relative;
     z-index: 10;
     width: 100%;
+  }
+
+  // 暗色模式 + 桌面端（有背景图时）：叠加左侧渐变蒙版
+  // 背景图为浅色设计图，若不加蒙版，暗色模式下主题色文字（白色）
+  // 会与浅色背景对比度不足。蒙版使左侧文字区变深，保证可读性；
+  // 右侧渐变到透明，保留装饰图视觉。
+  // 仅桌面端生效（<640px 已隐藏背景图，无需处理）。
+  @media (min-width: 640px) {
+    :global(.dark) &::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+      border-radius: inherit;
+      // 颜色取自暗色主题 --color-bg-dark (#020617 = rgb 2,6,23)
+      background: linear-gradient(
+        to right,
+        rgba(2, 6, 23, 1) 0%,
+        rgba(2, 6, 23, 0.92) 30%,
+        rgba(2, 6, 23, 0.35) 60%,
+        transparent 85%
+      );
+    }
   }
 }

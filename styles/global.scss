@@ -2,11 +2,25 @@
  * @file global.scss
  * @description 全局样式入口
  * @author gouxinjie
+ * @updated 2026-07-15 新增主题切换平滑过渡（日间↔暗黑模式）
  */
 
 @import "./variables.scss";
 @import "./mixins.scss";
 @import "./reset.scss";
+
+// ==========================================
+// 主题切换平滑过渡
+// 使用 * 通用选择器（优先级 0,0,0,0），任何类选择器的 transition
+// 声明都会自动覆盖此规则，不会影响按钮、卡片等已有交互过渡
+// ==========================================
+*,
+*::before,
+*::after {
+  transition-property: background-color, color, border-color, box-shadow;
+  transition-duration: 0.3s;
+  transition-timing-function: ease;
+}
 
 main {
   min-height: 100vh;

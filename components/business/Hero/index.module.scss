@@ -2,6 +2,7 @@
  * @file index.scss
  * @description Hero 区域样式
  * @author gouxinjie
+ * @updated 2026-07-15 暗色模式修复：btn-hero--outline 保持白底"亮块"设计，文字强制深色以保证可读
  */
 
 // 英雄区域整体容器
@@ -98,7 +99,9 @@
     }
   }
 
-  // 描边按钮：浅色背景，hover 切换为浅灰表面
+  // 描边按钮：固定白底，hover 切换为浅灰表面
+  // 设计意图：作为"亮块"在暗色背景中凸显，故两套主题下背景均为白色
+  // 暗色模式下 --color-text-primary 为白色会与白底冲突，需强制深色文字
   &--outline {
     border: 1px solid var(--color-border);
     background-color: white;
@@ -110,6 +113,19 @@
 
     svg {
       margin-right: 8px;
+    }
+  }
+
+  // 暗色模式覆盖：保持白底"亮块" + 深色文字，hover 切换为浅灰
+  // 独立顶层选择器（CSS Modules + :global），避免在 &--outline 内嵌套过深
+  :global(.dark) &--outline {
+    color: #111827;
+    border-color: rgba(0, 0, 0, 0.1);
+
+    // 暗色模式下 --color-surface 为深蓝灰，会与深色文字冲突
+    // 使用固定浅灰 #F3F4F6 保持深色文字可读，且与白底有清晰对比
+    &:hover {
+      background-color: #F3F4F6;
     }
   }
 }

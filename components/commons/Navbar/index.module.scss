@@ -2,6 +2,7 @@
  * @file index.scss
  * @description Navbar 组件样式
  * @author gouxinjie
+ * @updated 2026-07-15 暗色模式修复：menu-btn/theme-btn 显式 color + 移除移动端菜单上边框
  */
 
 // 顶部导航栏容器：吸顶、底部阴影（无边框）、浅色背景
@@ -232,6 +233,7 @@
   justify-content: center;
   border-radius: var(--radius-lg);
   border: 1px solid var(--color-border);
+  color: var(--color-text-secondary);
   transition: all 0.2s;
 
   &:hover {

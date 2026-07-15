@@ -2,6 +2,7 @@
  * @file index.scss
  * @description FeaturedProjects 区域样式
  * @author gouxinjie
+ * @updated 2026-07-15 暗色模式修复：标签/链接图标/卡片边框适配暗色主题
  */
 
 // 状态圆点呼吸动画
@@ -301,6 +302,12 @@
     background-color: #e5f7ed;
   }
 
+  // 暗色模式：分类标签用半透明深色底替代浅绿底，文字微调为亮绿
+  :global(.dark) &__categoryTag {
+    color: #4ade80;
+    background-color: rgba(51, 191, 152, 0.12);
+  }
+
   // 项目描述：两行截断
   &__desc {
     margin-bottom: 12px;
@@ -339,6 +346,12 @@
     color: var(--color-text-primary);
   }
 
+  // 暗色模式：标签固定浅灰底会与白色主题文字冲突，切换为深色底+浅色字
+  :global(.dark) &__tag {
+    background-color: rgba(51, 65, 85, 0.4);
+    color: #e2e8f0;
+  }
+
   // 链接图标组：居右排列
   &__links {
     display: flex;
@@ -362,6 +375,29 @@
     &:hover {
       color: var(--color-accent);
       background-color: var(--color-surface);
+    }
+  }
+
+  // 暗色模式：链接图标在暗色主题下提升对比度
+  :global(.dark) &__link {
+    color: #cbd5e1;
+    background-color: rgba(51, 65, 85, 0.6);
+
+    &:hover {
+      color: var(--color-accent);
+      background-color: rgba(51, 65, 85, 0.85);
+    }
+  }
+
+  // 暗色模式：卡片用可见边框替换透明边框+黑色阴影，
+  // 避免卡片在深色背景中失去边界感
+  :global(.dark) & {
+    border-color: rgba(51, 65, 85, 0.5);
+    box-shadow: none;
+
+    &:hover {
+      border-color: var(--color-accent);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
     }
   }
 }

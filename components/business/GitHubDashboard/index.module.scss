@@ -2,6 +2,7 @@
  * @file index.scss
  * @description GitHub 数据看板样式（GitHub 经典热力图风格）
  * @author gouxinjie
+ * @updated 2026-07-15 暗色模式修复：热力图与图例采用 GitHub 官方暗色色阶，文字/边框色适配
  */
 
 // GitHub 贡献热力图配色（Light 主题）
@@ -429,6 +430,51 @@ $gh-link: #0969da;
 
     &--4 {
       background-color: $gh-l4;
+    }
+  }
+
+  // ==========================================
+  // 暗色模式：复刻 GitHub 官方暗色主题色阶
+  // GitHub 浅色：#ebedf0 #9be9a8 #40c463 #30a14e #216e39
+  // GitHub 暗色：#161b22 #0e4429 #006d32 #26a641 #39d353
+  // ==========================================
+
+  // 热力图格子：暗色色阶 + 白色 hover 边框（替换不可见的黑色 outline）
+  :global(.dark) &__cell {
+    &--empty,
+    &--level-0 { background-color: #161b22; }
+    &--level-1 { background-color: #0e4429; }
+    &--level-2 { background-color: #006d32; }
+    &--level-3 { background-color: #26a641; }
+    &--level-4 { background-color: #39d353; }
+
+    &:hover {
+      outline-color: rgba(255, 255, 255, 0.4);
+    }
+  }
+
+  // 图例色块：与热力图格子色阶保持一致
+  :global(.dark) &__level {
+    &--0 { background-color: #161b22; }
+    &--1 { background-color: #0e4429; }
+    &--2 { background-color: #006d32; }
+    &--3 { background-color: #26a641; }
+    &--4 { background-color: #39d353; }
+  }
+
+  // 暗色模式：文字与链接色（替换 $gh-text 深灰与 $gh-link 偏暗蓝）
+  :global(.dark) &__weekdayLabel,
+  :global(.dark) &__yearLabel,
+  :global(.dark) &__monthLabel,
+  :global(.dark) &__legend {
+    color: rgba(255, 255, 255, 0.6);
+  }
+
+  :global(.dark) &__link {
+    color: rgba(255, 255, 255, 0.7);
+
+    &:hover {
+      color: #fff;
     }
   }
 }
