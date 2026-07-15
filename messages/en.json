@@ -89,8 +89,10 @@
     "download_resume": "Download Resume",
     "skills_title": "Tech Stack",
     "experience_title": "Growth Journey",
+    "experience_subtitle": "My learning, practice and growth along the way",
     "values_title": "My Values",
     "stats_title": "At a Glance",
+    "stats_subtitle": "Numbers that tell my story",
     "projects_title": "Live Projects",
     "tech_title": "Tech Stack",
     "tech_subtitle": "An overview of the technologies I use and explore",
@@ -139,7 +141,6 @@
     "rights": "© 2026 gouxinjie. All rights reserved.",
     "nav_title": "Navigation",
     "resources_title": "Resources",
-    "social_title": "Social",
     "blog": "Blog (blog.gouxinjie.com)"
   },
   "Contact": {

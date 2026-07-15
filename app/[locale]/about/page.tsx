@@ -24,6 +24,7 @@ import {
   type Value,
 } from "@/lib/data";
 import FadeIn from "@/components/commons/FadeIn";
+import Section from "@/components/commons/Section";
 import AboutContact from "@/components/commons/AboutContact";
 import GitHubDashboard from "@/components/business/GitHubDashboard";
 import styles from "./page.module.scss";
@@ -70,112 +71,88 @@ export default function AboutPage({ params: { locale } }: { params: { locale: st
       </section>
 
       {/* 数据概览区域 */}
-      <section className={styles.section} id="stats">
-        <div className="container-custom">
-          <FadeIn>
-            <h2 className={styles.section__title}>{t("stats_title")}</h2>
-          </FadeIn>
-          <div className={styles.statsGrid}>
-            {aboutStats.map((stat, idx) => (
-              <FadeIn key={stat.label} delay={0.05 * idx}>
-                <div className={styles.statCard}>
-                  <span className={styles.statCard__icon}>{stat.icon}</span>
-                  <span className={styles.statCard__value}>{stat.value}</span>
-                  <span className={styles.statCard__label}>
-                    {locale === "zh" ? stat.label : stat.labelEn}
-                  </span>
-                </div>
-              </FadeIn>
-            ))}
-          </div>
+      <Section id="stats" title={t("stats_title")} subtitle={t("stats_subtitle")}>
+        <div className={styles.statsGrid}>
+          {aboutStats.map((stat, idx) => (
+            <FadeIn key={stat.label} delay={0.05 * idx}>
+              <div className={styles.statCard}>
+                <span className={styles.statCard__icon}>{stat.icon}</span>
+                <span className={styles.statCard__value}>{stat.value}</span>
+                <span className={styles.statCard__label}>
+                  {locale === "zh" ? stat.label : stat.labelEn}
+                </span>
+              </div>
+            </FadeIn>
+          ))}
         </div>
-      </section>
+      </Section>
 
       {/* GitHub 数据看板（含贡献热力图） */}
-      <section className={styles.section}>
-        <FadeIn>
-          <GitHubDashboard />
-        </FadeIn>
-      </section>
+      <FadeIn>
+        <GitHubDashboard />
+      </FadeIn>
 
       {/* 技术清单区域 */}
-      <section className={styles.section} id="tech">
-        <div className="container-custom">
-          <FadeIn>
-            <h2 className={styles.section__title}>{t("tech_title")}</h2>
-            <p className={styles.section__subtitle}>{t("tech_subtitle")}</p>
-          </FadeIn>
-          <FadeIn delay={0.05}>
-            <div className={styles.techGroup}>
-              {techCategories.map((category) => (
-                <div key={category.title} className={styles.techGroup__section}>
-                  <h4 className={styles.techGroup__title}>
-                    {locale === "zh" ? category.title : category.titleEn}
-                  </h4>
-                  <div className={styles.techGroup__badges}>
-                    {category.badges.map((badge) => (
-                      <img
-                        key={badge.label}
-                        src={badge.img}
-                        alt={badge.label}
-                        loading="lazy"
-                        className={styles.techBadge}
-                      />
-                    ))}
-                  </div>
+      <Section id="tech" title={t("tech_title")} subtitle={t("tech_subtitle")}>
+        <FadeIn delay={0.05}>
+          <div className={styles.techGroup}>
+            {techCategories.map((category) => (
+              <div key={category.title} className={styles.techGroup__section}>
+                <h4 className={styles.techGroup__title}>
+                  {locale === "zh" ? category.title : category.titleEn}
+                </h4>
+                <div className={styles.techGroup__badges}>
+                  {category.badges.map((badge) => (
+                    <img
+                      key={badge.label}
+                      src={badge.img}
+                      alt={badge.label}
+                      loading="lazy"
+                      className={styles.techBadge}
+                    />
+                  ))}
                 </div>
-              ))}
-            </div>
-          </FadeIn>
-        </div>
-      </section>
-
-      {/* 成长足迹区域 */}
-      <section className={styles.section}>
-        <div className="container-custom">
-          <FadeIn>
-            <h2 className={styles.section__title}>{t("experience_title")}</h2>
-          </FadeIn>
-          <div className={styles.expTimeline}>
-            {experiences.map((exp: Experience, idx: number) => (
-              <FadeIn key={exp.id} delay={0.1 * idx}>
-                <div className={styles.expItem}>
-                  <div className={styles.expItem__date}>{exp.period}</div>
-                  <div className={styles.expItem__title}>
-                    {locale === "zh" ? exp.role : exp.roleEn}
-                    <span className={styles.expItem__divider}>·</span>
-                    <span className={styles.expItem__company}>
-                      {locale === "zh" ? exp.company : exp.companyEn}
-                    </span>
-                  </div>
-                  <p className={styles.expItem__content}>
-                    {locale === "zh" ? exp.description : exp.descriptionEn}
-                  </p>
-                </div>
-              </FadeIn>
+              </div>
             ))}
           </div>
-        </div>
-      </section>
+        </FadeIn>
+      </Section>
 
-      {/* 联系方式区域 */}
-      <section className={styles.section} id="contact">
-        <div className="container-custom">
-          <FadeIn>
-            <h2 className={styles.section__title}>{t("contact_title")}</h2>
-            <p className={styles.section__subtitle}>{t("contact_subtitle")}</p>
-          </FadeIn>
-          <FadeIn delay={0.1}>
-            <AboutContact
-              links={aboutContacts}
-              locale={locale}
-              copyHint={t("contact_copy_hint")}
-              copySuccess={t("copy_success")}
-              copyFail={t("copy_fail")}
-            />
-          </FadeIn>
+      {/* 成长足迹区域 */}
+      <Section title={t("experience_title")} subtitle={t("experience_subtitle")}>
+        <div className={styles.expTimeline}>
+          {experiences.map((exp: Experience, idx: number) => (
+            <FadeIn key={exp.id} delay={0.1 * idx}>
+              <div className={styles.expItem}>
+                <div className={styles.expItem__date}>{exp.period}</div>
+                <div className={styles.expItem__title}>
+                  {locale === "zh" ? exp.role : exp.roleEn}
+                  <span className={styles.expItem__divider}>·</span>
+                  <span className={styles.expItem__company}>
+                    {locale === "zh" ? exp.company : exp.companyEn}
+                  </span>
+                </div>
+                <p className={styles.expItem__content}>
+                  {locale === "zh" ? exp.description : exp.descriptionEn}
+                </p>
+              </div>
+            </FadeIn>
+          ))}
         </div>
-      </section>
+      </Section>
+
+      {/* 与我相关区域 */}
+      <Section id="contact" title={t("contact_title")} subtitle={t("contact_subtitle")}>
+        <FadeIn delay={0.1}>
+          <AboutContact
+            links={aboutContacts}
+            locale={locale}
+            copyHint={t("contact_copy_hint")}
+            copySuccess={t("copy_success")}
+            copyFail={t("copy_fail")}
+          />
+        </FadeIn>
+      </Section>
 
       {/* 价值观区域 */}
       <section className={styles.section}>

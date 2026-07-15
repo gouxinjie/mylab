@@ -89,8 +89,10 @@
     "download_resume": "下载我的简历",
     "skills_title": "技术栈",
     "experience_title": "成长足迹",
+    "experience_subtitle": "一路走来的学习、实践与成长",
     "values_title": "我的理念",
     "stats_title": "数据概览",
+    "stats_subtitle": "用数字记录我的技术足迹",
     "projects_title": "线上项目",
     "tech_title": "技术清单",
     "tech_subtitle": "我日常使用与探索的技术栈全景",
@@ -139,7 +141,6 @@
     "rights": "© 2026 gouxinjie. All rights reserved.",
     "nav_title": "导航",
     "resources_title": "资源",
-    "social_title": "社交",
     "blog": "博客 (blog.gouxinjie.com)"
   },
   "Contact": {

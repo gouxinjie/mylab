@@ -1,0 +1,78 @@
+/**
+ * @file index.module.scss
+ * @description 通用内容区块容器样式：统一头部（标题/副标题/操作区）与版心约束
+ * @author gouxinjie
+ */
+
+// 区块容器：移动端加大顶部间距，让区块之间更透气；桌面端收敛
+.section {
+  padding-top: 28px;
+  padding-bottom: 16px;
+
+  @media (min-width: 640px) {
+    padding-top: 16px;
+    padding-bottom: 20px;
+  }
+}
+
+// 区块头部：标题 + 副标题在左，操作区在右
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 20px;
+
+  // 桌面端：左右排布，底部对齐，标题组与操作区间距自适应
+  @media (min-width: 640px) {
+    flex-direction: row;
+    align-items: flex-end;
+    justify-content: space-between;
+  }
+}
+
+// 标题与副标题文本区：占据剩余宽度，避免被操作区挤压换行
+.header__text {
+  min-width: 0;
+}
+
+// 区块标题
+.header__title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--color-text-primary);
+
+  @media (min-width: 640px) {
+    font-size: 19px;
+  }
+
+  // 左侧主色装饰竖条（与全局 .section-title 保持一致）
+  &::before {
+    content: "";
+    display: block;
+    flex-shrink: 0;
+    width: 4px;
+    height: 20px;
+    border-radius: var(--radius-full);
+    background-color: var(--color-accent);
+  }
+}
+
+// 区块副标题：次要色，与标题保持紧凑
+.header__subtitle {
+  margin-top: 4px;
+  font-size: 12px;
+  line-height: 1.6;
+  color: var(--color-text-secondary);
+
+  @media (min-width: 640px) {
+    font-size: 14px;
+  }
+}
+
+// 标题右侧操作区：不收缩，右对齐
+.header__action {
+  flex-shrink: 0;
+}

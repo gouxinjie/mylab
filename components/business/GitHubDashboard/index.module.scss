@@ -14,69 +14,23 @@ $gh-border: #d1d5da;
 $gh-text: #57606a;
 $gh-link: #0969da;
 
-// 看板区块
+// 看板区块：顶部间距由 Section 统一控制，此处不再重复设置
 .github {
-  padding-top: 32px;
-  padding-bottom: 32px;
-
-  @media (min-width: 640px) {
-    padding-top: 40px;
-    padding-bottom: 40px;
-  }
-
-  @media (min-width: 1024px) {
-    padding-top: 56px;
-    padding-bottom: 56px;
-  }
-
-
+  padding-top: 0;
 }
 
-// 区块头部：标题 + 副标题 + GitHub 链接
-.header {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
+// GitHub 链接：主色，hover 深主色
+.header__link {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--color-accent);
+  transition: color 0.2s;
 
-  @media (min-width: 640px) {
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-  }
-
-  // 副标题：次要色
-  &__subtitle {
-    margin-top: 4px;
-    font-size: 14px;
-    color: var(--color-text-secondary);
-
-    @media (min-width: 640px) {
-      margin-top: 6px;
-    }
-  }
-
-  // 覆盖全局 section-title
-  :global(.section-title) {
-    font-size: 18px;
-
-    @media (min-width: 640px) {
-      font-size: 18px;
-    }
-  }
-
-  // GitHub 链接：主色，hover 深主色
-  &__link {
-    display: inline-flex;
-    align-items: center;
-    gap: 4px;
-    font-size: 14px;
-    font-weight: 500;
-    color: var(--color-accent);
-    transition: color 0.2s;
-
-    &:hover {
-      color: var(--color-accent-dark);
-    }
+  &:hover {
+    color: var(--color-accent-dark);
   }
 }
 

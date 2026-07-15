@@ -32,7 +32,7 @@
   }
 
   @media (min-width: 768px) {
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(3, 1fr);
     gap: 40px;
   }
 }
@@ -125,37 +125,5 @@
       width: 12px;
       height: 12px;
     }
-  }
-}
-
-// 社交图标区：横向排列
-.social {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
-
-  // 单个社交链接：圆角描边方块，hover 主色高亮
-  &__link {
-    display: flex;
-    height: 40px;
-    width: 40px;
-    align-items: center;
-    justify-content: center;
-    border-radius: var(--radius-xl);
-    border: 1px solid var(--color-border);
-    color: var(--color-text-muted);
-    transition: all 0.2s;
-
-    &:hover {
-      border-color: var(--color-accent);
-      color: var(--color-accent);
-    }
-  }
-
-  // CSDN 文字标识：CSDN 无符号化官方图标，使用官方文字品牌标识
-  &__csdn {
-    font-size: 13px;
-    font-weight: 700;
-    letter-spacing: 0.02em;
   }
 }

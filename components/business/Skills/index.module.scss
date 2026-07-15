@@ -115,9 +115,9 @@
     transform: scale(0.95);
   }
 
-  // 技能图标（emoji/字符）
+  // 技能图标（emoji/字符）：统一优先使用 Inter，中文回退 Noto Sans SC
   &__icon {
-    font-family: monospace;
+    font-family: var(--font-base);
     font-size: 11px;
 
     @media (min-width: 640px) {

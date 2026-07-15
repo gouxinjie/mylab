@@ -12,6 +12,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 import { useTranslations } from "next-intl";
 import { getGithubUser, getGithubRepos, getGithubContributions } from "@/services/github";
 import type { GithubContributionDay, GithubContributionsData } from "@/types/api";
+import Section from "@/components/commons/Section";
 import styles from "./index.module.scss";
 
 interface GithubData {
@@ -128,8 +129,10 @@ function getYearLabels(
 export default function GitHubDashboard() {
   const t = useTranslations("GitHubDashboard");
   // 国际化星期标签与月份标签
-  const weekdayLabels = t.raw<string[]>("weekday_labels");
-  const months = t.raw<string[]>("months");
+  // use-intl 的 raw 类型仅收录「值为 string」的消息键，而此处为 string[]，
+  // 故以 never 断言 key 并通过 as string[] 取回正确类型
+  const weekdayLabels = t.raw("weekday_labels" as never) as string[];
+  const months = t.raw("months" as never) as string[];
 
   const [data, setData] = useState<GithubData | null>(null);
   const [loading, setLoading] = useState(true);
@@ -238,25 +241,21 @@ export default function GitHubDashboard() {
   const showHeatmapError = contributionsError && !contributionsLoading && heatmapWeeks.length === 0;
 
   return (
-    <section className={styles.github}>
-      <div className="container-custom">
-        <div className={styles.header}>
-          <div>
-            <h2 className="section-title">{t("title")}</h2>
-            <p className={styles.header__subtitle}>
-              {t("subtitle")}
-            </p>
-          </div>
-          <a
-            href="https://github.com/gouxinjie"
-            target="_blank"
-            rel="noopener noreferrer"
-            className={styles.header__link}
-          >
-            {t("view_github")}
-          </a>
-        </div>
-
+    <Section
+      className={styles.github}
+      title={t("title")}
+      subtitle={t("subtitle")}
+      action={
+        <a
+          href="https://github.com/gouxinjie"
+          target="_blank"
+          rel="noopener noreferrer"
+          className={styles.header__link}
+        >
+          {t("view_github")}
+        </a>
+      }
+    >
         <div className={styles.grid}>
           {/* Stats Cards */}
           <div className={styles['stats-grid']}>
@@ -487,7 +486,6 @@ export default function GitHubDashboard() {
             </div>
           </div>
         </div>
-      </div>
-    </section>
+    </Section>
   );
 }
