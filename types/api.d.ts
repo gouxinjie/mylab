@@ -22,11 +22,18 @@ export interface UserListParams {
 export interface GithubUserData {
   public_repos: number;
   followers: number;
+  public_gists: number;
+  /** GitHub 账号创建时间，ISO 8601 格式，如 "2016-01-15T08:00:00Z" */
+  created_at: string;
   [key: string]: unknown;
 }
 
 export interface GithubRepoData {
   stargazers_count: number;
+  forks_count: number;
+  language: string | null;
+  /** 是否为 Fork 仓库 */
+  fork: boolean;
   [key: string]: unknown;
 }
 

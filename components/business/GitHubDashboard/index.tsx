@@ -16,8 +16,10 @@ import styles from "./index.module.scss";
 
 interface GithubData {
   public_repos: number;
-  followers: number;
-  total_stars: number;
+  /** 非 Fork 的原创仓库数量 */
+  original_repos: number;
+  /** GitHub 账号注册至今的年数 */
+  github_years: number;
 }
 
 // 左侧星期标签、月份标签均来自 i18n（weekday_labels / months），避免硬编码
@@ -147,15 +149,20 @@ export default function GitHubDashboard() {
           getGithubRepos("gouxinjie"),
         ]);
 
-        const totalStars = reposData.reduce(
-          (sum, repo) => sum + repo.stargazers_count,
-          0
+        // 统计原创仓库数量（排除 Fork 仓库）
+        const originalRepos = reposData.filter((repo) => !repo.fork).length;
+
+        // 计算 GitHub 注册年数（从 created_at 到当前）
+        const createdAt = new Date(userData.created_at);
+        const now = new Date();
+        const githubYears = Math.floor(
+          (now.getTime() - createdAt.getTime()) / (1000 * 60 * 60 * 24 * 365.25)
         );
 
         setData({
           public_repos: userData.public_repos,
-          followers: userData.followers,
-          total_stars: totalStars,
+          original_repos: originalRepos,
+          github_years: githubYears,
         });
       } catch (err) {
         setError("Failed to load GitHub data");
@@ -272,15 +279,15 @@ export default function GitHubDashboard() {
                   </p>
                 </div>
                 <div className={styles['stats-grid__card']}>
-                  <span className={styles['error-card__val']}>1.2k+</span>
+                  <span className={styles['error-card__val']}>30+</span>
                   <p className={styles['error-card__label']}>
-                    {t("stars")}
+                    {t("originals")}
                   </p>
                 </div>
                 <div className={styles['stats-grid__card']}>
-                  <span className={styles['error-card__val']}>480+</span>
+                  <span className={styles['error-card__val']}>8年</span>
                   <p className={styles['error-card__label']}>
-                    {t("followers")}
+                    {t("github_age")}
                   </p>
                 </div>
               </>
@@ -296,18 +303,18 @@ export default function GitHubDashboard() {
                 </div>
                 <div className={styles['stats-grid__card']}>
                   <span className={styles['error-card__val']}>
-                    {`${((data?.total_stars || 0) / 1000).toFixed(1)}k+`}
+                    {`${data?.original_repos || 0}+`}
                   </span>
                   <p className={styles['error-card__label']}>
-                    {t("stars")}
+                    {t("originals")}
                   </p>
                 </div>
                 <div className={styles['stats-grid__card']}>
                   <span className={styles['error-card__val']}>
-                    {`${data?.followers || 0}+`}
+                    {t("github_age_years", { years: data?.github_years || 0 })}
                   </span>
                   <p className={styles['error-card__label']}>
-                    {t("followers")}
+                    {t("github_age")}
                   </p>
                 </div>
               </>

@@ -4,7 +4,6 @@
  * @author gouxinjie
  */
 
-import request from "@/utils/request";
 import {
   GithubUserData,
   GithubRepoData,
@@ -16,9 +15,22 @@ import {
  * 获取 GitHub 用户信息
  * @param username - GitHub 用户名
  * @returns 用户基础数据
+ * @remarks 走同源代理 /api/github/user，由服务端鉴权请求上游，规避浏览器跨域与速率限制。
  */
 export const getGithubUser = (username: string): Promise<GithubUserData> => {
-  return request.get(`https://api.github.com/users/${username}`);
+  return fetch(`/api/github/user?username=${encodeURIComponent(username)}`)
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      return response.json() as Promise<ApiResponse<GithubUserData>>;
+    })
+    .then((body) => {
+      if (!body.success || !body.data) {
+        throw new Error(body.message || "用户数据为空");
+      }
+      return body.data;
+    });
 };
 
 /**
@@ -26,13 +38,26 @@ export const getGithubUser = (username: string): Promise<GithubUserData> => {
  * @param username - GitHub 用户名
  * @param perPage - 每页数量
  * @returns 仓库列表数据
+ * @remarks 走同源代理 /api/github/repos，由服务端鉴权请求上游，规避浏览器跨域与速率限制。
  */
 export const getGithubRepos = (username: string, perPage = 100): Promise<GithubRepoData[]> => {
-  return request.get(`https://api.github.com/users/${username}/repos`, {
-    per_page: perPage,
-    sort: "updated",
-    type: "public"
+  const query = new URLSearchParams({
+    username,
+    per_page: String(perPage),
   });
+  return fetch(`/api/github/repos?${query}`)
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      return response.json() as Promise<ApiResponse<GithubRepoData[]>>;
+    })
+    .then((body) => {
+      if (!body.success || !body.data) {
+        throw new Error(body.message || "仓库列表为空");
+      }
+      return body.data;
+    });
 };
 
 /**

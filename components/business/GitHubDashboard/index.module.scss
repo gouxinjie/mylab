@@ -29,11 +29,7 @@ $gh-link: #0969da;
     padding-bottom: 56px;
   }
 
-  // 嵌套在已有容器内时，去掉内部 container 的左右内边距，避免双重缩进导致不对齐
-  :global(.container-custom) {
-    padding-left: 0;
-    padding-right: 0;
-  }
+
 }
 
 // 区块头部：标题 + 副标题 + GitHub 链接
@@ -211,12 +207,12 @@ $gh-link: #0969da;
 
   // 热力图尺寸变量（响应式由媒体查询调整）
   --gh-cell: 13px;
-  --gh-gap: 3px;
+  --gh-gap: 2px;
   --gh-label-w: 36px;
 
   @media (max-width: 639px) {
     --gh-cell: 11px;
-    --gh-gap: 3px;
+    --gh-gap: 2px;
     --gh-label-w: 30px;
   }
 
@@ -382,14 +378,13 @@ $gh-link: #0969da;
     flex-shrink: 0;
   }
 
-  // 单个贡献方块：GitHub 经典带边框方块
+  // 单个贡献方块：去边框、纯色方块
   &__cell {
     width: var(--gh-cell);
     height: var(--gh-cell);
     border-radius: 2px;
-    border: 1px solid $gh-border;
     flex-shrink: 0;
-    box-sizing: border-box; // 边框纳入宽高，与星期标签行高一致
+    box-sizing: border-box; // 宽高固定，与星期标签行高一致
     transition: outline 0.1s;
 
     &:hover {
@@ -456,12 +451,11 @@ $gh-link: #0969da;
     }
   }
 
-  // 图例色块
+  // 图例色块：去边框，与热力图格子保持一致
   &__level {
     width: var(--gh-cell);
     height: var(--gh-cell);
     border-radius: 2px;
-    border: 1px solid $gh-border;
 
     &--0 {
       background-color: $gh-l0;
