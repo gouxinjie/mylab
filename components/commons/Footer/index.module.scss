@@ -2,6 +2,7 @@
  * @file index.scss
  * @description Footer 组件样式
  * @author gouxinjie
+ * @updated 2026-07-15 移动端样式优化：移动端两列栅格、增大触摸点击区域、补充触控反馈
  */
 
 // 页脚整体：深色背景、顶部边框、白字
@@ -12,24 +13,35 @@
   padding-top: 48px;
   padding-bottom: 48px;
 
-  // 超小屏收紧上下内边距
+  // 移动端：两列布局（品牌整行 + 导航/资源两列）下的触摸与节奏优化
   @media (max-width: 479px) {
-    padding-top: 32px;
-    padding-bottom: 32px;
+    padding-top: 28px;
+    padding-bottom: 28px;
+
+    // 链接列表项间距收紧，为触摸区域留出空间
+    .section__list {
+      gap: 2px;
+    }
+
+    // 增大链接触摸点击区域并提升触控反馈
+    .section__link {
+      display: inline-block;
+      padding: 8px 0;
+      font-size: 15px;
+      -webkit-tap-highlight-color: transparent;
+
+      &:active {
+        color: var(--color-accent);
+      }
+    }
   }
 }
 
-// 页脚栅格：手机单列、平板两列、中屏四列
+// 页脚栅格：移动端两列（品牌独占整行）、中屏三列
 .grid {
   display: grid;
-  grid-template-columns: 1fr;
-  gap: 32px;
-
-  // 平板：两列布局，缩小列间距
-  @media (min-width: 480px) {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 32px 28px;
-  }
+  grid-template-columns: repeat(2, 1fr);
+  gap: 28px 20px;
 
   @media (min-width: 768px) {
     grid-template-columns: repeat(3, 1fr);
@@ -39,10 +51,8 @@
 
 // 品牌信息区：logo、描述、版权
 .brand {
-  // 平板两列时品牌区独占整行，置于顶部
-  @media (min-width: 480px) and (max-width: 767px) {
-    grid-column: 1 / -1;
-  }
+  // 移动端及平板：品牌区独占整行置于顶部
+  grid-column: 1 / -1;
 
   @media (min-width: 768px) {
     grid-column: span 1;
