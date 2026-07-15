@@ -47,19 +47,6 @@ export interface TechCategory {
   badges: TechBadge[];
 }
 
-// 技能进度条单项
-export interface SkillBarItem {
-  name: string;
-  level: number; // 0-100
-}
-
-// 技能进度条分组
-export interface SkillBarGroup {
-  title: string;
-  titleEn: string;
-  items: SkillBarItem[];
-}
-
 // 关于页联系方式（链接 / 可复制）
 export interface ContactLink {
   name: string;
@@ -185,29 +172,6 @@ export const aboutStats: AboutStat[] = [
   { icon: "📝", value: "300+", label: "发布文章", labelEn: "Articles Published" },
   { icon: "📦", value: "20+", label: "开源项目", labelEn: "Open Source Projects" },
   { icon: "🚀", value: "+∞", label: "学习热情", labelEn: "Learning Enthusiasm" },
-];
-
-// ─── 技能概览（进度条） ──────────────────────────
-
-export const aboutSkillGroups: SkillBarGroup[] = [
-  {
-    title: "前端与语言",
-    titleEn: "Frontend & Languages",
-    items: [
-      { name: "TypeScript", level: 90 },
-      { name: "React / Next.js", level: 92 },
-      { name: "Vue / Nuxt", level: 88 },
-    ],
-  },
-  {
-    title: "后端与工程",
-    titleEn: "Backend & Engineering",
-    items: [
-      { name: "Node.js / Express", level: 83 },
-      { name: "Docker / Nginx", level: 80 },
-      { name: "MySQL", level: 76 },
-    ],
-  },
 ];
 
 // ─── 技术清单（徽章分组） ───────────────────────

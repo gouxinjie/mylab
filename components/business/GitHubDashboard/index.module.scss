@@ -1,10 +1,20 @@
 /**
  * @file index.scss
- * @description GitHub数据看板样式（紧凑版）
+ * @description GitHub 数据看板样式（GitHub 经典热力图风格）
  * @author gouxinjie
  */
 
-// 看板区块：上下内边距随屏幕增大（已紧凑化）
+// GitHub 贡献热力图配色（Light 主题）
+$gh-l0: #ebedf0;
+$gh-l1: #9be9a8;
+$gh-l2: #40c463;
+$gh-l3: #30a14e;
+$gh-l4: #216e39;
+$gh-border: #d1d5da;
+$gh-text: #57606a;
+$gh-link: #0969da;
+
+// 看板区块
 .github {
   padding-top: 32px;
   padding-bottom: 32px;
@@ -49,7 +59,7 @@
     }
   }
 
-  // 覆盖全局 section-title：与 About 区块标题保持一致（已紧凑化）
+  // 覆盖全局 section-title
   :global(.section-title) {
     font-size: 18px;
 
@@ -172,7 +182,7 @@
     }
   }
 
-  // 个人主页链接：主色，hover 深主色
+  // 个人主页链接
   &__link {
     margin-top: 6px;
     display: inline-flex;
@@ -199,84 +209,278 @@
   margin-top: 16px;
   overflow: hidden;
 
+  // 热力图尺寸变量（响应式由媒体查询调整）
+  --gh-cell: 13px;
+  --gh-gap: 3px;
+  --gh-label-w: 36px;
+
+  @media (max-width: 639px) {
+    --gh-cell: 11px;
+    --gh-gap: 3px;
+    --gh-label-w: 30px;
+  }
+
   @media (min-width: 640px) {
     margin-top: 20px;
   }
 
   // 标题
   &__title {
-    margin-bottom: 8px;
+    margin-bottom: 12px;
     font-size: 14px;
     font-weight: 500;
     color: var(--color-text-secondary);
+    display: flex;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 8px;
 
     @media (min-width: 640px) {
-      margin-bottom: 12px;
+      margin-bottom: 16px;
     }
   }
 
-  // 横向滚动容器
-  &__scroll {
-    overflow-x: auto;
-  }
-
-  // 热力图行容器
-  &__container {
-    display: flex;
-    gap: 2px;
-    padding-bottom: 8px;
-    min-width: max-content;
-  }
-
-  // 单个星期列：纵向排列七天
-  &__week {
-    display: flex;
-    flex-direction: column;
-    gap: 2px;
-  }
-
-  // 单个贡献方块：hover 主色描边
-  &__day {
-    height: 6px;
-    width: 8px;
-    border-radius: 2px;
-    transition: background-color 0.2s;
-
-    @media (min-width: 640px) {
-      height: 8px;
-      width: 10px;
-    }
-
-    &:hover {
-      outline: 1px solid var(--color-accent);
-    }
-  }
-
-  // 图例：右对齐，浅灰文字
-  &__legend {
-    margin-top: 8px;
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    gap: 4px;
-    font-size: 11px;
+  // 标题中的近一年总提交数
+  &__total {
+    font-size: 12px;
+    font-weight: 400;
     color: var(--color-text-muted);
 
     @media (min-width: 640px) {
-      margin-top: 10px;
+      font-size: 13px;
+    }
+  }
+
+  // 数据加载失败提示
+  &__error {
+    padding: 24px 0;
+    text-align: center;
+    font-size: 13px;
+    color: var(--color-text-muted);
+  }
+
+  // 热力图图表区域
+  &__chart {
+    margin-bottom: 8px;
+  }
+
+  // 热力图主体：左侧 weekday（固定） + 右侧可滚动区域
+  &__body {
+    display: flex;
+    gap: 6px;
+    align-items: flex-start;
+  }
+
+  // 可滚动区域：包含月份标签与格子网格，共享滚动，确保始终对齐
+  &__scrollArea {
+    flex: 1;
+    min-width: 0;
+    overflow-x: auto;
+    padding-bottom: 4px;
+    scroll-behavior: smooth;
+
+    // 自定义滚动条样式（轻量化，不喧宾夺主）
+    // Firefox
+    scrollbar-width: thin;
+    scrollbar-color: $gh-border transparent;
+
+    // WebKit（Chrome / Safari / Edge）
+    &::-webkit-scrollbar {
+      height: 6px;
+    }
+
+    &::-webkit-scrollbar-track {
+      background: transparent;
+      border-radius: 3px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background-color: $gh-border;
+      border-radius: 3px;
+
+      &:hover {
+        background-color: darken($gh-border, 15%);
+      }
+    }
+  }
+
+  // 可滚动区域内部容器（min-width 保证内容不被截断）
+  &__scrollInner {
+    min-width: fit-content;
+  }
+
+  // 星期标签列（固定在左侧，不随滚动移动）
+  // padding-top 补偿月份标签高度，确保星期文字与格子行对齐
+  &__weekdayLabels {
+    display: flex;
+    flex-direction: column;
+    gap: var(--gh-gap);
+    width: var(--gh-label-w);
+    flex-shrink: 0;
+    align-items: flex-end;
+    padding-top: 32px; // monthLabels(28px) + margin-bottom(4px)
+  }
+
+  &__weekdayLabel {
+    height: var(--gh-cell);
+    line-height: var(--gh-cell);
+    font-size: 11px;
+    color: $gh-text;
+    white-space: nowrap;
+
+    @media (min-width: 640px) {
+      font-size: 12px;
+    }
+  }
+
+  // 月份标签行（位于可滚动区域内，与格子一起滚动，无需 padding-left）
+  &__monthLabels {
+    position: relative;
+    height: 28px;
+    margin-bottom: 4px;
+  }
+
+  // 年份标签：出现在月份标签上方
+  &__yearLabel {
+    position: absolute;
+    top: 0;
+    font-size: 10px;
+    font-weight: 600;
+    color: $gh-text;
+    white-space: nowrap;
+
+    @media (min-width: 640px) {
+      font-size: 11px;
+    }
+  }
+
+  // 月份标签
+  &__monthLabel {
+    position: absolute;
+    top: 14px;
+    font-size: 11px;
+    color: $gh-text;
+    white-space: nowrap;
+
+    @media (min-width: 640px) {
+      font-size: 12px;
+    }
+  }
+
+  // 格子网格（不再独立滚动，由 scrollArea 统一控制）
+  &__grid {
+    display: flex;
+    gap: var(--gh-gap);
+    min-width: 0;
+  }
+
+  // 单周列
+  &__col {
+    display: flex;
+    flex-direction: column;
+    gap: var(--gh-gap);
+    flex-shrink: 0;
+  }
+
+  // 单个贡献方块：GitHub 经典带边框方块
+  &__cell {
+    width: var(--gh-cell);
+    height: var(--gh-cell);
+    border-radius: 2px;
+    border: 1px solid $gh-border;
+    flex-shrink: 0;
+    box-sizing: border-box; // 边框纳入宽高，与星期标签行高一致
+    transition: outline 0.1s;
+
+    &:hover {
+      outline: 1px solid rgba(0, 0, 0, 0.3);
+    }
+
+    &--empty,
+    &--level-0 {
+      background-color: $gh-l0;
+    }
+
+    &--level-1 {
+      background-color: $gh-l1;
+    }
+
+    &--level-2 {
+      background-color: $gh-l2;
+    }
+
+    &--level-3 {
+      background-color: $gh-l3;
+    }
+
+    &--level-4 {
+      background-color: $gh-l4;
+    }
+  }
+
+  // 底部：链接 + 图例
+  &__footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 4px;
+  }
+
+  // 底部链接
+  &__link {
+    font-size: 11px;
+    color: $gh-text;
+    text-decoration: none;
+
+    &:hover {
+      text-decoration: underline;
+    }
+
+    @media (min-width: 640px) {
+      font-size: 12px;
+    }
+  }
+
+  // 图例：右对齐
+  &__legend {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 11px;
+    color: $gh-text;
+
+    @media (min-width: 640px) {
       font-size: 12px;
     }
   }
 
   // 图例色块
   &__level {
-    height: 8px;
-    width: 8px;
+    width: var(--gh-cell);
+    height: var(--gh-cell);
     border-radius: 2px;
+    border: 1px solid $gh-border;
 
-    @media (min-width: 640px) {
-      height: 10px;
-      width: 10px;
+    &--0 {
+      background-color: $gh-l0;
+    }
+
+    &--1 {
+      background-color: $gh-l1;
+    }
+
+    &--2 {
+      background-color: $gh-l2;
+    }
+
+    &--3 {
+      background-color: $gh-l3;
+    }
+
+    &--4 {
+      background-color: $gh-l4;
     }
   }
 }

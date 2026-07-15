@@ -3,7 +3,7 @@
  * @description 关于我页面，参考设计稿重新设计
  * @author gouxinjie
  * @created 2025-06-01
- * @updated 2025-07-14
+ * @updated 2026-07-15
  */
 
 import { useTranslations } from "next-intl";
@@ -18,15 +18,14 @@ import {
   experiences,
   values,
   aboutStats,
-  aboutSkillGroups,
   techCategories,
   aboutContacts,
   type Experience,
   type Value,
-  type SkillBarGroup,
 } from "@/lib/data";
 import FadeIn from "@/components/commons/FadeIn";
 import AboutContact from "@/components/commons/AboutContact";
+import GitHubDashboard from "@/components/business/GitHubDashboard";
 import styles from "./page.module.scss";
 
 // 价值观图标映射
@@ -92,39 +91,11 @@ export default function AboutPage({ params: { locale } }: { params: { locale: st
         </div>
       </section>
 
-      {/* 技能概览区域（进度条） */}
+      {/* GitHub 数据看板（含贡献热力图） */}
       <section className={styles.section}>
-        <div className="container-custom">
-          <FadeIn>
-            <h2 className={styles.section__title}>{t("skills_bar_title")}</h2>
-            <p className={styles.section__subtitle}>{t("skills_bar_subtitle")}</p>
-          </FadeIn>
-          <div className={styles.skillsBarGrid}>
-            {aboutSkillGroups.map((group: SkillBarGroup, idx: number) => (
-              <FadeIn key={group.title} delay={0.05 * idx}>
-                <div className={styles.skillsBarGroup}>
-                  <h4 className={styles.skillsBarGroup__title}>
-                    {locale === "zh" ? group.title : group.titleEn}
-                  </h4>
-                  {group.items.map((item) => (
-                    <div key={item.name} className={styles.skillsBar}>
-                      <div className={styles.skillsBar__label}>
-                        <span>{item.name}</span>
-                        <span>{item.level}%</span>
-                      </div>
-                      <div className={styles.skillsBar__track}>
-                        <div
-                          className={styles.skillsBar__fill}
-                          style={{ width: `${item.level}%` }}
-                        />
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </FadeIn>
-            ))}
-          </div>
-        </div>
+        <FadeIn>
+          <GitHubDashboard />
+        </FadeIn>
       </section>
 
       {/* 技术清单区域 */}

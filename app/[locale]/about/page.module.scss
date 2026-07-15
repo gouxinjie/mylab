@@ -448,67 +448,9 @@
   color: var(--color-text-secondary);
 }
 
-// 技能进度条网格
-.skillsBarGrid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 24px;
 
-  @media (min-width: 768px) {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
 
-// 技能分组卡片
-.skillsBarGroup {
-  padding: 20px;
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-xl);
-  background-color: var(--color-bg-secondary);
-}
 
-// 技能分组标题
-.skillsBarGroup__title {
-  margin-bottom: 14px;
-  font-size: 15px;
-  font-weight: 600;
-  color: var(--color-text-primary);
-}
-
-// 单条技能进度条
-.skillsBar {
-  margin-bottom: 12px;
-
-  &:last-child {
-    margin-bottom: 0;
-  }
-}
-
-// 进度条标签行（名称 + 百分比）
-.skillsBar__label {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 6px;
-  font-size: 13px;
-  font-weight: 500;
-  color: var(--color-text-secondary);
-}
-
-// 进度条轨道
-.skillsBar__track {
-  height: 6px;
-  border-radius: 9999px;
-  background-color: var(--color-bg);
-  overflow: hidden;
-}
-
-// 进度条填充
-.skillsBar__fill {
-  height: 100%;
-  border-radius: 9999px;
-  background-image: linear-gradient(90deg, var(--color-accent), #7c3aed);
-  transition: width 0.8s ease;
-}
 
 
 
