@@ -64,10 +64,7 @@ export default async function AIDocPage({ params }: DocPageParams) {
   return (
     <article className={styles.doc}>
       <FadeIn>
-        {/* 标题行：文章标题（左）与返回入口（右）同行 */}
         <div className={styles.header}>
-          <h1 className={styles.title}>{doc.title}</h1>
-
           {/* 返回按钮：回到 AI 笔记列表 */}
           <Link href="/ai-notes" className={styles.back}>
             <svg
@@ -86,23 +83,41 @@ export default async function AIDocPage({ params }: DocPageParams) {
             </svg>
             {t("back")}
           </Link>
-        </div>
 
-        {/* 面包屑：分组归属 */}
-        <div className={styles.breadcrumb}>
-          <Link href="/ai-notes" className={styles.breadcrumb__link}>
-            {t("title")}
-          </Link>
-          <span className={styles.breadcrumb__sep}>/</span>
-          <span className={styles.breadcrumb__current}>{doc.group}</span>
-        </div>
+          <h1 className={styles.title}>{doc.title}</h1>
 
-        {/* 更新时间 */}
-        {doc.updated && (
-          <p className={styles.meta}>
-            {t("updated_label")}：{doc.updated}
-          </p>
-        )}
+          {/* 面包屑：分组归属 */}
+          <div className={styles.breadcrumb}>
+            <Link href="/ai-notes" className={styles.breadcrumb__link}>
+              {t("title")}
+            </Link>
+            <span className={styles.breadcrumb__sep}>/</span>
+            <span className={styles.breadcrumb__current}>{doc.group}</span>
+          </div>
+
+          {/* 更新时间 */}
+          {doc.updated && (
+            <p className={styles.meta}>
+              <svg
+                width="14"
+                height="14"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                aria-hidden="true"
+              >
+                <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+                <line x1="16" y1="2" x2="16" y2="6" />
+                <line x1="8" y1="2" x2="8" y2="6" />
+                <line x1="3" y1="10" x2="21" y2="10" />
+              </svg>
+              {t("updated_label")}：{doc.updated}
+            </p>
+          )}
+        </div>
 
         {/* Markdown 正文（已去除首个一级标题，避免与页面标题重复） */}
         <div className={styles.body}>

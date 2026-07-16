@@ -12,39 +12,26 @@
   margin: 0 auto;
 }
 
-// 标题行：标题（左）与返回入口（右）同行
+// 头部区：返回 + 标题 + 面包屑 + 更新时间，底部下划线与正文区分
 .header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 16px;
-  margin-bottom: 16px;
+  padding-bottom: 20px;
+  margin-bottom: 28px;
+  border-bottom: 1px solid var(--color-border);
 }
 
-// 文章标题：置顶渲染，区别于正文内标题层级
-.title {
-  flex: 1 1 auto;
-  min-width: 0;
-  font-size: 28px;
-  font-weight: 800;
-  line-height: 1.3;
-  color: var(--color-text-primary);
-}
-
-// ─── 返回按钮 ─────────────────────────────────
+// 返回按钮：顶部左对齐，绿色强调色带箭头
 .back {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  flex-shrink: 0;
-  font-size: 13px;
+  font-size: 15px;
   font-weight: 500;
-  color: var(--color-text-secondary);
+  color: var(--color-accent);
   transition: color 0.2s ease;
 }
 
 .back:hover {
-  color: var(--color-accent);
+  color: var(--color-accent-dark);
 }
 
 // 箭头图标：hover 时左移强化「返回」语义
@@ -56,13 +43,22 @@
   transform: translateX(-3px);
 }
 
+// 文章标题：置顶渲染，区别于正文内标题层级
+.title {
+  margin-top: 12px;
+  font-size: 28px;
+  font-weight: 800;
+  line-height: 1.3;
+  color: var(--color-text-primary);
+}
+
 // ─── 面包屑 ───────────────────────────────────
 .breadcrumb {
   display: flex;
   align-items: center;
   gap: 8px;
-  margin-bottom: 8px;
-  font-size: 13px;
+  margin-top: 8px;
+  font-size: 15px;
   color: var(--color-text-muted);
 
   // 首页链接：hover 主色
@@ -85,11 +81,19 @@
   }
 }
 
-// 更新时间
+// 更新时间：带日历图标
 .meta {
-  margin-bottom: 20px;
-  font-size: 12px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 8px;
+  font-size: 14px;
   color: var(--color-text-muted);
+}
+
+.meta svg {
+  color: var(--color-text-muted);
+  flex-shrink: 0;
 }
 
 // 正文区

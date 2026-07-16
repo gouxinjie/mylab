@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
-import { Inter, JetBrains_Mono, Noto_Sans_SC } from "next/font/google";
+import localFont from "next/font/local";
+import { JetBrains_Mono } from "next/font/google";
 import "@/styles/global.scss";
 import { AppProvider } from "@/components/commons/AppProviders";
 import Navbar from "@/components/commons/Navbar";
@@ -10,8 +11,13 @@ import { getMessages, setRequestLocale } from 'next-intl/server';
 import { locales, type Locale } from '@/i18n';
 import { notFound } from 'next/navigation';
 
-const inter = Inter({
-  subsets: ["latin"],
+// Inter 字体自托管：从本地 woff2 加载，避免编译期访问 Google Fonts 失败
+const inter = localFont({
+  src: [
+    { path: "../fonts/inter/inter-400.woff2", weight: "400", style: "normal" },
+    { path: "../fonts/inter/inter-500.woff2", weight: "500", style: "normal" },
+    { path: "../fonts/inter/inter-700.woff2", weight: "700", style: "normal" },
+  ],
   variable: "--font-inter",
   display: "swap",
 });
@@ -22,8 +28,13 @@ const jetbrainsMono = JetBrains_Mono({
   display: "swap",
 });
 
-const notoSansSC = Noto_Sans_SC({
-  weight: ["400", "500", "700"],
+// Noto Sans SC 中文字体自托管：本地 woff2 简体子集，preload:false 避免大字库阻塞首屏
+const notoSansSC = localFont({
+  src: [
+    { path: "../fonts/noto-sans-sc/noto-sc-400.woff2", weight: "400", style: "normal" },
+    { path: "../fonts/noto-sans-sc/noto-sc-500.woff2", weight: "500", style: "normal" },
+    { path: "../fonts/noto-sans-sc/noto-sc-700.woff2", weight: "700", style: "normal" },
+  ],
   variable: "--font-noto-sans-sc",
   display: "swap",
   preload: false,
