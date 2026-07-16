@@ -204,14 +204,14 @@ export const aiProducts: AiProduct[] = [
     accent: "#0EA5E9",
   },
   {
-    name: "CedeBuddy",
-    url: "https://cedebuddy.com",
+    name: "CodeBuddy",
+    url: "https://www.codebuddy.cn",
     category: "dev",
     desc: {
-      zh: "AI 编码助手，理解项目上下文并提供实时补全与答疑。",
-      en: "An AI coding buddy that understands your project and offers live completion and Q&A.",
+      zh: "腾讯云代码助手，理解项目上下文并提供实时补全与答疑。",
+      en: "Tencent Cloud's AI coding buddy that understands your project and offers live completion and Q&A.",
     },
-    region: "overseas",
+    region: "domestic",
     accent: "#2F80ED",
   },
   {

@@ -35,6 +35,23 @@ const getFavicon = (url: string): string => {
 };
 
 /**
+ * 根据十六进制底色推算合适的文字颜色（亮底用深色，暗底用白色）
+ * @param hex - 形如 #RRGGBB 的颜色值
+ * @returns 可读性更优的文字颜色
+ */
+const getReadableTextColor = (hex: string): string => {
+  const clean = hex.replace("#", "");
+  // 仅支持 6 位十六进制，非法时回退白色
+  if (clean.length !== 6) return "#fff";
+  const r = parseInt(clean.slice(0, 2), 16);
+  const g = parseInt(clean.slice(2, 4), 16);
+  const b = parseInt(clean.slice(4, 6), 16);
+  // 相对亮度（感知加权）：>0.6 视为亮底，用深色文字
+  const luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
+  return luminance > 0.6 ? "#111827" : "#fff";
+};
+
+/**
  * 产品图标：固定 44px 包裹层，内部优先展示官网 favicon，
  * 加载失败时回退到品牌色首字母方块
  * @param product - 单个 AI 产品
@@ -48,8 +65,12 @@ const ProductLogo = ({ product }: { product: AiProduct }) => {
   return (
     <span
       className={styles.logo}
-      // 回退到首字母时显示品牌色底；图片模式下不设置背景
-      style={showImg ? undefined : { backgroundColor: product.accent }}
+      // 回退到首字母时显示品牌色底，并按底色亮度选择文字色；图片模式下不设置背景
+      style={
+        showImg
+          ? { backgroundColor: "transparent" }
+          : { backgroundColor: product.accent, color: getReadableTextColor(product.accent) }
+      }
       aria-hidden="true"
     >
       {showImg ? (
@@ -162,7 +183,7 @@ const AiProducts = () => {
               rel="noopener noreferrer"
               className={styles.product}
             >
-              {/* 卡片头部：官网 favicon + 名称/分类/区域，横向排列 */}
+              {/* 卡片头部：官网 favicon + 名称/分类，横向排列 */}
               <div className={styles.header}>
                 <ProductLogo product={product} />
                 <div className={styles.headerText}>
@@ -172,33 +193,35 @@ const AiProducts = () => {
                       {aiCategoryLabels[product.category][localeKey]}
                     </span>
                   </div>
-                  <span className={styles.region}>
-                    {aiRegionLabels[product.region][localeKey]}
-                  </span>
                 </div>
               </div>
 
               <p className={styles.desc}>{product.desc[localeKey]}</p>
 
-
-              <span className={styles.visit}>
-                {t("visit")}
-                <svg
-                  width="14"
-                  height="14"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  aria-hidden="true"
-                >
-                  <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
-                  <polyline points="15 3 21 3 21 9" />
-                  <line x1="10" y1="14" x2="21" y2="3" />
-                </svg>
-              </span>
+              {/* 卡片底部：左侧国内/国外标签 + 右侧访问入口 */}
+              <div className={styles.footer}>
+                <span className={styles.region}>
+                  {aiRegionLabels[product.region][localeKey]}
+                </span>
+                <span className={styles.visit}>
+                  {t("visit")}
+                  <svg
+                    width="14"
+                    height="14"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    aria-hidden="true"
+                  >
+                    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
+                    <polyline points="15 3 21 3 21 9" />
+                    <line x1="10" y1="14" x2="21" y2="3" />
+                  </svg>
+                </span>
+              </div>
             </a>
           ))}
         </div>

@@ -58,27 +58,35 @@ export default async function AIDocPage({ params }: DocPageParams) {
   // 获取上一篇 / 下一篇
   const { prev, next } = getDocNeighbors(slug);
 
+  // 去除正文首个一级标题，避免与页面级 h1（doc.title）重复渲染
+  const bodyContent = doc.content.replace(/^\s*#\s+.+\r?\n/, "");
+
   return (
     <article className={styles.doc}>
       <FadeIn>
-        {/* 返回按钮：回到 AI 笔记列表 */}
-        <Link href="/ai-notes" className={styles.back}>
-          <svg
-            width="16"
-            height="16"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            aria-hidden="true"
-          >
-            <line x1="19" y1="12" x2="5" y2="12" />
-            <polyline points="12 19 5 12 12 5" />
-          </svg>
-          {t("back")}
-        </Link>
+        {/* 标题行：文章标题（左）与返回入口（右）同行 */}
+        <div className={styles.header}>
+          <h1 className={styles.title}>{doc.title}</h1>
+
+          {/* 返回按钮：回到 AI 笔记列表 */}
+          <Link href="/ai-notes" className={styles.back}>
+            <svg
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              aria-hidden="true"
+            >
+              <line x1="19" y1="12" x2="5" y2="12" />
+              <polyline points="12 19 5 12 12 5" />
+            </svg>
+            {t("back")}
+          </Link>
+        </div>
 
         {/* 面包屑：分组归属 */}
         <div className={styles.breadcrumb}>
@@ -96,9 +104,9 @@ export default async function AIDocPage({ params }: DocPageParams) {
           </p>
         )}
 
-        {/* Markdown 正文 */}
+        {/* Markdown 正文（已去除首个一级标题，避免与页面标题重复） */}
         <div className={styles.body}>
-          <Markdown content={doc.content} />
+          <Markdown content={bodyContent} />
         </div>
       </FadeIn>
 

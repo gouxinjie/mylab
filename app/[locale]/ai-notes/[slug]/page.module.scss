@@ -12,12 +12,31 @@
   margin: 0 auto;
 }
 
+// 标题行：标题（左）与返回入口（右）同行
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+// 文章标题：置顶渲染，区别于正文内标题层级
+.title {
+  flex: 1 1 auto;
+  min-width: 0;
+  font-size: 28px;
+  font-weight: 800;
+  line-height: 1.3;
+  color: var(--color-text-primary);
+}
+
 // ─── 返回按钮 ─────────────────────────────────
 .back {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  margin-bottom: 16px;
+  flex-shrink: 0;
   font-size: 13px;
   font-weight: 500;
   color: var(--color-text-secondary);
