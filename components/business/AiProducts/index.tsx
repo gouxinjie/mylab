@@ -182,12 +182,20 @@ const AiProducts = () => {
             const badgeText = product.badge ?? product.company;
             return (
               <a
-                key={product.name}
+                key={product.url}
                 href={product.url}
                 target="_blank"
                 rel="noopener noreferrer"
                 className={styles.product}
               >
+                {/* 卡片右下角装饰性半圆阴影 */}
+                <span
+                  className={styles.glow}
+                  aria-hidden="true"
+                  style={{
+                    background: `radial-gradient(circle at 50% 25%, ${product.accent}22 0%, ${product.accent}14 50%, ${product.accent}04 78%, transparent 82%)`,
+                  }}
+                />
                 {/* 卡片头部：左侧 Logo + 右侧标记 */}
                 <div className={styles.header}>
                   <ProductLogo product={product} />
@@ -219,9 +227,9 @@ const AiProducts = () => {
                 {/* 功能标签 */}
                 {product.tags && product.tags.length > 0 && (
                   <div className={styles.tags}>
-                    {product.tags.map((tag) => (
+                    {product.tags.map((tag, i) => (
                       <span
-                        key={tag.zh}
+                        key={`${product.name}-tag-${i}`}
                         className={styles.tag}
                         style={{
                           color: product.accent,
