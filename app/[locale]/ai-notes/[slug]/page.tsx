@@ -9,7 +9,7 @@ import styles from "./page.module.scss";
 
 /**
  * AIDocPage
- * @description AI 文档文章详情页：全宽阅读视图，读取对应 markdown 渲染，并提供上一篇/下一篇导航
+ * @description AI 笔记文章详情页：全宽阅读视图，读取对应 markdown 渲染，并提供上一篇/下一篇导航
  * @author gouxinjie
  * @created 2026-07-15
  * @updated 2026-07-16
@@ -39,7 +39,7 @@ export function generateStaticParams() {
 export function generateMetadata({ params }: DocPageParams): Metadata {
   const doc = getDocContent(params.slug);
   return {
-    title: doc ? doc.title : "AI 相关",
+    title: doc ? doc.title : "AI 笔记",
   };
 }
 
@@ -47,7 +47,7 @@ export default async function AIDocPage({ params }: DocPageParams) {
   const { locale, slug } = params;
   // 启用静态渲染，避免 next-intl 在 Server Component 中强制动态渲染
   setRequestLocale(locale);
-  const t = await getTranslations("AI");
+  const t = await getTranslations("AINotes");
 
   // 读取文档内容，不存在则返回 404
   const doc = getDocContent(slug);
@@ -61,8 +61,8 @@ export default async function AIDocPage({ params }: DocPageParams) {
   return (
     <article className={styles.doc}>
       <FadeIn>
-        {/* 返回按钮：回到文档列表并保留「相关文档」Tab 状态 */}
-        <Link href="/ai?tab=docs" className={styles.back}>
+        {/* 返回按钮：回到 AI 笔记列表 */}
+        <Link href="/ai-notes" className={styles.back}>
           <svg
             width="16"
             height="16"
@@ -82,7 +82,7 @@ export default async function AIDocPage({ params }: DocPageParams) {
 
         {/* 面包屑：分组归属 */}
         <div className={styles.breadcrumb}>
-          <Link href="/ai" className={styles.breadcrumb__link}>
+          <Link href="/ai-notes" className={styles.breadcrumb__link}>
             {t("title")}
           </Link>
           <span className={styles.breadcrumb__sep}>/</span>
@@ -105,7 +105,7 @@ export default async function AIDocPage({ params }: DocPageParams) {
       {/* 上一篇 / 下一篇导航 */}
       <nav className={styles.pager}>
         {prev ? (
-          <Link href={`/ai/${prev.slug}`} className={styles.pager__item}>
+          <Link href={`/ai-notes/${prev.slug}`} className={styles.pager__item}>
             <span className={styles.pager__label}>{t("prev")}</span>
             <span className={styles.pager__title}>{prev.text}</span>
           </Link>
@@ -114,7 +114,7 @@ export default async function AIDocPage({ params }: DocPageParams) {
         )}
         {next ? (
           <Link
-            href={`/ai/${next.slug}`}
+            href={`/ai-notes/${next.slug}`}
             className={`${styles.pager__item} ${styles["pager__item--next"]}`}
           >
             <span className={styles.pager__label}>{t("next")}</span>

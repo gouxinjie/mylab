@@ -1,0 +1,22 @@
+/**
+ * @file layout.module.scss
+ * @description AI 笔记布局样式：容器与内容区基础间距
+ * @author gouxinjie
+ * @updated 2026-07-16
+ */
+
+// 布局外层：上下内边距
+.wrapper {
+  padding-top: 24px;
+  padding-bottom: 48px;
+
+  @media (min-width: 640px) {
+    padding-top: 32px;
+  }
+}
+
+// 内容区：限制最大宽度，保证可读性
+.content {
+  min-width: 0;
+  max-width: 980px;
+}

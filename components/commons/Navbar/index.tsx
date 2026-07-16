@@ -32,6 +32,11 @@ function AiIcon() {
   return <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9L12 3z"/><path d="M18 17l.6 1.7L20 19l-1.4.3L18 21l-.6-1.7L16 19l1.4-.3L18 17z"/></svg>;
 }
 
+// 笔记图标：用于「AI 笔记」导航项，书本/文档造型
+function NoteIcon() {
+  return <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>;
+}
+
 function GlobeIcon() {
   return (
     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -118,6 +123,7 @@ export default function Navbar() {
     { label: t("projects"), href: "/projects", icon: <ProjectIcon /> },
     { label: t("about"), href: "/about", icon: <UserIcon /> },
     { label: t("ai"), href: "/ai", icon: <AiIcon /> },
+    { label: t("ainotes"), href: "/ai-notes", icon: <NoteIcon /> },
   ];
 
   const toggleTheme = () => {

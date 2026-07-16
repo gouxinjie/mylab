@@ -1,0 +1,143 @@
+/**
+ * @file page.module.scss
+ * @description AI 笔记页样式：Hero 头部 + 文档分类卡片网格
+ * @author gouxinjie
+ * @updated 2026-07-16
+ */
+
+// 页面容器
+.home {
+  width: 100%;
+}
+
+// ─── 首页头部（Hero） ─────────────────────────
+.hero {
+  padding-bottom: 28px;
+  margin-bottom: 32px;
+  border-bottom: 1px solid var(--color-border);
+}
+
+// AI 徽标：主色浅底圆角小标签
+.hero__badge {
+  display: inline-block;
+  padding: 4px 12px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  color: var(--color-accent);
+  background-color: rgba(var(--color-accent-rgb), 0.1);
+  border-radius: var(--radius-full);
+}
+
+// 主标题
+.hero__title {
+  margin-top: 16px;
+  font-size: 32px;
+  line-height: 1.15;
+  font-weight: 800;
+}
+
+// 副标题
+.hero__subtitle {
+  margin-top: 14px;
+  max-width: 620px;
+  color: var(--color-text-secondary);
+  line-height: 1.8;
+}
+
+@media (min-width: 640px) {
+  .hero__title {
+    font-size: 38px;
+  }
+}
+
+// ─── 分类分组 ───────────────────────────────────
+.docGroups {
+  display: flex;
+  flex-direction: column;
+  gap: 36px;
+}
+
+// 单个分组
+.docGroup {
+  width: 100%;
+}
+
+// 分组标题
+.docGroup__title {
+  margin-bottom: 16px;
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--color-text-primary);
+}
+
+// 子分组标题（如 AGENTS 规则约束）：跨整行显示
+.docGroup__sub {
+  grid-column: 1 / -1;
+  margin: 18px 0 6px;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+}
+
+// 文档卡片网格
+.docGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 14px;
+
+  @media (min-width: 560px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @media (min-width: 900px) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+// 文档卡片：标题 + 阅读入口
+.docCard {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 64px;
+  padding: 16px 18px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  background-color: var(--color-bg-secondary);
+  transition: all 0.2s ease;
+}
+
+.docCard:hover {
+  border-color: var(--color-accent);
+  box-shadow: var(--shadow-sm);
+  transform: translateY(-2px);
+}
+
+// 卡片标题
+.docCard__title {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  line-height: 1.4;
+}
+
+// 阅读入口：主色文字 + 箭头
+.docCard__read {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  flex-shrink: 0;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-accent);
+}
+
+.docCard__read svg {
+  transition: transform 0.2s ease;
+}
+
+.docCard:hover .docCard__read svg {
+  transform: translateX(3px);
+}

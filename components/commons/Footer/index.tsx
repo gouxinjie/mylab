@@ -45,6 +45,7 @@ export default function Footer() {
                 { label: navT("projects"), href: "/projects" },
                 { label: navT("about"), href: "/about" },
                 { label: navT("ai"), href: "/ai" },
+                { label: navT("ainotes"), href: "/ai-notes" },
               ].map((item) => (
                 <li key={item.href}>
                   <Link

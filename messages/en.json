@@ -5,6 +5,7 @@
     "projects": "Projects",
     "skills": "Skills",
     "ai": "AI",
+    "ainotes": "AI Notes",
     "switch_locale": "简体中文",
     "theme_toggle": "Toggle Theme"
   },
@@ -144,15 +145,18 @@
     "blog": "Blog (blog.gouxinjie.com)"
   },
   "AI": {
+    "title": "AI",
+    "products_title": "AI Products on the Market",
+    "products_subtitle": "A curated selection of today's mainstream AI tools, grouped by AI Chat, Dev Tools, Agents, Image/Video and more, across Domestic and Overseas.",
+    "search_placeholder": "Search AI products (name or description)...",
+    "empty": "No matching AI products found. Try another keyword.",
+    "visit": "Visit"
+  },
+  "AINotes": {
     "title": "AI Notes",
     "subtitle": "Notes on AI fundamentals and productivity tooling, continuously curated and shared as docs.",
-    "tab_products": "AI Search",
-    "tab_docs": "Docs",
-    "products_title": "AI Products on the Market",
-    "products_subtitle": "A curated selection of today's mainstream AI tools across chat, search, image, coding, video and music.",
-    "visit": "Visit",
     "read": "Read",
-    "back": "Back to docs",
+    "back": "Back to notes",
     "prev": "Previous",
     "next": "Next",
     "updated_label": "Last updated"
