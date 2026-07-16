@@ -216,7 +216,7 @@ export const projects: Project[] = [
         startMode: 'Docker Compose 编排（server + web + Nginx），GitHub Actions 构建镜像推送到阿里云 ACR 后远程 SSH 触发',
         status: '正常运行',
         remark: 'GitHub Actions 自动部署，push main 触发 → 类型校验 → 构建 server/web 镜像 → 推送 ACR → SSH 解压发布包 → Docker Compose pull + up -d，自动保留最近 2 个版本；用户经 Nginx 反代访问 Express 后端',
-        port: '内部 server 监听 3101，web（Nginx）监听 80',
+        port: '内部 node server 监听 3101，对外暴露81端口，通过nginx转发到本地80端口',
         url: 'http://codeview.gouxinjie.com/',
         covers: ['/images/project-cover/codeview.png', '/images/project-cover/codeview-1.png', '/images/project-cover/codeview-2.png', '/images/project-cover/codeview-3.png'],
         techStackBrief: 'Node.js、Express、React、Vite、SQLite、ECharts、GitHub REST API 增量同步',

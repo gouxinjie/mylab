@@ -1,8 +1,8 @@
 /**
  * @file index.module.scss
- * @description AI 产品展示组件样式：分类 Tab + 产品卡片网格
+ * @description AI 产品展示组件样式：分类 Tab + 产品卡片网格（匹配设计稿）
  * @author gouxinjie
- * @updated 2026-07-16
+ * @updated 2026-07-16 按设计稿还原卡片：logo/标记/名称/公司/描述/标签/访问按钮
  */
 
 // 容器
@@ -74,7 +74,7 @@
   }
 }
 
-// 分类 Tab 栏：横向排列，超出换行（间距参考 /projects 页面）
+// 分类 Tab 栏：横向排列，超出换行
 .tabs {
   display: flex;
   flex-wrap: wrap;
@@ -82,7 +82,7 @@
   margin-bottom: 28px;
 }
 
-// 单个分类标签：无背景无边框，仅文字色区分激活态（参考 /projects 页面）
+// 单个分类标签：无背景无边框，仅文字色区分激活态
 .tab {
   padding: 6px 14px;
   font-size: 14px;
@@ -99,7 +99,7 @@
   }
 }
 
-// Tab 选中态：主色填充 + 白字加粗（参考 /projects 页面）
+// Tab 选中态：主色填充 + 白字加粗
 .tabActive {
   color: #fff;
   font-weight: 700;
@@ -114,7 +114,7 @@
 .grid {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 16px;
+  gap: 14px;
 
   @media (min-width: 640px) {
     grid-template-columns: repeat(2, 1fr);
@@ -125,130 +125,155 @@
   }
 }
 
-// 单个产品卡片：头像 + 名称/分类 + 简介 + 访问
+// 单个产品卡片：白底、圆角阴影
 .product {
   display: flex;
   flex-direction: column;
-  height: 100%;
   padding: 16px;
+  background-color: var(--color-bg);
   border: 1px solid var(--color-border);
-  border-radius: var(--radius-xl);
-  background-color: var(--color-bg-secondary);
-  transition: all 0.25s ease;
+  border-radius: 16px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04), 0 4px 12px rgba(0, 0, 0, 0.04);
+  transition: box-shadow 0.25s ease, transform 0.25s ease;
+  text-decoration: none;
 }
 
 .product:hover {
-  border-color: var(--color-accent);
-  box-shadow: var(--shadow-md);
-  transform: translateY(-3px);
+  transform: translateY(-4px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06), 0 12px 28px rgba(0, 0, 0, 0.08);
 }
 
-// 产品头像：品牌色方块 + 首字母（favicon 加载失败时的回退）
+// 卡片头部行：Logo + 右侧标记，两端对齐
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+
+// 产品 Logo：略大于之前，圆角更圆润
 .logo {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  width: 44px;
-  height: 44px;
-  font-size: 20px;
+  width: 48px;
+  height: 48px;
+  font-size: 22px;
   font-weight: 800;
   color: #fff;
-  border-radius: var(--radius-lg);
+  border-radius: 14px;
   overflow: hidden;
   background-color: var(--color-border);
 }
 
-// favicon 图片：填满头像方块
+// 品牌图标：填满头像方块
 .logoImg {
   width: 100%;
   height: 100%;
-  object-fit: cover;
+  object-fit: contain;
 }
 
-// 卡片头部：图标 + 名称/分类/区域，横向居中对齐
-.header {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-// 头部文本区：撑满剩余宽度，承载名称与区域
-.headerText {
-  flex: 1;
-  min-width: 0;
-}
-
-// 名称 + 分类：同一行两端对齐
-.top {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 8px;
-}
-
-.name {
-  font-size: 16px;
-  font-weight: 700;
-  color: var(--color-text-primary);
-}
-
-// 分类标签：主色浅底小标签
-.cat {
+// 右上角标记：浅品牌色底 + 品牌色字 + 椭圆药丸（无边框）
+.badge {
   flex-shrink: 0;
-  padding: 2px 10px;
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 10px;
   font-size: 12px;
   font-weight: 600;
-  color: var(--color-accent);
-  background-color: rgba(var(--color-accent-rgb), 0.1);
+  line-height: 1.2;
+  border: none;
   border-radius: var(--radius-full);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+  margin-left: 8px;
 }
 
+// 产品名称：大号加粗
+.name {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--color-text-primary);
+  line-height: 1.3;
+  margin-bottom: 4px;
+}
+
+// 公司 / 团队名：品牌色
+.company {
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1;
+  margin-bottom: 12px;
+}
+
+// 产品简介
 .desc {
   flex: 1;
-  margin-top: 14px;
+  margin: 0 0 14px;
   font-size: 13.5px;
   line-height: 1.7;
   color: var(--color-text-secondary);
 }
 
-// 区域标签（国内 / 国外）：描边小标签，置于卡片底部左侧
-.region {
-  flex-shrink: 0;
-  padding: 2px 10px;
-  font-size: 12px;
-  font-weight: 600;
-  color: var(--color-text-secondary);
-  border: 1px solid var(--color-border);
-  border-radius: var(--radius-full);
+// 功能标签行：左对齐，超出换行
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 18px;
 }
 
-// 卡片底部行：左侧分类标签 + 右侧访问入口
+// 单个功能标签：小药丸样式，浅品牌色底 + 品牌色字（无边框，与 badge 保持一致）
+.tag {
+  display: inline-block;
+  padding: 3px 10px;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.6;
+  border: none;
+  border-radius: var(--radius-full);
+  transition: opacity 0.2s ease;
+}
+
+// 卡片底部行：区域 + 访问按钮
 .footer {
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 8px;
-  margin-top: 14px;
+  margin-top: auto;
 }
 
-// 访问入口：主色文字 + 外链图标，靠右
+// 区域标签（国内 / 国外）：地球图标 + 文字
+.region {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  flex-shrink: 0;
+  font-size: 12.5px;
+  font-weight: 500;
+  line-height: 1;
+  color: var(--color-text-secondary);
+}
+
+// 访问官网按钮：浅品牌色底 + 品牌色字，小圆角宽按钮
 .visit {
   display: inline-flex;
   align-items: center;
   gap: 4px;
   flex-shrink: 0;
-  font-size: 13px;
+  padding: 9px 15px;
+  font-size: 12.5px;
   font-weight: 600;
-  color: var(--color-accent);
-}
+  line-height: 1;
+  border: none;
+  border-radius: 5px;
+  transition: opacity 0.2s ease, transform 0.2s ease;
 
-.visit svg {
-  transition: transform 0.2s ease;
-}
-
-.product:hover .visit svg {
-  transform: translate(2px, -2px);
+  &:hover {
+    opacity: 0.85;
+    transform: scale(1.04);
+  }
 }
 
 // 空状态：无匹配结果时的提示文案

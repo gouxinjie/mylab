@@ -150,7 +150,22 @@
     "products_subtitle": "精选当前主流的 AI 工具，按 AI 对话、开发工具、Agent、文生图 / 文生视频等分类，覆盖国内外产品。",
     "search_placeholder": "搜索 AI 产品（名称或简介）...",
     "empty": "没有找到匹配的 AI 产品，换个关键词试试。",
-    "visit": "访问"
+    "search_clear": "清除搜索",
+    "visit": "访问官网",
+    "features": {
+      "safe": {
+        "title": "安全可靠",
+        "description": "精选优质工具，严格筛选"
+      },
+      "efficient": {
+        "title": "高效便捷",
+        "description": "一键直达，快速使用"
+      },
+      "updated": {
+        "title": "持续更新",
+        "description": "紧跟前沿，定期更新"
+      }
+    }
   },
   "AINotes": {
     "title": "AI 笔记",

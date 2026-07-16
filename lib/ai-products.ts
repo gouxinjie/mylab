@@ -3,7 +3,7 @@
  * @description 市面上主流 AI 产品展示数据（仅作展示，链接均为官方站点）
  * @author gouxinjie
  * @created 2026-07-16
- * @updated 2026-07-16
+ * @updated 2026-07-16 新增 company / tags / badge 字段以匹配设计稿卡片
  */
 
 /** 双语文案 */
@@ -72,8 +72,16 @@ export interface AiProduct {
   desc: I18nText;
   /** 所属区域：国内 / 国外 */
   region: AiRegion;
-  /** 头像底色（品牌色） */
+  /** 品牌色（头像底色、标签边框、公司名色） */
   accent: string;
+  /** 所属公司 / 团队名称（双语） */
+  company: I18nText;
+  /** 卡片右上角标记（双语，可选）：如「🔥 热门」「⭐ 推荐」；不填则使用 company 名 */
+  badge?: I18nText;
+  /** 产品功能标签（双语，最多 4 个）：在简介下方以彩色小标签展示 */
+  tags?: I18nText[];
+  /** 品牌图标地址（可选）：不填则自动使用 Google favicon 服务获取 */
+  logo?: string;
 }
 
 /**
@@ -92,6 +100,13 @@ export const aiProducts: AiProduct[] = [
     },
     region: "overseas",
     accent: "#10A37F",
+    company: { zh: "OpenAI", en: "OpenAI" },
+    badge: { zh: "🔥 热门", en: "🔥 Hot" },
+    tags: [
+      { zh: "智能对话", en: "AI Chat" },
+      { zh: "写作辅助", en: "Writing" },
+      { zh: "代码生成", en: "Code Gen" },
+    ],
   },
   {
     name: "Claude",
@@ -103,6 +118,13 @@ export const aiProducts: AiProduct[] = [
     },
     region: "overseas",
     accent: "#D97757",
+    company: { zh: "Anthropic", en: "Anthropic" },
+    badge: { zh: "⭐ 推荐", en: "⭐ Recommend" },
+    tags: [
+      { zh: "长文本理解", en: "Long Context" },
+      { zh: "严谨推理", en: "Reasoning" },
+      { zh: "安全可靠", en: "Safe & Reliable" },
+    ],
   },
   {
     name: "Gemini",
@@ -114,6 +136,12 @@ export const aiProducts: AiProduct[] = [
     },
     region: "overseas",
     accent: "#4285F4",
+    company: { zh: "Google", en: "Google" },
+    tags: [
+      { zh: "多模态", en: "Multimodal" },
+      { zh: "实时搜索", en: "Search" },
+      { zh: "Google 生态", en: "Ecosystem" },
+    ],
   },
   {
     name: "Grok",
@@ -125,6 +153,13 @@ export const aiProducts: AiProduct[] = [
     },
     region: "overseas",
     accent: "#111111",
+    company: { zh: "xAI", en: "xAI" },
+    badge: { zh: "X 官方", en: "X Official" },
+    tags: [
+      { zh: "实时联网", en: "Real-time Web" },
+      { zh: "幽默风格", en: "Witty" },
+      { zh: "X 集成", en: "X Integration" },
+    ],
   },
   {
     name: "Poe",
@@ -136,6 +171,12 @@ export const aiProducts: AiProduct[] = [
     },
     region: "overseas",
     accent: "#B92B27",
+    company: { zh: "Quora", en: "Quora" },
+    badge: { zh: "聚合平台", en: "Aggregator" },
+    tags: [
+      { zh: "多模型", en: "Multi-Model" },
+      { zh: "一键切换", en: "One-click Switch" },
+    ],
   },
   {
     name: "Character.AI",
@@ -147,6 +188,13 @@ export const aiProducts: AiProduct[] = [
     },
     region: "overseas",
     accent: "#5C5CE6",
+    company: { zh: "Character.AI", en: "Character.AI" },
+    badge: { zh: "角色对话", en: "Roleplay" },
+    tags: [
+      { zh: "角色扮演", en: "Roleplay" },
+      { zh: "个性化对话", en: "Personalized" },
+      { zh: "创意社区", en: "Creative" },
+    ],
   },
   {
     name: "Meta AI",
@@ -158,6 +206,12 @@ export const aiProducts: AiProduct[] = [
     },
     region: "overseas",
     accent: "#0866FF",
+    company: { zh: "Meta", en: "Meta" },
+    tags: [
+      { zh: "社交集成", en: "Social" },
+      { zh: "智能眼镜", en: "Smart Glasses" },
+      { zh: "多模态", en: "Multimodal" },
+    ],
   },
   {
     name: "Perplexity",
@@ -169,6 +223,12 @@ export const aiProducts: AiProduct[] = [
     },
     region: "overseas",
     accent: "#20808D",
+    company: { zh: "Perplexity", en: "Perplexity" },
+    tags: [
+      { zh: "对话搜索", en: "Conversational" },
+      { zh: "来源引用", en: "Citations" },
+      { zh: "实时信息", en: "Real-time" },
+    ],
   },
   {
     name: "Cursor",
@@ -180,6 +240,12 @@ export const aiProducts: AiProduct[] = [
     },
     region: "overseas",
     accent: "#000000",
+    company: { zh: "Cursor", en: "Cursor" },
+    tags: [
+      { zh: "AI 编辑器", en: "AI Editor" },
+      { zh: "代码库理解", en: "Codebase" },
+      { zh: "智能补全", en: "Completion" },
+    ],
   },
   {
     name: "GitHub Copilot",
@@ -191,6 +257,12 @@ export const aiProducts: AiProduct[] = [
     },
     region: "overseas",
     accent: "#6E5494",
+    company: { zh: "GitHub + OpenAI", en: "GitHub + OpenAI" },
+    tags: [
+      { zh: "IDE 集成", en: "IDE Plugin" },
+      { zh: "代码补全", en: "Completion" },
+      { zh: "代码生成", en: "Code Gen" },
+    ],
   },
   {
     name: "Trae",
@@ -202,6 +274,12 @@ export const aiProducts: AiProduct[] = [
     },
     region: "overseas",
     accent: "#0EA5E9",
+    company: { zh: "字节跳动", en: "ByteDance" },
+    tags: [
+      { zh: "AI IDE", en: "AI IDE" },
+      { zh: "智能补全", en: "Completion" },
+      { zh: "人机协作", en: "Human-led" },
+    ],
   },
   {
     name: "CodeBuddy",
@@ -213,6 +291,12 @@ export const aiProducts: AiProduct[] = [
     },
     region: "domestic",
     accent: "#2F80ED",
+    company: { zh: "腾讯云", en: "Tencent Cloud" },
+    tags: [
+      { zh: "代码助手", en: "Coding" },
+      { zh: "项目理解", en: "Project" },
+      { zh: "智能答疑", en: "Q&A" },
+    ],
   },
   {
     name: "Amazon CodeWhisperer",
@@ -224,6 +308,12 @@ export const aiProducts: AiProduct[] = [
     },
     region: "overseas",
     accent: "#FF9900",
+    company: { zh: "AWS", en: "AWS" },
+    tags: [
+      { zh: "云集成", en: "Cloud" },
+      { zh: "代码补全", en: "Completion" },
+      { zh: "安全检查", en: "Security" },
+    ],
   },
   {
     name: "Codex",
@@ -235,6 +325,12 @@ export const aiProducts: AiProduct[] = [
     },
     region: "overseas",
     accent: "#10A37F",
+    company: { zh: "OpenAI", en: "OpenAI" },
+    tags: [
+      { zh: "自主编码", en: "Autonomous" },
+      { zh: "云端规划", en: "Cloud" },
+      { zh: "PR 自动化", en: "PR Auto" },
+    ],
   },
   {
     name: "WorkBuddy",
@@ -246,6 +342,12 @@ export const aiProducts: AiProduct[] = [
     },
     region: "overseas",
     accent: "#7C3AED",
+    company: { zh: "WorkBuddy", en: "WorkBuddy" },
+    tags: [
+      { zh: "办公自动化", en: "Office" },
+      { zh: "邮件处理", en: "Email" },
+      { zh: "任务流转", en: "Workflow" },
+    ],
   },
   {
     name: "TraeSolo",
@@ -257,6 +359,11 @@ export const aiProducts: AiProduct[] = [
     },
     region: "overseas",
     accent: "#0284C7",
+    company: { zh: "字节跳动", en: "ByteDance" },
+    tags: [
+      { zh: "自主编码", en: "Autonomous" },
+      { zh: "需求到项目", en: "Prompt-to-App" },
+    ],
   },
   {
     name: "Monica",
@@ -268,6 +375,12 @@ export const aiProducts: AiProduct[] = [
     },
     region: "overseas",
     accent: "#22C55E",
+    company: { zh: "Monica", en: "Monica" },
+    tags: [
+      { zh: "浏览器插件", en: "Extension" },
+      { zh: "网页摘要", en: "Summary" },
+      { zh: "多模型", en: "Multi-Model" },
+    ],
   },
   {
     name: "Midjourney",
@@ -279,6 +392,12 @@ export const aiProducts: AiProduct[] = [
     },
     region: "overseas",
     accent: "#1F1F1F",
+    company: { zh: "Midjourney", en: "Midjourney" },
+    tags: [
+      { zh: "文生图", en: "Text-to-Image" },
+      { zh: "艺术画风", en: "Artistic" },
+      { zh: "创意设计", en: "Creative" },
+    ],
   },
   {
     name: "DALL·E",
@@ -290,6 +409,12 @@ export const aiProducts: AiProduct[] = [
     },
     region: "overseas",
     accent: "#12A150",
+    company: { zh: "OpenAI", en: "OpenAI" },
+    tags: [
+      { zh: "文生图", en: "Text-to-Image" },
+      { zh: "图像编辑", en: "Editing" },
+      { zh: "风格多样", en: "Styling" },
+    ],
   },
   {
     name: "Stable Diffusion",
@@ -301,6 +426,12 @@ export const aiProducts: AiProduct[] = [
     },
     region: "overseas",
     accent: "#FF4F00",
+    company: { zh: "Stability AI", en: "Stability AI" },
+    tags: [
+      { zh: "开源", en: "Open Source" },
+      { zh: "本地部署", en: "Self-hosted" },
+      { zh: "自定义模型", en: "Fine-tune" },
+    ],
   },
   {
     name: "Adobe Firefly",
@@ -312,6 +443,12 @@ export const aiProducts: AiProduct[] = [
     },
     region: "overseas",
     accent: "#FF2D00",
+    company: { zh: "Adobe", en: "Adobe" },
+    tags: [
+      { zh: "商用安全", en: "Commercial Safe" },
+      { zh: "文生图", en: "Text-to-Image" },
+      { zh: "Adobe 生态", en: "Adobe Ecosystem" },
+    ],
   },
   {
     name: "Krea",
@@ -323,6 +460,12 @@ export const aiProducts: AiProduct[] = [
     },
     region: "overseas",
     accent: "#111111",
+    company: { zh: "Krea", en: "Krea" },
+    tags: [
+      { zh: "实时生成", en: "Real-time" },
+      { zh: "图像增强", en: "Enhance" },
+      { zh: "无损放大", en: "Upscale" },
+    ],
   },
   {
     name: "Runway",
@@ -334,6 +477,12 @@ export const aiProducts: AiProduct[] = [
     },
     region: "overseas",
     accent: "#00D8C4",
+    company: { zh: "Runway", en: "Runway" },
+    tags: [
+      { zh: "文生视频", en: "Text-to-Video" },
+      { zh: "视频编辑", en: "Editing" },
+      { zh: "创作者工具", en: "Creator" },
+    ],
   },
   {
     name: "Pika",
@@ -345,6 +494,12 @@ export const aiProducts: AiProduct[] = [
     },
     region: "overseas",
     accent: "#6C5CE7",
+    company: { zh: "Pika Labs", en: "Pika Labs" },
+    tags: [
+      { zh: "文生视频", en: "Text-to-Video" },
+      { zh: "风格化", en: "Styling" },
+      { zh: "易上手", en: "Easy" },
+    ],
   },
   {
     name: "Luma",
@@ -356,6 +511,12 @@ export const aiProducts: AiProduct[] = [
     },
     region: "overseas",
     accent: "#5B5BD6",
+    company: { zh: "Luma Labs", en: "Luma Labs" },
+    tags: [
+      { zh: "文生视频", en: "Text-to-Video" },
+      { zh: "画面连贯", en: "Coherent" },
+      { zh: "自然动作", en: "Natural" },
+    ],
   },
   {
     name: "Sora",
@@ -367,6 +528,12 @@ export const aiProducts: AiProduct[] = [
     },
     region: "overseas",
     accent: "#10A37F",
+    company: { zh: "OpenAI", en: "OpenAI" },
+    tags: [
+      { zh: "文生视频", en: "Text-to-Video" },
+      { zh: "长时序", en: "Long Duration" },
+      { zh: "高保真", en: "High Fidelity" },
+    ],
   },
   {
     name: "HeyGen",
@@ -378,6 +545,12 @@ export const aiProducts: AiProduct[] = [
     },
     region: "overseas",
     accent: "#7C3AED",
+    company: { zh: "HeyGen", en: "HeyGen" },
+    tags: [
+      { zh: "数字人", en: "Avatar" },
+      { zh: "口播视频", en: "Spokesperson" },
+      { zh: "文案生成", en: "Script-to-Video" },
+    ],
   },
   {
     name: "Suno",
@@ -389,6 +562,12 @@ export const aiProducts: AiProduct[] = [
     },
     region: "overseas",
     accent: "#FF7A00",
+    company: { zh: "Suno", en: "Suno" },
+    tags: [
+      { zh: "AI 音乐", en: "AI Music" },
+      { zh: "歌词生成", en: "Lyrics" },
+      { zh: "完整歌曲", en: "Full Song" },
+    ],
   },
   {
     name: "ElevenLabs",
@@ -400,6 +579,12 @@ export const aiProducts: AiProduct[] = [
     },
     region: "overseas",
     accent: "#111827",
+    company: { zh: "ElevenLabs", en: "ElevenLabs" },
+    tags: [
+      { zh: "语音合成", en: "TTS" },
+      { zh: "语音克隆", en: "Cloning" },
+      { zh: "多语言", en: "Multilingual" },
+    ],
   },
   {
     name: "Udio",
@@ -411,6 +596,12 @@ export const aiProducts: AiProduct[] = [
     },
     region: "overseas",
     accent: "#EC4899",
+    company: { zh: "Udio", en: "Udio" },
+    tags: [
+      { zh: "AI 音乐", en: "AI Music" },
+      { zh: "高质量", en: "High Quality" },
+      { zh: "旋律创作", en: "Melody" },
+    ],
   },
   {
     name: "Riffusion",
@@ -422,6 +613,12 @@ export const aiProducts: AiProduct[] = [
     },
     region: "overseas",
     accent: "#8B5CF6",
+    company: { zh: "Riffusion", en: "Riffusion" },
+    tags: [
+      { zh: "实时生成", en: "Real-time" },
+      { zh: "扩散模型", en: "Diffusion" },
+      { zh: "音乐创作", en: "Music" },
+    ],
   },
   {
     name: "Hugging Face",
@@ -433,6 +630,12 @@ export const aiProducts: AiProduct[] = [
     },
     region: "overseas",
     accent: "#FFB000",
+    company: { zh: "Hugging Face", en: "Hugging Face" },
+    tags: [
+      { zh: "开源社区", en: "Open Source" },
+      { zh: "模型库", en: "Models" },
+      { zh: "数据集", en: "Datasets" },
+    ],
   },
   {
     name: "Mistral",
@@ -444,6 +647,12 @@ export const aiProducts: AiProduct[] = [
     },
     region: "overseas",
     accent: "#FF7000",
+    company: { zh: "Mistral AI", en: "Mistral AI" },
+    tags: [
+      { zh: "开源", en: "Open Source" },
+      { zh: "高效模型", en: "Efficient" },
+      { zh: "欧洲", en: "EU" },
+    ],
   },
 
   // ──────────────── 国内（Domestic） ────────────────
@@ -457,6 +666,13 @@ export const aiProducts: AiProduct[] = [
     },
     region: "domestic",
     accent: "#4D6BFE",
+    company: { zh: "深度求索", en: "DeepSeek" },
+    badge: { zh: "⭐ 推荐", en: "⭐ Recommend" },
+    tags: [
+      { zh: "开源", en: "Open Source" },
+      { zh: "高性价比", en: "Cost-Effective" },
+      { zh: "推理能力强", en: "Reasoning" },
+    ],
   },
   {
     name: "Kimi",
@@ -468,6 +684,12 @@ export const aiProducts: AiProduct[] = [
     },
     region: "domestic",
     accent: "#0B0B0B",
+    company: { zh: "月之暗面", en: "Moonshot" },
+    tags: [
+      { zh: "长上下文", en: "Long Context" },
+      { zh: "文档处理", en: "Documents" },
+      { zh: "中文优化", en: "Chinese" },
+    ],
   },
   {
     name: "豆包",
@@ -479,6 +701,12 @@ export const aiProducts: AiProduct[] = [
     },
     region: "domestic",
     accent: "#FD4B55",
+    company: { zh: "字节跳动", en: "ByteDance" },
+    tags: [
+      { zh: "智能对话", en: "AI Chat" },
+      { zh: "内容创作", en: "Creation" },
+      { zh: "办公助手", en: "Office" },
+    ],
   },
   {
     name: "文心一言",
@@ -490,6 +718,12 @@ export const aiProducts: AiProduct[] = [
     },
     region: "domestic",
     accent: "#2932E1",
+    company: { zh: "百度", en: "Baidu" },
+    tags: [
+      { zh: "中文优化", en: "Chinese" },
+      { zh: "搜索融合", en: "Search" },
+      { zh: "多模态", en: "Multimodal" },
+    ],
   },
   {
     name: "通义千问",
@@ -501,6 +735,12 @@ export const aiProducts: AiProduct[] = [
     },
     region: "domestic",
     accent: "#615CED",
+    company: { zh: "阿里云", en: "Alibaba Cloud" },
+    tags: [
+      { zh: "对话", en: "Chat" },
+      { zh: "编码", en: "Coding" },
+      { zh: "多模态", en: "Multimodal" },
+    ],
   },
   {
     name: "智谱清言",
@@ -512,6 +752,12 @@ export const aiProducts: AiProduct[] = [
     },
     region: "domestic",
     accent: "#4F46E5",
+    company: { zh: "智谱 AI", en: "Zhipu AI" },
+    tags: [
+      { zh: "中文推理", en: "Chinese Reasoning" },
+      { zh: "清华系", en: "Tsinghua" },
+      { zh: "GLM 模型", en: "GLM" },
+    ],
   },
   {
     name: "讯飞星火",
@@ -523,6 +769,12 @@ export const aiProducts: AiProduct[] = [
     },
     region: "domestic",
     accent: "#1F5EFF",
+    company: { zh: "科大讯飞", en: "iFlytek" },
+    tags: [
+      { zh: "语音能力", en: "Speech" },
+      { zh: "认知模型", en: "Cognitive" },
+      { zh: "中文场景", en: "Chinese" },
+    ],
   },
   {
     name: "百川智能",
@@ -534,6 +786,11 @@ export const aiProducts: AiProduct[] = [
     },
     region: "domestic",
     accent: "#3B5BFF",
+    company: { zh: "百川智能", en: "Baichuan" },
+    tags: [
+      { zh: "通用对话", en: "General" },
+      { zh: "行业场景", en: "Industry" },
+    ],
   },
   {
     name: "腾讯混元",
@@ -545,6 +802,12 @@ export const aiProducts: AiProduct[] = [
     },
     region: "domestic",
     accent: "#0052D9",
+    company: { zh: "腾讯", en: "Tencent" },
+    tags: [
+      { zh: "微信生态", en: "WeChat" },
+      { zh: "自研模型", en: "In-house" },
+      { zh: "多模态", en: "Multimodal" },
+    ],
   },
   {
     name: "阶跃星辰",
@@ -556,6 +819,12 @@ export const aiProducts: AiProduct[] = [
     },
     region: "domestic",
     accent: "#2B2B2B",
+    company: { zh: "阶跃星辰", en: "StepFun" },
+    tags: [
+      { zh: "AGI 探索", en: "AGI" },
+      { zh: "多模态", en: "Multimodal" },
+      { zh: "迭代快速", en: "Fast Iteration" },
+    ],
   },
   {
     name: "天工",
@@ -567,6 +836,12 @@ export const aiProducts: AiProduct[] = [
     },
     region: "domestic",
     accent: "#FF6A00",
+    company: { zh: "昆仑万维", en: "Kunlun" },
+    tags: [
+      { zh: "搜索一体", en: "Search" },
+      { zh: "内容创作", en: "Creation" },
+      { zh: "中文优化", en: "Chinese" },
+    ],
   },
   {
     name: "海螺AI",
@@ -578,6 +853,12 @@ export const aiProducts: AiProduct[] = [
     },
     region: "domestic",
     accent: "#6D28D9",
+    company: { zh: "MiniMax", en: "MiniMax" },
+    tags: [
+      { zh: "语音生成", en: "Voice" },
+      { zh: "视频生成", en: "Video" },
+      { zh: "多模态", en: "Multimodal" },
+    ],
   },
   {
     name: "秘塔AI搜索",
@@ -589,6 +870,13 @@ export const aiProducts: AiProduct[] = [
     },
     region: "domestic",
     accent: "#2F54EB",
+    company: { zh: "秘塔科技", en: "Metaso" },
+    badge: { zh: "🔥 热门", en: "🔥 Hot" },
+    tags: [
+      { zh: "无广告", en: "Ad-Free" },
+      { zh: "结构化", en: "Structured" },
+      { zh: "来源引用", en: "Citations" },
+    ],
   },
   {
     name: "通义灵码",
@@ -600,6 +888,12 @@ export const aiProducts: AiProduct[] = [
     },
     region: "domestic",
     accent: "#615CED",
+    company: { zh: "阿里云", en: "Alibaba Cloud" },
+    tags: [
+      { zh: "整库理解", en: "Repo-wide" },
+      { zh: "智能生成", en: "Generation" },
+      { zh: "IDE 集成", en: "IDE" },
+    ],
   },
   {
     name: "百度 Comate",
@@ -611,6 +905,12 @@ export const aiProducts: AiProduct[] = [
     },
     region: "domestic",
     accent: "#2932E1",
+    company: { zh: "百度", en: "Baidu" },
+    tags: [
+      { zh: "代码补全", en: "Completion" },
+      { zh: "代码生成", en: "Generation" },
+      { zh: "代码问答", en: "Q&A" },
+    ],
   },
   {
     name: "智谱 AutoGLM",
@@ -622,6 +922,12 @@ export const aiProducts: AiProduct[] = [
     },
     region: "domestic",
     accent: "#4F46E5",
+    company: { zh: "智谱 AI", en: "Zhipu AI" },
+    tags: [
+      { zh: "自主 Agent", en: "Autonomous" },
+      { zh: "手机操控", en: "Phone Control" },
+      { zh: "多步任务", en: "Multi-step" },
+    ],
   },
   {
     name: "Coze（扣子）",
@@ -633,6 +939,13 @@ export const aiProducts: AiProduct[] = [
     },
     region: "domestic",
     accent: "#7B61FF",
+    company: { zh: "字节跳动", en: "ByteDance" },
+    badge: { zh: "聚合平台", en: "Aggregator" },
+    tags: [
+      { zh: "可视化编排", en: "Visual" },
+      { zh: "一键发布", en: "One-click" },
+      { zh: "多渠道", en: "Multi-channel" },
+    ],
   },
   {
     name: "Manus",
@@ -644,6 +957,13 @@ export const aiProducts: AiProduct[] = [
     },
     region: "domestic",
     accent: "#111827",
+    company: { zh: "Manus", en: "Manus" },
+    badge: { zh: "⭐ 推荐", en: "⭐ Recommend" },
+    tags: [
+      { zh: "自主 Agent", en: "Autonomous" },
+      { zh: "任务拆解", en: "Planning" },
+      { zh: "多场景", en: "Multi-domain" },
+    ],
   },
   {
     name: "通义万相",
@@ -655,6 +975,12 @@ export const aiProducts: AiProduct[] = [
     },
     region: "domestic",
     accent: "#615CED",
+    company: { zh: "阿里云", en: "Alibaba Cloud" },
+    tags: [
+      { zh: "文生图", en: "Text-to-Image" },
+      { zh: "国风", en: "Chinese Style" },
+      { zh: "商用素材", en: "Commercial" },
+    ],
   },
   {
     name: "文心一格",
@@ -666,6 +992,12 @@ export const aiProducts: AiProduct[] = [
     },
     region: "domestic",
     accent: "#2932E1",
+    company: { zh: "百度", en: "Baidu" },
+    tags: [
+      { zh: "AI 绘画", en: "AI Art" },
+      { zh: "多风格", en: "Multi-style" },
+      { zh: "中文提示词", en: "Chinese Prompt" },
+    ],
   },
   {
     name: "即梦",
@@ -677,6 +1009,12 @@ export const aiProducts: AiProduct[] = [
     },
     region: "domestic",
     accent: "#7B61FF",
+    company: { zh: "字节跳动", en: "ByteDance" },
+    tags: [
+      { zh: "一站式", en: "All-in-One" },
+      { zh: "文生图", en: "Text-to-Image" },
+      { zh: "图生视频", en: "Image-to-Video" },
+    ],
   },
   {
     name: "可灵",
@@ -688,5 +1026,11 @@ export const aiProducts: AiProduct[] = [
     },
     region: "domestic",
     accent: "#FF5000",
+    company: { zh: "快手", en: "Kuaishou" },
+    tags: [
+      { zh: "文生视频", en: "Text-to-Video" },
+      { zh: "动作自然", en: "Lifelike" },
+      { zh: "高质量", en: "High Quality" },
+    ],
   },
 ];

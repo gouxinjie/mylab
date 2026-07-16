@@ -150,7 +150,22 @@
     "products_subtitle": "A curated selection of today's mainstream AI tools, grouped by AI Chat, Dev Tools, Agents, Image/Video and more, across Domestic and Overseas.",
     "search_placeholder": "Search AI products (name or description)...",
     "empty": "No matching AI products found. Try another keyword.",
-    "visit": "Visit"
+    "search_clear": "Clear search",
+    "visit": "Visit Site",
+    "features": {
+      "safe": {
+        "title": "Safe & Reliable",
+        "description": "Curated quality tools, strictly selected"
+      },
+      "efficient": {
+        "title": "Efficient & Convenient",
+        "description": "One-click access, fast to use"
+      },
+      "updated": {
+        "title": "Continuously Updated",
+        "description": "Keep up with the frontier, updated regularly"
+      }
+    }
   },
   "AINotes": {
     "title": "AI Notes",

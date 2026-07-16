@@ -21,14 +21,21 @@ import {
 import styles from "./index.module.scss";
 
 /**
- * 根据产品官网地址生成对应的 favicon 地址（DuckDuckGo 图标服务，按域名取真实图标）
- * @param url - 产品官方网站地址
- * @returns favicon 图片地址；地址非法时返回空串
+ * 根据产品数据获取品牌图标地址（本地静态资源，按域名映射）
+ * 优先使用产品自定义 logo，否则按官网域名映射到 public/logos/<域名>.png；
+ * 若对应图标文件不存在，<img> 触发 onError 回退到首字母头像。
+ * 注：图标由 scripts/fetch-logos.mjs 从 Google favicon 服务批量下载后自托管，
+ * 运行时完全不依赖外网，规避国内无法访问外部图标服务的问题。
+ * @param product - 单个 AI 产品
+ * @returns 图标图片地址；无法获取时返回空串
  */
-const getFavicon = (url: string): string => {
+const getLogoUrl = (product: AiProduct): string => {
+  // 优先使用产品自定义 logo
+  if (product.logo) return product.logo;
+  // 否则按官网域名映射到本地静态资源
   try {
-    const host = new URL(url).hostname;
-    return `https://icons.duckduckgo.com/ip3/${host}.ico`;
+    const domain = new URL(product.url).hostname;
+    return `/logos/${domain}.png`;
   } catch {
     return "";
   }
@@ -41,31 +48,26 @@ const getFavicon = (url: string): string => {
  */
 const getReadableTextColor = (hex: string): string => {
   const clean = hex.replace("#", "");
-  // 仅支持 6 位十六进制，非法时回退白色
   if (clean.length !== 6) return "#fff";
   const r = parseInt(clean.slice(0, 2), 16);
   const g = parseInt(clean.slice(2, 4), 16);
   const b = parseInt(clean.slice(4, 6), 16);
-  // 相对亮度（感知加权）：>0.6 视为亮底，用深色文字
   const luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
   return luminance > 0.6 ? "#111827" : "#fff";
 };
 
 /**
- * 产品图标：固定 44px 包裹层，内部优先展示官网 favicon，
- * 加载失败时回退到品牌色首字母方块
+ * 产品图标：优先品牌图标，加载失败回退到首字母头像
  * @param product - 单个 AI 产品
  */
 const ProductLogo = ({ product }: { product: AiProduct }) => {
   const [errored, setErrored] = useState(false);
-  const favicon = getFavicon(product.url);
-  // 仅当 favicon 有效且未加载失败时才展示图片
-  const showImg = !errored && !!favicon;
+  const logoUrl = getLogoUrl(product);
+  const showImg = !errored && !!logoUrl;
 
   return (
     <span
       className={styles.logo}
-      // 回退到首字母时显示品牌色底，并按底色亮度选择文字色；图片模式下不设置背景
       style={
         showImg
           ? { backgroundColor: "transparent" }
@@ -76,7 +78,7 @@ const ProductLogo = ({ product }: { product: AiProduct }) => {
       {showImg ? (
         <img
           className={styles.logoImg}
-          src={favicon}
+          src={logoUrl}
           alt={`${product.name} logo`}
           loading="lazy"
           onError={() => setErrored(true)}
@@ -149,7 +151,7 @@ const AiProducts = () => {
             type="button"
             className={styles.searchClear}
             onClick={() => setSearch("")}
-            aria-label="清除搜索"
+            aria-label={t("search_clear")}
           >
             ×
           </button>
@@ -175,55 +177,112 @@ const AiProducts = () => {
       {/* 产品卡片网格 */}
       {list.length > 0 ? (
         <div className={styles.grid}>
-          {list.map((product) => (
-            <a
-              key={product.name}
-              href={product.url}
-              target="_blank"
-              rel="noopener noreferrer"
-              className={styles.product}
-            >
-              {/* 卡片头部：官网 favicon + 名称/分类，横向排列 */}
-              <div className={styles.header}>
-                <ProductLogo product={product} />
-                <div className={styles.headerText}>
-                  <div className={styles.top}>
-                    <span className={styles.name}>{product.name}</span>
-                    <span className={styles.cat}>
-                      {aiCategoryLabels[product.category][localeKey]}
-                    </span>
-                  </div>
-                </div>
-              </div>
-
-              <p className={styles.desc}>{product.desc[localeKey]}</p>
-
-              {/* 卡片底部：左侧国内/国外标签 + 右侧访问入口 */}
-              <div className={styles.footer}>
-                <span className={styles.region}>
-                  {aiRegionLabels[product.region][localeKey]}
-                </span>
-                <span className={styles.visit}>
-                  {t("visit")}
-                  <svg
-                    width="14"
-                    height="14"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    aria-hidden="true"
+          {list.map((product) => {
+            // 右上角标记：优先使用 badge，否则回退到公司名
+            const badgeText = product.badge ?? product.company;
+            return (
+              <a
+                key={product.name}
+                href={product.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className={styles.product}
+              >
+                {/* 卡片头部：左侧 Logo + 右侧标记 */}
+                <div className={styles.header}>
+                  <ProductLogo product={product} />
+                  <span
+                    className={styles.badge}
+                    style={{
+                      color: product.accent,
+                      backgroundColor: `${product.accent}1f`,
+                    }}
                   >
-                    <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6" />
-                    <polyline points="15 3 21 3 21 9" />
-                    <line x1="10" y1="14" x2="21" y2="3" />
-                  </svg>
+                    {badgeText[localeKey]}
+                  </span>
+                </div>
+
+                {/* 产品名称 */}
+                <span className={styles.name}>{product.name}</span>
+
+                {/* 所属公司（品牌色） */}
+                <span
+                  className={styles.company}
+                  style={{ color: product.accent }}
+                >
+                  {product.company[localeKey]}
                 </span>
-              </div>
-            </a>
-          ))}
+
+                {/* 产品简介 */}
+                <p className={styles.desc}>{product.desc[localeKey]}</p>
+
+                {/* 功能标签 */}
+                {product.tags && product.tags.length > 0 && (
+                  <div className={styles.tags}>
+                    {product.tags.map((tag) => (
+                      <span
+                        key={tag.zh}
+                        className={styles.tag}
+                        style={{
+                          color: product.accent,
+                          backgroundColor: `${product.accent}1f`,
+                        }}
+                      >
+                        {tag[localeKey]}
+                      </span>
+                    ))}
+                  </div>
+                )}
+
+                {/* 卡片底部：区域 + 访问官网按钮 */}
+                <div className={styles.footer}>
+                  <span className={styles.region}>
+                    {/* 地球图标 */}
+                    <svg
+                      width="14"
+                      height="14"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      aria-hidden="true"
+                    >
+                      <circle cx="12" cy="12" r="10" />
+                      <line x1="2" y1="12" x2="22" y2="12" />
+                      <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
+                    </svg>
+                    {aiRegionLabels[product.region][localeKey]}
+                  </span>
+                  <span
+                    className={styles.visit}
+                    style={{
+                      color: product.accent,
+                      backgroundColor: `${product.accent}1f`,
+                    }}
+                  >
+                    {t("visit")}
+                    {/* 外链箭头 */}
+                    <svg
+                      width="12"
+                      height="12"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      strokeWidth="2.5"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      aria-hidden="true"
+                    >
+                      <path d="M7 17L17 7" />
+                      <path d="M7 7h10v10" />
+                    </svg>
+                  </span>
+                </div>
+              </a>
+            );
+          })}
         </div>
       ) : (
         // 无匹配结果时的空状态

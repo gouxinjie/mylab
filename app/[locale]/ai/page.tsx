@@ -1,5 +1,6 @@
 import { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
+import AiFeatures from "@/components/business/AiFeatures";
 import AiProducts from "@/components/business/AiProducts";
 import styles from "./page.module.scss";
 
@@ -27,12 +28,23 @@ export default async function AIPage({
   return (
     <section className={styles.products}>
       <header className={styles.products__head}>
-        <h2 className={styles.products__title}>{t("products_title")}</h2>
+        <h2 className={styles.products__title}>
+          {t("products_title").split("AI").reduce<React.ReactNode[]>(
+            (prev, part, i) => {
+              if (i === 0) return [part];
+              return [...prev, <span key={i} className={styles["products__title--highlight"]}>AI</span>, part];
+            },
+            [],
+          )}
+        </h2>
         <p className={styles.products__subtitle}>{t("products_subtitle")}</p>
       </header>
 
       {/* 分类 Tab + 产品网格（客户端交互） */}
       <AiProducts />
+
+      {/* 底部特性模块：安全可靠 / 高效便捷 / 持续更新 */}
+      <AiFeatures />
     </section>
   );
 }

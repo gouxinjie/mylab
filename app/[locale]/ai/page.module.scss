@@ -6,13 +6,14 @@
  */
 
 // 页面容器：与项目页（PageBanner）/ 首页 Hero 保持一致
-// 全宽 + 16px 左右内边距，内容左对齐（不居中），避免版心缩进导致与左侧不对齐
+// 外层已由 ai/layout 的 container-custom 提供左右内边距，此处仅保留纵向间距，
+// 避免重复水平内边距导致版心缩进
 .products {
   width: 100%;
-  padding: 32px 16px 48px;
+  padding: 32px 0 48px;
 
   @media (min-width: 640px) {
-    padding: 48px 16px 64px;
+    padding: 48px 0 64px;
   }
 }
 
@@ -26,9 +27,13 @@
   line-height: 1.2;
 }
 
+// 标题中 "AI" 文字高亮为品牌绿色
+.products__title--highlight {
+  color: var(--color-accent);
+}
+
 .products__subtitle {
   margin-top: 10px;
-  max-width: 640px;
   font-size: 14px;
   line-height: 1.8;
   color: var(--color-text-secondary);

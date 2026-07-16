@@ -15,8 +15,9 @@
   }
 }
 
-// 内容区：限制最大宽度，保证可读性
+// 内容区：与全站 container-custom 保持一致的最大宽度（1152px），
+// 避免版心缩进导致与首页 / 项目页不对齐
 .content {
   min-width: 0;
-  max-width: 980px;
+  max-width: 1152px;
 }
