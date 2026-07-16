@@ -4,7 +4,7 @@
     "about": "About",
     "projects": "Projects",
     "skills": "Skills",
-    "contact": "Contact",
+    "ai": "AI",
     "switch_locale": "简体中文",
     "theme_toggle": "Toggle Theme"
   },
@@ -143,34 +143,18 @@
     "resources_title": "Resources",
     "blog": "Blog (blog.gouxinjie.com)"
   },
-  "Contact": {
-    "title": "Contact",
-    "subtitle": "Feel free to reach out to me through the following ways, looking forward to connecting with you!",
-    "blog_note": "💡 If you want to read my technical articles, welcome to visit"
-  },
   "AI": {
-    "title": "AI Exploration",
-    "subtitle": "Exploring the boundaries of AI, integrating LLM, RAG, and Agent technologies into real products.",
-    "projects_title": "AI Projects",
-    "tool_stack_title": "AI Tool Stack",
-    "articles_title": "AI Related Articles",
-    "articles_subtitle": "Featured AI technical articles from the blog",
-    "projects": [
-      {
-        "title": "AI Chat Hub",
-        "desc": "Multi-model aggregated chat platform, supporting OpenAI / Dify / custom models, with built-in RAG enhancement",
-        "tags": ["React", "OpenAI", "Dify", "RAG"]
-      },
-      {
-        "title": "Dify Workflow Builder",
-        "desc": "Visual workflow orchestrator based on Dify, drag-and-drop to build complex AI Agents",
-        "tags": ["Dify", "LangChain", "TypeScript"]
-      }
-    ],
-    "articles": [
-      { "title": "Building RAG Knowledge Base from Scratch" },
-      { "title": "Dify Workflow in Action: Building Smart Customer Service Agents" },
-      { "title": "Prompt Engineering Best Practices Guide" }
-    ]
+    "title": "AI Notes",
+    "subtitle": "Notes on AI fundamentals and productivity tooling, continuously curated and shared as docs.",
+    "tab_products": "AI Search",
+    "tab_docs": "Docs",
+    "products_title": "AI Products on the Market",
+    "products_subtitle": "A curated selection of today's mainstream AI tools across chat, search, image, coding, video and music.",
+    "visit": "Visit",
+    "read": "Read",
+    "back": "Back to docs",
+    "prev": "Previous",
+    "next": "Next",
+    "updated_label": "Last updated"
   }
 }

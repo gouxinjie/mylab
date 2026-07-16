@@ -1,0 +1,125 @@
+/**
+ * @file page.module.scss
+ * @description AI 文档文章详情页样式
+ * @author gouxinjie
+ */
+
+// 文章容器：全宽居中，限制最大宽度保证长文可读性
+.doc {
+  width: 100%;
+  max-width: 760px;
+  margin: 0 auto;
+}
+
+// ─── 返回按钮 ─────────────────────────────────
+.back {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 16px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--color-text-secondary);
+  transition: color 0.2s ease;
+}
+
+.back:hover {
+  color: var(--color-accent);
+}
+
+// 箭头图标：hover 时左移强化「返回」语义
+.back svg {
+  transition: transform 0.2s ease;
+}
+
+.back:hover svg {
+  transform: translateX(-3px);
+}
+
+// ─── 面包屑 ───────────────────────────────────
+.breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+  font-size: 13px;
+  color: var(--color-text-muted);
+
+  // 首页链接：hover 主色
+  &__link {
+    color: var(--color-text-secondary);
+  }
+
+  &__link:hover {
+    color: var(--color-accent);
+  }
+
+  // 分隔符
+  &__sep {
+    color: var(--color-text-muted);
+  }
+
+  // 当前分组名
+  &__current {
+    color: var(--color-text-secondary);
+  }
+}
+
+// 更新时间
+.meta {
+  margin-bottom: 20px;
+  font-size: 12px;
+  color: var(--color-text-muted);
+}
+
+// 正文区
+.body {
+  margin-bottom: 40px;
+}
+
+// ─── 上一篇 / 下一篇 ─────────────────────────
+.pager {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  padding-top: 24px;
+  border-top: 1px solid var(--color-border);
+}
+
+// 翻页卡片
+.pager__item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 14px 16px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  transition: all 0.2s ease;
+}
+
+.pager__item:hover {
+  border-color: var(--color-accent);
+  box-shadow: var(--shadow-md);
+}
+
+// 下一篇：文字右对齐
+.pager__item--next {
+  text-align: right;
+}
+
+// 翻页标签（上一篇/下一篇）
+.pager__label {
+  font-size: 12px;
+  color: var(--color-text-muted);
+}
+
+// 翻页文章标题
+.pager__title {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--color-text-primary);
+}
+
+.pager__item:hover .pager__title {
+  color: var(--color-accent);
+}

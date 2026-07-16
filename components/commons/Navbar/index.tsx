@@ -27,8 +27,9 @@ function ProjectIcon() {
   return <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>;
 }
 
-function MailIcon() {
-  return <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>;
+// AI 图标：用于「AI 相关」导航项，四角星/闪光造型呼应 AI 主题
+function AiIcon() {
+  return <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9L12 3z"/><path d="M18 17l.6 1.7L20 19l-1.4.3L18 21l-.6-1.7L16 19l1.4-.3L18 17z"/></svg>;
 }
 
 function GlobeIcon() {
@@ -116,7 +117,7 @@ export default function Navbar() {
     { label: t("home"), href: "/", icon: <HomeIcon /> },
     { label: t("projects"), href: "/projects", icon: <ProjectIcon /> },
     { label: t("about"), href: "/about", icon: <UserIcon /> },
-    { label: t("contact"), href: "/contact", icon: <MailIcon /> },
+    { label: t("ai"), href: "/ai", icon: <AiIcon /> },
   ];
 
   const toggleTheme = () => {

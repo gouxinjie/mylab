@@ -72,19 +72,6 @@ export const skills: Skill[] = [
   { name: "PostgreSQL", icon: "postgresql" },
 ];
 
-// ─── AI 工具 ──────────────────────────────────────
-
-export const aiTools = [
-  { name: "OpenAI API", category: "LLM", categoryEn: "LLM" },
-  { name: "Dify", category: "平台", categoryEn: "Platform" },
-  { name: "LangChain", category: "框架", categoryEn: "Framework" },
-  { name: "Coze", category: "平台", categoryEn: "Platform" },
-  { name: "RAG", category: "技术", categoryEn: "Technique" },
-  { name: "向量数据库", category: "数据库", categoryEn: "Database" },
-  { name: "Agent", category: "架构", categoryEn: "Architecture" },
-  { name: "Prompt Engineering", category: "技术", categoryEn: "Technique" },
-];
-
 // ─── 工作经历 ──────────────────────────────────────
 
 export const experiences: Experience[] = [

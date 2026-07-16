@@ -1,215 +1,268 @@
 /**
  * @file page.module.scss
- * @description AI 探索页面样式
+ * @description AI 概览页样式：Tab 面板内的「AI 搜索」产品网格 + 「相关文档」分类卡片
  * @author gouxinjie
+ * @updated 2026-07-16
  */
 
-// 页面容器：上下内边距随屏幕增大
-.ai-page {
-  padding-top: 48px;
-  padding-bottom: 48px;
-
-  @media (min-width: 640px) {
-    padding-top: 64px;
-    padding-bottom: 64px;
-  }
+// ─── Tab1：AI 搜索（产品展示） ────────────────────
+.products {
+  width: 100%;
 }
 
-// 页头：标题 + 副标题
-.header {
-  margin-bottom: 40px;
-
-  // 页头大标题
-  &__title {
-    font-size: 30px;
-    line-height: 36px;
-    font-weight: 700;
-
-    @media (min-width: 640px) {
-      font-size: 36px;
-      line-height: 40px;
-    }
-  }
-
-  // 页头副标题：次要色
-  &__subtitle {
-    margin-top: 8px;
-    max-width: 576px;
-    color: var(--color-text-secondary);
-  }
+.products__head {
+  margin-bottom: 24px;
 }
 
-// 内容区块：与下方保持间距
-.section {
-  margin-bottom: 64px;
-
-  // 最后一个区块取消下边距
-  &--last {
-    margin-bottom: 0;
-  }
-
-  // 区块标题
-  &__title {
-    margin-bottom: 24px;
-    font-size: 18px;
-    font-weight: 600;
-  }
+.products__title {
+  font-size: 24px;
+  font-weight: 800;
+  line-height: 1.2;
 }
 
-// 项目栅格：移动端单列，中屏两列
-.project-grid {
+.products__subtitle {
+  margin-top: 10px;
+  max-width: 640px;
+  font-size: 14px;
+  line-height: 1.8;
+  color: var(--color-text-secondary);
+}
+
+// 产品卡片网格：移动端单列，桌面端多列
+.productGrid {
   display: grid;
-  gap: 24px;
+  grid-template-columns: 1fr;
+  gap: 16px;
 
   @media (min-width: 640px) {
     grid-template-columns: repeat(2, 1fr);
   }
-}
 
-// 项目卡片：复用 card-base
-.project-card {
-  @include card-base;
-
-  // 预览图区：渐变背景占位
-  &__preview {
-    margin-bottom: 12px;
-    height: 160px;
-    border-radius: 8px;
-    background: linear-gradient(to bottom right, #1e3a8a, #581c87);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: rgba(255, 255, 255, 0.2);
-  }
-
-  // 项目标题
-  &__title {
-    font-weight: 600;
-  }
-
-  // 项目描述：三行截断
-  &__desc {
-    margin-top: 4px;
-    font-size: 14px;
-    line-height: 1.625;
-    color: var(--color-text-secondary);
-    display: -webkit-box;
-    -webkit-line-clamp: 3;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-  }
-
-  // 标签列表
-  &__tags {
-    margin-top: 12px;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px;
-  }
-
-  // 单个标签：圆角描边
-  &__tag {
-    border-radius: 9999px;
-    border: 1px solid var(--color-border);
-    padding: 2px 8px;
-    font-size: 12px;
-    color: var(--color-text-muted);
+  @media (min-width: 1024px) {
+    grid-template-columns: repeat(3, 1fr);
   }
 }
 
-// 工具栈：横向换行排列
-.tool-stack {
+// 单个产品卡片：头像 + 名称/分类 + 简介 + 访问
+.product {
   display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
+  flex-direction: column;
+  height: 100%;
+  padding: 20px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  background-color: var(--color-bg-secondary);
+  transition: all 0.25s ease;
 }
 
-// 工具项：圆角描边，hover 主色边框
-.tool-item {
+.product:hover {
+  border-color: var(--color-accent);
+  box-shadow: var(--shadow-md);
+  transform: translateY(-3px);
+}
+
+// 产品头像：品牌色方块 + 首字母
+.product__logo {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  border-radius: 9999px;
-  border: 1px solid var(--color-border);
-  background-color: var(--color-bg-secondary);
-  padding: 8px 16px;
-  font-size: 14px;
-  transition: all 0.2s;
-
-  &:hover {
-    border-color: var(--color-accent);
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-  }
-
-  // 分类小标签：hover 主色浅底
-  &__category {
-    border-radius: 4px;
-    background-color: var(--color-border);
-    padding: 2px 6px;
-    font-size: 10px;
-    color: var(--color-text-secondary);
-    transition: colors 0.2s;
-  }
-
-  &:hover &__category {
-    background-color: rgba(var(--color-accent-rgb), 0.1);
-    color: var(--color-accent-dark);
-  }
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  margin-bottom: 14px;
+  font-size: 20px;
+  font-weight: 800;
+  color: #fff;
+  border-radius: var(--radius-lg);
 }
 
-// 文章列表区
-.articles {
-  // 文章列表副标题
-  &__subtitle {
-    margin-bottom: 16px;
-    font-size: 14px;
-    color: var(--color-text-secondary);
-  }
-
-  // 文章列表：纵向排列
-  &__list {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-  }
+.product__body {
+  flex: 1;
 }
 
-// 文章项：标题 + 元信息，hover 主色高亮
-.article-item {
+// 名称 + 分类：同一行两端对齐
+.product__top {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  border-radius: 12px;
+  gap: 8px;
+}
+
+.product__name {
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--color-text-primary);
+}
+
+// 分类标签：主色浅底小标签
+.product__cat {
+  flex-shrink: 0;
+  padding: 2px 10px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--color-accent);
+  background-color: rgba(var(--color-accent-rgb), 0.1);
+  border-radius: var(--radius-full);
+}
+
+.product__desc {
+  margin-top: 8px;
+  font-size: 13.5px;
+  line-height: 1.7;
+  color: var(--color-text-secondary);
+}
+
+// 访问入口：底部主色文字 + 外链图标
+.product__visit {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: 16px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-accent);
+}
+
+.product__visit svg {
+  transition: transform 0.2s ease;
+}
+
+.product:hover .product__visit svg {
+  transform: translate(2px, -2px);
+}
+
+// ─── Tab2：相关文档（分类卡片网格） ───────────────
+.home {
+  width: 100%;
+}
+
+// ─── 首页头部（Hero） ─────────────────────────
+.hero {
+  padding-bottom: 28px;
+  margin-bottom: 32px;
+  border-bottom: 1px solid var(--color-border);
+}
+
+// AI 徽标：主色浅底圆角小标签
+.hero__badge {
+  display: inline-block;
+  padding: 4px 12px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  color: var(--color-accent);
+  background-color: rgba(var(--color-accent-rgb), 0.1);
+  border-radius: var(--radius-full);
+}
+
+// 主标题
+.hero__title {
+  margin-top: 16px;
+  font-size: 32px;
+  line-height: 1.15;
+  font-weight: 800;
+}
+
+// 副标题
+.hero__subtitle {
+  margin-top: 14px;
+  max-width: 620px;
+  color: var(--color-text-secondary);
+  line-height: 1.8;
+}
+
+@media (min-width: 640px) {
+  .hero__title {
+    font-size: 38px;
+  }
+}
+
+// ─── 分类分组 ───────────────────────────────────
+.docGroups {
+  display: flex;
+  flex-direction: column;
+  gap: 36px;
+}
+
+// 单个分组
+.docGroup {
+  width: 100%;
+}
+
+// 分组标题
+.docGroup__title {
+  margin-bottom: 16px;
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--color-text-primary);
+}
+
+// 子分组标题（如 AGENTS 规则约束）：跨整行显示
+.docGroup__sub {
+  grid-column: 1 / -1;
+  margin: 18px 0 6px;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+}
+
+// 文档卡片网格
+.docGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 14px;
+
+  @media (min-width: 560px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @media (min-width: 900px) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+// 文档卡片：标题 + 阅读入口
+.docCard {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 64px;
+  padding: 16px 18px;
   border: 1px solid var(--color-border);
-  padding: 16px;
-  transition: all 0.2s;
+  border-radius: var(--radius-lg);
+  background-color: var(--color-bg-secondary);
+  transition: all 0.2s ease;
+}
 
-  &:hover {
-    border-color: var(--color-accent);
-    background-color: var(--color-bg-secondary);
-  }
+.docCard:hover {
+  border-color: var(--color-accent);
+  box-shadow: var(--shadow-sm);
+  transform: translateY(-2px);
+}
 
-  // 文章标题
-  &__title {
-    font-size: 14px;
-    font-weight: 500;
-  }
+// 卡片标题
+.docCard__title {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--color-text-primary);
+  line-height: 1.4;
+}
 
-  // 文章元信息：浅灰小字
-  &__meta {
-    margin-top: 4px;
-    font-size: 12px;
-    color: var(--color-text-muted);
-  }
+// 阅读入口：主色文字 + 箭头
+.docCard__read {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  flex-shrink: 0;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--color-accent);
+}
 
-  // 文章箭头图标：hover 右移
-  &__icon {
-    flex-shrink: 0;
-    color: var(--color-text-muted);
-    transition: transform 0.2s;
-  }
+.docCard__read svg {
+  transition: transform 0.2s ease;
+}
 
-  &:hover &__icon {
-    transform: translateX(2px);
-  }
+.docCard:hover .docCard__read svg {
+  transform: translateX(3px);
 }

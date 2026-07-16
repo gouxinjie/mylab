@@ -4,7 +4,7 @@
     "projects": "项目",
     "about": "关于",
     "skills": "技术栈",
-    "contact": "联系",
+    "ai": "AI 相关",
     "switch_locale": "English",
     "theme_toggle": "切换主题"
   },
@@ -143,34 +143,18 @@
     "resources_title": "资源",
     "blog": "博客 (blog.gouxinjie.com)"
   },
-  "Contact": {
-    "title": "联系",
-    "subtitle": "欢迎通过以下方式联系我，期待与你交流！",
-    "blog_note": "💡 如果你想了解我的技术文章，欢迎访问"
-  },
   "AI": {
-    "title": "AI 探索",
-    "subtitle": "探索人工智能的边界，将 LLM、RAG、Agent 等技术融入实际产品中。",
-    "projects_title": "AI 项目",
-    "tool_stack_title": "AI 工具栈",
-    "articles_title": "AI 相关文章",
-    "articles_subtitle": "从博客中精选的 AI 技术文章",
-    "projects": [
-      {
-        "title": "AI Chat Hub",
-        "desc": "多模型聚合对话平台，支持 OpenAI / Dify / 自定义模型，内置 RAG 检索增强",
-        "tags": ["React", "OpenAI", "Dify", "RAG"]
-      },
-      {
-        "title": "Dify Workflow Builder",
-        "desc": "基于 Dify 的可视化工作流编排器，拖拽式构建复杂 AI Agent",
-        "tags": ["Dify", "LangChain", "TypeScript"]
-      }
-    ],
-    "articles": [
-      { "title": "从零搭建 RAG 知识库系统" },
-      { "title": "Dify 工作流实战：构建智能客服 Agent" },
-      { "title": "Prompt Engineering 最佳实践指南" }
-    ]
+    "title": "AI 相关",
+    "subtitle": "记录 AI 领域的基础认知与工具提效实践，以文档形式持续沉淀与分享。",
+    "tab_products": "AI 搜索",
+    "tab_docs": "相关文档",
+    "products_title": "市面上的 AI 产品",
+    "products_subtitle": "精选当前主流的 AI 工具，覆盖对话、搜索、图像、编程、视频与音乐等场景。",
+    "visit": "访问",
+    "read": "阅读",
+    "back": "返回文档列表",
+    "prev": "上一篇",
+    "next": "下一篇",
+    "updated_label": "最近更新"
   }
 }
