@@ -14,6 +14,12 @@ export interface AiDocNode {
   text: string;
   /** 路由 slug（英文短链），与对应 markdown 的 frontmatter.slug 字段一一对应；无 slug 表示纯分组节点 */
   slug?: string;
+  /** 卡片展示描述（可选） */
+  desc?: string;
+  /** 图标类型标识（可选） */
+  icon?: string;
+  /** 图标主色（可选） */
+  iconColor?: string;
   /** 子节点列表 */
   items?: AiDocNode[];
 }
@@ -22,6 +28,12 @@ export interface AiDocNode {
 export interface AiDocGroup {
   /** 分组标题，如「基础认知」 */
   text: string;
+  /** 分组描述（可选） */
+  desc?: string;
+  /** 分组图标类型标识（可选） */
+  icon?: string;
+  /** 分组图标主色（可选） */
+  iconColor?: string;
   /** 是否默认折叠 */
   collapsed?: boolean;
   /** 分组下的文档节点 */
@@ -58,29 +70,95 @@ export interface AiDocContent {
 export const aiDocGroups: AiDocGroup[] = [
   {
     text: "基础认知",
+    desc: "从概念到协议，构建扎实的 AI 基础知识体系",
+    icon: "bookOpen",
+    iconColor: "#10B981",
     collapsed: false,
     items: [
-      { text: "AI概念与AI Agent", slug: "ai-concept-and-agent" },
-      { text: "AI模型中的token是什么", slug: "what-is-token" },
-      { text: "什么是提示词工程", slug: "prompt-engineering" },
-      { text: "什么是RAG检索增强生成", slug: "rag" },
-      { text: "什么是MCP协议", slug: "mcp" },
-      { text: "什么是模型蒸馏", slug: "model-distillation" },
+      {
+        text: "AI概念与AI Agent",
+        slug: "ai-concept-and-agent",
+        desc: "理解核心概念与 Agent 的基础",
+        icon: "robot",
+        iconColor: "#10B981",
+      },
+      {
+        text: "AI模型中的token是什么",
+        slug: "what-is-token",
+        desc: "深入理解 token 的组成与作用",
+        icon: "database",
+        iconColor: "#3B82F6",
+      },
+      {
+        text: "什么是提示词工程",
+        slug: "prompt-engineering",
+        desc: "写好提示词的原理与实践",
+        icon: "terminal",
+        iconColor: "#8B5CF6",
+      },
+      {
+        text: "什么是RAG检索增强生成",
+        slug: "rag",
+        desc: "RAG 原理与落地方案",
+        icon: "search",
+        iconColor: "#F59E0B",
+      },
+      {
+        text: "什么是MCP协议",
+        slug: "mcp",
+        desc: "MCP 协议基础与应用",
+        icon: "network",
+        iconColor: "#3B82F6",
+      },
+      {
+        text: "什么是模型蒸馏",
+        slug: "model-distillation",
+        desc: "蒸馏技术与应用场景",
+        icon: "layers",
+        iconColor: "#10B981",
+      },
     ],
   },
   {
     text: "工具提效",
+    desc: "模板与规范，提升使用效率",
+    icon: "wrench",
+    iconColor: "#10B981",
     collapsed: false,
     items: [
       {
         text: "AGENTS规则约束",
         items: [
-          { text: "什么是AGENTS.md", slug: "what-is-agents-md" },
-          { text: "前端专用AGENTS.md模板", slug: "agents-md-frontend" },
-          { text: "后端专用AGENTS.md模板", slug: "agents-md-backend" },
+          {
+            text: "什么是AGENTS.md",
+            slug: "what-is-agents-md",
+            desc: "AGENTS.md 规则详解",
+            icon: "fileText",
+            iconColor: "#3B82F6",
+          },
+          {
+            text: "前端专用AGENTS.md模板",
+            slug: "agents-md-frontend",
+            desc: "适用于前端项目的模板",
+            icon: "code",
+            iconColor: "#10B981",
+          },
+          {
+            text: "后端专用AGENTS.md模板",
+            slug: "agents-md-backend",
+            desc: "适用于后端项目的模板",
+            icon: "server",
+            iconColor: "#8B5CF6",
+          },
         ],
       },
-      { text: "Agent Skills", slug: "agent-skills" },
+      {
+        text: "Agent Skills",
+        slug: "agent-skills",
+        desc: "定制化 AI Agent 技能包",
+        icon: "zap",
+        iconColor: "#F59E0B",
+      },
     ],
   },
 ];

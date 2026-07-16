@@ -1,6 +1,6 @@
 /**
  * @file page.module.scss
- * @description AI 笔记页样式：Hero 头部 + 文档分类卡片网格
+ * @description AI 笔记页样式：Hero 头部 + 文档分类卡片网格（带图标与描述）
  * @author gouxinjie
  * @updated 2026-07-16
  */
@@ -32,7 +32,7 @@
 // 主标题
 .hero__title {
   margin-top: 16px;
-  font-size: 32px;
+  font-size: 24px;
   line-height: 1.15;
   font-weight: 800;
 }
@@ -45,17 +45,11 @@
   line-height: 1.8;
 }
 
-@media (min-width: 640px) {
-  .hero__title {
-    font-size: 38px;
-  }
-}
-
 // ─── 分类分组 ───────────────────────────────────
 .docGroups {
   display: flex;
   flex-direction: column;
-  gap: 36px;
+  gap: 42px;
 }
 
 // 单个分组
@@ -63,12 +57,33 @@
   width: 100%;
 }
 
-// 分组标题
+// 分组标题行：图标 + 标题 + 描述
+.docGroup__header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+// 分组图标包裹容器：确保 SVG 图标垂直居中
+.docGroup__icon {
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+// 分组主标题
 .docGroup__title {
-  margin-bottom: 16px;
-  font-size: 20px;
+  font-size: 18px;
   font-weight: 700;
   color: var(--color-text-primary);
+}
+
+// 分组描述：灰色小字
+.docGroup__desc {
+  font-size: 13px;
+  color: var(--color-text-secondary);
+  margin-left: 4px;
 }
 
 // 子分组标题（如 AGENTS 规则约束）：跨整行显示
@@ -95,14 +110,25 @@
   }
 }
 
-// 文档卡片：标题 + 阅读入口
+// 图标底板：彩色圆角方块
+.iconBox {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  flex-shrink: 0;
+}
+
+// 文档卡片：图标 + 标题/描述 + 箭头
 .docCard {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 12px;
-  min-height: 64px;
-  padding: 16px 18px;
+  gap: 14px;
+  min-height: 72px;
+  padding: 14px 16px;
   border: 1px solid var(--color-border);
   border-radius: var(--radius-lg);
   background-color: var(--color-bg-secondary);
@@ -115,29 +141,47 @@
   transform: translateY(-2px);
 }
 
+// 卡片左侧内容区
+.docCard__main {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+}
+
+// 卡片文字区
+.docCard__text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
 // 卡片标题
 .docCard__title {
-  font-size: 15px;
+  font-size: 14px;
   font-weight: 600;
   color: var(--color-text-primary);
   line-height: 1.4;
 }
 
-// 阅读入口：主色文字 + 箭头
-.docCard__read {
+// 卡片描述
+.docCard__desc {
+  font-size: 12px;
+  color: var(--color-text-secondary);
+  line-height: 1.5;
+}
+
+// 卡片箭头
+.docCard__arrow {
   display: inline-flex;
   align-items: center;
-  gap: 3px;
   flex-shrink: 0;
-  font-size: 13px;
-  font-weight: 600;
+  color: var(--color-text-tertiary);
+  transition: all 0.2s ease;
+}
+
+.docCard:hover .docCard__arrow {
   color: var(--color-accent);
-}
-
-.docCard__read svg {
-  transition: transform 0.2s ease;
-}
-
-.docCard:hover .docCard__read svg {
   transform: translateX(3px);
 }
