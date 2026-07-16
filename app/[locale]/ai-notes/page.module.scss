@@ -60,6 +60,7 @@
 // 分组标题行：图标 + 标题 + 描述
 .docGroup__header {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   gap: 10px;
   margin-bottom: 20px;
@@ -84,6 +85,15 @@
   font-size: 13px;
   color: var(--color-text-secondary);
   margin-left: 4px;
+}
+
+// 移动端：描述另起一行
+@media (max-width: 559px) {
+  .docGroup__desc {
+    flex-basis: 100%;
+    margin-left: 0;
+    margin-top: -4px;
+  }
 }
 
 // 子分组标题（如 AGENTS 规则约束）：跨整行显示
