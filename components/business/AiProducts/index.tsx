@@ -182,7 +182,7 @@ const AiProducts = () => {
             const badgeText = product.badge ?? product.company;
             return (
               <a
-                key={product.url}
+                key={`${product.url}-${product.name}`}
                 href={product.url}
                 target="_blank"
                 rel="noopener noreferrer"
