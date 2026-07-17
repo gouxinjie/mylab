@@ -39,8 +39,8 @@ export const aiCategoryLabels: Record<AiCategory | "all", I18nText> = {
   all: { zh: "全部", en: "All" },
   chat: { zh: "AI 对话", en: "AI Chat" },
   search: { zh: "AI 搜索", en: "AI Search" },
-  dev: { zh: "开发工具", en: "Dev Tools" },
-  agent: { zh: "Agent 工具", en: "AI Agents" },
+  dev: { zh: "AI 开发工具", en: "AI Dev Tools" },
+  agent: { zh: "AI 智能体工作台", en: "AI Agent Workbench" },
   image: { zh: "文生图", en: "Image" },
   video: { zh: "文生视频", en: "Video" },
   audio: { zh: "音乐 & 音频", en: "Music & Audio" },
@@ -51,13 +51,13 @@ export const aiCategoryLabels: Record<AiCategory | "all", I18nText> = {
 export const categoryOrder: (AiCategory | "all")[] = [
   "all",
   "chat",
-  "search",
   "dev",
   "agent",
   "image",
   "video",
   "audio",
   "platform",
+  "search",
 ];
 
 /** 单个 AI 产品展示条目 */
@@ -284,6 +284,7 @@ export const aiProducts: AiProduct[] = [
   {
     name: "CodeBuddy",
     url: "https://www.codebuddy.cn",
+    logo: "/logos/www.codebuddy.cn.svg",
     category: "dev",
     desc: {
       zh: "腾讯云推出的 AI 代码助手，深度理解项目上下文与工程结构，提供实时补全、智能答疑与代码重构建议，支持多种主流开发语言与框架。",
@@ -335,6 +336,7 @@ export const aiProducts: AiProduct[] = [
   {
     name: "WorkBuddy",
     url: "https://workbuddy.ai",
+    logo: "/logos/workbuddy.ai.svg",
     category: "agent",
     desc: {
       zh: "面向办公场景的自主 Agent，可自动阅读与回复邮件、处理 Excel 表格数据、编排跨系统流程任务，大幅减轻日常重复性办公负担。",
@@ -810,6 +812,24 @@ export const aiProducts: AiProduct[] = [
     ],
   },
   {
+    name: "元宝",
+    url: "https://yuanbao.tencent.com",
+    category: "chat",
+    desc: {
+      zh: "腾讯基于自研混元大模型打造的 C 端 AI 助手，深度融合微信公众号、视频号等腾讯生态信源，支持混元与 DeepSeek 双模型一键切换、联网搜索、智能识图与拍题答疑，覆盖工作、学习与日常场景。",
+      en: "Tencent's consumer AI assistant built on the in-house Hunyuan model, deeply integrating WeChat official accounts and Channels — supports one-click switching between Hunyuan and DeepSeek, web search, image understanding and photo-based Q&A for work, study and daily life.",
+    },
+    region: "domestic",
+    accent: "#1677FF",
+    company: { zh: "腾讯", en: "Tencent" },
+    badge: { zh: "🔥 热门", en: "🔥 Hot" },
+    tags: [
+      { zh: "智能对话", en: "AI Chat" },
+      { zh: "生态搜索", en: "Search" },
+      { zh: "双模型", en: "Dual Model" },
+    ],
+  },
+  {
     name: "阶跃星辰",
     url: "https://www.stepfun.com",
     category: "chat",
@@ -910,6 +930,100 @@ export const aiProducts: AiProduct[] = [
       { zh: "代码补全", en: "Completion" },
       { zh: "代码生成", en: "Generation" },
       { zh: "代码问答", en: "Q&A" },
+    ],
+  },
+  {
+    name: "Google Antigravity",
+    url: "https://antigravity.google",
+    logo: "/logos/antigravity.google.png",
+    category: "dev",
+    desc: {
+      zh: "Google 推出的 Agent-first 智能体开发平台与 AI IDE，基于 Gemini，提供 Tab 级自动补全、自然语言代码指令与上下文感知的多智能体协作能力，让开发者以智能体优先的方式构建软件。",
+      en: "Google's agent-first development platform and AI IDE powered by Gemini, offering tab autocompletion, natural-language code commands and context-aware multi-agent collaboration for building software in the agent era.",
+    },
+    region: "overseas",
+    accent: "#4285F4",
+    company: { zh: "Google", en: "Google" },
+    badge: { zh: "🔥 热门", en: "🔥 Hot" },
+    tags: [
+      { zh: "AI IDE", en: "AI IDE" },
+      { zh: "多智能体", en: "Multi-Agent" },
+      { zh: "Gemini", en: "Gemini" },
+    ],
+  },
+  {
+    name: "Qoder",
+    url: "https://qoder.com",
+    logo: "/logos/qoder.com.svg",
+    category: "dev",
+    desc: {
+      zh: "阿里云推出的新一代 Agentic 编码平台，基于增强上下文工程与知识可视化、Spec 驱动开发，提供 Agent 模式与 Quest 能力，深度理解整个代码库架构并记忆开发习惯。",
+      en: "Alibaba Cloud's next-generation agentic coding platform built on augmented context engineering and knowledge visualization with spec-driven development, offering Agent Mode and Quest to deeply understand your codebase.",
+    },
+    region: "domestic",
+    accent: "#FF6A00",
+    company: { zh: "阿里云", en: "Alibaba Cloud" },
+    badge: { zh: "🔥 热门", en: "🔥 Hot" },
+    tags: [
+      { zh: "Agentic IDE", en: "Agentic IDE" },
+      { zh: "代码库理解", en: "Codebase" },
+      { zh: "Spec 驱动", en: "Spec-driven" },
+    ],
+  },
+  {
+    name: "MiMo Code",
+    url: "https://github.com/XiaomiMiMo/MiMo-Code",
+    logo: "/logos/github.com.png",
+    category: "dev",
+    desc: {
+      zh: "小米 MiMo 团队开源的终端原生 AI 编程智能体（Coding Agent），基于开源项目 OpenCode 二次开发并以 MIT 协议发布，支持读写代码、执行命令、管理 Git 与持久化记忆，模型与 Agent 协同进化。",
+      en: "Xiaomi MiMo team's open-source terminal-native coding agent built on OpenCode and released under MIT — reads/writes code, runs commands, manages Git and keeps persistent memory, with models and agents co-evolving.",
+    },
+    region: "domestic",
+    accent: "#7C3AED",
+    company: { zh: "小米 MiMo", en: "Xiaomi MiMo" },
+    badge: { zh: "⭐ 开源", en: "⭐ Open Source" },
+    tags: [
+      { zh: "开源 MIT", en: "Open Source" },
+      { zh: "终端 Agent", en: "Terminal Agent" },
+      { zh: "持久记忆", en: "Memory" },
+    ],
+  },
+  {
+    name: "Kiro",
+    url: "https://kiro.dev",
+    logo: "/logos/kiro.dev.png",
+    category: "dev",
+    desc: {
+      zh: "AWS 推出的 Spec-driven AI IDE（2026 年替代 Amazon Q Developer），将需求转化为可执行规格，自动校验代码正确性、修复 Bug 并迭代功能，让 Vibe Coding 走向工程化。",
+      en: "AWS's spec-driven AI IDE (replacing Amazon Q Developer in 2026) that turns prompts into executable specs, validates code correctness, fixes bugs and iterates features — bringing Vibe Coding to engineering rigor.",
+    },
+    region: "overseas",
+    accent: "#14B8A6",
+    company: { zh: "AWS", en: "AWS" },
+    tags: [
+      { zh: "Spec 驱动", en: "Spec-driven" },
+      { zh: "AI IDE", en: "AI IDE" },
+      { zh: "代码校验", en: "Validation" },
+    ],
+  },
+  {
+    name: "Claude Code",
+    url: "https://code.claude.com",
+    logo: "/logos/claude.ai.png",
+    category: "dev",
+    desc: {
+      zh: "Anthropic 推出的终端原生 AI 编程智能体，深度理解整个代码库，可直接编辑文件、执行命令、管理 Git 并自主完成功能开发、Bug 修复与开发任务自动化。",
+      en: "Anthropic's terminal-native coding agent that understands your entire codebase, edits files, runs commands, manages Git and autonomously ships features, fixes bugs and automates dev tasks.",
+    },
+    region: "overseas",
+    accent: "#D97757",
+    company: { zh: "Anthropic", en: "Anthropic" },
+    badge: { zh: "🔥 热门", en: "🔥 Hot" },
+    tags: [
+      { zh: "终端 Agent", en: "Terminal Agent" },
+      { zh: "代码库理解", en: "Codebase" },
+      { zh: "任务自动化", en: "Automation" },
     ],
   },
   {
@@ -1031,6 +1145,43 @@ export const aiProducts: AiProduct[] = [
       { zh: "文生视频", en: "Text-to-Video" },
       { zh: "动作自然", en: "Lifelike" },
       { zh: "高质量", en: "High Quality" },
+    ],
+  },
+  {
+    name: "Vidu",
+    url: "https://www.vidu.com",
+    logo: "/logos/www.vidu.com.svg",
+    category: "video",
+    desc: {
+      zh: "生数科技推出的 AI 视频生成模型，国内首个纯自研视频大模型，支持文生视频、图生视频与多镜头故事板，擅长保持主体一致性与电影级画面质感，长视频生成达到国际顶尖水平。",
+      en: "Shengshu Technology's AI video model — China's first fully self-developed video foundation model, supporting text-to-video, image-to-video and multi-shot storyboards with strong subject consistency and cinematic quality, leading globally in long-form generation.",
+    },
+    region: "domestic",
+    accent: "#6D5BFF",
+    company: { zh: "生数科技", en: "Shengshu Tech" },
+    badge: { zh: "⭐ 推荐", en: "⭐ Recommend" },
+    tags: [
+      { zh: "文生视频", en: "Text-to-Video" },
+      { zh: "主体一致", en: "Consistency" },
+      { zh: "多镜头", en: "Storyboard" },
+    ],
+  },
+  {
+    name: "智谱清影",
+    url: "https://chatglm.cn/video",
+    logo: "/logos/chatglm.cn.png",
+    category: "video",
+    desc: {
+      zh: "智谱 AI 推出的 AI 视频生成模型，支持文生视频与图生视频，可生成高画质、高帧率视频，并具备电影级运镜与多镜头连贯叙事能力，是国产视频大模型的重要代表。",
+      en: "Zhipu AI's AI video generation model supporting text-to-video and image-to-video with high-resolution, high-frame-rate output, cinematic camera movement and coherent multi-shot storytelling — a key representative of China's video foundation models.",
+    },
+    region: "domestic",
+    accent: "#6366F1",
+    company: { zh: "智谱 AI", en: "Zhipu AI" },
+    tags: [
+      { zh: "文生视频", en: "Text-to-Video" },
+      { zh: "图生视频", en: "Image-to-Video" },
+      { zh: "电影运镜", en: "Cinematic" },
     ],
   },
 ];
