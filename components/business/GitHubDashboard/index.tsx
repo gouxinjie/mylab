@@ -42,17 +42,27 @@ function Sparkline({ data, color }: { data: number[]; color: string }) {
   if (!data.length) return null;
 
   const width = 120;
-  const height = 28;
+  const height = 32;
   const max = Math.max(...data, 1);
   const min = Math.min(...data);
   const range = max - min || 1;
-  const padding = 2;
+  const padX = 4;
+  const padY = 6;
 
   const points = data
     .map((v, i) => {
-      const x = (i / (data.length - 1)) * (width - padding * 2) + padding;
-      const y = height - padding - ((v - min) / range) * (height - padding * 2);
+      const x = padX + (i / (data.length - 1)) * (width - padX * 2);
+      const y = height - padY - ((v - min) / range) * (height - padY * 2);
       return `${x},${y}`;
+    })
+    .join(" ");
+
+  // 生成折线路径（用于折线下方的渐变填充区域）
+  const pathD = data
+    .map((v, i) => {
+      const x = padX + (i / (data.length - 1)) * (width - padX * 2);
+      const y = height - padY - ((v - min) / range) * (height - padY * 2);
+      return `${i === 0 ? "M" : "L"} ${x} ${y}`;
     })
     .join(" ");
 
@@ -60,34 +70,43 @@ function Sparkline({ data, color }: { data: number[]; color: string }) {
     <svg
       className={styles.sparkline}
       viewBox={`0 0 ${width} ${height}`}
-      preserveAspectRatio="none"
     >
+      {/* 填充区域：折线下方半透明渐变 */}
+      <defs>
+        <linearGradient id={`spark-fill-${color.replace("#", "")}`} x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stopColor={color} stopOpacity={0.15} />
+          <stop offset="100%" stopColor={color} stopOpacity={0} />
+        </linearGradient>
+      </defs>
+      <path
+        d={`${pathD} L ${width - padX} ${height - padY} L ${padX} ${height - padY} Z`}
+        fill={`url(#spark-fill-${color.replace("#", "")})`}
+      />
+      {/* 折线 */}
       <polyline
         points={points}
         fill="none"
         stroke={color}
-        strokeWidth="2"
+        strokeWidth="1.5"
         strokeLinecap="round"
         strokeLinejoin="round"
-        opacity={0.6}
       />
-      {/* 数据点：首、尾、最高点 */}
-      {data.map((v, i) => {
-        const x = (i / (data.length - 1)) * (width - padding * 2) + padding;
-        const y = height - padding - ((v - min) / range) * (height - padding * 2);
-        const isSpecial = i === 0 || i === data.length - 1 || v === max;
-        if (!isSpecial) return null;
+      {/* 最后一个数据点 */}
+      {(() => {
+        const last = data[data.length - 1];
+        const x = padX + ((data.length - 1) / (data.length - 1)) * (width - padX * 2);
+        const y = height - padY - ((last - min) / range) * (height - padY * 2);
         return (
           <circle
-            key={i}
             cx={x}
             cy={y}
-            r={2.5}
-            fill={color}
-            opacity={0.8}
+            r={3}
+            fill="#fff"
+            stroke={color}
+            strokeWidth="1.5"
           />
         );
-      })}
+      })()}
     </svg>
   );
 }
@@ -399,16 +418,6 @@ export default function GitHubDashboard() {
       className={styles.github}
       title={t("title")}
       subtitle={t("subtitle")}
-      action={
-        <a
-          href="https://github.com/gouxinjie"
-          target="_blank"
-          rel="noopener noreferrer"
-          className={styles.header__link}
-        >
-          {t("view_github")}
-        </a>
-      }
     >
       {/* 主体：统计网格 + 个人资料 */}
       <div className={styles.grid}>
@@ -489,8 +498,10 @@ export default function GitHubDashboard() {
 
       {/* 底部引用区域 */}
       <div className={styles.quoteBar}>
-        <span className={styles.quoteBar__mark}>"</span>
-        <span className={styles.quoteBar__text}>持续学习，持续构建，用代码改变世界</span>
+        <svg className={styles.quoteBar__mark} width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <path d="M9.5 6C7 6 5 8 5 10.5V16h5v-5H7.5C7.5 9.5 8.2 9 9.5 9V6zm9 0C16 6 14 8 14 10.5V16h5v-5h-2.5C16.5 9.5 17.2 9 18.5 9V6z" />
+        </svg>
+        <span className={styles.quoteBar__text}>持续学习，持续构建，享受编程的每一天</span>
         <svg className={styles.quoteBar__heart} width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
           <path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z" />
         </svg>

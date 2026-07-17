@@ -66,7 +66,12 @@ $gh-link: #0969da;
   gap: 12px;
 
   @media (min-width: 640px) {
+    grid-template-columns: repeat(2, 1fr);
     gap: 16px;
+  }
+
+  @media (min-width: 1024px) {
+    grid-template-columns: repeat(4, 1fr);
   }
 }
 
@@ -74,13 +79,14 @@ $gh-link: #0969da;
 .statsCard {
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: center;
+  text-align: center;
   gap: 6px;
   padding: 16px;
   border: 1px solid var(--color-border);
   border-radius: var(--radius-xl);
   background-color: var(--color-bg);
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.02);
+  box-shadow: 0 4px 12px -2px rgba(0, 0, 0, 0.08), 0 2px 6px -1px rgba(0, 0, 0, 0.04);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   cursor: default;
 
@@ -91,15 +97,15 @@ $gh-link: #0969da;
 
   &:hover {
     transform: translateY(-3px);
-    box-shadow: 0 8px 20px -4px rgba(0, 0, 0, 0.08), 0 4px 8px -2px rgba(0, 0, 0, 0.04);
+    box-shadow: 0 16px 30px -4px rgba(0, 0, 0, 0.12), 0 6px 12px -2px rgba(0, 0, 0, 0.06);
   }
 
   :global(.dark) & {
     background-color: var(--color-bg-secondary);
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2), 0 1px 2px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 4px 12px -2px rgba(0, 0, 0, 0.35), 0 2px 6px -1px rgba(0, 0, 0, 0.25);
 
     &:hover {
-      box-shadow: 0 8px 20px -4px rgba(0, 0, 0, 0.3), 0 4px 8px -2px rgba(0, 0, 0, 0.2);
+      box-shadow: 0 16px 30px -4px rgba(0, 0, 0, 0.45), 0 6px 12px -2px rgba(0, 0, 0, 0.3);
     }
   }
 }
@@ -108,7 +114,7 @@ $gh-link: #0969da;
 .statsCard__header {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
   width: 100%;
 }
 
@@ -154,9 +160,9 @@ $gh-link: #0969da;
 
 // 统计卡片 sparkline 区域
 .statsCard__sparkline {
-  margin-top: 4px;
+  margin-top: 6px;
   width: 100%;
-  height: 24px;
+  height: 32px;
 }
 
 // ==========================================
@@ -180,7 +186,7 @@ $gh-link: #0969da;
   border: 1px solid var(--color-border);
   border-radius: var(--radius-xl);
   background-color: var(--color-bg);
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.02);
+  box-shadow: 0 4px 12px -2px rgba(0, 0, 0, 0.08), 0 2px 6px -1px rgba(0, 0, 0, 0.04);
 
   @media (min-width: 640px) {
     padding: 24px;
@@ -188,7 +194,7 @@ $gh-link: #0969da;
 
   :global(.dark) & {
     background-color: var(--color-bg-secondary);
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2), 0 1px 2px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 4px 12px -2px rgba(0, 0, 0, 0.35), 0 2px 6px -1px rgba(0, 0, 0, 0.25);
   }
 }
 
@@ -265,7 +271,7 @@ $gh-link: #0969da;
   gap: 4px;
   padding: 10px 0;
   border-radius: var(--radius-lg);
-  background-color: var(--color-bg-secondary);
+  background-color: #ebf8f4;
   font-size: 14px;
   font-weight: 500;
   color: var(--color-accent);
@@ -297,22 +303,26 @@ $gh-link: #0969da;
   gap: 12px;
   padding: 14px 20px;
   border-radius: var(--radius-xl);
-  background-color: var(--color-bg-secondary);
-  border: 1px solid var(--color-border);
+  background-color: #eaf8f3;
+  border-top: 1px solid var(--color-border);
+  box-shadow: 0 4px 12px -2px rgba(0, 0, 0, 0.08), 0 2px 6px -1px rgba(0, 0, 0, 0.04);
 
   @media (min-width: 640px) {
     margin-top: 20px;
     padding: 16px 24px;
   }
+
+  // 暗色模式：适配阴影
+  :global(.dark) & {
+    box-shadow: 0 4px 12px -2px rgba(0, 0, 0, 0.35), 0 2px 6px -1px rgba(0, 0, 0, 0.25);
+  }
 }
 
-// 引号
+// 引号图标
 .quoteBar__mark {
-  font-size: 24px;
-  font-weight: 700;
+  flex-shrink: 0;
   color: var(--color-accent);
-  line-height: 1;
-  font-family: Georgia, serif;
+  opacity: 0.7;
 }
 
 // 引用文字

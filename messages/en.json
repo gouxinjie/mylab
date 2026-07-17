@@ -111,7 +111,6 @@
   "GitHubDashboard": {
     "title": "GitHub Dashboard",
     "subtitle": "Real-time data, refresh to view latest",
-    "view_github": "Visit my GitHub →",
     "repos": "Repositories",
     "originals": "Open-Source Projects",
     "github_age": "GitHub Age",

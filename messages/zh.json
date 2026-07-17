@@ -111,7 +111,6 @@
   "GitHubDashboard": {
     "title": "GitHub 数据看板",
     "subtitle": "实时数据，刷新查看最新",
-    "view_github": "访问我的 GitHub →",
     "repos": "公开仓库",
     "originals": "开源项目",
     "github_age": "GitHub 龄",
