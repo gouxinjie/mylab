@@ -3,12 +3,11 @@
  * @description "我能做什么" 区域组件
  * @author gouxinjie
  * @created 2024-07-08
+ * @updated 2026-07-17
  */
 
-"use client";
-
 import { useTranslations } from "next-intl";
-import { motion } from "framer-motion";
+import FadeIn from "@/components/commons/FadeIn";
 import styles from "./index.module.scss";
 
 const iconMap = {
@@ -62,29 +61,20 @@ export default function Services() {
   return (
     <section className={styles.services}>
       <div className="container-custom">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
-          className={styles.header}
-        >
+        <FadeIn className={styles.header}>
           <h2 className={styles.header__title}>
             {t("title")}
           </h2>
-        </motion.div>
+        </FadeIn>
 
         <div className={styles.grid}>
           {items.map((item, idx) => {
             const Icon = iconMap[item.icon as keyof typeof iconMap] || iconMap.code;
             return (
-              <motion.div
+              <FadeIn
                 key={item.title}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: idx * 0.1 }}
                 className={styles.item}
+                delay={idx * 0.1}
               >
                 <div className={styles['item__icon-box']}>
                   {Icon}
@@ -95,7 +85,7 @@ export default function Services() {
                 <p className={styles.item__desc}>
                   {item.description}
                 </p>
-              </motion.div>
+              </FadeIn>
             );
           })}
         </div>

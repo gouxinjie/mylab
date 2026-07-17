@@ -1,0 +1,26 @@
+/**
+ * PageTransition 页面切换入场动画
+ * 每次路由变化（key=pathname 重挂载）触发一次淡入上移
+ */
+
+.pageTransition {
+  animation: page-transition-in 0.25s ease-in-out;
+}
+
+@keyframes page-transition-in {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// 尊重用户的“减少动效”偏好
+@media (prefers-reduced-motion: reduce) {
+  .pageTransition {
+    animation: none;
+  }
+}

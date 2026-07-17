@@ -170,6 +170,8 @@ export default function Navbar() {
               <Link
                 key={item.href}
                 href={item.href}
+                // 显式预取目标路由的 JS 与数据，缩短首次点击时的加载等待
+                prefetch
                 className={`${styles.nav__link} ${isActive ? styles['nav__link--active'] : ''}`}
               >
                 <span className={styles.nav__link__icon}>{item.icon}</span>
@@ -266,6 +268,8 @@ export default function Navbar() {
                   key={item.href}
                   href={item.href}
                   onClick={() => setMobileOpen(false)}
+                  // 与桌面端一致，显式预取目标路由，缩短首次加载等待
+                  prefetch
                   className={`${styles['mobile-menu__link']} ${isActive ? styles['mobile-menu__link--active'] : ''}`}
                 >
                   <span className={styles['mobile-menu__icon']}>{item.icon}</span>

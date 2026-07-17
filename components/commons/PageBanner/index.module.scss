@@ -3,6 +3,7 @@
  * @description PageBanner 通用页头横幅样式
  * @author gouxinjie
  * @updated 2026-07-15 暗色模式修复：叠加桌面端左侧渐变蒙版，解决白字在浅色背景图上不可读的问题
+ * @updated 2026-07-17 背景图改用 next/image 优化（自动压缩/响应式），替代 CSS background-image
  */
 
 // 横幅容器：flex 列布局 + 背景图
@@ -15,13 +16,12 @@
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  background-repeat: no-repeat;
-  background-position: right center;
-  background-size: cover;
 
-  // 移动端（< 640px）隐藏背景图（inline style 优先级高，需 !important 覆盖）
+  // 移动端（< 640px）隐藏装饰背景图，减少小屏流量与干扰
   @media (max-width: 639px) {
-    background-image: none !important;
+    .bannerBg {
+      display: none;
+    }
   }
 
   @media (min-width: 640px) {
@@ -30,6 +30,18 @@
 
   @media (min-width: 1024px) {
     padding: 64px 16px 56px 16px;
+  }
+
+  // 背景图容器：绝对填充横幅，浮于底色之上、内容之下
+  &__bg {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+  }
+
+  // next/image(fill) 生成的图片：铺满容器
+  &__img {
+    object-fit: cover;
   }
 
   // 内容区：浮于背景之上

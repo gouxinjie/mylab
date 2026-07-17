@@ -18,6 +18,7 @@ import {
   type AiCategory,
   type AiProduct,
 } from "@/lib/ai-products";
+import Image from "next/image";
 import styles from "./index.module.scss";
 
 /**
@@ -76,10 +77,12 @@ const ProductLogo = ({ product }: { product: AiProduct }) => {
       aria-hidden="true"
     >
       {showImg ? (
-        <img
+        <Image
           className={styles.logoImg}
           src={logoUrl}
           alt={`${product.name} logo`}
+          width={48}
+          height={48}
           loading="lazy"
           onError={() => setErrored(true)}
         />

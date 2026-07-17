@@ -13,6 +13,7 @@ import { useTranslations } from "next-intl";
 import { getGithubUser, getGithubRepos, getGithubContributions } from "@/services/github";
 import type { GithubContributionDay, GithubContributionsData } from "@/types/api";
 import Section from "@/components/commons/Section";
+import Image from "next/image";
 import styles from "./index.module.scss";
 
 interface GithubData {
@@ -142,6 +143,10 @@ export default function GitHubDashboard() {
   const [contributions, setContributions] = useState<GithubContributionDay[] | null>(null);
   const [contributionsLoading, setContributionsLoading] = useState(true);
   const [contributionsError, setContributionsError] = useState(false);
+
+  // 头像地址：远程 GitHub 头像加载失败时回退到本地占位图（用状态驱动，
+  // 避免直接改 DOM 在父组件重渲染时被 next/image 的优化 URL 覆盖而失效）
+  const [avatarSrc, setAvatarSrc] = useState("https://avatars.githubusercontent.com/gouxinjie?v=4");
 
   useEffect(() => {
     async function fetchGitHub() {
@@ -322,8 +327,8 @@ export default function GitHubDashboard() {
 
           {/* Profile Card */}
           <div className={styles['profile-card']}>
-            <img
-              src={`https://avatars.githubusercontent.com/gouxinjie?v=4`}
+            <Image
+              src={avatarSrc}
               alt="xinjie avatar"
               width={72}
               height={72}
@@ -331,7 +336,7 @@ export default function GitHubDashboard() {
               onError={(e) => {
                 if (!e.currentTarget.dataset.errorHandled) {
                   e.currentTarget.dataset.errorHandled = "true";
-                  e.currentTarget.src = "/images/avatar-placeholder.svg";
+                  setAvatarSrc("/images/avatar-placeholder.svg");
                 }
               }}
             />

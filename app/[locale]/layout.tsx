@@ -1,6 +1,5 @@
 import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
-import { JetBrains_Mono } from "next/font/google";
 import "@/styles/global.scss";
 import { AppProvider } from "@/components/commons/AppProviders";
 import Navbar from "@/components/commons/Navbar";
@@ -22,8 +21,12 @@ const inter = localFont({
   display: "swap",
 });
 
-const jetbrainsMono = JetBrains_Mono({
-  subsets: ["latin"],
+// JetBrains Mono 等宽字体自托管：本地 woff2，避免构建期访问 Google Fonts 失败
+const jetbrainsMono = localFont({
+  src: [
+    { path: "../fonts/jetbrains-mono/JetBrainsMono-400.woff2", weight: "400", style: "normal" },
+    { path: "../fonts/jetbrains-mono/JetBrainsMono-700.woff2", weight: "700", style: "normal" },
+  ],
   variable: "--font-jetbrains-mono",
   display: "swap",
 });

@@ -12,8 +12,9 @@ import { useState, useEffect } from "react";
 import { Link } from "@/lib/navigation";
 import { projects, Project, ProjectCategory } from "@/lib/projects";
 import { useTranslations } from "next-intl";
-import { motion } from "framer-motion";
+import FadeIn from "@/components/commons/FadeIn";
 import Modal from "@/components/commons/Modal";
+import Image from "next/image";
 import styles from "./index.module.scss";
 
 export default function FeaturedProjects({ limit, showFilters }: { limit?: number; showFilters?: boolean }) {
@@ -123,15 +124,9 @@ export default function FeaturedProjects({ limit, showFilters }: { limit?: numbe
         {/* 项目列表 */}
         <div className={styles.grid}>
           {visibleProjects.map((project, idx) => (
-            <motion.div
-              key={project.id}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.5, delay: idx * 0.1 }}
-            >
+            <FadeIn key={project.id} delay={idx * 0.1}>
               <ProjectCard project={project} onOpen={() => setSelected(project)} />
-            </motion.div>
+            </FadeIn>
           ))}
         </div>
       </div>
@@ -175,9 +170,11 @@ function ProjectCard({ project, onOpen }: ProjectCardProps) {
       {/* 封面区域：展示首张静态封面图，无图时使用标题占位 */}
       <div className={styles['card__image-box']}>
         {project.covers.length > 0 ? (
-          <img
+          <Image
             src={project.covers[0]}
             alt={`${project.title} 封面`}
+            fill
+            sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
             className={styles.card__cover}
             loading="lazy"
           />
@@ -426,10 +423,12 @@ function CoverCarousel({
 
   return (
     <div className={`${styles.carousel} ${fill ? styles["carousel--fill"] : ""}`}>
-      <img
+      <Image
         key={index}
         src={covers[index]}
         alt={`${title} 封面 ${index + 1}`}
+        fill
+        sizes="(max-width: 640px) 100vw, 640px"
         className={styles.carousel__img}
         loading="lazy"
       />

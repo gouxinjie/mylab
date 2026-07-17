@@ -129,3 +129,28 @@
     }
   }
 }
+
+// 入场动画：纯 CSS 驱动，无需 JS；配合可见性立即播放，避免首屏依赖 framer-motion
+.animRise {
+  opacity: 0;
+  animation: hero-rise 0.5s ease forwards;
+}
+
+@keyframes hero-rise {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// 尊重用户的“减少动效”偏好
+@media (prefers-reduced-motion: reduce) {
+  .animRise {
+    opacity: 1;
+    animation: none;
+  }
+}

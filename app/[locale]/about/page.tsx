@@ -27,6 +27,7 @@ import FadeIn from "@/components/commons/FadeIn";
 import Section from "@/components/commons/Section";
 import AboutContact from "@/components/commons/AboutContact";
 import GitHubDashboard from "@/components/business/GitHubDashboard";
+import Image from "next/image";
 import styles from "./page.module.scss";
 
 // 价值观图标映射
@@ -52,10 +53,13 @@ export default function AboutPage({ params: { locale } }: { params: { locale: st
           <div className={styles.hero__inner}>
             <FadeIn>
               <div className={styles.hero__avatar}>
-                <img
+                <Image
                   src="/images/avatar.png"
                   alt="Avatar"
+                  width={136}
+                  height={136}
                   className={styles.hero__avatarImg}
+                  priority
                 />
               </div>
             </FadeIn>
@@ -103,13 +107,15 @@ export default function AboutPage({ params: { locale } }: { params: { locale: st
                 </h4>
                 <div className={styles.techGroup__badges}>
                   {category.badges.map((badge) => (
-                    <img
-                      key={badge.label}
-                      src={badge.img}
-                      alt={badge.label}
-                      loading="lazy"
-                      className={styles.techBadge}
-                    />
+                  <Image
+                    key={badge.label}
+                    src={badge.img}
+                    alt={badge.label}
+                    width={88}
+                    height={20}
+                    loading="lazy"
+                    className={styles.techBadge}
+                  />
                   ))}
                 </div>
               </div>

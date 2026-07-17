@@ -1,38 +1,28 @@
 /**
  * @component PageTransition
- * @description 页面切换动画组件，路由变化时滚动到顶部
+ * @description 页面切换动画组件，路由变化时滚动到顶部（轻量 CSS 实现，替代 framer-motion）
  * @author gouxinjie
  * @created 2024
- * @updated 2026-07-13
+ * @updated 2026-07-17
  */
 
 "use client";
 
-import { motion } from "framer-motion";
 import { usePathname } from "next/navigation";
 import { ReactNode, useLayoutEffect } from "react";
+import styles from "./index.module.scss";
 
+/** PageTransition 组件属性 */
 interface PageTransitionProps {
+  /** 子内容（页面内容） */
   children: ReactNode;
 }
 
-const pageVariants = {
-  initial: {
-    opacity: 0,
-    y: 20,
-  },
-  in: {
-    opacity: 1,
-    y: 0,
-  },
-};
-
-const pageTransition = {
-  type: "tween" as const,
-  ease: "easeInOut" as const,
-  duration: 0.25,
-};
-
+/**
+ * 页面切换容器：通过 key={pathname} 在路由变化时重挂载触发 CSS 入场动画，并滚动到顶部
+ * @param children - 子内容
+ * @returns 带切换动画的容器节点
+ */
 export default function PageTransition({ children }: PageTransitionProps) {
   const pathname = usePathname();
 
@@ -42,14 +32,8 @@ export default function PageTransition({ children }: PageTransitionProps) {
   }, [pathname]);
 
   return (
-    <motion.div
-      key={pathname}
-      initial="initial"
-      animate="in"
-      variants={pageVariants}
-      transition={pageTransition}
-    >
+    <div key={pathname} className={styles.pageTransition}>
       {children}
-    </motion.div>
+    </div>
   );
 }

@@ -9,7 +9,12 @@ import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
 import rehypeHighlight from "rehype-highlight";
 import rehypeSlug from "rehype-slug";
+import { common, createLowlight } from "lowlight";
 import styles from "./index.module.scss";
+
+// 仅注册常用语言子集（common 约 37 种），避免 rehype-highlight 默认加载全量 200+ 语言，
+// 从而减轻 SSR 计算负担并缩小生成的 HTML 体积，改善详情页 TTFB
+const lowlight = createLowlight(common);
 
 /** Markdown 组件属性 */
 interface MarkdownProps {
@@ -28,8 +33,8 @@ export default function Markdown({ content }: MarkdownProps) {
       <ReactMarkdown
         // remark-gfm：支持表格、任务列表、删除线等 GitHub 风格语法
         remarkPlugins={[remarkGfm]}
-        // rehype-slug 为标题生成锚点 id；rehype-highlight 实现代码高亮
-        rehypePlugins={[rehypeSlug, rehypeHighlight]}
+        // rehype-slug 为标题生成锚点 id；rehype-highlight 使用受限语言子集实现代码高亮
+        rehypePlugins={[rehypeSlug, [rehypeHighlight, { lowlight, detect: true }]]}
       >
         {content}
       </ReactMarkdown>

@@ -3,14 +3,11 @@
  * @description 首页英雄区域组件
  * @author gouxinjie
  * @created 2024
- * @updated 2024-07-08
+ * @updated 2026-07-17
  */
-
-"use client";
 
 import { Link } from "@/lib/navigation";
 import { useTranslations } from "next-intl";
-import { motion } from "framer-motion";
 import PageBanner from "@/components/commons/PageBanner";
 import styles from "./index.module.scss";
 
@@ -23,25 +20,19 @@ export default function Hero() {
     <section className={styles.hero}>
       <div className="container-custom">
         {/* 通用页头横幅：背景图 + 左侧文案 */}
-        <PageBanner bgImage="/images/hero-bg-1.png" bottomMargin="0">
+        <PageBanner bgImage="/images/hero-bg-1.png" bottomMargin="0" priority>
           <div className={styles.info}>
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
+            <span
+              className={`${styles.info__greeting} ${styles.animRise}`}
+              style={{ animationDelay: "0s" }}
             >
-              {/* 问候语 */}
-              <span className={styles.info__greeting}>
-                {t("greeting")}
-              </span>
-            </motion.div>
+              {t("greeting")}
+            </span>
 
             {/* 主标题 */}
-            <motion.h1
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.1 }}
-              className={styles.info__title}
+            <h1
+              className={`${styles.info__title} ${styles.animRise}`}
+              style={{ animationDelay: "0.1s" }}
             >
               {titleParts.length > 1 ? (
                 <>
@@ -52,24 +43,20 @@ export default function Hero() {
               ) : (
                 title
               )}
-            </motion.h1>
+            </h1>
 
             {/* 描述 */}
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.2 }}
-              className={styles.info__desc}
+            <p
+              className={`${styles.info__desc} ${styles.animRise}`}
+              style={{ animationDelay: "0.2s" }}
             >
               {t("description")}
-            </motion.p>
+            </p>
 
             {/* 操作按钮组 */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: 0.3 }}
-              className={styles.info__actions}
+            <div
+              className={`${styles.info__actions} ${styles.animRise}`}
+              style={{ animationDelay: "0.3s" }}
             >
               <Link
                 href="/projects"
@@ -96,7 +83,7 @@ export default function Hero() {
                 </svg>
                 {t("learn_more")}
               </Link>
-            </motion.div>
+            </div>
           </div>
         </PageBanner>
       </div>
