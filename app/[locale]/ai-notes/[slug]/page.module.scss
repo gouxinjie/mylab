@@ -8,14 +8,140 @@
 // 文章容器：全宽居中，限制最大宽度保证长文可读性
 .doc {
   width: 100%;
-  max-width: 980px;
+  max-width: 1200px;
   margin: 0 auto;
 }
 
-// 头部区：返回 + 标题 + 面包屑 + 更新时间，底部下划线与正文区分
+// 两栏布局：移动端单列，桌面端左正文 + 右目录同行并排
+.layout {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+
+  @media (min-width: 1024px) {
+    flex-direction: row;
+    gap: 48px;
+    align-items: flex-start;
+  }
+}
+
+// 左侧主区：包含头部、正文与翻页
+.main {
+  flex: 1;
+  min-width: 0;
+
+  @media (min-width: 1024px) {
+    order: 1;
+    // 预留右侧固定 TOC 的空间（TOC 宽 228px + 间距 48px），避免正文与目录重叠
+    margin-right: calc(228px + 48px);
+  }
+}
+
+// 右侧 TOC 目录：吸顶固定、收窄内边距、仅保留左侧边框线
+.toc {
+  padding: 12px 0 12px 10px;
+  border-left: 1px solid var(--color-border);
+
+  @media (min-width: 1024px) {
+    order: 2;
+    // 固定定位：完全脱离文档流，正文滚动时目录绝不受影响、也不随页面底部被推动
+    position: fixed;
+    // 吸顶位置：避开顶部 sticky 导航栏（约 64px）+ 间距，避免目录被导航栏遮挡
+    top: 88px;
+    // 右侧贴齐版心右边缘（版心居中且最大 1200px，超宽时随留白居中）
+    right: max(0px, calc((100vw - 1200px) / 2));
+    width: 228px;
+    // 预留顶部导航栏与底部间距，目录内容过长时自身可滚动，不影响正文
+    max-height: calc(100vh - 112px);
+    overflow-y: auto;
+  }
+
+  // ─── TOC 滚动条（细窄、与主题色协调） ──────────
+  // Firefox 标准属性
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-text-muted) transparent;
+
+  // WebKit 滚动条整体宽度
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  // 滚动条轨道：透明，不占据视觉空间
+  &::-webkit-scrollbar-track {
+    background-color: transparent;
+  }
+
+  // 滚动条滑块：圆角、半透明主色
+  &::-webkit-scrollbar-thumb {
+    background-color: var(--color-text-muted);
+    border-radius: var(--radius-full);
+
+    &:hover {
+      background-color: var(--color-accent);
+    }
+  }
+}
+
+// TOC 标题：本页目录
+.toc__heading {
+  margin: 0 0 14px;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--color-text-primary);
+  letter-spacing: 1px;
+}
+
+// TOC 导航容器
+.toc__nav {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+// TOC 链接项
+.toc__link {
+  padding: 5px 8px;
+  font-size: 13.5px;
+  line-height: 1.5;
+  color: var(--color-text-secondary);
+  border-radius: 6px;
+  text-decoration: none;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  transition: all 0.15s ease;
+
+  &:hover {
+    color: var(--color-accent);
+    background-color: rgba(var(--color-accent-rgb), 0.06);
+  }
+
+  &:active {
+    background-color: rgba(var(--color-accent-rgb), 0.1);
+  }
+}
+
+// 层级缩进：h2 无缩进，h3 缩进 12px，h4 缩进 24px
+.toc__link--level-2 {
+  font-weight: 600;
+}
+
+.toc__link--level-3 {
+  padding-left: 20px;
+  font-size: 13px;
+  color: var(--color-text-muted);
+}
+
+.toc__link--level-4 {
+  padding-left: 32px;
+  font-size: 12.5px;
+  color: var(--color-text-muted);
+}
+
+// 头部区：返回 + 面包屑，底部下划线与正文区分（标题已移至右侧标题栏）
 .header {
-  padding-bottom: 20px;
-  margin-bottom: 28px;
+  padding-bottom: 14px;
+  margin-bottom: 18px;
   border-bottom: 1px solid var(--color-border);
 }
 
@@ -43,22 +169,13 @@
   transform: translateX(-3px);
 }
 
-// 文章标题：置顶渲染，区别于正文内标题层级
-.title {
-  margin-top: 12px;
-  font-size: 28px;
-  font-weight: 800;
-  line-height: 1.3;
-  color: var(--color-text-primary);
-}
-
 // ─── 面包屑 ───────────────────────────────────
 .breadcrumb {
   display: flex;
   align-items: center;
   gap: 8px;
-  margin-top: 8px;
-  font-size: 15px;
+  margin-top: 10px;
+  font-size: 14px;
   color: var(--color-text-muted);
 
   // 首页链接：hover 主色
@@ -81,24 +198,92 @@
   }
 }
 
-// 更新时间：带日历图标
-.meta {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  margin-top: 8px;
-  font-size: 14px;
-  color: var(--color-text-muted);
+// 文章页面级标题：对应 frontmatter 的 title，正文首个 # 已去除以免重复
+.title {
+  margin-top: 16px;
+  font-size: 28px;
+  font-weight: 700;
+  line-height: 1.3;
+  color: var(--color-text);
 }
 
-.meta svg {
-  color: var(--color-text-muted);
-  flex-shrink: 0;
-}
-
-// 正文区
+// 正文区：紧凑阅读排版，覆盖 Markdown 组件默认较大间距
+// 说明：Markdown 组件内部样式经 CSS Modules 哈希，正文子元素（p/h2/...）为无 class 的原生元素，
+// 故此处用 :global 元素选择器在 .body 作用域内覆盖，使其更紧凑
 .body {
-  margin-bottom: 40px;
+  margin-bottom: 28px;
+
+  // 基础字号与行高（作用于未单独设置行高的正文元素）
+  :global(p),
+  :global(li),
+  :global(blockquote),
+  :global(td),
+  :global(th) {
+    font-size: 16px;
+    line-height: 1.7;
+  }
+
+  // ─── 标题（紧凑） ───────────────────────
+  :global(h1) {
+    margin: 0 0 14px;
+    font-size: 24px;
+  }
+
+  :global(h2) {
+    margin: 26px 0 10px;
+    padding-bottom: 6px;
+    font-size: 19px;
+  }
+
+  :global(h3) {
+    margin: 18px 0 8px;
+    font-size: 16px;
+  }
+
+  :global(h4) {
+    margin: 14px 0 6px;
+    font-size: 15px;
+  }
+
+  // ─── 段落与列表（紧凑） ─────────────────
+  :global(p) {
+    margin: 10px 0;
+  }
+
+  :global(ul),
+  :global(ol) {
+    margin: 10px 0;
+    padding-left: 22px;
+  }
+
+  :global(li) {
+    margin: 4px 0;
+  }
+
+  // ─── 引用 / 代码 / 表格（紧凑） ──────────
+  :global(blockquote) {
+    margin: 12px 0;
+    padding: 6px 14px;
+  }
+
+  :global(pre) {
+    margin: 12px 0;
+    padding: 14px 16px;
+  }
+
+  :global(table) {
+    margin: 12px 0;
+  }
+
+  :global(th),
+  :global(td) {
+    padding: 7px 12px;
+  }
+
+  // ─── 分割线（紧凑） ─────────────────────
+  :global(hr) {
+    margin: 18px 0;
+  }
 }
 
 // ─── 上一篇 / 下一篇 ─────────────────────────

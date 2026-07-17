@@ -22,6 +22,8 @@ interface FadeInProps {
   className?: string;
   /** 初始 Y 轴偏移像素，营造从下往上渐入效果 */
   y?: number;
+  /** IntersectionObserver rootMargin，默认 "-100px 0px" */
+  margin?: string;
 }
 
 /**
@@ -37,8 +39,9 @@ export default function FadeIn({
   delay = 0,
   className = "",
   y = 24,
+  margin = "-100px 0px",
 }: FadeInProps) {
-  const [ref, inView] = useInView<HTMLDivElement>({ once: true, margin: "-100px 0px" });
+  const [ref, inView] = useInView<HTMLDivElement>({ once: true, margin });
 
   return (
     <div

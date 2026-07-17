@@ -3,6 +3,7 @@
  * 每次路由变化（key=pathname 重挂载）触发一次淡入上移
  */
 
+// 仅淡入，不使用 transform：避免创建包含块（containing block）干扰 position: sticky / fixed 定位
 .pageTransition {
   animation: page-transition-in 0.25s ease-in-out;
 }
@@ -10,11 +11,9 @@
 @keyframes page-transition-in {
   from {
     opacity: 0;
-    transform: translateY(20px);
   }
   to {
     opacity: 1;
-    transform: translateY(0);
   }
 }
 
