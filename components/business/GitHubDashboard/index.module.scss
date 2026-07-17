@@ -51,16 +51,17 @@ $gh-link: #0969da;
   }
 }
 
-// 统计网格：大屏占两列，内部三列小卡片
+// 统计网格：大屏占两列，内部四列小卡片
 .stats-grid {
   @media (min-width: 1024px) {
     grid-column: span 2;
   }
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(2, 1fr);
   gap: 8px;
 
   @media (min-width: 640px) {
+    grid-template-columns: repeat(4, 1fr);
     gap: 12px;
   }
 

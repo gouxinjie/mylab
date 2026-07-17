@@ -18,8 +18,8 @@ import styles from "./index.module.scss";
 
 interface GithubData {
   public_repos: number;
-  /** 非 Fork 的原创仓库数量 */
-  original_repos: number;
+  /** 公开仓库总数（含 Fork 仓库） */
+  repo_count: number;
   /** GitHub 账号注册至今的年数 */
   github_years: number;
 }
@@ -157,8 +157,8 @@ export default function GitHubDashboard() {
           getGithubRepos("gouxinjie"),
         ]);
 
-        // 统计原创仓库数量（排除 Fork 仓库）
-        const originalRepos = reposData.filter((repo) => !repo.fork).length;
+        // 统计公开仓库总数（含 Fork 仓库）
+        const repoCount = reposData.length;
 
         // 计算 GitHub 注册年数（从 created_at 到当前）
         const createdAt = new Date(userData.created_at);
@@ -169,7 +169,7 @@ export default function GitHubDashboard() {
 
         setData({
           public_repos: userData.public_repos,
-          original_repos: originalRepos,
+          repo_count: repoCount,
           github_years: githubYears,
         });
       } catch (err) {
@@ -243,6 +243,15 @@ export default function GitHubDashboard() {
     [recentContributions]
   );
 
+  // 今年（自然年）提交次数：从逐日贡献数据中过滤出当前年份并求和
+  const yearCommits = useMemo(() => {
+    if (!contributions) return null;
+    const currentYear = String(new Date().getFullYear());
+    return contributions
+      .filter((d) => d.date.startsWith(currentYear))
+      .reduce((sum, d) => sum + d.count, 0);
+  }, [contributions]);
+
   const showHeatmapError = contributionsError && !contributionsLoading && heatmapWeeks.length === 0;
 
   return (
@@ -266,7 +275,7 @@ export default function GitHubDashboard() {
           <div className={styles['stats-grid']}>
             {loading ? (
               <>
-                {[1, 2, 3].map((i) => (
+                {[1, 2, 3, 4].map((i) => (
                   <div key={i} className={styles['stats-grid__card']}>
                     <div className={styles.skeleton__val} />
                     <div className={styles.skeleton__label} />
@@ -294,6 +303,12 @@ export default function GitHubDashboard() {
                     {t("github_age")}
                   </p>
                 </div>
+                <div className={styles['stats-grid__card']}>
+                  <span className={styles['error-card__val']}>—</span>
+                  <p className={styles['error-card__label']}>
+                    {t("year_commits")}
+                  </p>
+                </div>
               </>
             ) : (
               <>
@@ -307,7 +322,7 @@ export default function GitHubDashboard() {
                 </div>
                 <div className={styles['stats-grid__card']}>
                   <span className={styles['error-card__val']}>
-                    {`${data?.original_repos || 0}+`}
+                    {`${data?.repo_count || 0}+`}
                   </span>
                   <p className={styles['error-card__label']}>
                     {t("originals")}
@@ -319,6 +334,14 @@ export default function GitHubDashboard() {
                   </span>
                   <p className={styles['error-card__label']}>
                     {t("github_age")}
+                  </p>
+                </div>
+                <div className={styles['stats-grid__card']}>
+                  <span className={styles['error-card__val']}>
+                    {yearCommits ?? "—"}
+                  </span>
+                  <p className={styles['error-card__label']}>
+                    {t("year_commits")}
                   </p>
                 </div>
               </>
