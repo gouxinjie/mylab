@@ -12,12 +12,6 @@ export interface ApiResponse<T = unknown> {
   data: T;
 }
 
-export interface UserListParams {
-  page: number;
-  pageSize: number;
-  keyword?: string;
-}
-
 // 索引签名为 unknown，扩展字段需自行收窄类型
 export interface GithubUserData {
   public_repos: number;

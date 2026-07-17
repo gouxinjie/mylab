@@ -1,125 +1,327 @@
 /**
- * @file index.scss
- * @description Footer 组件样式
+ * @file index.module.scss
+ * @description Footer 组件样式：订阅区、品牌信息、链接分组、底部版权与响应式
  * @author gouxinjie
- * @updated 2026-07-15 移动端样式优化：移动端两列栅格、增大触摸点击区域、补充触控反馈
+ * @updated 2026-07-17 依据新版设计稿重构：新增订阅卡片、链接手风琴、回到顶部
  */
 
-// 页脚整体：深色背景、顶部边框、白字
-.footer {
-  border-top: 1px solid var(--color-border);
-  background-color: var(--color-bg-dark);
-  color: white;
-  padding-top: 48px;
-  padding-bottom: 48px;
-
-  // 移动端：两列布局（品牌整行 + 导航/资源两列）下的触摸与节奏优化
-  @media (max-width: 479px) {
-    padding-top: 28px;
-    padding-bottom: 28px;
-
-    // 链接列表项间距收紧，为触摸区域留出空间
-    .section__list {
-      gap: 2px;
-    }
-
-    // 增大链接触摸点击区域并提升触控反馈
-    .section__link {
-      display: inline-block;
-      padding: 8px 0;
-      font-size: 15px;
-      -webkit-tap-highlight-color: transparent;
-
-      &:active {
-        color: var(--color-accent);
-      }
-    }
-  }
+// 页脚外层
+.wrapper {
+  width: 100%;
 }
 
-// 页脚栅格：移动端两列（品牌独占整行）、中屏三列
-.grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 28px 20px;
+// 订阅更新区
+.newsletter {
+  background-color: var(--color-bg-secondary);
+  padding-top: 32px;
+  padding-bottom: 32px;
 
-  @media (min-width: 768px) {
-    grid-template-columns: repeat(3, 1fr);
-    gap: 40px;
+  // 移动端呈现为卡片，桌面端展开为横栏
+  &__inner {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 24px;
+    border-radius: var(--radius-xl);
+    background-color: var(--color-bg);
+    box-shadow: var(--shadow-sm);
+
+    @media (min-width: 768px) {
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      padding: 32px 0;
+      background-color: transparent;
+      box-shadow: none;
+      border-radius: 0;
+    }
   }
-}
 
-// 品牌信息区：logo、描述、版权
-.brand {
-  // 移动端及平板：品牌区独占整行置于顶部
-  grid-column: 1 / -1;
-
-  @media (min-width: 768px) {
-    grid-column: span 1;
+  // 左侧文案区
+  &__content {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
   }
 
-  // 品牌链接：logo + 名称
-  &__link {
+  // 邮件图标容器
+  &__icon {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    background-color: var(--color-accent);
+    color: white;
+  }
+
+  // 订阅标题
+  &__title {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--color-text-primary);
+  }
+
+  // 订阅描述
+  &__desc {
+    margin-top: 4px;
+    font-size: 14px;
+    color: var(--color-text-secondary);
+  }
+
+  // 订阅表单：输入框 + 按钮 + 隐私说明
+  &__form {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 12px;
+    width: 100%;
+
+    @media (min-width: 768px) {
+      grid-template-columns: 1fr auto;
+      align-items: center;
+      max-width: 420px;
+    }
+  }
+
+  // 订阅输入框
+  &__input {
+    width: 100%;
+    height: 44px;
+    padding: 0 16px;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-full);
+    background-color: var(--color-bg);
+    color: var(--color-text-primary);
+    font-size: 14px;
+    outline: none;
+
+    &::placeholder {
+      color: var(--color-text-muted);
+    }
+
+    &:focus {
+      border-color: var(--color-accent);
+    }
+  }
+
+  // 订阅按钮
+  &__button {
+    height: 44px;
+    padding: 0 24px;
+    border-radius: var(--radius-full);
+    background-color: var(--color-accent);
+    color: white;
+    font-weight: 500;
+    transition: background-color 0.2s;
+
+    &:hover {
+      background-color: var(--color-accent-dark);
+    }
+  }
+
+  // 隐私说明
+  &__privacy {
+    grid-column: 1 / -1;
     display: flex;
     align-items: center;
     gap: 8px;
-    font-weight: bold;
-    font-size: 18px;
-    color: white;
+    font-size: 13px;
+    color: var(--color-text-secondary);
+  }
+}
+
+// 页脚主体
+.footer {
+  background-color: var(--color-bg-dark);
+  color: var(--color-text-inverse);
+  padding-top: 48px;
+  padding-bottom: 24px;
+}
+
+// 主栅格：品牌 + 链接分组
+.grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 40px;
+
+  @media (min-width: 768px) {
+    grid-template-columns: 1fr 2fr;
+    gap: 48px;
   }
 
-  // 品牌 logo：渐变圆角方块
-  &__logo {
+  @media (min-width: 1024px) {
+    gap: 80px;
+  }
+}
+
+// 品牌区
+.brand {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+
+  // 品牌链接：Logo + 名称
+  &__link {
     display: flex;
-    height: 32px;
-    width: 32px;
     align-items: center;
-    justify-content: center;
-    border-radius: 8px;
-    background: linear-gradient(to bottom right, var(--color-accent), var(--color-accent-dark));
-    font-size: 14px;
-    font-weight: bold;
+    gap: 12px;
+    font-size: 20px;
+    font-weight: 700;
     color: white;
+
+    &:hover {
+      opacity: 0.9;
+    }
   }
 
-  // 品牌描述：浅灰次要文字
+  // Logo 尺寸
+  &__logo {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+  }
+
+  // 品牌描述
   &__desc {
-    margin-top: 12px;
     font-size: 14px;
     line-height: 1.625;
     color: var(--color-text-muted);
   }
 
-  // 版权信息：更小号的浅灰文字
-  &__rights {
-    margin-top: 16px;
-    font-size: 12px;
-    color: var(--color-text-secondary);
+  // 社交图标行
+  &__socials {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  // 社交图标按钮
+  &__socialBtn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.1);
+    color: var(--color-text-inverse);
+    transition: background-color 0.2s, color 0.2s;
+
+    &:hover {
+      background-color: var(--color-accent);
+      color: white;
+    }
+  }
+
+  // 品牌口号徽章
+  &__slogan {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    width: fit-content;
+    padding: 10px 16px;
+    border-radius: var(--radius-full);
+    background-color: rgba(16, 185, 129, 0.15);
+    color: var(--color-accent);
+    font-size: 13px;
+    font-weight: 500;
   }
 }
 
-// 链接分组区：标题 + 链接列表
-.section {
-  // 分组标题：大写小号次要文字
-  &__title {
-    margin-bottom: 16px;
-    font-size: 14px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    color: var(--color-text-muted);
+// 链接分组区
+.links {
+  display: grid;
+  grid-template-columns: 1fr;
+
+  @media (min-width: 640px) {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 32px;
   }
 
-  // 链接列表：纵向排列
+  @media (min-width: 1024px) {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+  }
+}
+
+// 单个链接分组
+.section {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+
+  @media (min-width: 640px) {
+    border-bottom: none;
+  }
+
+  // 分组标题：带绿色圆点与手风琴箭头
+  &__title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    padding: 16px 0;
+    font-size: 15px;
+    font-weight: 600;
+    color: white;
+    text-align: left;
+
+    @media (min-width: 640px) {
+      padding: 0 0 16px;
+      cursor: default;
+      pointer-events: none;
+    }
+  }
+
+  // 标题前绿色圆点
+  &__dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: var(--color-accent);
+  }
+
+  // 手风琴箭头：仅移动端显示
+  &__chevron {
+    margin-left: auto;
+    transition: transform 0.2s;
+
+    @media (min-width: 640px) {
+      display: none;
+    }
+  }
+
+  // 链接列表
   &__list {
     list-style: none;
     display: flex;
     flex-direction: column;
     gap: 10px;
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    transition: max-height 0.3s ease, opacity 0.3s ease, padding 0.3s ease;
+
+    @media (min-width: 640px) {
+      max-height: none;
+      overflow: visible;
+      opacity: 1;
+      padding-bottom: 0;
+    }
+
+    // 展开状态
+    &Open {
+      max-height: 300px;
+      opacity: 1;
+      padding-bottom: 16px;
+    }
   }
 
-  // 单个链接：hover 切换主色
+  // 链接项
   &__link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
     font-size: 14px;
     color: var(--color-text-muted);
     transition: color 0.2s;
@@ -127,13 +329,83 @@
     &:hover {
       color: var(--color-accent);
     }
+  }
 
-    // 链接后小箭头图标
-    &__icon {
-      margin-left: 2px;
-      display: inline-block;
-      width: 12px;
-      height: 12px;
+  // 链接前置图标（如邮件、地址）
+  &__link__icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 16px;
+    height: 16px;
+  }
+
+  // 外部链接小箭头图标
+  &__link__external {
+    width: 12px;
+    height: 12px;
+  }
+}
+
+// 底部版权栏
+.bottom {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  margin-top: 40px;
+  padding-top: 24px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  font-size: 13px;
+  color: var(--color-text-muted);
+  text-align: center;
+
+  @media (min-width: 768px) {
+    flex-direction: row;
+    justify-content: space-between;
+    text-align: left;
+  }
+
+  // 版权文字
+  &__rights {
+    order: 1;
+
+    @media (min-width: 768px) {
+      order: 0;
+    }
+  }
+
+  // 法律链接
+  &__legal {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 16px;
+  }
+
+  // 法律链接项
+  &__legalLink {
+    color: var(--color-text-muted);
+    transition: color 0.2s;
+
+    &:hover {
+      color: var(--color-accent);
+    }
+  }
+
+  // 回到顶部按钮
+  &__top {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 20px;
+    border-radius: var(--radius-full);
+    background-color: rgba(255, 255, 255, 0.1);
+    color: white;
+    transition: background-color 0.2s;
+
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.2);
     }
   }
 }
