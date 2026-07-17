@@ -9,6 +9,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import { createPortal } from "react-dom";
 import type { ReactNode } from "react";
 import styles from "./index.module.scss";
 
@@ -55,7 +56,7 @@ export default function Modal({ open, onClose, title, subtitle, children }: Moda
 
   if (!open) return null;
 
-  return (
+  return createPortal(
     <div
       className={styles.overlay}
       onClick={onClose}
@@ -95,6 +96,7 @@ export default function Modal({ open, onClose, title, subtitle, children }: Moda
         </div>
         <div className={styles.body}>{children}</div>
       </div>
-    </div>
+    </div>,
+    document.body
   );
 }
