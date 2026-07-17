@@ -12,7 +12,7 @@ type Theme = "light" | "dark" | "system";
 
 interface AppContextType {
   theme: Theme;
-  setTheme: (theme: Theme) => void;
+  setTheme: (_theme: Theme) => void;
   resolvedTheme: "light" | "dark";
 }
 
