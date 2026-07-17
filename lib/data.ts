@@ -32,6 +32,10 @@ export interface AboutStat {
   value: string;
   label: string;
   labelEn: string;
+  /** 主题色：用于图标背景、数值、底部短线 */
+  color: string;
+  /** 浅色背景色：用于图标圆形底色 */
+  bgColor: string;
 }
 
 // 技术清单徽章
@@ -154,11 +158,11 @@ export const values: Value[] = [
 // ─── 数据概览（Quick Stats） ─────────────────────
 
 export const aboutStats: AboutStat[] = [
-  { icon: "💼", value: "6+", label: "工作年限", labelEn: "Years of Experience" },
-  { icon: "⚡", value: "50+", label: "技术沉淀", labelEn: "Tech Skills" },
-  { icon: "📝", value: "300+", label: "发布文章", labelEn: "Articles Published" },
-  { icon: "📦", value: "20+", label: "开源项目", labelEn: "Open Source Projects" },
-  { icon: "🚀", value: "+∞", label: "学习热情", labelEn: "Learning Enthusiasm" },
+  { icon: "💼", value: "6+", label: "工作年限", labelEn: "Years of Experience", color: "#00C853", bgColor: "rgba(0, 200, 83, 0.08)" },
+  { icon: "⚡", value: "50+", label: "技术沉淀", labelEn: "Tech Skills", color: "#FF9800", bgColor: "rgba(255, 152, 0, 0.08)" },
+  { icon: "📝", value: "300+", label: "发布文章", labelEn: "Articles Published", color: "#7C4DFF", bgColor: "rgba(124, 77, 255, 0.08)" },
+  { icon: "📦", value: "20+", label: "开源项目", labelEn: "Open Source Projects", color: "#2196F3", bgColor: "rgba(33, 150, 243, 0.08)" },
+  { icon: "🚀", value: "+∞", label: "学习热情", labelEn: "Learning Enthusiasm", color: "#F50057", bgColor: "rgba(245, 0, 87, 0.08)" },
 ];
 
 // ─── 技术清单（徽章分组） ───────────────────────

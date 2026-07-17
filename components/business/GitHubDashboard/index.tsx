@@ -1,9 +1,9 @@
 /**
  * @component GitHubDashboard
- * @description GitHub 数据看板组件，含统计卡片与真实贡献热力图
+ * @description GitHub 数据看板组件，含统计卡片（sparkline 折线图）、个人资料卡片与引用区域
  * @author gouxinjie
  * @created 2024
- * @updated 2026-07-15
+ * @updated 2026-07-17
  */
 
 "use client";
@@ -18,134 +18,127 @@ import styles from "./index.module.scss";
 
 interface GithubData {
   public_repos: number;
-  /** 公开仓库总数（含 Fork 仓库） */
+  /** 公开仓库总数（含 Fork） */
   repo_count: number;
   /** GitHub 账号注册至今的年数 */
   github_years: number;
 }
 
-// 左侧星期标签、月份标签均来自 i18n（weekday_labels / months），避免硬编码
+// 统计卡片配置（颜色、图标、sparkline 数据）
+interface StatConfig {
+  key: string;
+  color: string;
+  bgColor: string;
+  sparklineColor: string;
+  icon: React.ReactNode;
+}
 
 /**
- * 将按日期升序的贡献明细转换为「周 × 天」二维网格
- * @param contributions - 每日贡献数据（按日期升序）
- * @returns 每列代表一周（7 天），缺失日期以 null 占位；末尾去掉跨月之后完全无数据的空白格
+ * 迷你 Sparkline 折线图组件
+ * @param data - 数据点数组
+ * @param color - 折线颜色
  */
-function buildWeeks(
-  contributions: GithubContributionDay[]
-): (GithubContributionDay | null)[][] {
-  if (contributions.length === 0) return [];
+function Sparkline({ data, color }: { data: number[]; color: string }) {
+  if (!data.length) return null;
 
+  const width = 120;
+  const height = 28;
+  const max = Math.max(...data, 1);
+  const min = Math.min(...data);
+  const range = max - min || 1;
+  const padding = 2;
+
+  const points = data
+    .map((v, i) => {
+      const x = (i / (data.length - 1)) * (width - padding * 2) + padding;
+      const y = height - padding - ((v - min) / range) * (height - padding * 2);
+      return `${x},${y}`;
+    })
+    .join(" ");
+
+  return (
+    <svg
+      className={styles.sparkline}
+      viewBox={`0 0 ${width} ${height}`}
+      preserveAspectRatio="none"
+    >
+      <polyline
+        points={points}
+        fill="none"
+        stroke={color}
+        strokeWidth="2"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        opacity={0.6}
+      />
+      {/* 数据点：首、尾、最高点 */}
+      {data.map((v, i) => {
+        const x = (i / (data.length - 1)) * (width - padding * 2) + padding;
+        const y = height - padding - ((v - min) / range) * (height - padding * 2);
+        const isSpecial = i === 0 || i === data.length - 1 || v === max;
+        if (!isSpecial) return null;
+        return (
+          <circle
+            key={i}
+            cx={x}
+            cy={y}
+            r={2.5}
+            fill={color}
+            opacity={0.8}
+          />
+        );
+      })}
+    </svg>
+  );
+}
+
+/**
+ * 将逐日贡献数据按周聚合为 sparkline 数据点
+ * @param contributions - 逐日贡献数据
+ * @returns 每周提交总数数组（最近 12 周）
+ */
+function buildWeeklySparkline(contributions: GithubContributionDay[]): number[] {
+  if (!contributions.length) return [];
   const sorted = [...contributions].sort((a, b) => a.date.localeCompare(b.date));
-  const weeks: (GithubContributionDay | null)[][] = [];
-  const firstDate = new Date(`${sorted[0].date}T00:00:00`);
-  const firstWeekday = firstDate.getDay(); // 0=周日
-
-  let currentWeek: (GithubContributionDay | null)[] = [];
-  for (let i = 0; i < firstWeekday; i += 1) currentWeek.push(null);
+  const weeks: number[] = [];
+  let currentWeek = 0;
+  let dayCount = 0;
 
   for (const day of sorted) {
-    currentWeek.push(day);
-    if (currentWeek.length === 7) {
+    currentWeek += day.count;
+    dayCount += 1;
+    if (dayCount === 7) {
       weeks.push(currentWeek);
-      currentWeek = [];
+      currentWeek = 0;
+      dayCount = 0;
     }
   }
-  if (currentWeek.length > 0) {
-    while (currentWeek.length < 7) currentWeek.push(null);
-    weeks.push(currentWeek);
-  }
+  if (dayCount > 0) weeks.push(currentWeek);
 
-  // 截断最后一周：去掉跨月之后完全无数据的空白格子（避免右侧出现整片未来空白列）
-  if (weeks.length > 0) {
-    const lastWeek = weeks[weeks.length - 1];
-    let lastNonNull = -1;
-    lastWeek.forEach((d, i) => {
-      if (d !== null) lastNonNull = i;
-    });
-    if (lastNonNull === -1) {
-      // 整周为空（不应出现），移除
-      weeks.pop();
-    } else if (lastNonNull < 6) {
-      // 仅保留到当月最后一天所在的格子，去掉其后的空白
-      weeks[weeks.length - 1] = lastWeek.slice(0, lastNonNull + 1);
-    }
-  }
-
-  return weeks;
+  // 取最近 12 周
+  return weeks.slice(-12);
 }
 
-/**
- * 根据热力图网格生成月份标签列表
- * @param weeks - 热力图网格
- * @param months - 月份标签数组（来自 i18n，索引 0~11）
- * @returns 月份标签数组（包含列索引和月份文案）
- */
-function getMonthLabels(
-  weeks: (GithubContributionDay | null)[][],
-  months: string[]
-): { weekIndex: number; label: string }[] {
-  const labels: { weekIndex: number; label: string }[] = [];
-  let prevMonth = -1;
-
-  weeks.forEach((week, idx) => {
-    const firstDay = week.find((d) => d !== null);
-    if (firstDay) {
-      const month = new Date(`${firstDay.date}T00:00:00`).getMonth();
-      if (month !== prevMonth) {
-        labels.push({ weekIndex: idx, label: months[month] });
-        prevMonth = month;
-      }
-    }
-  });
-
-  return labels;
-}
-
-/**
- * 根据热力图网格生成年份标签列表
- * @param weeks - 热力图网格
- * @returns 年份标签数组（包含列索引和年份字符串）
- */
-function getYearLabels(
-  weeks: (GithubContributionDay | null)[][]
-): { weekIndex: number; label: string }[] {
-  const labels: { weekIndex: number; label: string }[] = [];
-  let prevYear = -1;
-
-  weeks.forEach((week, idx) => {
-    const firstDay = week.find((d) => d !== null);
-    if (firstDay) {
-      const year = new Date(`${firstDay.date}T00:00:00`).getFullYear();
-      if (year !== prevYear) {
-        labels.push({ weekIndex: idx, label: String(year) });
-        prevYear = year;
-      }
-    }
-  });
-
-  return labels;
-}
+// 预定义的装饰性 sparkline 数据（静态、平滑、有趋势感）
+const STATIC_SPARKLINES: Record<string, number[]> = {
+  repos: [12, 15, 18, 14, 20, 22, 19, 23, 21, 25, 23, 26],
+  originals: [5, 7, 6, 8, 9, 8, 10, 11, 10, 12, 11, 13],
+  age: [2, 3, 3, 4, 4, 4, 5, 5, 5, 5, 5, 5],
+};
 
 export default function GitHubDashboard() {
   const t = useTranslations("GitHubDashboard");
-  // 国际化星期标签与月份标签
-  // use-intl 的 raw 类型仅收录「值为 string」的消息键，而此处为 string[]，
-  // 故以 never 断言 key 并通过 as string[] 取回正确类型
-  const weekdayLabels = t.raw("weekday_labels" as never) as string[];
   const months = t.raw("months" as never) as string[];
+  const weekdayLabels = t.raw("weekday_labels" as never) as string[];
 
   const [data, setData] = useState<GithubData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  // 贡献热力图数据
   const [contributions, setContributions] = useState<GithubContributionDay[] | null>(null);
   const [contributionsLoading, setContributionsLoading] = useState(true);
   const [contributionsError, setContributionsError] = useState(false);
 
-  // 头像地址：远程 GitHub 头像加载失败时回退到本地占位图（用状态驱动，
-  // 避免直接改 DOM 在父组件重渲染时被 next/image 的优化 URL 覆盖而失效）
   const [avatarSrc, setAvatarSrc] = useState("https://avatars.githubusercontent.com/gouxinjie?v=4");
 
   useEffect(() => {
@@ -157,10 +150,7 @@ export default function GitHubDashboard() {
           getGithubRepos("gouxinjie"),
         ]);
 
-        // 统计公开仓库总数（含 Fork 仓库）
         const repoCount = reposData.length;
-
-        // 计算 GitHub 注册年数（从 created_at 到当前）
         const createdAt = new Date(userData.created_at);
         const now = new Date();
         const githubYears = Math.floor(
@@ -197,9 +187,112 @@ export default function GitHubDashboard() {
     fetchContributions();
   }, []);
 
-  // 仅取最近一年数据；为让「当前月份」完整呈现，上限放宽到当月最后一天，
-  // 而不是按今天截断（否则当前月会被「今天」腰斩，导致月份显示不完整）。
-  // 最后一周的跨月空白由 buildWeeks 负责截掉，避免右侧出现整片未来空白列。
+  // 今年提交次数
+  const yearCommits = useMemo(() => {
+    if (!contributions) return null;
+    const currentYear = String(new Date().getFullYear());
+    return contributions
+      .filter((d) => d.date.startsWith(currentYear))
+      .reduce((sum, d) => sum + d.count, 0);
+  }, [contributions]);
+
+  // 今年提交的 sparkline 数据
+  const yearCommitsSparkline = useMemo(() => {
+    if (!contributions) return [];
+    const currentYear = String(new Date().getFullYear());
+    const yearData = contributions.filter((d) => d.date.startsWith(currentYear));
+    return buildWeeklySparkline(yearData);
+  }, [contributions]);
+
+  // 统计卡片配置
+  const statConfigs: StatConfig[] = [
+    {
+      key: "repos",
+      color: "#00C853",
+      bgColor: "rgba(0, 200, 83, 0.08)",
+      sparklineColor: "#00C853",
+      icon: (
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <polyline points="16 18 22 12 16 6" />
+          <polyline points="8 6 2 12 8 18" />
+        </svg>
+      ),
+    },
+    {
+      key: "originals",
+      color: "#FF9800",
+      bgColor: "rgba(255, 152, 0, 0.08)",
+      sparklineColor: "#FF9800",
+      icon: (
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+        </svg>
+      ),
+    },
+    {
+      key: "github_age",
+      color: "#7C4DFF",
+      bgColor: "rgba(124, 77, 255, 0.08)",
+      sparklineColor: "#7C4DFF",
+      icon: (
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <circle cx="12" cy="12" r="10" />
+          <polyline points="12 6 12 12 16 14" />
+        </svg>
+      ),
+    },
+    {
+      key: "year_commits",
+      color: "#2196F3",
+      bgColor: "rgba(33, 150, 243, 0.08)",
+      sparklineColor: "#2196F3",
+      icon: (
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4" />
+          <polyline points="17 8 12 3 7 8" />
+          <line x1="12" y1="3" x2="12" y2="15" />
+        </svg>
+      ),
+    },
+  ];
+
+  // 统计卡片值（含加载/错误态）
+  const statValues = useMemo(() => {
+    if (loading) {
+      return {
+        repos: "—",
+        originals: "—",
+        github_age: "—",
+        year_commits: "—",
+      };
+    }
+    if (error) {
+      return {
+        repos: "36",
+        originals: "30+",
+        github_age: "8年",
+        year_commits: "—",
+      };
+    }
+    return {
+      repos: String(data?.public_repos || 0),
+      originals: `${data?.repo_count || 0}+`,
+      github_age: t("github_age_years", { years: data?.github_years || 0 }),
+      year_commits: String(yearCommits ?? "—"),
+    };
+  }, [loading, error, data, yearCommits, t]);
+
+  // Sparkline 数据
+  const statSparklines = useMemo(() => {
+    return {
+      repos: STATIC_SPARKLINES.repos,
+      originals: STATIC_SPARKLINES.originals,
+      github_age: STATIC_SPARKLINES.age,
+      year_commits: yearCommitsSparkline.length > 0 ? yearCommitsSparkline : STATIC_SPARKLINES.repos,
+    };
+  }, [yearCommitsSparkline]);
+
+  // 热力图数据（保留原有逻辑）
   const recentContributions = useMemo(() => {
     if (!contributions) return null;
     const cutoff = new Date();
@@ -213,44 +306,91 @@ export default function GitHubDashboard() {
     });
   }, [contributions]);
 
-  const heatmapWeeks = useMemo(
-    () => (recentContributions ? buildWeeks(recentContributions) : []),
-    [recentContributions]
-  );
-
-  // 热力图可滚动区域 DOM 引用，用于数据就绪后自动滚到最右侧（最新日期）
-  const scrollRef = useRef<HTMLDivElement>(null);
-
-  const monthLabels = useMemo(
-    () => getMonthLabels(heatmapWeeks, months),
-    [heatmapWeeks, months]
-  );
-
-  const yearLabels = useMemo(
-    () => getYearLabels(heatmapWeeks),
-    [heatmapWeeks]
-  );
-
-  // 热力图数据就绪后，自动将滚动区域滚到最右侧，确保用户首先看到最新日期
-  useEffect(() => {
-    if (scrollRef.current && heatmapWeeks.length > 0) {
-      scrollRef.current.scrollLeft = scrollRef.current.scrollWidth;
-    }
-  }, [heatmapWeeks]);
-
   const totalCount = useMemo(
     () => (recentContributions ? recentContributions.reduce((sum, d) => sum + d.count, 0) : null),
     [recentContributions]
   );
 
-  // 今年（自然年）提交次数：从逐日贡献数据中过滤出当前年份并求和
-  const yearCommits = useMemo(() => {
-    if (!contributions) return null;
-    const currentYear = String(new Date().getFullYear());
-    return contributions
-      .filter((d) => d.date.startsWith(currentYear))
-      .reduce((sum, d) => sum + d.count, 0);
-  }, [contributions]);
+  // 热力图可滚动区域引用
+  const scrollRef = useRef<HTMLDivElement>(null);
+
+  // 热力图周数据
+  const heatmapWeeks = useMemo(() => {
+    if (!recentContributions) return [];
+    const sorted = [...recentContributions].sort((a, b) => a.date.localeCompare(b.date));
+    const weeks: (GithubContributionDay | null)[][] = [];
+    const firstDate = new Date(`${sorted[0].date}T00:00:00`);
+    const firstWeekday = firstDate.getDay();
+
+    let currentWeek: (GithubContributionDay | null)[] = [];
+    for (let i = 0; i < firstWeekday; i += 1) currentWeek.push(null);
+
+    for (const day of sorted) {
+      currentWeek.push(day);
+      if (currentWeek.length === 7) {
+        weeks.push(currentWeek);
+        currentWeek = [];
+      }
+    }
+    if (currentWeek.length > 0) {
+      while (currentWeek.length < 7) currentWeek.push(null);
+      weeks.push(currentWeek);
+    }
+
+    // 截断最后一周空白
+    if (weeks.length > 0) {
+      const lastWeek = weeks[weeks.length - 1];
+      let lastNonNull = -1;
+      lastWeek.forEach((d, i) => {
+        if (d !== null) lastNonNull = i;
+      });
+      if (lastNonNull === -1) {
+        weeks.pop();
+      } else if (lastNonNull < 6) {
+        weeks[weeks.length - 1] = lastWeek.slice(0, lastNonNull + 1);
+      }
+    }
+
+    return weeks;
+  }, [recentContributions]);
+
+  const monthLabels = useMemo(() => {
+    const labels: { weekIndex: number; label: string }[] = [];
+    let prevMonth = -1;
+    heatmapWeeks.forEach((week, idx) => {
+      const firstDay = week.find((d) => d !== null);
+      if (firstDay) {
+        const month = new Date(`${firstDay.date}T00:00:00`).getMonth();
+        if (month !== prevMonth) {
+          labels.push({ weekIndex: idx, label: months[month] });
+          prevMonth = month;
+        }
+      }
+    });
+    return labels;
+  }, [heatmapWeeks, months]);
+
+  const yearLabels = useMemo(() => {
+    const labels: { weekIndex: number; label: string }[] = [];
+    let prevYear = -1;
+    heatmapWeeks.forEach((week, idx) => {
+      const firstDay = week.find((d) => d !== null);
+      if (firstDay) {
+        const year = new Date(`${firstDay.date}T00:00:00`).getFullYear();
+        if (year !== prevYear) {
+          labels.push({ weekIndex: idx, label: String(year) });
+          prevYear = year;
+        }
+      }
+    });
+    return labels;
+  }, [heatmapWeeks]);
+
+  useEffect(() => {
+    if (scrollRef.current && heatmapWeeks.length > 0) {
+      scrollRef.current.scrollLeft = scrollRef.current.scrollWidth;
+    }
+  }, [heatmapWeeks]);
 
   const showHeatmapError = contributionsError && !contributionsLoading && heatmapWeeks.length === 0;
 
@@ -270,250 +410,221 @@ export default function GitHubDashboard() {
         </a>
       }
     >
-        <div className={styles.grid}>
-          {/* Stats Cards */}
-          <div className={styles['stats-grid']}>
-            {loading ? (
-              <>
-                {[1, 2, 3, 4].map((i) => (
-                  <div key={i} className={styles['stats-grid__card']}>
-                    <div className={styles.skeleton__val} />
-                    <div className={styles.skeleton__label} />
-                    <div className={styles.skeleton__sub} />
-                  </div>
-                ))}
-              </>
-            ) : error ? (
-              <>
-                <div className={styles['stats-grid__card']}>
-                  <span className={styles['error-card__val']}>36</span>
-                  <p className={styles['error-card__label']}>
-                    {t("repos")}
-                  </p>
-                </div>
-                <div className={styles['stats-grid__card']}>
-                  <span className={styles['error-card__val']}>30+</span>
-                  <p className={styles['error-card__label']}>
-                    {t("originals")}
-                  </p>
-                </div>
-                <div className={styles['stats-grid__card']}>
-                  <span className={styles['error-card__val']}>8年</span>
-                  <p className={styles['error-card__label']}>
-                    {t("github_age")}
-                  </p>
-                </div>
-                <div className={styles['stats-grid__card']}>
-                  <span className={styles['error-card__val']}>—</span>
-                  <p className={styles['error-card__label']}>
-                    {t("year_commits")}
-                  </p>
-                </div>
-              </>
-            ) : (
-              <>
-                <div className={styles['stats-grid__card']}>
-                  <span className={styles['error-card__val']}>
-                    {data?.public_repos || "—"}
+      {/* 主体：统计网格 + 个人资料 */}
+      <div className={styles.grid}>
+        {/* 左侧统计卡片（2x2 网格） */}
+        <div className={styles.statsGrid}>
+          {statConfigs.map((config) => {
+            const value = statValues[config.key as keyof typeof statValues];
+            const sparklineData = statSparklines[config.key as keyof typeof statSparklines];
+            return (
+              <div
+                key={config.key}
+                className={styles.statsCard}
+              >
+                <div className={styles.statsCard__header}>
+                  <span
+                    className={styles.statsCard__icon}
+                    style={{ backgroundColor: config.bgColor, color: config.color }}
+                  >
+                    {config.icon}
                   </span>
-                  <p className={styles['error-card__label']}>
-                    {t("repos")}
-                  </p>
                 </div>
-                <div className={styles['stats-grid__card']}>
-                  <span className={styles['error-card__val']}>
-                    {`${data?.repo_count || 0}+`}
-                  </span>
-                  <p className={styles['error-card__label']}>
-                    {t("originals")}
-                  </p>
+                <span className={styles.statsCard__value} style={{ color: config.color }}>
+                  {value}
+                </span>
+                <span className={styles.statsCard__label}>
+                  {t(config.key)}
+                </span>
+                <div className={styles.statsCard__sparkline}>
+                  <Sparkline data={sparklineData} color={config.sparklineColor} />
                 </div>
-                <div className={styles['stats-grid__card']}>
-                  <span className={styles['error-card__val']}>
-                    {t("github_age_years", { years: data?.github_years || 0 })}
-                  </span>
-                  <p className={styles['error-card__label']}>
-                    {t("github_age")}
-                  </p>
-                </div>
-                <div className={styles['stats-grid__card']}>
-                  <span className={styles['error-card__val']}>
-                    {yearCommits ?? "—"}
-                  </span>
-                  <p className={styles['error-card__label']}>
-                    {t("year_commits")}
-                  </p>
-                </div>
-              </>
-            )}
-          </div>
+              </div>
+            );
+          })}
+        </div>
 
-          {/* Profile Card */}
-          <div className={styles['profile-card']}>
+        {/* 右侧个人资料卡片 */}
+        <div className={styles.profileCard}>
+          <div className={styles.profileCard__main}>
             <Image
               src={avatarSrc}
               alt="xinjie avatar"
               width={72}
               height={72}
-              className={styles['profile-card__avatar']}
-              onError={(e) => {
-                if (!e.currentTarget.dataset.errorHandled) {
-                  e.currentTarget.dataset.errorHandled = "true";
-                  setAvatarSrc("/images/avatar-placeholder.svg");
-                }
-              }}
+              className={styles.profileCard__avatar}
+              onError={() => setAvatarSrc("/images/avatar-placeholder.svg")}
             />
-            <div className={styles['profile-card__info']}>
-              <h3 className={styles['profile-card__name']}>{t("profile_name")}</h3>
-              <p className={styles['profile-card__role']}>
-                {t("profile_role")}
-              </p>
-              <a
-                href="https://github.com/gouxinjie"
-                target="_blank"
-                rel="noopener noreferrer"
-                className={styles['profile-card__link']}
-              >
-                GitHub →
-              </a>
+            <div className={styles.profileCard__info}>
+              <h3 className={styles.profileCard__name}>{t("profile_name")}</h3>
+              <div className={styles.profileCard__tags}>
+                <span className={styles.profileCard__tag}>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2" />
+                    <circle cx="12" cy="7" r="4" />
+                  </svg>
+                  {t("profile_role").split("\n")[0]}
+                </span>
+                <span className={styles.profileCard__tag}>
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                    <rect x="2" y="3" width="20" height="14" rx="2" ry="2" />
+                    <line x1="8" y1="21" x2="16" y2="21" />
+                    <line x1="12" y1="17" x2="12" y2="21" />
+                  </svg>
+                  {t("profile_role").split("\n")[1]}
+                </span>
+              </div>
             </div>
           </div>
+          <a
+            href="https://github.com/gouxinjie"
+            target="_blank"
+            rel="noopener noreferrer"
+            className={styles.profileCard__link}
+          >
+            GitHub →
+          </a>
         </div>
+      </div>
 
-        {/* 贡献热力图（GitHub 经典样式） */}
-        <div className={styles.heatmap}>
-          <h3 className={styles.heatmap__title}>
-            {t("heatmap_title")}
-            {totalCount !== null && (
-              <span className={styles.heatmap__total}>
-                {t("heatmap_total", { count: totalCount })}
-              </span>
-            )}
-          </h3>
+      {/* 底部引用区域 */}
+      <div className={styles.quoteBar}>
+        <span className={styles.quoteBar__mark}>"</span>
+        <span className={styles.quoteBar__text}>持续学习，持续构建，用代码改变世界</span>
+        <svg className={styles.quoteBar__heart} width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z" />
+        </svg>
+      </div>
 
-          {showHeatmapError ? (
-            <p className={styles.heatmap__error}>{t("heatmap_error")}</p>
-          ) : heatmapWeeks.length > 0 ? (
-            <div className={styles.heatmap__chart}>
-              {/* 热力图主体：左侧 weekday（固定） + 右侧可滚动区域（月份标签 + 格子） */}
-              <div className={styles.heatmap__body}>
-                <div className={styles.heatmap__weekdayLabels}>
-                  {weekdayLabels.map((label, i) => (
-                    <span key={i} className={styles.heatmap__weekdayLabel}>
-                      {label}
-                    </span>
-                  ))}
-                </div>
-                {/* 可滚动区域：月份/年份标签与格子共用同一滚动容器，保持对齐 */}
-                <div className={styles.heatmap__scrollArea} ref={scrollRef}>
-                  <div className={styles.heatmap__scrollInner}>
-                    {/* 月份 + 年份标签行（随格子一起滚动） */}
-                    <div className={styles.heatmap__monthLabels}>
-                      {yearLabels.map((y) => (
-                        <span
-                          key={y.label + y.weekIndex}
-                          className={styles.heatmap__yearLabel}
-                          style={{
-                            left: `calc(${y.weekIndex} * (var(--gh-cell) + var(--gh-gap)))`,
-                          }}
-                        >
-                          {y.label}
-                        </span>
-                      ))}
-                      {monthLabels.map((m) => (
-                        <span
-                          key={m.label + m.weekIndex}
-                          className={styles.heatmap__monthLabel}
-                          style={{
-                            left: `calc(${m.weekIndex} * (var(--gh-cell) + var(--gh-gap)))`,
-                          }}
-                        >
-                          {m.label}
-                        </span>
-                      ))}
-                    </div>
-                    {/* 格子网格 */}
-                    <div className={styles.heatmap__grid}>
-                      {heatmapWeeks.map((week, wi) => (
-                        <div key={wi} className={styles.heatmap__col}>
-                          {week.map((day, di) => {
-                            if (!day) {
-                              return (
-                                <div
-                                  key={di}
-                                  className={`${styles.heatmap__cell} ${styles['heatmap__cell--empty']}`}
-                                />
-                              );
-                            }
-                            const level = Math.min(day.level, 4);
+      {/* 贡献热力图（保留原有功能） */}
+      <div className={styles.heatmap}>
+        <h3 className={styles.heatmap__title}>
+          {t("heatmap_title")}
+          {totalCount !== null && (
+            <span className={styles.heatmap__total}>
+              {t("heatmap_total", { count: totalCount })}
+            </span>
+          )}
+        </h3>
+
+        {showHeatmapError ? (
+          <p className={styles.heatmap__error}>{t("heatmap_error")}</p>
+        ) : heatmapWeeks.length > 0 ? (
+          <div className={styles.heatmap__chart}>
+            <div className={styles.heatmap__body}>
+              <div className={styles.heatmap__weekdayLabels}>
+                {weekdayLabels.map((label, i) => (
+                  <span key={i} className={styles.heatmap__weekdayLabel}>
+                    {label}
+                  </span>
+                ))}
+              </div>
+              <div className={styles.heatmap__scrollArea} ref={scrollRef}>
+                <div className={styles.heatmap__scrollInner}>
+                  <div className={styles.heatmap__monthLabels}>
+                    {yearLabels.map((y) => (
+                      <span
+                        key={y.label + y.weekIndex}
+                        className={styles.heatmap__yearLabel}
+                        style={{
+                          left: `calc(${y.weekIndex} * (var(--gh-cell) + var(--gh-gap)))`,
+                        }}
+                      >
+                        {y.label}
+                      </span>
+                    ))}
+                    {monthLabels.map((m) => (
+                      <span
+                        key={m.label + m.weekIndex}
+                        className={styles.heatmap__monthLabel}
+                        style={{
+                          left: `calc(${m.weekIndex} * (var(--gh-cell) + var(--gh-gap)))`,
+                        }}
+                      >
+                        {m.label}
+                      </span>
+                    ))}
+                  </div>
+                  <div className={styles.heatmap__grid}>
+                    {heatmapWeeks.map((week, wi) => (
+                      <div key={wi} className={styles.heatmap__col}>
+                        {week.map((day, di) => {
+                          if (!day) {
                             return (
                               <div
                                 key={di}
-                                className={`${styles.heatmap__cell} ${styles[`heatmap__cell--level-${level}`]}`}
-                                title={`${day.date} · ${day.count} commits`}
+                                className={`${styles.heatmap__cell} ${styles["heatmap__cell--empty"]}`}
                               />
                             );
-                          })}
-                        </div>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          ) : (
-            <div className={styles.heatmap__chart}>
-              <div className={styles.heatmap__body}>
-                <div className={styles.heatmap__weekdayLabels}>
-                  {weekdayLabels.map((label, i) => (
-                    <span key={i} className={styles.heatmap__weekdayLabel}>
-                      {label}
-                    </span>
-                  ))}
-                </div>
-                <div className={styles.heatmap__scrollArea}>
-                  <div className={styles.heatmap__scrollInner}>
-                    <div className={styles.heatmap__monthLabels} />
-                    <div className={styles.heatmap__grid}>
-                      {Array.from({ length: 53 }).map((_, weekIdx) => (
-                        <div key={weekIdx} className={styles.heatmap__col}>
-                          {Array.from({ length: 7 }).map((_, dayIdx) => (
+                          }
+                          const level = Math.min(day.level, 4);
+                          return (
                             <div
-                              key={dayIdx}
-                              className={`${styles.heatmap__cell} ${styles['heatmap__cell--empty']}`}
+                              key={di}
+                              className={`${styles.heatmap__cell} ${styles[`heatmap__cell--level-${level}`]}`}
+                              title={`${day.date} · ${day.count} commits`}
                             />
-                          ))}
-                        </div>
-                      ))}
-                    </div>
+                          );
+                        })}
+                      </div>
+                    ))}
                   </div>
                 </div>
               </div>
-            </div>
-          )}
-
-          {/* 底部：链接 + 图例 */}
-          <div className={styles.heatmap__footer}>
-            <a
-              href="https://docs.github.com/en/graphs/contributions"
-              target="_blank"
-              rel="noopener noreferrer"
-              className={styles.heatmap__link}
-            >
-              {t("heatmap_learn_more")}
-            </a>
-            <div className={styles.heatmap__legend}>
-              <span>{t("less")}</span>
-              {[0, 1, 2, 3, 4].map((level) => (
-                <div
-                  key={level}
-                  className={`${styles.heatmap__level} ${styles[`heatmap__level--${level}`]}`}
-                />
-              ))}
-              <span>{t("more")}</span>
             </div>
           </div>
+        ) : (
+          <div className={styles.heatmap__chart}>
+            <div className={styles.heatmap__body}>
+              <div className={styles.heatmap__weekdayLabels}>
+                {weekdayLabels.map((label, i) => (
+                  <span key={i} className={styles.heatmap__weekdayLabel}>
+                    {label}
+                  </span>
+                ))}
+              </div>
+              <div className={styles.heatmap__scrollArea}>
+                <div className={styles.heatmap__scrollInner}>
+                  <div className={styles.heatmap__monthLabels} />
+                  <div className={styles.heatmap__grid}>
+                    {Array.from({ length: 53 }).map((_, weekIdx) => (
+                      <div key={weekIdx} className={styles.heatmap__col}>
+                        {Array.from({ length: 7 }).map((_, dayIdx) => (
+                          <div
+                            key={dayIdx}
+                            className={`${styles.heatmap__cell} ${styles["heatmap__cell--empty"]}`}
+                          />
+                        ))}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        <div className={styles.heatmap__footer}>
+          <a
+            href="https://docs.github.com/en/graphs/contributions"
+            target="_blank"
+            rel="noopener noreferrer"
+            className={styles.heatmap__link}
+          >
+            {t("heatmap_learn_more")}
+          </a>
+          <div className={styles.heatmap__legend}>
+            <span>{t("less")}</span>
+            {[0, 1, 2, 3, 4].map((level) => (
+              <div
+                key={level}
+                className={`${styles.heatmap__level} ${styles[`heatmap__level--${level}`]}`}
+              />
+            ))}
+            <span>{t("more")}</span>
+          </div>
         </div>
+      </div>
     </Section>
   );
 }

@@ -80,11 +80,25 @@ export default function AboutPage({ params: { locale } }: { params: { locale: st
           {aboutStats.map((stat, idx) => (
             <FadeIn key={stat.label} delay={0.05 * idx}>
               <div className={styles.statCard}>
-                <span className={styles.statCard__icon}>{stat.icon}</span>
-                <span className={styles.statCard__value}>{stat.value}</span>
+                <span
+                  className={styles.statCard__icon}
+                  style={{ backgroundColor: stat.bgColor, color: stat.color }}
+                >
+                  {stat.icon}
+                </span>
+                <span
+                  className={styles.statCard__value}
+                  style={{ color: stat.color }}
+                >
+                  {stat.value}
+                </span>
                 <span className={styles.statCard__label}>
                   {locale === "zh" ? stat.label : stat.labelEn}
                 </span>
+                <span
+                  className={styles.statCard__bar}
+                  style={{ backgroundColor: stat.color }}
+                />
               </div>
             </FadeIn>
           ))}

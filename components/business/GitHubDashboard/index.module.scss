@@ -1,8 +1,8 @@
 /**
- * @file index.scss
- * @description GitHub 数据看板样式（GitHub 经典热力图风格）
+ * @file index.module.scss
+ * @description GitHub 数据看板样式（按设计稿重新设计）
  * @author gouxinjie
- * @updated 2026-07-15 暗色模式修复：热力图与图例采用 GitHub 官方暗色色阶，文字/边框色适配
+ * @updated 2026-07-17
  */
 
 // GitHub 贡献热力图配色（Light 主题）
@@ -15,7 +15,7 @@ $gh-border: #d1d5da;
 $gh-text: #57606a;
 $gh-link: #0969da;
 
-// 看板区块：顶部间距由 Section 统一控制，此处不再重复设置
+// 看板区块
 .github {
   padding-top: 0;
 }
@@ -35,7 +35,9 @@ $gh-link: #0969da;
   }
 }
 
-// 主栅格：统计网格 + 个人卡片，大屏三列
+// ==========================================
+// 主栅格：左侧统计卡片 + 右侧个人资料
+// ==========================================
 .grid {
   margin-top: 16px;
   display: grid;
@@ -47,115 +49,299 @@ $gh-link: #0969da;
   }
 
   @media (min-width: 1024px) {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: 1fr 280px;
+  }
+
+  @media (min-width: 1280px) {
+    grid-template-columns: 1fr 320px;
   }
 }
 
-// 统计网格：大屏占两列，内部四列小卡片
-.stats-grid {
-  @media (min-width: 1024px) {
-    grid-column: span 2;
-  }
+// ==========================================
+// 统计卡片网格（2x2）
+// ==========================================
+.statsGrid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 8px;
+  gap: 12px;
 
   @media (min-width: 640px) {
-    grid-template-columns: repeat(4, 1fr);
-    gap: 12px;
-  }
-
-  // 单个统计小卡片
-  &__card {
-    @include card-base;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
+    gap: 16px;
   }
 }
 
-// 个人资料卡片：头像 + 信息
-.profile-card {
-  @include card-base;
+// 统计卡片：白色背景、圆角、阴影、内部纵向布局
+.statsCard {
   display: flex;
-  align-items: center;
-  gap: 10px;
-  overflow: hidden;
-  padding: 12px;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+  padding: 16px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  background-color: var(--color-bg);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.02);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: default;
 
   @media (min-width: 640px) {
-    gap: 12px;
-    padding: 16px;
+    padding: 20px;
+    gap: 8px;
   }
 
-  // 头像：圆角方形，随屏幕增大
-  &__avatar {
-    height: 56px;
-    width: 56px;
-    border-radius: var(--radius-xl);
-    object-fit: cover;
-
-    @media (min-width: 640px) {
-      height: 64px;
-      width: 64px;
-    }
-
-    @media (min-width: 1024px) {
-      height: 72px;
-      width: 72px;
-    }
+  &:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px -4px rgba(0, 0, 0, 0.08), 0 4px 8px -2px rgba(0, 0, 0, 0.04);
   }
 
-  // 信息容器：占据剩余宽度
-  &__info {
-    min-width: 0;
-    flex: 1;
-  }
-
-  // 用户名
-  &__name {
-    font-weight: 600;
-    font-size: 14px;
-
-    @media (min-width: 640px) {
-      font-size: 16px;
-    }
-  }
-
-  // 角色/简介：次要色，支持换行
-  &__role {
-    margin-top: 2px;
-    font-size: 11px;
-    color: var(--color-text-secondary);
-    white-space: pre-line;
-
-    @media (min-width: 640px) {
-      font-size: 12px;
-    }
-  }
-
-  // 个人主页链接
-  &__link {
-    margin-top: 6px;
-    display: inline-flex;
-    align-items: center;
-    gap: 4px;
-    font-size: 11px;
-    font-weight: 500;
-    color: var(--color-accent);
-
-    @media (min-width: 640px) {
-      margin-top: 8px;
-      font-size: 12px;
-    }
+  :global(.dark) & {
+    background-color: var(--color-bg-secondary);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2), 0 1px 2px rgba(0, 0, 0, 0.15);
 
     &:hover {
-      color: var(--color-accent-dark);
+      box-shadow: 0 8px 20px -4px rgba(0, 0, 0, 0.3), 0 4px 8px -2px rgba(0, 0, 0, 0.2);
     }
   }
 }
 
-// 贡献热力图卡片
+// 统计卡片头部：图标
+.statsCard__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+// 统计卡片图标：圆形浅色背景
+.statsCard__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+
+  @media (min-width: 640px) {
+    width: 40px;
+    height: 40px;
+  }
+
+  svg {
+    color: inherit;
+  }
+}
+
+// 统计卡片数值：大字号、彩色
+.statsCard__value {
+  font-size: 22px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+
+  @media (min-width: 640px) {
+    font-size: 26px;
+  }
+}
+
+// 统计卡片标签：灰色小字
+.statsCard__label {
+  font-size: 12px;
+  color: var(--color-text-secondary);
+
+  @media (min-width: 640px) {
+    font-size: 13px;
+  }
+}
+
+// 统计卡片 sparkline 区域
+.statsCard__sparkline {
+  margin-top: 4px;
+  width: 100%;
+  height: 24px;
+}
+
+// ==========================================
+// Sparkline 迷你折线图
+// ==========================================
+.sparkline {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+// ==========================================
+// 个人资料卡片
+// ==========================================
+.profileCard {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 20px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-xl);
+  background-color: var(--color-bg);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.04), 0 1px 2px rgba(0, 0, 0, 0.02);
+
+  @media (min-width: 640px) {
+    padding: 24px;
+  }
+
+  :global(.dark) & {
+    background-color: var(--color-bg-secondary);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2), 0 1px 2px rgba(0, 0, 0, 0.15);
+  }
+}
+
+// 个人资料主区域：头像 + 信息
+.profileCard__main {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+}
+
+// 头像：圆角方形
+.profileCard__avatar {
+  width: 56px;
+  height: 56px;
+  border-radius: var(--radius-xl);
+  object-fit: cover;
+  flex-shrink: 0;
+
+  @media (min-width: 640px) {
+    width: 64px;
+    height: 64px;
+  }
+}
+
+// 信息容器
+.profileCard__info {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0;
+}
+
+// 用户名
+.profileCard__name {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--color-text-primary);
+
+  @media (min-width: 640px) {
+    font-size: 18px;
+  }
+}
+
+// 标签容器
+.profileCard__tags {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+// 单个标签
+.profileCard__tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  color: var(--color-text-secondary);
+
+  @media (min-width: 640px) {
+    font-size: 13px;
+  }
+
+  svg {
+    color: var(--color-text-muted);
+    flex-shrink: 0;
+  }
+}
+
+// GitHub 链接按钮
+.profileCard__link {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  padding: 10px 0;
+  border-radius: var(--radius-lg);
+  background-color: var(--color-bg-secondary);
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--color-accent);
+  transition: background-color 0.2s, color 0.2s;
+
+  &:hover {
+    background-color: var(--color-accent);
+    color: #fff;
+  }
+
+  :global(.dark) & {
+    background-color: rgba(255, 255, 255, 0.05);
+
+    &:hover {
+      background-color: var(--color-accent);
+      color: #fff;
+    }
+  }
+}
+
+// ==========================================
+// 底部引用区域
+// ==========================================
+.quoteBar {
+  margin-top: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 20px;
+  border-radius: var(--radius-xl);
+  background-color: var(--color-bg-secondary);
+  border: 1px solid var(--color-border);
+
+  @media (min-width: 640px) {
+    margin-top: 20px;
+    padding: 16px 24px;
+  }
+}
+
+// 引号
+.quoteBar__mark {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--color-accent);
+  line-height: 1;
+  font-family: Georgia, serif;
+}
+
+// 引用文字
+.quoteBar__text {
+  flex: 1;
+  font-size: 14px;
+  color: var(--color-text-secondary);
+
+  @media (min-width: 640px) {
+    font-size: 15px;
+  }
+}
+
+// 心形图标
+.quoteBar__heart {
+  color: var(--color-accent);
+  flex-shrink: 0;
+  opacity: 0.7;
+  transition: opacity 0.2s, transform 0.2s;
+
+  &:hover {
+    opacity: 1;
+    transform: scale(1.1);
+  }
+}
+
+// ==========================================
+// 贡献热力图（保留原有样式）
+// ==========================================
 .heatmap {
   @include card-base;
   margin-top: 16px;
@@ -436,11 +622,8 @@ $gh-link: #0969da;
 
   // ==========================================
   // 暗色模式：复刻 GitHub 官方暗色主题色阶
-  // GitHub 浅色：#ebedf0 #9be9a8 #40c463 #30a14e #216e39
-  // GitHub 暗色：#161b22 #0e4429 #006d32 #26a641 #39d353
   // ==========================================
 
-  // 热力图格子：暗色色阶 + 白色 hover 边框（替换不可见的黑色 outline）
   :global(.dark) &__cell {
     &--empty,
     &--level-0 { background-color: #161b22; }
@@ -454,7 +637,6 @@ $gh-link: #0969da;
     }
   }
 
-  // 图例色块：与热力图格子色阶保持一致
   :global(.dark) &__level {
     &--0 { background-color: #161b22; }
     &--1 { background-color: #0e4429; }
@@ -463,7 +645,6 @@ $gh-link: #0969da;
     &--4 { background-color: #39d353; }
   }
 
-  // 暗色模式：文字与链接色（替换 $gh-text 深灰与 $gh-link 偏暗蓝）
   :global(.dark) &__weekdayLabel,
   :global(.dark) &__yearLabel,
   :global(.dark) &__monthLabel,
@@ -477,63 +658,5 @@ $gh-link: #0969da;
     &:hover {
       color: #fff;
     }
-  }
-}
-
-// 加载骨架屏：数值/标签/副标签占位
-.skeleton {
-  &__val {
-    height: 24px;
-    width: 48px;
-    background-color: var(--color-border);
-    border-radius: 4px;
-  }
-
-  &__label {
-    margin-top: 8px;
-    height: 12px;
-    width: 64px;
-    background-color: var(--color-border);
-    border-radius: 4px;
-  }
-
-  &__sub {
-    margin-top: 4px;
-    height: 8px;
-    width: 32px;
-    background-color: var(--color-border);
-    border-radius: 4px;
-  }
-}
-
-// 错误状态卡片：数值 + 标签
-.error-card {
-  &__val {
-    font-size: 20px;
-    font-weight: bold;
-
-    @media (min-width: 640px) {
-      font-size: 24px;
-    }
-  }
-
-  &__label {
-    margin-top: 4px;
-    font-size: 11px;
-    color: var(--color-text-muted);
-
-    @media (min-width: 640px) {
-      font-size: 12px;
-    }
-  }
-}
-
-// 骨架屏闪烁动画
-@keyframes pulse {
-  0%, 100% {
-    opacity: 1;
-  }
-  50% {
-    opacity: .5;
   }
 }
