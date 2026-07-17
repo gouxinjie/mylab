@@ -106,6 +106,8 @@ export default function AboutPage({ params: { locale } }: { params: { locale: st
                   {locale === "zh" ? category.title : category.titleEn}
                 </h4>
                 <div className={styles.techGroup__badges}>
+                  {/* 技术徽章为远程 SVG（shields.io），矢量图无法被 next/image 优化，
+                      使用 unoptimized 由浏览器直接加载原始 SVG，避免优化器拒绝 SVG 导致不显示 */}
                   {category.badges.map((badge) => (
                   <Image
                     key={badge.label}
@@ -115,6 +117,7 @@ export default function AboutPage({ params: { locale } }: { params: { locale: st
                     height={20}
                     loading="lazy"
                     className={styles.techBadge}
+                    unoptimized
                   />
                   ))}
                 </div>
