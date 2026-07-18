@@ -13,10 +13,8 @@
     "greeting": "👋 Hi, I'm xinjie",
     "title": "Focused on building high-quality\nWeb Applications & Tools",
     "description": "Passionate about technology, I enjoy the process from idea to implementation. Dedicated to solving real problems through code, pursuing simplicity, maintainability, and ultimate user experience.",
-    "view_projects": "View My Projects →",
-    "learn_more": "Learn More About Me",
-    "find_me": "Find me on",
-    "scroll_down": "Scroll Down ↓"
+    "view_projects": "View My Projects",
+    "learn_more": "Learn More About Me"
   },
   "Services": {
     "title": "What I Can Do",
@@ -66,7 +64,7 @@
   "FeaturedProjects": {
     "title": "Featured Projects",
     "subtitle": "Some works I'm proud of",
-    "view_all": "View All Projects →",
+    "view_all": "View All Projects",
     "categories": {
       "all": "All Projects",
       "platform": "Platform",
@@ -80,7 +78,7 @@
   },
   "About": {
     "label": "About Me",
-    "name": "XinJie (Gou Xinjie)",
+    "name": "Gou Xinjie (XinJie)",
     "tagline": "Full Stack Developer • Tech Explorer • Lifelong Learner",
     "title": "Passionate about technology, focused on creating valuable products",
     "description": "Passionate about crafting elegant, high-performance Web experiences with code. Deeply rooted in the React/Vue ecosystem on the frontend, while exploring Node.js, Python backends and DevOps engineering practices.\nA firm believer in continuous growth — every effort bears fruit, still waters run deep.",
@@ -96,12 +94,7 @@
     "stats_subtitle": "Numbers that tell my story",
     "projects_title": "Live Projects",
     "tech_title": "Tech Stack",
-    "tech_subtitle": "An overview of the technologies I use and explore",
-    "contact_title": "Get in Touch",
-    "contact_subtitle": "You can reach me through the following ways",
-    "contact_copy_hint": "Click to copy",
-    "copy_success": "Copied",
-    "copy_fail": "Copy failed, please copy manually"
+    "tech_subtitle": "An overview of the technologies I use and explore"
   },
   "Projects": {
     "label": "My Projects",
@@ -130,12 +123,12 @@
   "BlogEntry": {
     "title": "Explore more technical sharing and thinking",
     "subtitle": "Welcome to my blog, read the latest technical articles and tutorials",
-    "button": "Visit Blog →"
+    "button": "Visit Blog"
   },
   "Skills": {
     "title": "Tech Stack",
     "subtitle": "My commonly used technologies and tools",
-    "view_more": "View More Skills →"
+    "view_more": "View More Skills"
   },
   "Footer": {
     "description": "Building value with code, exploring the future with AI.",

@@ -13,10 +13,8 @@
     "greeting": "👋 你好，我是 xinjie",
     "title": "专注于构建高质量的\nWeb 应用与工具",
     "description": "热爱技术，喜欢从想法到实现的过程，致力于通过代码解决实际问题，追求简洁、可维护和极致的用户体验。",
-    "view_projects": "查看我的项目 →",
-    "learn_more": "了解我更多",
-    "find_me": "Find me on",
-    "scroll_down": "向下了解我 ↓"
+    "view_projects": "查看我的项目",
+    "learn_more": "了解我更多"
   },
   "Services": {
     "title": "我能做什么",
@@ -66,7 +64,7 @@
   "FeaturedProjects": {
     "title": "精选项目",
     "subtitle": "一些我引以为豪的作品",
-    "view_all": "查看全部项目 →",
+    "view_all": "查看全部项目",
     "categories": {
       "all": "全部项目",
       "platform": "平台",
@@ -96,12 +94,7 @@
     "stats_subtitle": "用数字记录我的技术足迹",
     "projects_title": "线上项目",
     "tech_title": "技术清单",
-    "tech_subtitle": "我日常使用与探索的技术栈全景",
-    "contact_title": "与我相关",
-    "contact_subtitle": "通过这些方式可以找到我",
-    "contact_copy_hint": "点击复制",
-    "copy_success": "复制成功",
-    "copy_fail": "复制失败，请手动复制"
+    "tech_subtitle": "我日常使用与探索的技术栈全景"
   },
   "Projects": {
     "label": "我的项目",
@@ -117,7 +110,7 @@
     "github_age_years": "{years}年",
     "year_commits": "今年提交",
     "heatmap_title": "贡献热力图（最近一年）",
-    "heatmap_total": "共 {count} 次提交",
+    "heatmap_total": " · 共 {count} 次提交",
     "heatmap_error": "贡献数据加载失败，请稍后重试",
     "heatmap_learn_more": "Learn how we count contributions",
     "months": ["1月", "2月", "3月", "4月", "5月", "6月", "7月", "8月", "9月", "10月", "11月", "12月"],
@@ -130,12 +123,12 @@
   "BlogEntry": {
     "title": "探索更多技术分享与思考",
     "subtitle": "欢迎访问我的博客，阅读最新的技术文章和教程",
-    "button": "访问博客 →"
+    "button": "访问博客"
   },
   "Skills": {
     "title": "技术栈",
     "subtitle": "我常用的技术和工具",
-    "view_more": "查看更多技术 →"
+    "view_more": "查看更多技术"
   },
   "Footer": {
     "description": "用代码构建价值，用 AI 探索未来。",
