@@ -171,7 +171,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 14px;
+  margin-bottom: 8px;
 }
 
 // 产品 Logo：略大于之前，圆角更圆润
@@ -232,7 +232,7 @@
 // 产品简介：最多显示两行，超出省略号
 .desc {
   flex: 1;
-  margin: 0 0 14px;
+  margin: 0 0 8px;
   font-size: 13.5px;
   line-height: 1.7;
   color: var(--color-text-secondary);
@@ -248,7 +248,7 @@
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
-  margin-bottom: 18px;
+  margin-bottom: 8px;
 }
 
 // 单个功能标签：小药丸样式，浅品牌色底 + 品牌色字（无边框，与 badge 保持一致）

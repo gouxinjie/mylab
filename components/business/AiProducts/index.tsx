@@ -84,6 +84,7 @@ const ProductLogo = ({ product }: { product: AiProduct }) => {
           width={48}
           height={48}
           loading="lazy"
+          unoptimized={logoUrl.endsWith(".svg")}
           onError={() => setErrored(true)}
         />
       ) : (
