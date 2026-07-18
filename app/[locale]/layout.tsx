@@ -79,6 +79,8 @@ export const viewport: Viewport = {
   initialScale: 1,
   maximumScale: 5,
   userScalable: true,
+  // 启用全面屏安全区，使 env(safe-area-inset-*) 生效，避免页脚被底部工具栏遮挡
+  viewportFit: "cover",
   themeColor: [
     { media: "(prefers-color-scheme: light)", color: "#FAFAFA" },
     { media: "(prefers-color-scheme: dark)", color: "#0F172A" },

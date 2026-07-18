@@ -14,23 +14,24 @@
 .footer {
   background-color: var(--color-bg-dark);
   color: var(--color-text-inverse);
-  padding-top: 48px;
-  padding-bottom: 24px;
+  padding-top: 32px;
+  // 底部预留安全区内边距，避免移动端浏览器底部工具栏/手势条遮挡版权栏
+  padding-bottom: calc(20px + env(safe-area-inset-bottom, 0px));
 }
 
 // 主栅格：品牌 + 链接分组
 .grid {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 40px;
+  gap: 28px;
 
   @media (min-width: 768px) {
     grid-template-columns: 1fr 2fr;
-    gap: 48px;
+    gap: 36px;
   }
 
   @media (min-width: 1024px) {
-    gap: 80px;
+    gap: 56px;
   }
 }
 
@@ -38,7 +39,7 @@
 .brand {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 14px;
 
   // 品牌链接：Logo + 名称
   &__link {
@@ -72,7 +73,7 @@
   &__socials {
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 10px;
   }
 
   // 社交图标按钮
@@ -80,8 +81,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 40px;
-    height: 40px;
+    width: 36px;
+    height: 36px;
     border-radius: 50%;
     background-color: rgba(255, 255, 255, 0.1);
     color: var(--color-text-inverse);
@@ -89,8 +90,8 @@
 
     // 图标尺寸：相对按钮缩小
     svg {
-      width: 18px;
-      height: 18px;
+      width: 16px;
+      height: 16px;
     }
 
     &:hover {
@@ -99,17 +100,24 @@
     }
   }
 
+  // 语言切换按钮文字（中/EN）
+  &__lang {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+  }
+
   // 品牌口号徽章
   &__slogan {
     display: inline-flex;
     align-items: center;
-    gap: 8px;
+    gap: 6px;
     width: fit-content;
-    padding: 10px 16px;
+    padding: 7px 14px;
     border-radius: var(--radius-full);
     background-color: rgba(16, 185, 129, 0.15);
     color: var(--color-accent);
-    font-size: 13px;
+    font-size: 12.5px;
     font-weight: 500;
   }
 }
@@ -121,12 +129,12 @@
 
   @media (min-width: 640px) {
     grid-template-columns: repeat(2, 1fr);
-    gap: 32px;
+    gap: 24px;
   }
 
   @media (min-width: 1024px) {
     grid-template-columns: repeat(4, 1fr);
-    gap: 24px;
+    gap: 20px;
   }
 }
 
@@ -144,14 +152,14 @@
     align-items: center;
     gap: 10px;
     width: 100%;
-    padding: 16px 0;
+    padding: 12px 0;
     font-size: 15px;
     font-weight: 600;
     color: white;
     text-align: left;
 
     @media (min-width: 640px) {
-      padding: 0 0 16px;
+      padding: 0 0 12px;
       cursor: default;
       pointer-events: none;
     }
@@ -180,7 +188,7 @@
     list-style: none;
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 8px;
     max-height: 0;
     overflow: hidden;
     opacity: 0;
@@ -197,7 +205,7 @@
     &Open {
       max-height: 300px;
       opacity: 1;
-      padding-bottom: 16px;
+      padding-bottom: 12px;
     }
   }
 
@@ -236,9 +244,9 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 16px;
-  margin-top: 40px;
-  padding-top: 24px;
+  gap: 12px;
+  margin-top: 28px;
+  padding-top: 20px;
   border-top: 1px solid rgba(255, 255, 255, 0.1);
   font-size: 13px;
   color: var(--color-text-muted);
@@ -259,30 +267,12 @@
     }
   }
 
-  // 法律链接
-  &__legal {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 16px;
-  }
-
-  // 法律链接项
-  &__legalLink {
-    color: var(--color-text-muted);
-    transition: color 0.2s;
-
-    &:hover {
-      color: var(--color-accent);
-    }
-  }
-
   // 回到顶部按钮
   &__top {
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    padding: 10px 20px;
+    padding: 8px 16px;
     border-radius: var(--radius-full);
     background-color: rgba(255, 255, 255, 0.1);
     color: white;
