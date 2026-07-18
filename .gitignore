@@ -34,7 +34,11 @@ yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
 dev.log
+dev.err
 *.log
+
+# TypeScript build info
+*.tsbuildinfo
 
 # Package lock files
 pnpm-lock.yaml
