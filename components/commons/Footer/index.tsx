@@ -3,14 +3,14 @@
  * @description 页面底部组件，包含品牌信息、导航分组、法律声明与回到顶部
  * @author gouxinjie
  * @created 2024
- * @updated 2026-07-18 移除订阅更新区，保留品牌信息、链接分组与版权区
+ * @updated 2026-07-18 更新邮箱，接入设备定位反查城市地址（取不到回退中国上海）
  */
 
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link } from "@/lib/navigation";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { useApp } from "@/components/commons/AppProviders";
 import styles from "./index.module.scss";
 
@@ -38,6 +38,34 @@ interface FooterSectionItem {
   id: string;
   title: string;
   links: FooterLinkItem[];
+}
+
+/**
+ * OpenStreetMap Nominatim 逆地理编码响应中的结构化地址
+ * @property city - 城市
+ * @property town - 城镇
+ * @property village - 村庄
+ * @property county - 区/县
+ * @property state - 省/州
+ * @property country - 国家
+ */
+interface NominatimAddress {
+  city?: string;
+  town?: string;
+  village?: string;
+  county?: string;
+  state?: string;
+  country?: string;
+}
+
+/**
+ * OpenStreetMap Nominatim 逆地理编码响应结构
+ * @property display_name - 完整地址描述
+ * @property address - 结构化地址
+ */
+interface NominatimResponse {
+  display_name?: string;
+  address?: NominatimAddress;
 }
 
 /** 品牌 Logo：xj 字母组合，渐变背景 */
@@ -187,6 +215,7 @@ function ArrowUpIcon() {
 }
 
 export default function Footer() {
+  const locale = useLocale();
   const t = useTranslations("Footer");
   const navT = useTranslations("Navbar");
   const { resolvedTheme, setTheme } = useApp();
@@ -196,6 +225,9 @@ export default function Footer() {
     resources: true,
     contact: true,
   });
+
+  // 设备定位反查到的城市地址；为 null 时回退到默认地址（中国 上海）
+  const [geoLocation, setGeoLocation] = useState<string | null>(null);
 
   /**
    * 切换移动端手风琴分组展开状态
@@ -221,10 +253,49 @@ export default function Footer() {
     }
   };
 
-  /** Cookie 设置占位入口 */
-  const handleCookieSettings = () => {
-    // TODO: 后续接入 Cookie 同意管理组件
-  };
+  /**
+   * 获取访问者设备定位并反查城市地址
+   * 使用浏览器原生 geolocation 获取经纬度，再通过 OpenStreetMap Nominatim 逆地理编码为可读地址。
+   * 定位被拒绝、设备不支持或反查失败时保持 null，由调用处回退到默认地址（中国 上海）。
+   */
+  useEffect(() => {
+    if (typeof window === "undefined" || !navigator.geolocation) {
+      return;
+    }
+    navigator.geolocation.getCurrentPosition(
+      async (position) => {
+        const { latitude, longitude } = position.coords;
+        try {
+          const res = await fetch(
+            `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}&accept-language=${encodeURIComponent(
+              locale || navigator.language || "zh-CN",
+            )}`,
+            { headers: { Accept: "application/json" } },
+          );
+          if (!res.ok) {
+            throw new Error("反向地理编码请求失败");
+          }
+          const data: NominatimResponse = await res.json();
+          const addr = data.address;
+          if (!addr) {
+            throw new Error("反向地理编码未返回地址");
+          }
+          const place = addr.city || addr.town || addr.village || addr.county || addr.state;
+          const parts = [place, addr.country].filter(Boolean);
+          setGeoLocation(parts.length > 0 ? parts.join(", ") : (data.display_name ?? t("location")));
+        } catch (error) {
+          // 反查失败，保持回退地址
+          console.warn("设备定位反查地址失败，使用默认地址", error);
+          setGeoLocation(null);
+        }
+      },
+      () => {
+        // 用户拒绝授权或设备不支持定位，使用默认地址
+        setGeoLocation(null);
+      },
+      { enableHighAccuracy: false, timeout: 10000, maximumAge: 600000 },
+    );
+  }, [t, locale]);
 
   const navLinks: FooterLinkItem[] = [
     { label: navT("home"), href: "/" },
@@ -241,9 +312,12 @@ export default function Footer() {
     { label: "Sitemap", href: "/sitemap.xml", external: false },
   ];
 
+  // 设备定位地址：反查成功使用城市地址，否则回退到默认地址（中国 上海）
+  const locationLabel = geoLocation ?? t("location");
+
   const contactLinks: FooterLinkItem[] = [
-    { label: "hello@gouxinjie.com", href: "mailto:hello@gouxinjie.com", external: true, icon: <MailIcon /> },
-    { label: t("location"), href: "#", external: false, icon: <MapPinIcon /> },
+    { label: "gxj1311318389@163.com", href: "mailto:gxj1311318389@163.com", external: true, icon: <MailIcon /> },
+    { label: locationLabel, href: "#", external: false, icon: <MapPinIcon /> },
   ];
 
   const sections: FooterSectionItem[] = [
@@ -276,14 +350,14 @@ export default function Footer() {
                   <GithubIcon />
                 </a>
                 <a
-                  href="/rss.xml"
+                  href={`/${locale}/rss.xml`}
                   className={styles.brand__socialBtn}
                   aria-label="RSS"
                 >
                   <RssIcon />
                 </a>
                 <a
-                  href="mailto:hello@gouxinjie.com"
+                  href="mailto:gxj1311318389@163.com"
                   className={styles.brand__socialBtn}
                   aria-label="Email"
                 >
@@ -356,13 +430,6 @@ export default function Footer() {
           {/* 底部版权与操作 */}
           <div className={styles.bottom}>
             <p className={styles.bottom__rights}>{t("rights")}</p>
-            <div className={styles.bottom__legal}>
-              <Link href="/privacy" className={styles.bottom__legalLink}>{t("privacy")}</Link>
-              <Link href="/terms" className={styles.bottom__legalLink}>{t("terms")}</Link>
-              <button type="button" onClick={handleCookieSettings} className={styles.bottom__legalLink}>
-                {t("cookie_settings")}
-              </button>
-            </div>
             <button
               type="button"
               className={styles.bottom__top}
