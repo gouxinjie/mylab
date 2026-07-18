@@ -2,8 +2,8 @@
  * @component Stats
  * @description 统计数字展示组件
  * @author gouxinjie
- * @created 2024
- * @updated 2024
+ * @created 2026-07-18
+ * @updated 2026-07-18
  */
 
 "use client";

@@ -2,7 +2,7 @@
  * @component Footer
  * @description 页面底部组件，包含品牌信息、导航分组、法律声明与回到顶部
  * @author gouxinjie
- * @created 2024
+ * @created 2026-07-18
  * @updated 2026-07-18 更新邮箱，移除设备定位反查，直接使用默认地址（中国上海）
  */
 

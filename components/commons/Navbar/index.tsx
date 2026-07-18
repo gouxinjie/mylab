@@ -2,8 +2,8 @@
  * @component Navbar
  * @description 导航栏组件，包含主题切换、语言切换、移动端菜单
  * @author gouxinjie
- * @created 2024-01-01
- * @updated 2025-07-14
+ * @created 2026-07-18
+ * @updated 2026-07-18
  */
 
 "use client";

@@ -2,8 +2,8 @@
  * @component FeaturedProjects
  * @description 精选项目展示组件，点击卡片弹出项目详情
  * @author gouxinjie
- * @created 2024-01-01
- * @updated 2025-07-14
+ * @created 2026-07-18
+ * @updated 2026-07-18
  */
 
 "use client";

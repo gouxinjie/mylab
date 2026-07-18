@@ -2,7 +2,7 @@
  * @component QuoteSection
  * @description 底部引用与社交链接区域组件
  * @author gouxinjie
- * @created 2024-07-08
+ * @created 2026-07-18
  */
 
 "use client";

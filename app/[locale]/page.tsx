@@ -8,7 +8,7 @@ import FadeIn from "@/components/commons/FadeIn";
  * HomePage
  * @description 首页，按照设计稿重新实现
  * @author gouxinjie
- * @updated 2024-07-08
+ * @updated 2026-07-18
  */
 
 export default function HomePage() {

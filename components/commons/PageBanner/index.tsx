@@ -2,7 +2,7 @@
  * @component PageBanner
  * @description 通用页头横幅组件，背景图（next/image 优化）+ 左侧文案区域，用于首页 Hero 和子页 header
  * @author gouxinjie
- * @created 2024-07-13
+ * @created 2026-07-18
  * @updated 2026-07-17
  */
 

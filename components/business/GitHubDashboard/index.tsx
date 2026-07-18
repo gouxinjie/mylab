@@ -2,7 +2,7 @@
  * @component GitHubDashboard
  * @description GitHub 数据看板组件，含统计卡片（sparkline 折线图）、个人资料卡片与引用区域
  * @author gouxinjie
- * @created 2024
+ * @created 2026-07-18
  * @updated 2026-07-17
  */
 

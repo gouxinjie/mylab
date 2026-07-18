@@ -2,7 +2,7 @@
  * @component AboutPage
  * @description 关于我页面，参考设计稿重新设计
  * @author gouxinjie
- * @created 2025-06-01
+ * @created 2026-07-18
  * @updated 2026-07-15
  */
 

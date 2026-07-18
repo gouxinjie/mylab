@@ -2,7 +2,7 @@
  * @component FadeIn
  * @description 元素渐入动画组件（基于 IntersectionObserver 的轻量实现，替代 framer-motion）
  * @author gouxinjie
- * @created 2024
+ * @created 2026-07-18
  * @updated 2026-07-17
  */
 

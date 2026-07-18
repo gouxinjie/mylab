@@ -2,7 +2,7 @@
  * @component Hero
  * @description 首页英雄区域组件
  * @author gouxinjie
- * @created 2024
+ * @created 2026-07-18
  * @updated 2026-07-17
  */
 

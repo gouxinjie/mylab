@@ -2,8 +2,8 @@
  * @component Modal
  * @description 通用弹窗组件，支持遮罩点击关闭、ESC 关闭、背景滚动锁定
  * @author gouxinjie
- * @created 2024
- * @updated 2024-07-10
+ * @created 2026-07-18
+ * @updated 2026-07-18
  */
 
 "use client";

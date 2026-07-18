@@ -2,8 +2,8 @@
  * @component ResumeButton
  * @description 下载简历按钮（客户端组件，处理点击阻止默认跳转）
  * @author gouxinjie
- * @created 2025-07-14
- * @updated 2025-07-14
+ * @created 2026-07-18
+ * @updated 2026-07-18
  */
 
 "use client";

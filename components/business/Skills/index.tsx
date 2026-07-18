@@ -2,8 +2,8 @@
  * @component SkillsSection
  * @description 技术栈展示组件，展示常用的技能和工具
  * @author gouxinjie
- * @created 2024
- * @updated 2024
+ * @created 2026-07-18
+ * @updated 2026-07-18
  */
 
 "use client";

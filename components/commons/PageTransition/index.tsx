@@ -2,7 +2,7 @@
  * @component PageTransition
  * @description 页面切换动画组件，路由变化时滚动到顶部（轻量 CSS 实现，替代 framer-motion）
  * @author gouxinjie
- * @created 2024
+ * @created 2026-07-18
  * @updated 2026-07-17
  */
 
