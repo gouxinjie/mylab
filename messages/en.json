@@ -138,13 +138,6 @@
     "view_more": "View More Skills →"
   },
   "Footer": {
-    "newsletter_title": "Subscribe",
-    "newsletter_description": "Subscribe to my newsletter for the latest projects and tech articles.",
-    "newsletter_placeholder": "Enter your email address",
-    "newsletter_button": "Subscribe",
-    "newsletter_privacy": "We respect your privacy. No spam.",
-    "newsletter_success": "Subscribed successfully. Thanks for following!",
-    "newsletter_error": "Please enter a valid email address.",
     "description": "Building value with code, exploring the future with AI.",
     "slogan": "Keep learning, keep building.",
     "rights": "© 2026 gouxinjie. All rights reserved.",

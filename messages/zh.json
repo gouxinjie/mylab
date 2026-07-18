@@ -138,13 +138,6 @@
     "view_more": "查看更多技术 →"
   },
   "Footer": {
-    "newsletter_title": "订阅更新",
-    "newsletter_description": "订阅我的邮件通讯，获取最新项目和技术文章。",
-    "newsletter_placeholder": "输入你的邮箱地址",
-    "newsletter_button": "订阅",
-    "newsletter_privacy": "我们尊重您的隐私，不会发送垃圾邮件。",
-    "newsletter_success": "订阅成功，感谢关注！",
-    "newsletter_error": "请输入有效的邮箱地址。",
     "description": "用代码构建价值，用 AI 探索未来。",
     "slogan": "持续学习，持续构建。",
     "rights": "© 2026 gouxinjie. All rights reserved.",

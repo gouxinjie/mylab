@@ -1,9 +1,9 @@
 /**
  * @component Footer
- * @description 页面底部组件，包含订阅更新、品牌信息、导航分组、法律声明与回到顶部
+ * @description 页面底部组件，包含品牌信息、导航分组、法律声明与回到顶部
  * @author gouxinjie
  * @created 2024
- * @updated 2026-07-17 依据新版设计稿重构：新增订阅区、链接分组、社交入口与移动端手风琴
+ * @updated 2026-07-18 移除订阅更新区，保留品牌信息、链接分组与版权区
  */
 
 "use client";
@@ -85,15 +85,6 @@ function MapPinIcon() {
     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
       <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z" />
       <circle cx="12" cy="10" r="3" />
-    </svg>
-  );
-}
-
-/** 勾选图标 */
-function CheckIcon() {
-  return (
-    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-      <polyline points="20 6 9 17 4 12" />
     </svg>
   );
 }
@@ -195,22 +186,11 @@ function ArrowUpIcon() {
   );
 }
 
-/**
- * 邮箱格式校验
- * @param email - 待校验邮箱字符串
- * @returns 是否为合法邮箱
- */
-function isValidEmail(email: string): boolean {
-  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-}
-
 export default function Footer() {
   const t = useTranslations("Footer");
   const navT = useTranslations("Navbar");
   const { resolvedTheme, setTheme } = useApp();
 
-  const [email, setEmail] = useState<string>("");
-  const [subscribeStatus, setSubscribeStatus] = useState<"idle" | "success" | "error">("idle");
   const [openSections, setOpenSections] = useState<Record<string, boolean>>({
     nav: true,
     resources: true,
@@ -223,22 +203,6 @@ export default function Footer() {
    */
   const toggleSection = (sectionId: string) => {
     setOpenSections((prev) => ({ ...prev, [sectionId]: !prev[sectionId] }));
-  };
-
-  /**
-   * 处理邮件订阅提交
-   * @param event - 表单提交事件
-   */
-  const handleSubscribe = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-
-    if (!isValidEmail(email)) {
-      setSubscribeStatus("error");
-      return;
-    }
-
-    setSubscribeStatus("success");
-    setEmail("");
   };
 
   /** 切换明暗主题 */
@@ -290,51 +254,6 @@ export default function Footer() {
 
   return (
     <div className={styles.wrapper}>
-      {/* 订阅更新区 */}
-      <section className={styles.newsletter} aria-label={t("newsletter_title")}>
-        <div className="container-custom">
-          <div className={styles.newsletter__inner}>
-            <div className={styles.newsletter__content}>
-              <span className={styles.newsletter__icon} aria-hidden="true">
-                <MailIcon />
-              </span>
-              <div>
-                <h2 className={styles.newsletter__title}>{t("newsletter_title")}</h2>
-                <p className={styles.newsletter__desc}>{t("newsletter_description")}</p>
-              </div>
-            </div>
-            <form className={styles.newsletter__form} onSubmit={handleSubscribe} noValidate>
-              <input
-                type="email"
-                value={email}
-                onChange={(e) => {
-                  setEmail(e.target.value);
-                  if (subscribeStatus !== "idle") setSubscribeStatus("idle");
-                }}
-                placeholder={t("newsletter_placeholder")}
-                aria-label={t("newsletter_placeholder")}
-                className={styles.newsletter__input}
-                required
-              />
-              <button type="submit" className={styles.newsletter__button}>{t("newsletter_button")}</button>
-              <p className={styles.newsletter__privacy}>
-                {subscribeStatus === "success" ? (
-                  <>
-                    <CheckIcon />
-                    <span>{t("newsletter_success")}</span>
-                  </>
-                ) : (
-                  <>
-                    <CheckIcon />
-                    <span>{subscribeStatus === "error" ? t("newsletter_error") : t("newsletter_privacy")}</span>
-                  </>
-                )}
-              </p>
-            </form>
-          </div>
-        </div>
-      </section>
-
       {/* 页脚主体 */}
       <footer className={styles.footer}>
         <div className="container-custom">
