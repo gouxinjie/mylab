@@ -74,15 +74,25 @@
 // 英雄区按钮：统一高度与圆角、点击缩放反馈
 .btn-hero {
   display: inline-flex;
-  height: 48px;
   align-items: center;
   justify-content: center;
   border-radius: var(--radius-xl);
-  padding-left: 32px;
-  padding-right: 32px;
-  font-size: 14px;
   font-weight: 500;
   transition: all 0.2s;
+
+  // 移动端默认尺寸：缩小高度与内边距，避免小屏下按钮过大占满宽度
+  height: 40px;
+  padding-left: 20px;
+  padding-right: 20px;
+  font-size: 13px;
+
+  // 中屏及以上恢复常规尺寸
+  @media (min-width: 640px) {
+    height: 48px;
+    padding-left: 32px;
+    padding-right: 32px;
+    font-size: 14px;
+  }
 
   &:active {
     transform: scale(0.95);

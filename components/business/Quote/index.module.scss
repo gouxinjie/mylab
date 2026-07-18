@@ -10,7 +10,7 @@
   background-color: rgba(var(--color-surface-rgb), 0.3);
 }
 
-// 引言卡片：圆角白底，大屏横向排列
+// 引言卡片：圆角白底，平板及以上横向排列（引用居左、社交居右）
 .box {
   display: flex;
   flex-direction: column;
@@ -23,8 +23,10 @@
   box-shadow: var(--shadow-sm);
   border: 1px solid var(--color-surface-muted);
 
-  @media (min-width: 1024px) {
+  // 平板及以上改为横向排列，避免中屏下引用与社交垂直居中堆叠、两端被拉开
+  @media (min-width: 768px) {
     flex-direction: row;
+    align-items: center;
     padding: 24px;
   }
 }
@@ -35,7 +37,7 @@
   align-items: flex-start;
   gap: 16px;
 
-  @media (min-width: 1024px) {
+  @media (min-width: 768px) {
     max-width: 672px; // 2xl
   }
 
