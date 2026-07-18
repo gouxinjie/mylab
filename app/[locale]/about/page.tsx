@@ -19,13 +19,11 @@ import {
   values,
   aboutStats,
   techCategories,
-  aboutContacts,
   type Experience,
   type Value,
 } from "@/lib/data";
 import FadeIn from "@/components/commons/FadeIn";
 import Section from "@/components/commons/Section";
-import AboutContact from "@/components/commons/AboutContact";
 import GitHubDashboard from "@/components/business/GitHubDashboard";
 import Image from "next/image";
 import styles from "./page.module.scss";
@@ -162,19 +160,6 @@ export default function AboutPage({ params: { locale } }: { params: { locale: st
             </FadeIn>
           ))}
         </div>
-      </Section>
-
-      {/* 与我相关区域 */}
-      <Section id="contact" title={t("contact_title")} subtitle={t("contact_subtitle")}>
-        <FadeIn delay={0.1}>
-          <AboutContact
-            links={aboutContacts}
-            locale={locale}
-            copyHint={t("contact_copy_hint")}
-            copySuccess={t("copy_success")}
-            copyFail={t("copy_fail")}
-          />
-        </FadeIn>
       </Section>
 
       {/* 价值观区域 */}

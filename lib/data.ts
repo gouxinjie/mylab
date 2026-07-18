@@ -51,17 +51,6 @@ export interface TechCategory {
   badges: TechBadge[];
 }
 
-// 关于页联系方式（链接 / 可复制）
-export interface ContactLink {
-  name: string;
-  desc: string;
-  descEn: string;
-  url?: string;
-  value?: string;
-  icon: string;
-  type: "link" | "copy";
-}
-
 // ─── 技术栈 ────────────────────────────────────────
 
 export const skills: Skill[] = [
@@ -288,64 +277,4 @@ export const techCategories: TechCategory[] = [
   },
 ];
 
-// ─── 关于页联系方式（与我相关） ─────────────────
 
-export const aboutContacts: ContactLink[] = [
-  {
-    name: "Gitee",
-    desc: "发现我的开源项目",
-    descEn: "Explore my open-source projects",
-    url: "https://gitee.com/gou-xinjie",
-    icon: "🐙",
-    type: "link",
-  },
-  {
-    name: "电子邮件",
-    desc: "gxj13113183859@163.com",
-    descEn: "gxj13113183859@163.com",
-    value: "gxj13113183859@163.com",
-    icon: "📧",
-    type: "copy",
-  },
-  {
-    name: "微信 / 手机",
-    desc: "13113183859",
-    descEn: "13113183859",
-    value: "13113183859",
-    icon: "💬",
-    type: "copy",
-  },
-  {
-    name: "个人专栏",
-    desc: "CSDN 博客",
-    descEn: "CSDN Blog",
-    url: "https://blog.csdn.net/qq_43886365?type=blog",
-    icon: "✍️",
-    type: "link",
-  },
-];
-
-// ─── 社交链接 ──────────────────────────────────────
-
-export const socialLinks = [
-  {
-    name: "GitHub",
-    url: "https://github.com/gouxinjie",
-    icon: "github",
-  },
-  {
-    name: "Twitter",
-    url: "https://twitter.com/gouxinjie",
-    icon: "twitter",
-  },
-  {
-    name: "LinkedIn",
-    url: "https://linkedin.com/in/gouxinjie",
-    icon: "linkedin",
-  },
-  {
-    name: "Email",
-    url: "mailto:gouxinjie@example.com",
-    icon: "email",
-  },
-];

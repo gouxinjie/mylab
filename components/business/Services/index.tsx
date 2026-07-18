@@ -19,11 +19,10 @@ const iconMap = {
   ),
   palette: (
     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <circle cx="13.5" cy="6.5" r=".5" />
-      <circle cx="17.5" cy="10.5" r=".5" />
-      <circle cx="8.5" cy="7.5" r=".5" />
-      <circle cx="6.5" cy="12.5" r=".5" />
-      <path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.926 0 1.707-.484 2.103-1.206.35-.639.303-1.41-.115-2.029C13.572 18.15 13.5 17.585 13.5 17a2.5 2.5 0 0 1 5 0c0 .585-.072 1.15-.488 1.765-.418.619-.465 1.39-.115 2.029C18.293 21.516 19.074 22 20 22c5.5 0 10-4.5 10-10S25.5 2 20 2z" />
+      <path d="M12 3c-4.97 0-9 4.03-9 9s4.03 9 9 9c.83 0 1.5-.67 1.5-1.5 0-.39-.15-.74-.39-1.01-.24-.27-.39-.62-.39-1 0-.83.67-1.5 1.5-1.5H16c2.76 0 5-2.24 5-5 0-4.42-4.03-8-9-8z" />
+      <circle cx="7.5" cy="10.5" r="1.5" fill="currentColor" stroke="none" />
+      <circle cx="12" cy="7.5" r="1.5" fill="currentColor" stroke="none" />
+      <circle cx="16.5" cy="10.5" r="1.5" fill="currentColor" stroke="none" />
     </svg>
   ),
   zap: (
