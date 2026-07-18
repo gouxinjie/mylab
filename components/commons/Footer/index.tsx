@@ -214,7 +214,6 @@ export default function Footer() {
   const [openSections, setOpenSections] = useState<Record<string, boolean>>({
     nav: true,
     resources: true,
-    projects: true,
     contact: true,
   });
 
@@ -278,13 +277,6 @@ export default function Footer() {
     { label: "Sitemap", href: "/sitemap.xml", external: false },
   ];
 
-  const projectLinks: FooterLinkItem[] = [
-    { label: t("open_source"), href: "/projects" },
-    { label: t("tech_stack"), href: "/about" },
-    { label: t("deployment_guide"), href: "/ai-notes" },
-    { label: t("changelog"), href: "/ai-notes" },
-  ];
-
   const contactLinks: FooterLinkItem[] = [
     { label: "hello@gouxinjie.com", href: "mailto:hello@gouxinjie.com", external: true, icon: <MailIcon /> },
     { label: t("location"), href: "#", external: false, icon: <MapPinIcon /> },
@@ -293,7 +285,6 @@ export default function Footer() {
   const sections: FooterSectionItem[] = [
     { id: "nav", title: t("nav_title"), links: navLinks },
     { id: "resources", title: t("resources_title"), links: resourceLinks },
-    { id: "projects", title: t("projects_title"), links: projectLinks },
     { id: "contact", title: t("contact_title"), links: contactLinks },
   ];
 
