@@ -174,7 +174,6 @@ export default function Navbar() {
                 prefetch
                 className={`${styles.nav__link} ${isActive ? styles['nav__link--active'] : ''}`}
               >
-                <span className={styles.nav__link__icon}>{item.icon}</span>
                 {item.label}
               </Link>
             );

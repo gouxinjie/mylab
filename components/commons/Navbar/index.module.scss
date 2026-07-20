@@ -71,35 +71,35 @@
   }
 }
 
-// 主导航：中屏以上横向显示
+// 主导航：中屏以上横向显示，撑满导航栏高度
 .nav {
   display: none;
   align-items: center;
   gap: 2px;
+  height: 100%;
 
   @media (min-width: 768px) {
     display: flex;
   }
 
-  // 导航链接：hover 浅灰背景、主色文字
+  // 导航链接：纯文本风格，撑满导航栏高度，底部下划线固定在导航栏底部
   &__link {
     position: relative;
     display: flex;
     align-items: center;
-    gap: 4px;
-    height: 36px;
-    border-radius: var(--radius-xl);
+    height: 100%;
     padding: 0 12px;
     font-size: 14px;
     font-weight: 500;
     transition: color 0.2s;
     color: var(--color-text-secondary);
+    white-space: nowrap;
 
-    // 底部下划线：默认隐藏，以中心为原点从中间向两边展开
+    // 底部下划线：固定在导航栏底部，默认隐藏，从中心向两侧展开
     &::after {
       content: "";
       position: absolute;
-      bottom: 2px;
+      bottom: 0;
       left: 50%;
       width: 0;
       height: 2px;
@@ -112,9 +112,9 @@
     &:hover {
       color: var(--color-accent);
 
-      // hover 时底部下划线从中间向两边展开，实色绿
+      // hover 时底部下划线展开至约 60% 文字区域宽度
       &::after {
-        width: 45px;
+        width: 60%;
       }
     }
 
@@ -123,7 +123,7 @@
       color: var(--color-accent);
 
       &::after {
-        width: 45px;
+        width: 60%;
       }
 
       // 激活态 hover 保持实色绿，不退化
@@ -131,17 +131,9 @@
         color: var(--color-accent);
 
         &::after {
-          width: 45px;
+          width: 60%;
         }
       }
-    }
-
-    // 链接内图标
-    &__icon {
-      opacity: 0.7;
-      display: flex;
-      align-items: center;
-      justify-content: center;
     }
   }
 }

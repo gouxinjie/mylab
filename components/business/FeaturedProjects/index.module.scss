@@ -183,7 +183,7 @@
   }
 }
 
-// 项目卡片：复用 card-base，用阴影替代边框营造立体感
+// 项目卡片：复用 card-base，hover 时显示 1px 绿色边框并向上浮动
 .card {
   @include card-base;
   border: 1px solid transparent;
@@ -194,13 +194,14 @@
     0 1px 2px rgba(0, 0, 0, 0.04),
     0 4px 16px rgba(0, 0, 0, 0.08);
   cursor: pointer;
-  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
 
   &:hover {
     border-color: var(--color-accent);
     box-shadow:
       0 4px 8px rgba(0, 0, 0, 0.06),
       0 12px 32px rgba(0, 0, 0, 0.12);
+    transform: translateY(-4px);
   }
 
   // 图片容器：固定宽高比，占位浅灰表面，顶部圆角 + 底部分隔线
@@ -210,10 +211,10 @@
     width: 100%;
     overflow: hidden;
     background-color: var(--color-surface-muted);
-    // 顶部圆角，底部平直，形成卡片"头图"观感
-    border-radius: var(--radius-xl) var(--radius-xl) 0 0;
-    // 底部 1px 分隔线，清晰区分封面与下方内容
-    border-bottom: 1px solid var(--color-border);
+    // 顶部圆角与卡片保持一致，底部平直，形成卡片"头图"观感
+    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+    // 底部极淡分隔线，仅作轻微内容区分，避免过于明显
+    border-bottom: 1px solid color-mix(in srgb, var(--color-text-primary) 8%, transparent);
   }
 
   // 静态封面图（卡片封面场景）
@@ -274,9 +275,9 @@
     animation: fproj-pulse 1.4s infinite;
   }
 
-  // 卡片内容区
+  // 卡片内容区：上内边距收窄，与封面图更紧凑
   &__content {
-    padding: 16px;
+    padding: 10px 16px 16px 16px;
   }
 
   // 顶部行：标题 + 外链图标
@@ -397,8 +398,7 @@
     }
   }
 
-  // 暗色模式：卡片用可见边框替换透明边框+黑色阴影，
-  // 避免卡片在深色背景中失去边界感
+  // 暗色模式：卡片用半透明边框替代纯阴影，避免深色背景失去边界感
   :global(.dark) & {
     border-color: rgba(51, 65, 85, 0.5);
     box-shadow: none;
@@ -406,6 +406,7 @@
     &:hover {
       border-color: var(--color-accent);
       box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+      transform: translateY(-4px);
     }
   }
 }
