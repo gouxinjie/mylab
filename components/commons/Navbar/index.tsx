@@ -191,7 +191,7 @@ export default function Navbar() {
               title={t("switch_locale")}
             >
               <GlobeIcon />
-              <span className={styles['lang-menu__trigger__text']}>{locale === "zh" ? "中" : "EN"}</span>
+              <span className={styles['lang-menu__trigger__text']}>{locale === "zh" ? "中文" : "EN"}</span>
             </button>
             
             {langMenuOpen && (
