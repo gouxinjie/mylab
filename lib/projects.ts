@@ -246,7 +246,7 @@ export const projects: Project[] = [
         tags: ['Next.js', 'React 19', 'Prisma'],
         featured: false,
         order: 6,
-        brief: '我的生活记录工具',
+        brief: '我的月历生活记录工具（H5）',
         description: '一个用来知道"之前做过什么"的记录与回顾工具——不做计划、不设 KPI，只是把已经发生过的生活清晰地留在月历上',
         repoUrl: 'https://github.com/gouxinjie/flow-calendar',
         deployPath: '/var/www/flow-calendar/app（数据文件独立于 ../data/ 持久化）',
