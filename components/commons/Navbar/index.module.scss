@@ -113,9 +113,9 @@
     &:hover {
       color: var(--color-text-primary);
 
-      // hover 时底部下划线从中间向两边扩散，使用半透明强调色
+      // hover 时底部下划线从中间向两边扩散，使用半透明琥珀色，与选中态绿色区分
       &::after {
-        background-color: rgba(var(--color-accent-rgb), 0.5);
+        background-color: rgba(var(--color-primary-rgb), 0.5);
         transform: translateX(-50%) scaleX(1);
       }
     }
