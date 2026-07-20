@@ -111,11 +111,11 @@
     }
 
     &:hover {
-      color: var(--color-text-primary);
+      color: var(--color-accent);
 
-      // hover 时底部下划线从中间向两边扩散，半透明绿
+      // hover 时底部下划线从中间向两边扩散，实色绿
       &::after {
-        background-color: rgba(var(--color-accent-rgb), 0.35);
+        background-color: var(--color-accent);
         transform: translateX(-50%) scaleX(1);
       }
     }
