@@ -92,7 +92,7 @@
     padding: 0 12px;
     font-size: 14px;
     font-weight: 500;
-    transition: all 0.2s;
+    transition: color 0.2s;
     color: var(--color-text-secondary);
 
     // 底部下划线：默认隐藏，以中心为原点从中间向两边展开
@@ -101,22 +101,20 @@
       position: absolute;
       bottom: 2px;
       left: 50%;
-      width: 45px;
+      width: 0;
       height: 2px;
       border-radius: var(--radius-full);
       background-color: var(--color-accent);
-      transform: translateX(-50%) scaleX(0);
-      transform-origin: center;
-      transition: transform 0.25s ease;
+      transform: translateX(-50%);
+      transition: width 0.25s ease;
     }
 
     &:hover {
       color: var(--color-accent);
 
-      // hover 时底部下划线从中间向两边扩散，实色绿
+      // hover 时底部下划线从中间向两边展开，实色绿
       &::after {
-        background-color: var(--color-accent);
-        transform: translateX(-50%) scaleX(1);
+        width: 45px;
       }
     }
 
@@ -125,8 +123,7 @@
       color: var(--color-accent);
 
       &::after {
-        background-color: var(--color-accent);
-        transform: translateX(-50%) scaleX(1);
+        width: 45px;
       }
 
       // 激活态 hover 保持实色绿，不退化
@@ -134,7 +131,7 @@
         color: var(--color-accent);
 
         &::after {
-          background-color: var(--color-accent);
+          width: 45px;
         }
       }
     }
