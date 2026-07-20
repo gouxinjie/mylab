@@ -280,7 +280,7 @@ export const projects: Project[] = [
         tags: ['React', 'ECharts', 'Docker'],
         featured: false,
         order: 7,
-        brief: '以单城市天气与环境为核心的可视化大屏（Web 大屏）',
+        brief: '我的天气可视化大屏',
         description: '一个用来"一眼看懂此刻城市天气"的聚合与展示工具——不做预测规划，只是把实时天气、空气质量、灾害预警、趋势与统计清晰地留在同一屏上',
         repoUrl: 'https://github.com/gouxinjie/weather-dashboard',
         deployPath: '/var/www/weather（数据库由 Docker Volume `weather-data` 持久化到容器内 /app/data/）',
