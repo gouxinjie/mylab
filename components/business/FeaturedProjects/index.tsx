@@ -174,7 +174,8 @@ function ProjectCard({ project, onOpen }: ProjectCardProps) {
             src={project.covers[0]}
             alt={`${project.title} 封面`}
             fill
-            sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+            quality={95}
+            sizes="(min-width: 1024px) 384px, (min-width: 640px) 50vw, 100vw"
             className={styles.card__cover}
             loading="lazy"
           />
@@ -428,6 +429,7 @@ function CoverCarousel({
         src={covers[index]}
         alt={`${title} 封面 ${index + 1}`}
         fill
+        quality={95}
         sizes="(max-width: 640px) 100vw, 640px"
         className={styles.carousel__img}
         loading="lazy"
