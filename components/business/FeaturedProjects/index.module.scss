@@ -203,13 +203,17 @@
       0 12px 32px rgba(0, 0, 0, 0.12);
   }
 
-  // 图片容器：固定宽高比，占位浅灰表面
+  // 图片容器：固定宽高比，占位浅灰表面，顶部圆角 + 底部分隔线
   &__image-box {
     position: relative;
     aspect-ratio: 16 / 9;
     width: 100%;
     overflow: hidden;
     background-color: var(--color-surface-muted);
+    // 顶部圆角，底部平直，形成卡片"头图"观感
+    border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+    // 底部 1px 分隔线，清晰区分封面与下方内容
+    border-bottom: 1px solid var(--color-border);
   }
 
   // 静态封面图（卡片封面场景）
