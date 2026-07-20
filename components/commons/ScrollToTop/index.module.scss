@@ -1,0 +1,55 @@
+/**
+ * @file index.module.scss
+ * @description 回到顶部浮动按钮样式
+ * @author gouxinjie
+ * @created 2026-07-20
+ */
+
+// 浮动按钮：右下角固定定位，滚动超过阈值时淡入
+.btn {
+  position: fixed;
+  z-index: 20;
+  // 右下角定位，与页面视口保持安全距离
+  right: 24px;
+  bottom: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-full);
+  background-color: var(--color-bg);
+  color: var(--color-text-secondary);
+  cursor: pointer;
+  box-shadow: var(--shadow-md);
+  // 默认隐藏（透明度 0 + scale 缩小），由 JS 控制显示
+  opacity: 0;
+  transform: scale(0.85);
+  pointer-events: none;
+  transition: opacity 0.25s ease, transform 0.25s ease, background-color 0.2s ease,
+    color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+
+  &:hover {
+    background-color: var(--color-accent);
+    border-color: var(--color-accent);
+    color: #fff;
+    box-shadow: var(--shadow-lg);
+  }
+
+  &:active {
+    transform: scale(0.9);
+  }
+
+  // 返回顶部 SVG 图标
+  svg {
+    flex-shrink: 0;
+  }
+}
+
+// 可视态：淡入 + 恢复尺寸
+.btn--visible {
+  opacity: 1;
+  transform: scale(1);
+  pointer-events: auto;
+}

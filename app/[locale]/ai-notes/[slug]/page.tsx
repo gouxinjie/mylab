@@ -4,6 +4,7 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 import React from "react";
 import type { Components } from "react-markdown";
 import Markdown from "@/components/commons/Markdown";
+import ScrollToTop from "@/components/commons/ScrollToTop";
 import { Link } from "@/lib/navigation";
 import { getAllDocSlugs, getDocContent, getDocNeighbors } from "@/lib/ai-docs";
 import styles from "./page.module.scss";
@@ -217,6 +218,9 @@ export default async function AIDocPage({ params }: DocPageParams) {
           </nav>
         </div>
       </div>
+
+      {/* 浮动回到顶部按钮：滚动超过 300px 时显示 */}
+      <ScrollToTop />
     </article>
   );
 }
