@@ -163,6 +163,32 @@
     border-radius: var(--radius-lg);
   }
 
+  // ─── Mermaid 流程图 ───────────────────────
+  // 图表容器：居中、留出上下间距，SVG 自适应宽度
+  :global(.mermaid-diagram) {
+    display: flex;
+    justify-content: center;
+    margin: 18px 0;
+
+    svg {
+      max-width: 100%;
+      height: auto;
+    }
+  }
+
+  // 渲染失败时的原始代码回退
+  :global(.mermaid-fallback) {
+    margin: 18px 0;
+    padding: 16px 18px;
+    overflow-x: auto;
+    font-size: 13.5px;
+    line-height: 1.6;
+    background-color: var(--color-bg-dark);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    color: #e5e7eb;
+  }
+
   // ─── 代码高亮 token 配色（highlight.js 类名，暗色代码块统一配色）───
   :global(.hljs-comment),
   :global(.hljs-quote) {

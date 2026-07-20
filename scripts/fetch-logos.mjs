@@ -4,7 +4,7 @@
  * @usage node scripts/fetch-logos.mjs
  * @note 需在可访问 www.google.com 的网络环境下运行（如开启代理）
  */
-import { mkdirSync, existsSync, statSync, unlinkSync, readFileSync as readBytes } from "fs";
+import { mkdirSync, existsSync, statSync, unlinkSync, readFileSync } from "fs";
 import { spawnSync } from "child_process";
 import path from "path";
 import { fileURLToPath } from "url";

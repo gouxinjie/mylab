@@ -916,7 +916,7 @@ export const aiProducts: AiProduct[] = [
     ],
   },
   {
-    name: "百度 Comate",
+    name: "文心快码（Baidu Comate）",
     url: "https://comate.baidu.com",
     category: "dev",
     desc: {
@@ -930,6 +930,23 @@ export const aiProducts: AiProduct[] = [
       { zh: "代码补全", en: "Completion" },
       { zh: "代码生成", en: "Generation" },
       { zh: "代码问答", en: "Q&A" },
+    ],
+  },
+  {
+    name: "CodeGeeX",
+    url: "https://codegeex.cn",
+    category: "dev",
+    desc: {
+      zh: "智谱 AI 与清华大学联合推出的 AI 编程助手，支持代码生成与补全、代码翻译、智能问答，提供 IDE 插件与开放平台，支持 100+ 编程语言。",
+      en: "Zhipu AI & Tsinghua University's AI coding assistant with code generation, completion, translation and Q&A, offering IDE plugins and an open platform supporting 100+ languages.",
+    },
+    region: "domestic",
+    accent: "#4F46E5",
+    company: { zh: "智谱 AI", en: "Zhipu AI" },
+    tags: [
+      { zh: "代码生成", en: "Generation" },
+      { zh: "代码补全", en: "Completion" },
+      { zh: "代码翻译", en: "Translation" },
     ],
   },
   {
@@ -952,13 +969,13 @@ export const aiProducts: AiProduct[] = [
     ],
   },
   {
-    name: "Qoder",
-    url: "https://qoder.com",
+    name: "Qoder CN",
+    url: "https://www.aliyun.com/product/qodercn",
     logo: "/logos/qoder.com.svg",
     category: "dev",
     desc: {
-      zh: "阿里云推出的新一代 Agentic 编码平台，基于增强上下文工程与知识可视化、Spec 驱动开发，提供 Agent 模式与 Quest 能力，深度理解整个代码库架构并记忆开发习惯。",
-      en: "Alibaba Cloud's next-generation agentic coding platform built on augmented context engineering and knowledge visualization with spec-driven development, offering Agent Mode and Quest to deeply understand your codebase.",
+      zh: "阿里云推出的新一代 Agentic 编码平台（原通义灵码），基于增强上下文工程与知识可视化、Spec 驱动开发，提供 Agent 模式与 Quest 能力，深度理解整个代码库架构并记忆开发习惯。",
+      en: "Alibaba Cloud's next-generation agentic coding platform (formerly Tongyi Lingma), built on augmented context engineering and knowledge visualization with spec-driven development, offering Agent Mode and Quest to deeply understand your codebase.",
     },
     region: "domestic",
     accent: "#FF6A00",
@@ -968,6 +985,23 @@ export const aiProducts: AiProduct[] = [
       { zh: "Agentic IDE", en: "Agentic IDE" },
       { zh: "代码库理解", en: "Codebase" },
       { zh: "Spec 驱动", en: "Spec-driven" },
+    ],
+  },
+  {
+    name: "豆包 MarsCode",
+    url: "https://www.marscode.cn",
+    category: "dev",
+    desc: {
+      zh: "字节跳动推出的免费 AI 编程助手，提供代码补全、智能问答、云端 IDE 等能力，支持多种编程语言与主流 IDE，深度集成豆包大模型。",
+      en: "ByteDance's free AI coding assistant providing code completion, intelligent Q&A and cloud IDE, supporting multiple languages and mainstream IDEs with deep Doubao model integration.",
+    },
+    region: "domestic",
+    accent: "#1677FF",
+    company: { zh: "字节跳动", en: "ByteDance" },
+    tags: [
+      { zh: "免费", en: "Free" },
+      { zh: "云 IDE", en: "Cloud IDE" },
+      { zh: "代码补全", en: "Completion" },
     ],
   },
   {
