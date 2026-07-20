@@ -112,14 +112,20 @@
 
     &:hover {
       color: var(--color-text-primary);
-      background-color: var(--color-bg-secondary);
+
+      // hover 时底部下划线从中间向两边扩散，使用半透明强调色
+      &::after {
+        background-color: rgba(var(--color-accent-rgb), 0.5);
+        transform: translateX(-50%) scaleX(1);
+      }
     }
 
-    // 当前激活链接：强调色 + 底部下划线展开
+    // 当前激活链接：强调色 + 底部实色下划线
     &--active {
       color: var(--color-accent);
 
       &::after {
+        background-color: var(--color-accent);
         transform: translateX(-50%) scaleX(1);
       }
     }
