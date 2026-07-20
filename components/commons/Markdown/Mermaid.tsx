@@ -55,20 +55,23 @@ const Mermaid = ({ chart }: MermaidProps) => {
     let isCancelled = false;
     setHasError(false);
 
-    getMermaid()
-      .then((mermaid) => {
+    // 使用 async/await 渲染：render 返回 Promise<RenderResult>，
+    // 不会出现 .then 链中 undefined 与 Promise<RenderResult> 合并出的联合类型
+    const renderDiagram = async (): Promise<void> => {
+      try {
+        const mermaid = await getMermaid();
         if (isCancelled) return;
         // 生成唯一 id，避免同页多个图表 id 冲突
         const id = `mermaid-${Math.random().toString(36).slice(2)}`;
-        return mermaid.render(id, chart);
-      })
-      .then(({ svg }) => {
+        const result = await mermaid.render(id, chart);
         if (isCancelled || !containerRef.current) return;
-        containerRef.current.innerHTML = svg;
-      })
-      .catch(() => {
+        containerRef.current.innerHTML = result.svg;
+      } catch {
         if (!isCancelled) setHasError(true);
-      });
+      }
+    };
+
+    renderDiagram();
 
     return () => {
       isCancelled = true;
