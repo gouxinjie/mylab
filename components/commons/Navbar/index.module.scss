@@ -113,20 +113,29 @@
     &:hover {
       color: var(--color-text-primary);
 
-      // hover 时底部下划线从中间向两边扩散，使用半透明琥珀色，与选中态绿色区分
+      // hover 时底部下划线从中间向两边扩散，半透明绿
       &::after {
-        background-color: rgba(var(--color-primary-rgb), 0.5);
+        background-color: rgba(var(--color-accent-rgb), 0.35);
         transform: translateX(-50%) scaleX(1);
       }
     }
 
-    // 当前激活链接：强调色 + 底部实色下划线
+    // 当前激活链接：实色绿文字 + 实色绿下划线
     &--active {
       color: var(--color-accent);
 
       &::after {
         background-color: var(--color-accent);
         transform: translateX(-50%) scaleX(1);
+      }
+
+      // 激活态 hover 保持实色绿，不退化
+      &:hover {
+        color: var(--color-accent);
+
+        &::after {
+          background-color: var(--color-accent);
+        }
       }
     }
 
