@@ -421,7 +421,40 @@ export const projects: Project[] = [
             { category: '构建', tech: 'Vite 5' },
             { category: '包管理', tech: 'npm' }
         ]
+    },
+    {
+        "id": "my-dify-chat",
+        "title": "My Dify Chat",
+        "category": "应用",
+        "tags": ["React", "Next.js", "Monorepo", "Tailwind CSS", "Prisma", "Ant Design", "TypeScript"],
+        "featured": false,
+        "order": 11,
+        "brief": "基于 Dify 的企业级 AI 聊天与管理平台",
+        "description": "My Dify Chat 是基于开源 Dify Chat 二次开发的企业级聊天应用解决方案，采用现代化的 pnpm Monorepo 架构。项目集成了 Dify AI 能力，提供可扩展、易维护的聊天机器人前端及可视化管理平台。包含独立的 Next.js 管理后台（负责用户认证、应用配置、数据库管理、API 代理）与 React + RSBuild 沉浸式聊天前端，并深度集成钉钉免登及工作台访问，支持 SQLite / MySQL / PostgreSQL 多数据库与多环境（本地 / UAT / 生产）部署。",
+        "repoUrl": "https://gitee.com/gou-xinjie/my-dify-chat",
+        "deployPath": "",
+        "startMode": "本地启动：根目录执行 `pnpm install` 安装依赖；初始化数据库（默认 MySQL）`pnpm --filter dify-chat-platform db:push`，创建管理员 `pnpm --filter dify-chat-platform create-admin`；启动管理后台 `pnpm dev:platform`（http://localhost:5300），启动聊天应用 `pnpm dev:react`（http://localhost:5200）。生产构建：`pnpm build`；支持 Docker Compose 部署。",
+        "status": "未发布",
+        "remark": "",
+        "port": "5300",
+        "url": null,
+        "covers": [
+            
+        ],
+        "techStackBrief": "React 19 + Next.js 15 管理后台、React 19 + RSBuild 聊天前端、TypeScript、Ant Design 6、Tailwind CSS（v3/v4）、Prisma ORM、NextAuth.js 认证、Zustand 状态管理、pnpm Monorepo",
+        "techStackDetail": [
+            { "category": "前端框架", "tech": "React 19 + Next.js 15（platform）、React 19 + RSBuild（react-app）" },
+            { "category": "构建工具", "tech": "RSBuild、RSLib、pnpm workspace" },
+            { "category": "UI 系统", "tech": "Ant Design 6、Tailwind CSS（react-app v3 / platform v4）、Lucide Icons" },
+            { "category": "状态管理", "tech": "React Hooks、Zustand" },
+            { "category": "数据持久化", "tech": "Prisma ORM（SQLite / MySQL / PostgreSQL）" },
+            { "category": "认证方案", "tech": "NextAuth.js" },
+            { "category": "语言", "tech": "TypeScript" },
+            { "category": "质量保证", "tech": "ESLint、Prettier、Biome、Vitest" },
+            { "category": "包管理", "tech": "pnpm" }
+        ]
     }
+
 
 
 
