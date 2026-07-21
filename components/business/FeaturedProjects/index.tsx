@@ -8,7 +8,7 @@
 
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { Link } from "@/lib/navigation";
 import { projects, Project, ProjectCategory } from "@/lib/projects";
 import { useTranslations } from "next-intl";
@@ -29,33 +29,42 @@ export default function FeaturedProjects({ limit, showFilters }: { limit?: numbe
   // 是否展示筛选栏：首页不展示，全部项目页默认展示
   const showFilterBar = showFilters ?? !limit;
 
-  // 分类筛选项：键与中文分类值对应，便于与项目数据匹配
-  const CATEGORY_OPTIONS: { key: string; value: ProjectCategory | "all"; label: string }[] = [
-    { key: "all", value: "all", label: t("categories.all") },
-    { key: "platform", value: "平台", label: t("categories.platform") },
-    { key: "application", value: "应用", label: t("categories.application") },
-    { key: "tool", value: "工具", label: t("categories.tool") },
-    { key: "dataviz", value: "数据可视化", label: t("categories.dataviz") },
-    { key: "learning", value: "学习研究", label: t("categories.learning") },
-    { key: "other", value: "其他", label: t("categories.other") },
-  ];
+  // 分类筛选项：键与中文分类值对应，便于与项目数据匹配；依赖翻译，翻译不变则缓存
+  const CATEGORY_OPTIONS = useMemo<{ key: string; value: ProjectCategory | "all"; label: string }[]>(
+    () => [
+      { key: "all", value: "all", label: t("categories.all") },
+      { key: "platform", value: "平台", label: t("categories.platform") },
+      { key: "application", value: "应用", label: t("categories.application") },
+      { key: "tool", value: "工具", label: t("categories.tool") },
+      { key: "dataviz", value: "数据可视化", label: t("categories.dataviz") },
+      { key: "learning", value: "学习研究", label: t("categories.learning") },
+      { key: "other", value: "其他", label: t("categories.other") },
+    ],
+    [t]
+  );
 
-  // 按排序权重升序排列，再按 limit 截取（首页精选 N 个，全部项目页不传则展示全部）
-  const sortedProjects = [...projects].sort((a, b) => a.order - b.order);
-  const baseProjects = limit ? sortedProjects.slice(0, limit) : sortedProjects;
+  // 按排序权重升序排列（静态数据，仅计算一次，避免每次渲染重复排序）
+  const sortedProjects = useMemo(() => [...projects].sort((a, b) => a.order - b.order), []);
+  // 按 limit 截取（首页精选 N 个，全部项目页不传则展示全部）
+  const baseProjects = useMemo(
+    () => (limit ? sortedProjects.slice(0, limit) : sortedProjects),
+    [limit, sortedProjects]
+  );
 
-  // 根据分类与搜索关键词过滤
-  const visibleProjects = baseProjects.filter((project) => {
-    const categoryMatch = activeCategory === "all" || project.category === activeCategory;
+  // 根据分类与搜索关键词过滤；仅在依赖变化时重算
+  const visibleProjects = useMemo(() => {
     const query = searchQuery.trim().toLowerCase();
-    const searchMatch = !query || (
-      project.title.toLowerCase().includes(query) ||
-      project.brief.toLowerCase().includes(query) ||
-      project.description.toLowerCase().includes(query) ||
-      project.tags.some((tag) => tag.toLowerCase().includes(query))
-    );
-    return categoryMatch && searchMatch;
-  });
+    return baseProjects.filter((project) => {
+      const categoryMatch = activeCategory === "all" || project.category === activeCategory;
+      const searchMatch = !query || (
+        project.title.toLowerCase().includes(query) ||
+        project.brief.toLowerCase().includes(query) ||
+        project.description.toLowerCase().includes(query) ||
+        project.tags.some((tag) => tag.toLowerCase().includes(query))
+      );
+      return categoryMatch && searchMatch;
+    });
+  }, [baseProjects, activeCategory, searchQuery]);
 
   return (
     <section className={styles.projects}>
@@ -152,8 +161,6 @@ interface ProjectCardProps {
 }
 
 function ProjectCard({ project, onOpen }: ProjectCardProps) {
-  const techTags = project.tags;
-
   return (
     <article
       className={styles.card}
@@ -170,15 +177,28 @@ function ProjectCard({ project, onOpen }: ProjectCardProps) {
       {/* 封面区域：展示首张静态封面图，无图时使用标题占位 */}
       <div className={styles['card__image-box']}>
         {project.covers.length > 0 ? (
-          <Image
-            src={project.covers[0]}
-            alt={`${project.title} 封面`}
-            fill
-            quality={95}
-            sizes="(min-width: 1024px) 384px, (min-width: 640px) 50vw, 100vw"
-            className={styles.card__cover}
-            loading="lazy"
-          />
+          <>
+            {/* 模糊背景层：同图放大模糊铺满容器，避免 contain 留白露出底色，提升观感 */}
+            <Image
+              src={project.covers[0]}
+              alt=""
+              aria-hidden
+              fill
+              quality={80}
+              sizes="(min-width: 1024px) 384px, (min-width: 640px) 50vw, 100vw"
+              className={styles['card__cover-bg']}
+              loading="lazy"
+            />
+            <Image
+              src={project.covers[0]}
+              alt={`${project.title} 封面`}
+              fill
+              quality={95}
+              sizes="(min-width: 1024px) 384px, (min-width: 640px) 50vw, 100vw"
+              className={styles.card__cover}
+              loading="lazy"
+            />
+          </>
         ) : (
           <div className={styles.card__placeholder}>
             <svg
@@ -222,7 +242,7 @@ function ProjectCard({ project, onOpen }: ProjectCardProps) {
         {/* 标签与链接：标签居左，仓库/项目图标居右 */}
         <div className={styles.card__footer}>
           <div className={styles.card__tags}>
-            {techTags.map((tag) => (
+            {project.tags.map((tag) => (
               <span
                 key={tag}
                 className={styles.card__tag}
@@ -385,13 +405,11 @@ function ProjectDetail({ project }: { project: Project }) {
 function CoverCarousel({
   covers,
   title,
-  fill = false,
   autoPlay = false,
   showArrows = true,
 }: {
   covers: string[];
   title: string;
-  fill?: boolean;
   autoPlay?: boolean;
   showArrows?: boolean;
 }) {
@@ -410,7 +428,7 @@ function CoverCarousel({
   if (covers.length === 0) {
     return (
       <div
-        className={`${styles.carousel} ${fill ? styles["carousel--fill"] : ""} ${styles["carousel__empty"]}`}
+        className={`${styles.carousel} ${styles["carousel__empty"]}`}
       >
         暂无封面图
       </div>
@@ -423,7 +441,18 @@ function CoverCarousel({
   };
 
   return (
-    <div className={`${styles.carousel} ${fill ? styles["carousel--fill"] : ""}`}>
+    <div className={`${styles.carousel}`}>
+      {/* 模糊背景层：同图放大模糊铺满容器，避免 contain 留白露出底色 */}
+      <Image
+        src={covers[index]}
+        alt=""
+        aria-hidden
+        fill
+        quality={80}
+        sizes="(max-width: 640px) 100vw, 640px"
+        className={styles['carousel__bg']}
+        loading="lazy"
+      />
       <Image
         key={index}
         src={covers[index]}

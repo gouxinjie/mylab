@@ -170,45 +170,50 @@
   }
 }
 // 项目栅格：移动端单列，中屏两列，大屏三列
+// 使用 minmax(0, 1fr) 强制等宽，避免某张卡片最小内容宽度撑大所在列导致封面容器/卡片大小不一致
 .grid {
   display: grid;
   gap: 16px;
 
   @media (min-width: 640px) {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   @media (min-width: 1024px) {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 }
 
 // 项目卡片：复用 card-base，hover 时显示 1px 绿色边框并向上浮动
 .card {
   @include card-base;
-  border: 1px solid transparent;
+  // 允许在网格列内收缩，配合 minmax(0, 1fr) 保证列宽严格相等、卡片尺寸一致
+  min-width: 0;
+  // 默认 1px 浅灰描边 + 柔和投影：白底卡片在白底页面上获得清晰边界与立体感
+  border: 1px solid var(--color-border);
   border-radius: var(--radius-lg);
   overflow: hidden;
   padding: 0;
   box-shadow:
-    0 1px 2px rgba(0, 0, 0, 0.04),
-    0 4px 16px rgba(0, 0, 0, 0.08);
+    0 1px 3px rgba(0, 0, 0, 0.06),
+    0 6px 20px rgba(0, 0, 0, 0.10);
   cursor: pointer;
   transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
 
   &:hover {
     border-color: var(--color-accent);
     box-shadow:
-      0 4px 8px rgba(0, 0, 0, 0.06),
-      0 12px 32px rgba(0, 0, 0, 0.12);
+      0 8px 16px rgba(0, 0, 0, 0.08),
+      0 16px 40px rgba(0, 0, 0, 0.16);
     transform: translateY(-4px);
   }
 
-  // 图片容器：固定宽高比，占位浅灰表面，顶部圆角 + 底部分隔线
+  // 图片容器：固定高度（所有封面同高），占位浅灰表面，顶部圆角 + 底部分隔线
+  // 固定高度 + object-fit: contain 保证不同比例的封面图完整显示、不被裁切放大，差异以底色留白补齐
   &__image-box {
     position: relative;
-    aspect-ratio: 16 / 9;
     width: 100%;
+    height: 220px;
     overflow: hidden;
     background-color: var(--color-surface-muted);
     // 顶部圆角与卡片保持一致，底部平直，形成卡片"头图"观感
@@ -217,11 +222,22 @@
     border-bottom: 1px solid color-mix(in srgb, var(--color-text-primary) 8%, transparent);
   }
 
-  // 静态封面图（卡片封面场景）
-  &__cover {
+  // 封面模糊背景层：同图放大模糊铺满容器，避免 contain 留白露出底色（磨砂底效果）
+  &__cover-bg {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    object-position: center;
+    filter: blur(24px);
+    transform: scale(1.2);
+    opacity: 0.9;
+  }
+
+  // 静态封面图（卡片封面场景）：完整显示，居中，比例差异由模糊背景补齐
+  &__cover {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
     object-position: center;
   }
 
@@ -336,12 +352,15 @@
     flex-wrap: nowrap;
   }
 
-  // 标签列表：横向排列，不换行，超出隐藏
+  // 标签列表：横向排列，不换行，超出隐藏，避免破坏卡片等高
+  // 右侧渐隐遮罩提示"还有更多标签"，既保留等高又避免静默截断
   &__tags {
     display: flex;
     flex-wrap: nowrap;
     gap: 6px;
     overflow: hidden;
+    -webkit-mask-image: linear-gradient(to right, #000 calc(100% - 16px), transparent 100%);
+    mask-image: linear-gradient(to right, #000 calc(100% - 16px), transparent 100%);
   }
 
   // 单个标签：浅色底，无边框
@@ -431,26 +450,27 @@
   margin: 0 auto 16px;
   border-radius: var(--radius-lg);
   overflow: hidden;
-  aspect-ratio: 16 / 9;
+  height: 360px;
   max-height: 360px;
   max-width: 640px;
   background-color: var(--color-surface-muted);
 
-  // 轮播图片
-  &__img {
+  // 轮播模糊背景层：同图放大模糊铺满容器
+  &__bg {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    animation: fproj-fadeIn 0.4s ease;
+    filter: blur(28px);
+    transform: scale(1.2);
+    opacity: 0.9;
   }
 
-  // 填充父容器变体（卡片封面场景）：去掉外边距与圆角，由父容器约束尺寸
-  &--fill {
-    position: absolute;
-    inset: 0;
-    margin-bottom: 0;
-    border-radius: 0;
-    aspect-ratio: auto;
+  // 轮播图片：完整显示，居中，比例差异由模糊背景补齐
+  &__img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    animation: fproj-fadeIn 0.4s ease;
   }
 
   // 左右切换按钮（通用样式）

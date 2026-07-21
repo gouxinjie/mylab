@@ -308,5 +308,44 @@ export const projects: Project[] = [
             { category: '代码质量', tech: 'ESLint 8 + @typescript-eslint / eslint-plugin-react' },
             { category: '包管理', tech: 'npm' }
         ]
+    },
+    //  下面是未上线的项目
+    {
+        id: 'it-project-console',
+        title: 'IT-Project-Console',
+        category: '平台',
+        tags: ['React', 'FastAPI', 'MySQL', 'TypeScript', 'Ant Design'],
+        featured: false,
+        order: 8,
+        brief: '企业 IT 项目交付与资源统一管理平台',
+        description: '一个把项目基础信息、前后端资源、成员、外部依赖（OSS/数据库/Redis/中间件）和账号权限收口到一个控制台的企业内部管理工具——方便日常维护、交接与审计。包含项目总览仪表盘、项目管理、成员管理、外部资源管理、账号管理与登录注册等模块，支持角色权限、公开注册开关与 Bearer JWT 认证。',
+        repoUrl: 'https://github.com/gouxinjie/it-project-console',
+        deployPath: '',
+        startMode: '本地启动：运行 setup_and_start.bat（一键初始化依赖、同步管理员配置并拉起前后端），或手动 `python -m uvicorn app.main:app` 启动后端（8000）+ `pnpm run dev` 启动前端（Vite 3000，代理 /api 到 8000）',
+        status: '未发布',
+        remark: '',
+        port: '',
+        url: '',
+        covers: ['/images/project-cover/it-project-console.png', '/images/project-cover/it-project-console-1.png', '/images/project-cover/it-project-console-2.png', '/images/project-cover/it-project-console-3.png', '/images/project-cover/it-project-console-4.png'],
+        techStackBrief: 'React 18 + Vite + TypeScript 前端、Ant Design 5、Tailwind CSS、React Router 6、Axios、ECharts；FastAPI + SQLAlchemy 2.0 + MySQL 后端、Pydantic v2、JWT（python-jose）认证、passlib[bcrypt] 密码哈希',
+        techStackDetail: [
+            { category: '前端框架', tech: 'React 18 + Vite + TypeScript' },
+            { category: 'UI 组件库', tech: 'Ant Design 5（+ @ant-design/icons）' },
+            { category: '样式', tech: 'Tailwind CSS 3 + SCSS（sass）' },
+            { category: '路由', tech: 'React Router 6' },
+            { category: 'HTTP 客户端', tech: 'Axios' },
+            { category: '图表', tech: 'ECharts 5（echarts-for-react）' },
+            { category: '日期处理', tech: 'dayjs' },
+            { category: '后端框架', tech: 'FastAPI + Uvicorn' },
+            { category: 'ORM', tech: 'SQLAlchemy 2.0' },
+            { category: '数据库', tech: 'MySQL 5.7 / 8.0（PyMySQL 驱动）' },
+            { category: '数据校验', tech: 'Pydantic v2 + pydantic-settings' },
+            { category: '认证', tech: 'JWT（python-jose）+ passlib[bcrypt] 密码哈希' },
+            { category: '数据库迁移', tech: 'Alembic' },
+            { category: '配置', tech: 'python-dotenv（.env）' },
+            { category: '包管理', tech: '前端 pnpm / npm；后端 pip' },
+            { category: '代码质量', tech: 'ESLint（前端）' }
+        ]
     }
+
 ];
