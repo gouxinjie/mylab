@@ -1,0 +1,48 @@
+/**
+ * @file index.module.scss
+ * @description ImageZoom（缩略图触发）样式：缩略图放大光标与触摸设备"点击放大"提示
+ * @author gouxinjie
+ */
+
+// 缩略图外层：用于承载"点击放大"提示，限制最大宽度不溢出
+.thumbWrap {
+  position: relative;
+  display: inline-block;
+  max-width: 100%;
+  line-height: 0;
+}
+
+// 缩略图：可点击放大，鼠标悬浮呈现放大光标与轻微反馈
+.thumb {
+  max-width: 100%;
+  cursor: zoom-in;
+  // 触摸设备：禁用长按弹出菜单与文字选中
+  -webkit-touch-callout: none;
+  user-select: none;
+  transition: opacity 0.2s ease;
+
+  &:hover {
+    opacity: 0.9;
+  }
+}
+
+// 触摸设备的"点击放大"提示角标（默认隐藏，仅在无 hover 的触摸设备显示）
+.thumbHint {
+  display: none;
+  position: absolute;
+  right: 8px;
+  bottom: 8px;
+  padding: 4px 8px;
+  font-size: 12px;
+  line-height: 1;
+  color: #fff;
+  background-color: rgba(15, 23, 42, 0.6);
+  border-radius: 999px;
+  pointer-events: none;
+}
+
+@media (hover: none) and (pointer: coarse) {
+  .thumbHint {
+    display: inline-flex;
+  }
+}

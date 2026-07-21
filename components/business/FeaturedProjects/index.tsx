@@ -14,6 +14,7 @@ import { projects, Project, ProjectCategory } from "@/lib/projects";
 import { useTranslations } from "next-intl";
 import FadeIn from "@/components/commons/FadeIn";
 import Modal from "@/components/commons/Modal";
+import Lightbox from "@/components/commons/Lightbox";
 import Image from "next/image";
 import styles from "./index.module.scss";
 
@@ -25,6 +26,8 @@ export default function FeaturedProjects({ limit, showFilters }: { limit?: numbe
   const [activeCategory, setActiveCategory] = useState<ProjectCategory | "all">("all");
   // 搜索关键词
   const [searchQuery, setSearchQuery] = useState<string>("");
+  // 灯箱预览的图片地址（点击项目截图时设置）
+  const [zoomSrc, setZoomSrc] = useState<string | null>(null);
 
   // 是否展示筛选栏：首页不展示，全部项目页默认展示
   const showFilterBar = showFilters ?? !limit;
@@ -143,12 +146,24 @@ export default function FeaturedProjects({ limit, showFilters }: { limit?: numbe
       {/* 项目详情弹窗 */}
       <Modal
         open={selected !== null}
-        onClose={() => setSelected(null)}
+        onClose={() => {
+          setSelected(null);
+          // 关闭详情时同步关闭可能仍在展示的放大灯箱
+          setZoomSrc(null);
+        }}
         title={selected?.brief}
         subtitle={selected?.title}
       >
-        {selected ? <ProjectDetail project={selected} /> : null}
+        {selected ? <ProjectDetail project={selected} onZoom={setZoomSrc} /> : null}
       </Modal>
+
+      {/* 复用公共图片放大灯箱：点击遮罩/关闭按钮/Esc 关闭，按图片原始比例自适应铺满视口 */}
+      <Lightbox
+        open={zoomSrc !== null}
+        src={zoomSrc ?? ""}
+        alt={selected?.title ?? ""}
+        onClose={() => setZoomSrc(null)}
+      />
     </section>
   );
 }
@@ -293,7 +308,14 @@ function ProjectCard({ project, onOpen }: ProjectCardProps) {
  * 项目详情内容
  * @param project - 项目数据
  */
-function ProjectDetail({ project }: { project: Project }) {
+function ProjectDetail({
+  project,
+  onZoom,
+}: {
+  project: Project;
+  /** 点击项目截图时回调，用于打开放大预览 */
+  onZoom: (src: string) => void;
+}) {
   const externalUrl = project.url || project.repoUrl || undefined;
 
   return (
@@ -388,7 +410,7 @@ function ProjectDetail({ project }: { project: Project }) {
       {/* 封面轮播（置于详情末尾） */}
       <section className={styles.detail__section}>
         <h4 className={styles.detail__sectionTitle}>项目截图</h4>
-        <CoverCarousel covers={project.covers} title={project.title} autoPlay />
+        <CoverCarousel covers={project.covers} title={project.title} autoPlay onZoom={onZoom} />
       </section>
     </div>
   );
@@ -407,11 +429,14 @@ function CoverCarousel({
   title,
   autoPlay = false,
   showArrows = true,
+  onZoom,
 }: {
   covers: string[];
   title: string;
   autoPlay?: boolean;
   showArrows?: boolean;
+  /** 点击图片时回调（用于打开放大预览），入参为当前图片地址 */
+  onZoom?: (src: string) => void;
 }) {
   const [index, setIndex] = useState(0);
 
@@ -441,7 +466,11 @@ function CoverCarousel({
   };
 
   return (
-    <div className={`${styles.carousel}`}>
+    <div
+      className={`${styles.carousel}`}
+      // 点击整个轮播区域（含模糊背景）即可放大当前图；箭头/指示点已 stopPropagation，互不冲突
+      onClick={() => onZoom?.(covers[index])}
+    >
       {/* 模糊背景层：同图放大模糊铺满容器，避免 contain 留白露出底色 */}
       <Image
         src={covers[index]}
@@ -463,6 +492,10 @@ function CoverCarousel({
         className={styles.carousel__img}
         loading="lazy"
       />
+      {/* 触摸设备提示"点击放大"（CSS 控制在 coarse pointer 时显示） */}
+      <span className={styles.carousel__zoomHint} aria-hidden>
+        点击放大
+      </span>
       {covers.length > 1 ? (
         <>
           {/* 左右箭头：仅详情场景展示 */}

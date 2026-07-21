@@ -309,7 +309,10 @@ export const projects: Project[] = [
             { category: '包管理', tech: 'npm' }
         ]
     },
-    //  下面是未上线的项目
+    
+    /**
+    * 下面是未上线的项目
+    */
     {
         id: 'it-project-console',
         title: 'IT-Project-Console',

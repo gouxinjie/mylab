@@ -1,0 +1,108 @@
+/**
+ * @file index.module.scss
+ * @description 公共图片放大预览（灯箱）样式：全屏遮罩、按比例自适应大图、关闭按钮、移动端适配
+ * @author gouxinjie
+ */
+
+// 全屏遮罩：铺满视口，深色半透明背景，居中承载大图
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 32px;
+  background-color: rgba(15, 23, 42, 0.85);
+  cursor: zoom-out;
+  // 限制放大后内容溢出屏幕边缘
+  overflow: hidden;
+  // 去除移动端点击高亮
+  -webkit-tap-highlight-color: transparent;
+  animation: lightbox-overlay-fade 0.2s ease;
+}
+
+// 大图：按原始比例自适应，最大不超过视口，contain 保证不裁剪、不变形
+.img {
+  max-width: 92vw;
+  max-height: 92vh;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
+  cursor: default;
+  // 移动端允许双指缩放查看大图细节
+  touch-action: pinch-zoom;
+  // 禁用长按菜单与文字选中
+  -webkit-touch-callout: none;
+  user-select: none;
+  animation: lightbox-image-pop 0.2s ease;
+}
+
+// 关闭按钮：固定右上角，圆形浅色底，hover 高亮
+.close {
+  position: fixed;
+  top: 20px;
+  right: 24px;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  color: #fff;
+  background-color: rgba(255, 255, 255, 0.12);
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+
+  &:hover {
+    background-color: rgba(255, 255, 255, 0.24);
+  }
+}
+
+// ===== 移动端适配 =====
+@media (max-width: 640px) {
+  // 缩小遮罩留白，让大图尽量铺满
+  .overlay {
+    padding: 16px;
+  }
+
+  // 大图在移动端铺满可用区域，去掉圆角
+  .img {
+    max-width: 100%;
+    max-height: 100%;
+    border-radius: 0;
+  }
+
+  // 关闭按钮避让刘海/圆角安全区，并放大到 44px 满足触摸热区
+  .close {
+    top: calc(12px + env(safe-area-inset-top, 0px));
+    right: calc(12px + env(safe-area-inset-right, 0px));
+    width: 44px;
+    height: 44px;
+  }
+}
+
+// 遮罩淡入
+@keyframes lightbox-overlay-fade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+// 大图弹出
+@keyframes lightbox-image-pop {
+  from {
+    opacity: 0;
+    transform: scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}

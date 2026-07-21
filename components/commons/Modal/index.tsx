@@ -11,6 +11,7 @@
 import { useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
 import type { ReactNode } from "react";
+import { lockBodyScroll, unlockBodyScroll } from "@/utils/scrollLock";
 import styles from "./index.module.scss";
 
 /**
@@ -41,16 +42,11 @@ export default function Modal({ open, onClose, title, subtitle, children }: Moda
       if (event.key === "Escape") onCloseRef.current();
     };
     document.addEventListener("keydown", handleKeyDown);
-    // 锁定背景滚动：计算滚动条宽度并以等宽 padding 补偿，避免滚动条消失导致页面宽度抖动
-    const scrollBarWidth = window.innerWidth - document.documentElement.clientWidth;
-    document.body.style.overflow = "hidden";
-    if (scrollBarWidth > 0) {
-      document.body.style.paddingRight = `${scrollBarWidth}px`;
-    }
+    // 锁定背景滚动：使用引用计数工具，与灯箱等浮层叠加时仅全部关闭后才解锁
+    lockBodyScroll();
     return () => {
       document.removeEventListener("keydown", handleKeyDown);
-      document.body.style.overflow = "";
-      document.body.style.paddingRight = "";
+      unlockBodyScroll();
     };
   }, [open]);
 

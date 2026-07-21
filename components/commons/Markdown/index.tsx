@@ -14,6 +14,7 @@ import { common, createLowlight } from "lowlight";
 import styles from "./index.module.scss";
 import type { Components } from "react-markdown";
 import Mermaid from "./Mermaid";
+import ImageZoom from "@/components/commons/ImageZoom";
 
 // 仅注册常用语言子集（common 约 37 种），避免 rehype-highlight 默认加载全量 200+ 语言，
 // 从而减轻 SSR 计算负担并缩小生成的 HTML 体积，改善详情页 TTFB
@@ -45,17 +46,18 @@ const parseImageSize = (
 
 // 默认渲染组件：统一接管图片与 Mermaid 代码块
 const defaultComponents: Components = {
-  img({ node, title, style, ...rest }) {
+  img({ node, title, style, src, alt }) {
     const { width, height, restTitle } = parseImageSize(title);
     const imgStyle: CSSProperties = { maxWidth: "100%", ...style };
     if (width) imgStyle.width = `${width}px`;
     if (height) imgStyle.height = `${height}px`;
+    // 交由 ImageZoom 渲染：点击可弹出灯箱并按原始比例放大查看
     return (
-      <img
+      <ImageZoom
+        src={typeof src === "string" ? src : undefined}
+        alt={typeof alt === "string" ? alt : undefined}
         title={restTitle}
         style={imgStyle}
-        loading="lazy"
-        {...rest}
       />
     );
   },
