@@ -40,8 +40,7 @@ dev.err
 # TypeScript build info
 *.tsbuildinfo
 
-# Package lock files
-pnpm-lock.yaml
+# Package lock files（保留 pnpm-lock.yaml 以保证 Docker 构建可复现；忽略非当前包管理器的锁文件）
 package-lock.json
 yarn.lock
 
