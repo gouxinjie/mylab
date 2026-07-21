@@ -291,6 +291,12 @@
     animation: fproj-pulse 1.4s infinite;
   }
 
+  // 未发布状态：不展示扩散/呼吸动效，仅保留静态圆点
+  &__status[data-status='未发布'] &__statusDot {
+    animation: none;
+    box-shadow: none;
+  }
+
   // 卡片内容区：上内边距收窄，与封面图更紧凑
   &__content {
     padding: 10px 16px 16px 16px;
@@ -576,6 +582,12 @@
     background-color: currentColor;
     box-shadow: 0 0 0 0 rgba(var(--color-accent-rgb), 0.6);
     animation: fproj-pulse 1.4s infinite;
+  }
+
+  // 未发布状态：不展示扩散/呼吸动效，仅保留静态圆点
+  &__status[data-status='未发布'] &__statusDot {
+    animation: none;
+    box-shadow: none;
   }
 
   // 外链按钮

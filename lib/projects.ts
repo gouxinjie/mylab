@@ -309,7 +309,7 @@ export const projects: Project[] = [
             { category: '包管理', tech: 'npm' }
         ]
     },
-    
+
     /**
     * 下面是未上线的项目
     */
@@ -349,6 +349,48 @@ export const projects: Project[] = [
             { category: '包管理', tech: '前端 pnpm / npm；后端 pip' },
             { category: '代码质量', tech: 'ESLint（前端）' }
         ]
+    },
+    /**
+     * 未上线的项目：deepxinjie
+     */
+    {
+        id: 'deepxinjie',
+        title: 'deepxinjie',
+        category: '应用',
+        tags: ['React', 'FastAPI', 'MySQL', 'TypeScript'],
+        featured: false,
+        order: 9,
+        brief: '我的 AI 聊天平台',
+        description: '一个前后端分离的 AI 聊天项目，产品形态参考企业级 AI 聊天网站——支持账号密码注册登录、基于 Access/Refresh Token 与 CSRF 的登录态管理、流式聊天输出与中断、深度思考模式、联网搜索与来源展示、会话管理（新建/历史/重命名/置顶/删除）以及桌面端和移动端双端适配',
+        repoUrl: 'https://github.com/gouxinjie/deepxinjie',
+        deployPath: '',
+        startMode: '',
+        status: '未发布',
+        remark: '',
+        port: '',
+        url: null,
+        covers: ['/images/project-cover/deepxinjie.png', '/images/project-cover/deepxinjie-1.png', '/images/project-cover/deepxinjie-2.png', '/images/project-cover/deepxinjie-3.png', '/images/project-cover/deepxinjie-4.png'],
+        techStackBrief: 'React 19、Vite 8、TypeScript 5 前端、React Router 7、Zustand 状态管理、Axios 请求、Sass/SCSS 样式、FastAPI + Uvicorn 后端、MySQL 8 数据库、PyJWT + passlib 鉴权、OpenAI Python SDK 模型接入',
+        techStackDetail: [
+            { category: '前端框架', tech: 'React 19 + Vite 8 + TypeScript 5' },
+            { category: '路由', tech: 'React Router 7' },
+            { category: '状态管理', tech: 'Zustand（跨组件共享）+ useState（局部状态）' },
+            { category: '请求', tech: 'Axios' },
+            { category: '样式', tech: 'Sass / SCSS' },
+            { category: 'Markdown 渲染', tech: 'react-markdown + remark-gfm + rehype-highlight' },
+            { category: '图标', tech: 'lucide-react' },
+            { category: '后端', tech: 'FastAPI + Uvicorn' },
+            { category: '数据库', tech: 'MySQL 8 + mysql-connector-python' },
+            { category: '鉴权', tech: 'PyJWT + passlib[bcrypt]（Access Token + Refresh Token + CSRF Token）' },
+            { category: '模型接入', tech: 'OpenAI Python SDK（兼容 DeepSeek 等接口）' },
+            { category: '联网搜索', tech: 'Tavily Search API' },
+            { category: '配置', tech: 'python-dotenv' },
+            { category: '运行环境', tech: 'Node.js 20+ / Python 3.11+ / MySQL 8+' },
+            { category: '包管理', tech: 'npm（前端）/ pip（后端）' },
+            { category: '代码质量', tech: 'ESLint' }
+        ]
     }
+
+
 
 ];
