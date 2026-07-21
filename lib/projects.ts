@@ -86,7 +86,7 @@ export const projects: Project[] = [
         remark: 'GitHub Actions 自动部署，push main 触发 vitepress build → SCP 上传 dist → ECS Nginx reload',
         port: '直接监听的本地80端口',
         url: 'http://gouxinjie.com',
-        covers: ['/images/project-cover/blog.png'],
+        covers: ['/images/project-cover/blog.png', '/images/project-cover/blog-1.png', '/images/project-cover/blog-2.png'],
         techStackBrief: 'VitePress、Vue 3、TypeScript、Sass、TailwindCSS、Algolia 搜索',
         techStackDetail: [
             { category: '框架', tech: 'VitePress + Vue 3 + TypeScript' },
@@ -310,6 +310,30 @@ export const projects: Project[] = [
         ]
     },
 
+    {
+        id: 'gouxinjie',
+        title: 'gouxinjie',
+        category: '其他',
+        tags: ['md'],
+        featured: false,
+        order: 8,
+        brief: 'github的个人主页介绍页面',
+        description: '这个项目是一个github的个人主页介绍页面，只有一个md，仓库命名需要和用户名保持一致且公开',
+        repoUrl: 'https://github.com/gouxinjie',
+        deployPath: '',
+        startMode: '',
+        status: '正常运行',
+        remark: '',
+        port: '',
+        url: 'https://github.com/gouxinjie',
+        covers: [
+            '/images/project-cover/gouxinjie.png',
+            '/images/project-cover/gouxinjie-1.png'
+        ],
+        techStackBrief: 'md',
+        techStackDetail: []
+    },
+
     /**
     * 下面是未上线的项目
     */
@@ -319,7 +343,7 @@ export const projects: Project[] = [
         category: '平台',
         tags: ['React', 'FastAPI', 'MySQL', 'TypeScript', 'Ant Design'],
         featured: false,
-        order: 8,
+        order: 9,
         brief: '企业 IT 项目交付与资源统一管理平台',
         description: '一个把项目基础信息、前后端资源、成员、外部依赖（OSS/数据库/Redis/中间件）和账号权限收口到一个控制台的企业内部管理工具——方便日常维护、交接与审计。包含项目总览仪表盘、项目管理、成员管理、外部资源管理、账号管理与登录注册等模块，支持角色权限、公开注册开关与 Bearer JWT 认证。',
         repoUrl: 'https://github.com/gouxinjie/it-project-console',
@@ -359,7 +383,7 @@ export const projects: Project[] = [
         category: '应用',
         tags: ['React', 'FastAPI', 'MySQL', 'TypeScript'],
         featured: false,
-        order: 9,
+        order: 10,
         brief: '我的 AI 聊天平台',
         description: '一个前后端分离的 AI 聊天项目，产品形态参考企业级 AI 聊天网站——支持账号密码注册登录、基于 Access/Refresh Token 与 CSRF 的登录态管理、流式聊天输出与中断、深度思考模式、联网搜索与来源展示、会话管理（新建/历史/重命名/置顶/删除）以及桌面端和移动端双端适配',
         repoUrl: 'https://github.com/gouxinjie/deepxinjie',
@@ -396,7 +420,7 @@ export const projects: Project[] = [
         category: '应用',
         tags: ['React', 'Vite', 'Tailwind CSS', 'Framer Motion', 'CSS Animation'],
         featured: false,
-        order: 10,
+        order: 11,
         brief: '交互式动画登录页示例',
         description: '一个基于 React + Vite 的交互式登录页示例。页面左侧是会响应用户操作的抽象角色动画（眼球跟随鼠标、随机眨眼、回避/偷看密码、提交结果反馈），右侧是带邮箱与密码校验、显示/隐藏密码、提交状态反馈的演示登录表单。重点在状态联动、角色反馈和按钮动效，而非真实后端认证——登录流程为前端模拟（正确密码固定为 123456，成功触发庆祝动效，失败触发回弹反馈）。',
         repoUrl: 'https://github.com/gouxinjie/animatedLogin-react',
@@ -423,38 +447,38 @@ export const projects: Project[] = [
         ]
     },
     {
-        "id": "my-dify-chat",
-        "title": "My Dify Chat",
-        "category": "应用",
-        "tags": ["React", "Next.js", "Monorepo", "Tailwind CSS", "Prisma", "Ant Design", "TypeScript"],
-        "featured": false,
-        "order": 11,
-        "brief": "基于 Dify 的企业级 AI 聊天与管理平台",
-        "description": "My Dify Chat 是基于开源 Dify Chat 二次开发的企业级聊天应用解决方案，采用现代化的 pnpm Monorepo 架构。项目集成了 Dify AI 能力，提供可扩展、易维护的聊天机器人前端及可视化管理平台。包含独立的 Next.js 管理后台（负责用户认证、应用配置、数据库管理、API 代理）与 React + RSBuild 沉浸式聊天前端，并深度集成钉钉免登及工作台访问，支持 SQLite / MySQL / PostgreSQL 多数据库与多环境（本地 / UAT / 生产）部署。",
-        "repoUrl": "https://gitee.com/gou-xinjie/my-dify-chat",
-        "deployPath": "",
-        "startMode": "本地启动：根目录执行 `pnpm install` 安装依赖；初始化数据库（默认 MySQL）`pnpm --filter dify-chat-platform db:push`，创建管理员 `pnpm --filter dify-chat-platform create-admin`；启动管理后台 `pnpm dev:platform`（http://localhost:5300），启动聊天应用 `pnpm dev:react`（http://localhost:5200）。生产构建：`pnpm build`；支持 Docker Compose 部署。",
-        "status": "未发布",
-        "remark": "",
-        "port": "5300",
-        "url": null,
-        "covers": [
+        id: "my-dify-chat",
+        title: "My Dify Chat",
+        category: "应用",
+        tags: ["React", "Next.js", "Monorepo", "Tailwind CSS", "Prisma", "Ant Design", "TypeScript"],
+        featured: false,
+        order: 11,
+        brief: "基于 Dify 的企业级 AI 聊天与管理平台",
+        description: "My Dify Chat 是基于开源 Dify Chat 二次开发的企业级聊天应用解决方案，采用现代化的 pnpm Monorepo 架构。项目集成了 Dify AI 能力，提供可扩展、易维护的聊天机器人前端及可视化管理平台。包含独立的 Next.js 管理后台（负责用户认证、应用配置、数据库管理、API 代理）与 React + RSBuild 沉浸式聊天前端，并深度集成钉钉免登及工作台访问，支持 SQLite / MySQL / PostgreSQL 多数据库与多环境（本地 / UAT / 生产）部署。",
+        repoUrl: "https://gitee.com/gou-xinjie/my-dify-chat",
+        deployPath: "",
+        startMode: "本地启动：根目录执行 `pnpm install` 安装依赖；初始化数据库（默认 MySQL）`pnpm --filter dify-chat-platform db:push`，创建管理员 `pnpm --filter dify-chat-platform create-admin`；启动管理后台 `pnpm dev:platform`（http://localhost:5300），启动聊天应用 `pnpm dev:react`（http://localhost:5200）。生产构建：`pnpm build`；支持 Docker Compose 部署。",
+        status: "未发布",
+        remark: "",
+        port: "5300",
+        url: null,
+        covers: [
             '/images/project-cover/my-dify-chat.png',
             '/images/project-cover/my-dify-chat-1.png',
         ],
-        "techStackBrief": "React 19 + Next.js 15 管理后台、React 19 + RSBuild 聊天前端、TypeScript、Ant Design 6、Tailwind CSS（v3/v4）、Prisma ORM、NextAuth.js 认证、Zustand 状态管理、pnpm Monorepo",
-        "techStackDetail": [
-            { "category": "前端框架", "tech": "React 19 + Next.js 15（platform）、React 19 + RSBuild（react-app）" },
-            { "category": "构建工具", "tech": "RSBuild、RSLib、pnpm workspace" },
-            { "category": "UI 系统", "tech": "Ant Design 6、Tailwind CSS（react-app v3 / platform v4）、Lucide Icons" },
-            { "category": "状态管理", "tech": "React Hooks、Zustand" },
-            { "category": "数据持久化", "tech": "Prisma ORM（SQLite / MySQL / PostgreSQL）" },
-            { "category": "认证方案", "tech": "NextAuth.js" },
-            { "category": "语言", "tech": "TypeScript" },
-            { "category": "质量保证", "tech": "ESLint、Prettier、Biome、Vitest" },
-            { "category": "包管理", "tech": "pnpm" }
+        techStackBrief: "React 19 + Next.js 15 管理后台、React 19 + RSBuild 聊天前端、TypeScript、Ant Design 6、Tailwind CSS（v3/v4）、Prisma ORM、NextAuth.js 认证、Zustand 状态管理、pnpm Monorepo",
+        techStackDetail: [
+            { category: "前端框架", tech: "React 19 + Next.js 15（platform）、React 19 + RSBuild（react-app）" },
+            { category: "构建工具", tech: "RSBuild、RSLib、pnpm workspace" },
+            { category: "UI 系统", tech: "Ant Design 6、Tailwind CSS（react-app v3 / platform v4）、Lucide Icons" },
+            { category: "状态管理", tech: "React Hooks、Zustand" },
+            { category: "数据持久化", tech: "Prisma ORM（SQLite / MySQL / PostgreSQL）" },
+            { category: "认证方案", tech: "NextAuth.js" },
+            { category: "语言", tech: "TypeScript" },
+            { category: "质量保证", tech: "ESLint、Prettier、Biome、Vitest" },
+            { category: "包管理", tech: "pnpm" }
         ]
-    }
+    },
 
 
 
