@@ -242,7 +242,7 @@ export const projects: Project[] = [
     {
         id: 'flow-calendar',
         title: 'flow-calendar',
-        category: '其他',
+        category: '应用',
         tags: ['Next.js', 'React 19', 'Prisma'],
         featured: false,
         order: 6,
@@ -389,7 +389,40 @@ export const projects: Project[] = [
             { category: '包管理', tech: 'npm（前端）/ pip（后端）' },
             { category: '代码质量', tech: 'ESLint' }
         ]
+    },
+    {
+        id: 'animated-login-react',
+        title: 'Animated Login React',
+        category: '应用',
+        tags: ['React', 'Vite', 'Tailwind CSS', 'Framer Motion', 'CSS Animation'],
+        featured: false,
+        order: 10,
+        brief: '交互式动画登录页示例',
+        description: '一个基于 React + Vite 的交互式登录页示例。页面左侧是会响应用户操作的抽象角色动画（眼球跟随鼠标、随机眨眼、回避/偷看密码、提交结果反馈），右侧是带邮箱与密码校验、显示/隐藏密码、提交状态反馈的演示登录表单。重点在状态联动、角色反馈和按钮动效，而非真实后端认证——登录流程为前端模拟（正确密码固定为 123456，成功触发庆祝动效，失败触发回弹反馈）。',
+        repoUrl: 'https://github.com/gouxinjie/animatedLogin-react',
+        deployPath: '',
+        startMode: '本地启动：`npm install` 安装依赖，然后 `npm run dev` 启动 Vite 开发服务器（默认 http://localhost:5173）；`npm run build` 构建，或 `npm run preview` 预览产物',
+        status: '未发布',
+        remark: '',
+        port: '5173',
+        url: null,
+        covers: [
+            '/images/project-cover/animated-login-react.png',
+            '/images/project-cover/animated-login-react-1.png',
+            '/images/project-cover/animated-login-react-2.png',
+            '/images/project-cover/animated-login-react-3.png',
+        ],
+        techStackBrief: 'React 18 + Vite 5 前端、Tailwind CSS 4、Framer Motion 12 动画、原生 CSS 关键帧动画、JavaScript (JSX)',
+        techStackDetail: [
+            { category: '前端框架', tech: 'React 18 + Vite 5' },
+            { category: '样式', tech: 'Tailwind CSS 4 + 原生 CSS 关键帧动画' },
+            { category: '动画', tech: 'Framer Motion 12' },
+            { category: '语言', tech: 'JavaScript（JSX）' },
+            { category: '构建', tech: 'Vite 5' },
+            { category: '包管理', tech: 'npm' }
+        ]
     }
+
 
 
 
