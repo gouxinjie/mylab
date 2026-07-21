@@ -117,7 +117,7 @@ export const projects: Project[] = [
         remark: 'GitHub Actions 自动部署，push main 触发 `npm run build` → 生成 standalone 运行产物 → rsync 上传 deploy-artifact 到 ECS → PM2 重载 Node 服务 → Nginx reload',
         port: 'Nginx 监听 8080 端口反代到 5174（PM2 管理 Node 进程）',
         url: 'http://prompt.gouxinjie.com',
-        covers: ['/images/project-cover/prompt.png'],
+        covers: ['/images/project-cover/prompt.png', '/images/project-cover/prompt-1.png', '/images/project-cover/prompt-2.png', '/images/project-cover/prompt-3.png'],
         techStackBrief: 'Next.js 16、React 19、TypeScript、Supabase、SCSS Modules、Radix UI',
         techStackDetail: [
             { category: '框架', tech: 'Next.js + React 19 + TypeScript' },
