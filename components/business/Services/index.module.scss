@@ -55,7 +55,7 @@
     background: linear-gradient(90deg, var(--color-accent), var(--color-primary));
     transform: scaleX(0);
     transform-origin: center;
-    transition: transform 0.3s ease;
+    transition: transform 0.3s ease, height 0.3s ease;
   }
 
   &:hover {
@@ -67,6 +67,7 @@
 
   &:hover::before {
     transform: scaleX(1);
+    height: 1px;
   }
 
   // 图标盒子：强调色淡底、强调色图标，hover 旋转放大
