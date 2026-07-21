@@ -51,7 +51,7 @@ const notoSansSC = localFont({
 
 export const metadata: Metadata = {
   title: {
-    default: "xinjie - Full Stack Developer & AI Explorer",
+    default: "xinjie | web开发",
     template: "%s | xinjie",
   },
   description:
