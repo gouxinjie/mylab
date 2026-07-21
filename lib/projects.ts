@@ -479,6 +479,46 @@ export const projects: Project[] = [
             { category: "包管理", tech: "pnpm" }
         ]
     },
+    {
+        "id": "life-record-hub",
+        "title": "life-record-hub",
+        "category": "应用",
+        "tags": ["React", "FastAPI", "MySQL", "TypeScript", "Python"],
+        "featured": false,
+        "order": 12,
+        "brief": "个人生活记录效率助手",
+        "description": "一个基于 FastAPI + React + MySQL 驱动的现代化个人事务管理效率助手。支持富文本/Markdown 双格式笔记、待办事项管理（优先级/星标/截止日期）、每日打卡习惯追踪（可视化进度）、体重趋势记录与目标管理、食谱收藏与管理，以及响应式多主题切换",
+        "repoUrl": "https://github.com/gouxinjie/life-record-hub",
+        "deployPath": "",
+        "startMode": "",
+        "status": "未发布",
+        "remark": "",
+        "port": "",
+        "url": null,
+        "covers": ['/images/project-cover/life-record-hub.png', '/images/project-cover/life-record-hub-1.png', '/images/project-cover/life-record-hub-2.png', '/images/project-cover/life-record-hub-3.png', '/images/project-cover/life-record-hub-4.png'],
+        "techStackBrief": "React 18、Vite 5、TypeScript 5 前端、React Router 6、Ant Design 5 + Tailwind CSS + SCSS 样式、Axios 请求、React Context 状态管理、FastAPI + Uvicorn 后端、MySQL 8 数据库、SQLAlchemy 2.0 ORM、OAuth2 + JWT + bcrypt 鉴权",
+        "techStackDetail": [
+            { "category": "前端框架", "tech": "React 18.2 + Vite 5.0 + TypeScript 5.2" },
+            { "category": "路由", "tech": "React Router DOM v6" },
+            { "category": "状态管理", "tech": "React Context（ThemeContext 主题切换）" },
+            { "category": "UI 组件库", "tech": "Ant Design 5.11 + @ant-design/icons 5.2" },
+            { "category": "样式方案", "tech": "Tailwind CSS 3.4 + SCSS/SCSS Modules + CSS 变量主题" },
+            { "category": "请求", "tech": "Axios（拦截器自动注入 Bearer Token，统一错误处理）" },
+            { "category": "富文本编辑器", "tech": "react-quill-new 3.7（Quill）" },
+            { "category": "Markdown 渲染", "tech": "react-markdown 10.1 + remark-gfm 4.0" },
+            { "category": "图表", "tech": "Recharts 2.9（体重趋势可视化）" },
+            { "category": "日期处理", "tech": "dayjs 1.11" },
+            { "category": "后端", "tech": "FastAPI 0.104 + Uvicorn 0.24（ASGI）" },
+            { "category": "数据库", "tech": "MySQL 8.0 + PyMySQL 1.1 + SQLAlchemy 2.0 ORM" },
+            { "category": "鉴权", "tech": "OAuth2 Password Flow + python-jose JWT + passlib[bcrypt]" },
+            { "category": "数据校验", "tech": "Pydantic 2.5 + pydantic-settings 2.1" },
+            { "category": "文件上传", "tech": "python-multipart" },
+            { "category": "配置", "tech": "python-dotenv" },
+            { "category": "运行环境", "tech": "Node.js 18+ / Python 3.8+ / MySQL 8.0+" },
+            { "category": "包管理", "tech": "pnpm（前端）/ pip（后端）" },
+            { "category": "Monorepo 启动", "tech": "concurrently（跨平台并行启动前后端）" }
+        ]
+    }
 
 
 
