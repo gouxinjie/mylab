@@ -1,0 +1,22 @@
+# 依赖与构建产物（容器内会重新安装与构建）
+node_modules
+.next
+out
+
+# 版本控制与本地环境
+.git
+.gitignore
+.github
+.vscode
+.idea
+
+# 文档、截图、临时文件（非运行时所需）
+docs
+old
+*.md
+*.log
+npm-debug.log*
+.DS_Store
+
+# 本地证书（勿打入镜像）
+certs

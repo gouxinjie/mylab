@@ -6,6 +6,9 @@ const path = require('path');
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  // 输出 standalone 模式：将生产所需文件打包到 .next/standalone，便于 Docker 多阶段镜像精简体积
+  output: 'standalone',
+
   // 实验性：对图标库做按需导入优化，减小客户端 bundle（Next 已默认覆盖部分库，此处显式声明）
   experimental: {
     optimizePackageImports: ['lucide-react'],

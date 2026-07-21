@@ -85,7 +85,7 @@ export const projects: Project[] = [
         status: '正常运行',
         remark: 'GitHub Actions 自动部署，push main 触发 vitepress build → SCP 上传 dist → ECS Nginx reload',
         port: '直接监听的本地80端口',
-        url: 'http://gouxinjie.com',
+        url: 'http://blog.gouxinjie.com/',
         covers: ['/images/project-cover/blog.png', '/images/project-cover/blog-1.png', '/images/project-cover/blog-2.png'],
         techStackBrief: 'VitePress、Vue 3、TypeScript、Sass、TailwindCSS、Algolia 搜索',
         techStackDetail: [

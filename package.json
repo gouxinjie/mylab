@@ -3,6 +3,7 @@
     "version": "0.1.0",
     "private": false,
     "license": "MIT",
+    "packageManager": "pnpm@9.15.4",
     "scripts": {
         "dev": "next dev --port 3500",
         "build": "next build",

@@ -1,0 +1,49 @@
+# ============================================================
+# GitHub Actions：推送 master 分支后自动部署到阿里云 ECS
+# 原理：Runner 通过 SSH 登录 ECS，自动克隆/拉取代码并重建容器
+# 自动克隆：目录无 .git 时 git clone，已有则 git pull，因此首次部署也无需手动 clone
+# ============================================================
+name: 部署到阿里云 ECS
+
+on:
+  # 推送 master 分支时自动触发
+  push:
+    branches: [master]
+  # 允许在 Actions 页面手动触发
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    name: 拉取代码并重建容器
+    runs-on: ubuntu-latest
+    steps:
+      - name: 通过 SSH 在 ECS 上更新并部署
+        uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.ECS_HOST }}
+          username: ${{ secrets.ECS_USERNAME }}
+          key: ${{ secrets.ECS_SSH_KEY }}
+          # 可选：若首次连接报 host key 校验失败，用 `ssh-keyscan 主机IP` 生成后填入 ECS_HOST_KEY
+          # host_key: ${{ secrets.ECS_HOST_KEY }}
+          script_stop: true
+          script: |
+            set -e
+            # 首次连接 GitHub 时自动接受主机指纹；-i 显式指定 Deploy key（文件名非默认，必须指定）
+            export GIT_SSH_COMMAND="ssh -i ~/.ssh/github_deploy -o StrictHostKeyChecking=accept-new"
+            mkdir -p /var/www
+            # 使用当前仓库的 SSH 地址（owner/repo）
+            REPO_SSH="git@github.com:${{ github.repository }}.git"
+
+            if [ ! -d /var/www/mylab/.git ]; then
+              # 目录尚未初始化 git 仓库：自动克隆（首次部署无需手动 clone）
+              rm -rf /var/www/mylab
+              git clone "$REPO_SSH" /var/www/mylab
+            else
+              # 已存在：拉取最新代码
+              cd /var/www/mylab
+              git pull origin master
+            fi
+
+            cd /var/www/mylab
+            docker compose up -d --build
+            docker image prune -f

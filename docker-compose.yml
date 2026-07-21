@@ -1,0 +1,29 @@
+# ============================================================
+# docker-compose：编排 Next.js 应用 + Nginx 反代
+# 对外仅暴露 Nginx 的 80，应用容器只在内部网络通信
+# 当前阶段：仅 HTTP，后续启用 HTTPS 时再补充 443 端口与证书挂载
+# ============================================================
+services:
+  # Next.js 应用（standalone 镜像）
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    # 仅对内暴露，不映射到宿主机端口
+    expose:
+      - "3500"
+    environment:
+      - NODE_ENV=production
+
+  # Nginx 反向代理（处理 gzip、静态缓存、反代）
+  nginx:
+    image: nginx:1.27-alpine
+    restart: unless-stopped
+    ports:
+      - "80:80"
+    volumes:
+      # 反代配置（只读挂载）
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
+    depends_on:
+      - app
