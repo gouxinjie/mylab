@@ -15,7 +15,7 @@ title: 关于 me
     <div class="hero-info">
       <h1>苟新节 (XinJie)</h1>
       <br>
-      <p class="tagline">全栈开发工程师 • 技术探索者 • 终身学习者</p>
+      <p class="tagline">Web开发工程师 • 技术探索者 • 终身学习者</p>
       <div class="hero-desc">
         热爱用代码创造优雅、高性能的 Web 体验。前端深耕 React/Vue 生态，同时涉猎 Node.js、Python 后端及 DevOps 工程化实践。
         <br>相信持续精进的力量——功不唐捐，静水流深。

@@ -79,7 +79,7 @@
   "About": {
     "label": "关于我",
     "name": "苟新节 (XinJie)",
-    "tagline": "全栈开发工程师 • 技术探索者 • 终身学习者",
+    "tagline": "Web开发工程师 • 技术探索者 • 终身学习者",
     "title": "热爱技术，专注创造有价值的产品",
     "description": "热爱用代码创造优雅、高性能的 Web 体验。前端深耕 React/Vue 生态，同时涉猎 Node.js、Python 后端及 DevOps 工程化实践。\n相信持续精进的力量——功不唐捐，静水流深。",
     "location": "中国 · 上海",
@@ -118,7 +118,7 @@
     "less": "少",
     "more": "多",
     "profile_name": "xinjie",
-    "profile_role": "全栈开发工程师\nAI 探索者"
+    "profile_role": "Web开发工程师\nAI 探索者"
   },
   "BlogEntry": {
     "title": "探索更多技术分享与思考",

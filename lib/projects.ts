@@ -439,7 +439,8 @@ export const projects: Project[] = [
         "port": "5300",
         "url": null,
         "covers": [
-            
+            '/images/project-cover/my-dify-chat.png',
+            '/images/project-cover/my-dify-chat-1.png',
         ],
         "techStackBrief": "React 19 + Next.js 15 管理后台、React 19 + RSBuild 聊天前端、TypeScript、Ant Design 6、Tailwind CSS（v3/v4）、Prisma ORM、NextAuth.js 认证、Zustand 状态管理、pnpm Monorepo",
         "techStackDetail": [
