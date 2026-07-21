@@ -49,29 +49,30 @@
     white-space: pre-line;
     font-size: 26px;
     font-weight: bold;
-    line-height: 1.25;
-    letter-spacing: -0.025em;
+    line-height: 1.3; // 中文含手动换行，1.3 比 1.25 更舒适
+    letter-spacing: -0.01em; // 中文为主，弱负字距即可，避免字形拥挤
     color: var(--color-text-primary);
+    text-wrap: balance; // 大屏下自动平衡两行长度，更整齐
 
     @media (min-width: 640px) {
-      font-size: 32px;
+      font-size: 30px;
     }
 
     @media (min-width: 1024px) {
-      font-size: 40px;
+      font-size: 34px; // 大屏字号收敛（原 40px 偏大），更克制耐看
     }
   }
 
   // 副标题
   .subtitle {
-    margin-top: 12px;
+    margin-top: 20px; // 与标题拉开主→次过渡的留白（原 12px 过紧）
     font-size: 16px;
-    line-height: 1.625;
+    line-height: 1.7; // 中文阅读更透气（原 1.625）
     color: var(--color-text-secondary);
 
     @media (min-width: 640px) {
-      font-size: 18px;
-      max-width: 480px;
+      font-size: 17px; // 大屏收敛至 17px，与缩小后的标题比例更协调
+      max-width: 520px; // 中屏起限制宽度（微调至 520 优化行长）
     }
   }
 }
