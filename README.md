@@ -18,13 +18,25 @@
 
 ![mylab 关于页](imgs/关于.png)
 
-## 技术栈
+## 技术栈与部署
+
+### 技术栈
 
 - **框架**：Next.js 16（App Router）
 - **前端**：React 19 + TypeScript
 - **样式**：SCSS Modules + TailwindCSS（CSS Variables 双主题）
-- **国际化**：zh / en 多语言
-- **部署**：阿里云 ECS（Docker / PM2 / Nginx）
+- **国际化**：next-intl 中/英多语言
+- **内容渲染**：react-markdown + rehype + remark-gfm + mermaid（代码高亮与流程图）
+
+### 部署信息
+
+- **仓库地址**：https://github.com/gouxinjie/mylab
+- **部署路径**：/var/www/mylab
+- **镜像仓库**：ghcr.io/gouxinjie/mylab:latest
+- **启动方式**：Docker Compose 双容器（app + nginx）→ 宿主 Nginx 反代到 127.0.0.1:3500，GitHub Actions 自动构建与部署
+- **端口**：nginx 容器 80 → 宿主 3500，app 仅内网 3500，宿主 Nginx 对外 80
+- **访问**：http://gouxinjie.com
+- **CI/CD**：GitHub Actions（push master 触发 docker build → push ghcr.io → SCP 上传 → ECS docker compose pull + up -d）
 
 ## 收录项目
 
