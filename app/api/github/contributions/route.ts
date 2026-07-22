@@ -21,13 +21,23 @@ export async function GET(req: NextRequest) {
   const username = req.nextUrl.searchParams.get("username") || DEFAULT_USERNAME;
   const upstream = `${UPSTREAM_TEMPLATE}/${username}`;
   try {
+    // 添加 AbortController 超时控制，防止生产环境外网请求无限挂起
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 10000);
+
     const res = await fetch(upstream, {
       headers: { Accept: "application/json" },
-      // 缓存一天，降低上游压力
+      // 缓存一天，降低上游压力（standalone 模式下配合 ISR 生效）
       next: { revalidate: 86400 },
+      signal: controller.signal,
     });
 
+    clearTimeout(timeoutId);
+
     if (!res.ok) {
+      console.error(
+        `[GitHub Contributions] 上游返回非 2xx: ${res.status} ${res.statusText}, username=${username}, upstream=${upstream}`
+      );
       return NextResponse.json(
         {
           success: false,
@@ -46,7 +56,12 @@ export async function GET(req: NextRequest) {
       message: "操作成功",
       data,
     });
-  } catch {
+  } catch (err) {
+    // 记录完整错误信息，便于生产环境排查
+    const message = err instanceof Error ? err.message : String(err);
+    console.error(
+      `[GitHub Contributions] 请求异常: ${message}, username=${username}, upstream=${upstream}`
+    );
     return NextResponse.json(
       {
         success: false,

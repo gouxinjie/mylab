@@ -28,13 +28,23 @@ export async function GET(req: NextRequest) {
   }
 
   try {
+    // 添加 AbortController 超时控制，防止生产环境外网请求无限挂起
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 10000);
+
     const res = await fetch(upstream, {
       headers,
       // 缓存一小时，降低上游压力
       next: { revalidate: 3600 },
+      signal: controller.signal,
     });
 
+    clearTimeout(timeoutId);
+
     if (!res.ok) {
+      console.error(
+        `[GitHub User] 上游返回非 2xx: ${res.status} ${res.statusText}, username=${username}, upstream=${upstream}`
+      );
       return NextResponse.json(
         {
           success: false,
@@ -53,7 +63,11 @@ export async function GET(req: NextRequest) {
       message: "操作成功",
       data,
     });
-  } catch {
+  } catch (err) {
+    const message = err instanceof Error ? err.message : String(err);
+    console.error(
+      `[GitHub User] 请求异常: ${message}, username=${username}, upstream=${upstream}`
+    );
     return NextResponse.json(
       {
         success: false,
