@@ -85,5 +85,8 @@ jobs:
             set -e
             cd /var/www/mylab
             docker compose pull
+            # 先停并移除本项目旧容器，释放宿主机 80 端口，
+            # 避免新 nginx 容器因端口被旧容器占用而启动失败（address already in use）
+            docker compose down || true
             docker compose up -d
             docker image prune -f
