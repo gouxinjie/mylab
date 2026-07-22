@@ -16,6 +16,7 @@ services:
       - "3500"
     environment:
       - NODE_ENV=production
+      - NODE_OPTIONS=--dns-result-order=ipv4first
 
   # Nginx 反向代理（处理 gzip、静态缓存、反代）
   # 注：宿主机 nginx 已占用 80，此处映射到宿主机 3500，由宿主 nginx 转发
