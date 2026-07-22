@@ -74,8 +74,9 @@ const defaultComponents: Components = {
     return <pre>{children}</pre>;
   },
   // 外链（http/https）在新标签页打开，并补齐安全 rel，避免反向 tab 劫持
-  // 解构排除 node（react-markdown 注入的 AST 节点），避免其被展开到真实 DOM
-  a({ _node, href, children, ...rest }) {
+  // 解构排除 node（react-markdown 注入的 AST 节点），避免其被展开到真实 DOM。
+  // 用 node: _node 重命名：既匹配 react-markdown 真实属性名，又以 _ 前缀满足 ESLint 未使用变量规则
+  a({ node: _node, href, children, ...rest }) {
     const isExternal = !!href && /^https?:\/\//i.test(href);
     if (isExternal) {
       return (
