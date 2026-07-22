@@ -46,7 +46,7 @@ const parseImageSize = (
 
 // 默认渲染组件：统一接管图片与 Mermaid 代码块
 const defaultComponents: Components = {
-  img({ node, title, style, src, alt }) {
+  img({ title, style, src, alt }) {
     const { width, height, restTitle } = parseImageSize(title);
     const imgStyle: CSSProperties = { maxWidth: "100%", ...style };
     if (width) imgStyle.width = `${width}px`;
@@ -75,7 +75,7 @@ const defaultComponents: Components = {
   },
   // 外链（http/https）在新标签页打开，并补齐安全 rel，避免反向 tab 劫持
   // 解构排除 node（react-markdown 注入的 AST 节点），避免其被展开到真实 DOM
-  a({ node, href, children, ...rest }) {
+  a({ _node, href, children, ...rest }) {
     const isExternal = !!href && /^https?:\/\//i.test(href);
     if (isExternal) {
       return (

@@ -22,7 +22,8 @@
         "react-markdown": "^10.1.0",
         "rehype-highlight": "^7.0.2",
         "rehype-slug": "^6.0.0",
-        "remark-gfm": "^4.0.1"
+        "remark-gfm": "^4.0.1",
+        "github-slugger": "^1.5.0"
     },
     "devDependencies": {
         "@types/node": "^20.14.0",
