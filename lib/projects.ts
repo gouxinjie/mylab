@@ -71,6 +71,40 @@ export interface Project {
  */
 export const projects: Project[] = [
     {
+        id: 'mylab',
+        title: 'mylab',
+        category: '平台',
+        tags: ['Next.js', 'React 18', 'TypeScript', 'SCSS', 'next-intl', 'Docker'],
+        featured: true,
+        order: 0,
+        brief: '我的个人项目展示站（Portfolio）',
+        description: '一个集中展示与归档我维护的各类 Web 应用、平台与工具的个人作品集站点，支持中英文双语浏览。首页呈现精选作品与动态视觉，项目列表可按分类 / 标签筛选，详情页轮播展示封面与技术栈；内置 AI 笔记（Markdown 文档渲染、Mermaid 图表）、AI 产品导航与 GitHub 数据看板，整体以 SCSS + CSS 变量实现双主题。',
+        repoUrl: 'https://github.com/gouxinjie/mylab',
+        deployPath: '/var/www/mylab',
+        startMode: 'Docker Compose 编排（Next.js standalone 镜像 + Nginx 反代），GitHub Actions 构建镜像推送到 ghcr.io 后由 ECS 拉取运行',
+        status: '正常运行',
+        remark: 'GitHub Actions 自动部署，push main 触发 → 类型校验 → 构建 standalone 镜像 → 推送 ghcr.io → SSH 解压发布包 → Docker Compose pull + up -d（滚动替换）',
+        port: 'Next.js standalone 监听 3500，容器 Nginx 反代对外 3500，宿主机 Nginx 转发 80 → 127.0.0.1:3500',
+        url: 'https://www.gouxinjie.com',
+        covers: ['/images/project-cover/mylab.png', '/images/project-cover/mylab-1.png', '/images/project-cover/mylab-2.png'],
+        techStackBrief: 'Next.js 14、React 18、TypeScript、SCSS、next-intl 国际化、React Markdown、Mermaid、Docker Compose 部署',
+        techStackDetail: [
+            { category: '框架', tech: 'Next.js 14（App Router）+ React 18 + TypeScript' },
+            { category: '样式', tech: 'SCSS（变量、Mixin、BEM 语义化命名）+ CSS 变量双主题' },
+            { category: '国际化', tech: 'next-intl（zh / en 多语言路由，中间件语言检测）' },
+            { category: 'Markdown 渲染', tech: 'react-markdown + remark-gfm + rehype-highlight + rehype-slug + github-slugger' },
+            { category: '图表', tech: 'Mermaid 11（AI 笔记流程图 / 架构图）' },
+            { category: '图标', tech: 'lucide-react（optimizePackageImports 按需导入）' },
+            { category: '字体', tech: '@fontsource/noto-sans-sc（思源黑体）' },
+            { category: '内容管理', tech: '文件系统 Markdown（content/ai/*.md 运行时读取，lib/ai-docs.ts 解析）' },
+            { category: '代码质量', tech: 'ESLint + eslint-config-next' },
+            { category: '包管理', tech: 'pnpm' },
+            { category: '构建', tech: 'Next.js standalone 输出（多阶段 Docker 镜像精简体积）' },
+            { category: 'CI/CD', tech: 'GitHub Actions（构建镜像 → 推送 ghcr.io → SSH 远程部署）' },
+            { category: '部署', tech: '阿里云 ECS + Docker Compose（Next.js 应用 + Nginx 反代）' }
+        ]
+    },
+    {
         id: 'blog',
         title: 'blog',
         category: '学习研究',
