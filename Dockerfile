@@ -1,6 +1,7 @@
 # ============================================================
 # 多阶段构建：Next.js (standalone) 生产镜像
-# 适用于阿里云 ECS 部署，配合 docker-compose + Nginx 反代
+# 适用于在 GitHub Actions Runner 上构建并推送至镜像仓库，
+# 阿里云 ECS 仅负责 pull 运行，不再于小内存机器上执行 next build。
 # ============================================================
 
 # ---------- 阶段一：构建 ----------
@@ -15,9 +16,8 @@ COPY package.json pnpm-lock.yaml* ./
 RUN pnpm install --frozen-lockfile
 
 # 复制源码并执行生产构建（standalone 模式）
+# 构建在 CI Runner（内存充足）进行，无需限制 NODE_OPTIONS。
 COPY . .
-# 限制 Node 旧生代内存上限，缓解小内存 ECS 构建时的 OOM（配合 ECS 交换分区效果更佳）
-ENV NODE_OPTIONS=--max-old-space-size=2048
 RUN pnpm build
 
 # ---------- 阶段二：运行 ----------
@@ -38,6 +38,12 @@ COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
 # 复制静态资源与公共资源到 standalone 目录内
 COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 COPY --from=builder --chown=nextjs:nodejs /app/public ./public
+
+# 复制运行时需通过 fs 读取的目录（standalone 不会自动追踪，必须显式复制）
+# - content/：lib/ai-docs.ts 运行时读取 content/ai/*.md 渲染文档页
+# - messages/：next-intl 国际化消息（兜底，避免运行时缺失）
+COPY --from=builder --chown=nextjs:nodejs /app/content ./content
+COPY --from=builder --chown=nextjs:nodejs /app/messages ./messages
 
 USER nextjs
 

@@ -11,9 +11,9 @@ out
 .idea
 
 # 文档、截图、临时文件（非运行时所需）
+# 注意：勿用 `*.md`，否则会误伤运行时需读取的 content/*.md（被 standalone 排除，必须显式 COPY 进镜像）
 docs
 old
-*.md
 *.log
 npm-debug.log*
 .DS_Store

@@ -4,11 +4,10 @@
 # 当前阶段：仅 HTTP，后续启用 HTTPS 时再补充 443 端口与证书挂载
 # ============================================================
 services:
-  # Next.js 应用（standalone 镜像）
+  # Next.js 应用（镜像由 GitHub Actions 构建并推送到 ghcr.io，ECS 仅 pull 运行）
   app:
-    build:
-      context: .
-      dockerfile: Dockerfile
+    # 镜像地址格式：ghcr.io/<owner>/<repo>:latest
+    image: ghcr.io/gouxinjie/mylab:latest
     restart: unless-stopped
     # 仅对内暴露，不映射到宿主机端口
     expose:

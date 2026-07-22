@@ -4,7 +4,7 @@
 > 采用 **Next.js standalone 多阶段镜像 + Nginx 反向代理** 的容器化方案，并配合 GitHub Actions 实现 push 自动部署。
 >
 > 当前配置：域名 `gouxinjie.com`，**仅使用 HTTP（80）**，代码部署路径 `/var/www/mylab`。
-> 代码获取方式：GitHub Actions 在 Runner 端 `checkout` 完整代码后，通过 SCP 直接传到 ECS，**ECS 无需访问 GitHub**，也不再需要配置 GitHub Deploy Key。
+> 代码获取方式：GitHub Actions 在 Runner 端 `checkout` 完整代码，于 **Runner 上 `docker build` 并推送镜像到 `ghcr.io`**（使用内置 `GITHUB_TOKEN`，无需额外密钥）；再通过 SCP 把运行时文件（`nginx.conf` / `docker-compose.yml`）传到 ECS，最后 ECS 仅执行 `docker compose pull && up -d`。**ECS 不执行 `next build`**，规避小内存机器 OOM / swap 卡死问题。
 
 ---
 
@@ -20,7 +20,7 @@
 
 - **Next.js 容器**：基于官方推荐的 `standalone` 输出，镜像仅含运行所需文件，体积小、启动快。
 - **Nginx 容器**：对外暴露 80，负责 gzip、反向代理；应用容器仅在 compose 内部网络可达，不直接暴露公网。
-- **GitHub Actions**：push 到 `master` 后，Runner 先 `checkout` 完整代码（含 `pnpm-lock.yaml`），通过 SCP 传到 ECS，再在 ECS 上完成 `docker compose build`，无需人工登录服务器、也无需 ECS 访问 GitHub。
+- **GitHub Actions**：push 到 `master` 后，Runner 先 `checkout` 完整代码（含 `pnpm-lock.yaml`），在 **Runner 上 `docker build` 并推送镜像到 `ghcr.io`**；再通过 SCP 把运行时文件传到 ECS，ECS 仅执行 `docker compose pull && up -d`，无需人工登录服务器、也无需 ECS 访问 GitHub、更无需在 ECS 上执行重型构建。
 
 > 后续如需启用 HTTPS，只需在 `nginx.conf` 增加 443 server 段、在 `docker-compose.yml` 补充 443 端口与证书挂载即可，应用侧与 workflow 无需改动。
 
@@ -152,15 +152,7 @@ docker image prune -f
 - **端口冲突**：宿主机 3500 无需对外开放，仅容器内部使用；确认宿主机 80 未被其他服务占用。
 - **/var/www 无写权限**：确认 `ECS_USERNAME` 为 root 或已按步骤 1 赋权。
 - **docker build 很慢 / 拉取 node 镜像超时**：建议在 ECS 上为 Docker 配置镜像加速器（如阿里云容器镜像服务 ACR 的加速器地址），可显著提升 `node:20-alpine` 基础镜像拉取速度。
-- **构建进程被杀死 / Actions 报 `status 255`（疑似 OOM）**：`next build` 在类型检查阶段（本项目引入的 `mermaid` 类型定义极其庞大）内存占用很高，2G 内存的 ECS 容易 OOM，`ssh` 会话会随之中断导致报 255 而非正常错误码。先确认：`dmesg | grep -i "out of memory"`。根治办法是在 ECS 上添加交换分区（一次性）：
-  ```bash
-  sudo fallocate -l 2G /swapfile
-  sudo chmod 600 /swapfile
-  sudo mkswap /swapfile
-  sudo swapon /swapfile
-  free -h   # 确认 Swap 已生效
-  ```
-  > 若需重启后依然生效，将 `/swapfile none swap sw 0 0` 写入 `/etc/fstab`。同时 `Dockerfile` 已设置 `NODE_OPTIONS=--max-old-space-size=2048` 限制堆内存，配合交换分区即可稳定构建。
+- **构建 OOM / 卡死（历史问题，新方案已规避）**：早期方案在 ECS（仅 1.8G 内存）本地执行 `next build`，`mermaid` 类型定义庞大导致内存飙升；给 ECS 加 swap 反而会让系统在「换页抖动」中卡死、SSH 失联。**当前方案已将构建移至 GitHub Actions Runner（内存充足），ECS 仅 `docker compose pull` 运行，不再在 ECS 上 build，因此无需在 ECS 配置任何交换分区。** 若日后仍需在 ECS 本地构建，再考虑扩容内存或改用外部构建 + 镜像拉取，切勿盲目加 swap。
 
 ---
 

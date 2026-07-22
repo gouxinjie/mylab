@@ -1,8 +1,11 @@
 # ============================================================
 # GitHub Actions：推送 master 分支后自动部署到阿里云 ECS
-# 原理：Runner 先 checkout 完整代码（含 pnpm-lock.yaml），
-#       通过 SCP 直接把代码传到 ECS，再在 ECS 上重建容器。
-# 优势：ECS 无需访问 GitHub，不再依赖 Deploy key，lockfile 随代码一并传输。
+# 原理：
+#   1. Runner 检出完整代码（含 pnpm-lock.yaml）
+#   2. 在 Runner 上 docker build 并推送镜像到 ghcr.io（构建不再发生在 ECS）
+#   3. 通过 SCP 把运行时所需文件（nginx.conf / docker-compose.yml 等）传到 ECS
+#   4. ECS 上 docker compose pull && up -d，仅拉取并运行，不再执行 next build
+# 优势：ECS（仅 1.8G 内存）无需承担重型构建，彻底规避 OOM / swap 卡死问题。
 # ============================================================
 name: 部署到阿里云 ECS
 
@@ -13,17 +16,45 @@ on:
   # 允许在 Actions 页面手动触发
   workflow_dispatch:
 
+# 授予推送镜像到 ghcr.io 的权限（GITHUB_TOKEN 需 packages: write）
+# actions: read 供 docker/build-push-action 的 gha 缓存使用
+permissions:
+  contents: read
+  packages: write
+  actions: read
+
 jobs:
   deploy:
-    name: 传输代码并重建容器
+    name: 构建镜像并部署
     runs-on: ubuntu-latest
     steps:
       # 步骤 1：Runner 本地检出完整仓库（含 pnpm-lock.yaml）
       - name: 检出代码
         uses: actions/checkout@v4
 
-      # 步骤 2：通过 SCP 将代码传到 ECS（不再依赖 ECS 访问 GitHub）
-      - name: 传输代码到 ECS
+      # 步骤 2：登录 ghcr.io（使用内置 GITHUB_TOKEN，无需额外密钥）
+      - name: 登录 ghcr.io
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      # 步骤 3：构建并推送镜像到 ghcr.io
+      - name: 构建并推送镜像
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: true
+          # 镜像地址：ghcr.io/<owner>/<repo>:latest
+          tags: ghcr.io/${{ github.repository }}:latest
+          # 利用 GitHub Actions 缓存加速层复用
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      # 步骤 4：通过 SCP 把运行时所需文件传到 ECS（仅 nginx.conf 与 pull 版 docker-compose.yml，
+      #         应用镜像由上方推送到 ghcr.io，ECS 无需源码）
+      - name: 传输运行时文件到 ECS
         uses: appleboy/scp-action@v1
         with:
           host: ${{ secrets.ECS_HOST }}
@@ -33,13 +64,12 @@ jobs:
           # host_key: ${{ secrets.ECS_HOST_KEY }}
           # 传输前清空目标目录，保证无残留旧文件
           rm: true
-          # 复制仓库根目录全部内容（排除 .git 历史与 node_modules）
-          source: "."
+          # 仅传输运行所需文件（应用镜像来自 ghcr.io，ECS 不再持有源码）
+          source: "nginx.conf,docker-compose.yml"
           target: "/var/www/mylab"
-          exclude: ".git/,node_modules/"
 
-      # 步骤 3：在 ECS 上重建并启动容器
-      - name: 在 ECS 上重建容器
+      # 步骤 5：在 ECS 上拉取镜像并启动容器（不再 --build）
+      - name: 在 ECS 上拉取并启动容器
         uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{ secrets.ECS_HOST }}
@@ -50,5 +80,6 @@ jobs:
           script: |
             set -e
             cd /var/www/mylab
-            docker compose up -d --build
+            docker compose pull
+            docker compose up -d
             docker image prune -f
