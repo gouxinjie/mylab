@@ -73,6 +73,7 @@ jobs:
           target: "/var/www/mylab"
 
       # 步骤 5：在 ECS 上拉取镜像并启动容器（不再 --build）
+      # 增加超时与重试机制，防止 ECS 到 ghcr.io 网络波动导致部署失败
       - name: 在 ECS 上拉取并启动容器
         uses: appleboy/ssh-action@v1.0.3
         with:
@@ -80,13 +81,19 @@ jobs:
           username: ${{ secrets.ECS_USERNAME }}
           key: ${{ secrets.ECS_SSH_KEY }}
           # host_key: ${{ secrets.ECS_HOST_KEY }}
+          timeout: 30m
+          command_timeout: 20m
           script_stop: true
           script: |
             set -e
             cd /var/www/mylab
-            docker compose pull
-            # 先停并移除本项目旧容器，释放宿主机 80 端口，
-            # 避免新 nginx 容器因端口被旧容器占用而启动失败（address already in use）
+            # 重试 pull，应对国内 ECS 拉 ghcr.io 偶发慢速/超时
+            for i in 1 2 3; do
+              echo "[第${i}次] docker compose pull..."
+              docker compose pull && break
+              echo "[重试 ${i}/3] pull 失败，等待 30 秒后重试..."
+              sleep 30
+            done
             docker compose down || true
             docker compose up -d
             docker image prune -f
