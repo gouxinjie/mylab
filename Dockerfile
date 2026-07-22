@@ -16,6 +16,8 @@ RUN pnpm install --frozen-lockfile
 
 # 复制源码并执行生产构建（standalone 模式）
 COPY . .
+# 限制 Node 旧生代内存上限，缓解小内存 ECS 构建时的 OOM（配合 ECS 交换分区效果更佳）
+ENV NODE_OPTIONS=--max-old-space-size=2048
 RUN pnpm build
 
 # ---------- 阶段二：运行 ----------

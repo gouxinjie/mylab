@@ -152,6 +152,15 @@ docker image prune -f
 - **端口冲突**：宿主机 3500 无需对外开放，仅容器内部使用；确认宿主机 80 未被其他服务占用。
 - **/var/www 无写权限**：确认 `ECS_USERNAME` 为 root 或已按步骤 1 赋权。
 - **docker build 很慢 / 拉取 node 镜像超时**：建议在 ECS 上为 Docker 配置镜像加速器（如阿里云容器镜像服务 ACR 的加速器地址），可显著提升 `node:20-alpine` 基础镜像拉取速度。
+- **构建进程被杀死 / Actions 报 `status 255`（疑似 OOM）**：`next build` 在类型检查阶段（本项目引入的 `mermaid` 类型定义极其庞大）内存占用很高，2G 内存的 ECS 容易 OOM，`ssh` 会话会随之中断导致报 255 而非正常错误码。先确认：`dmesg | grep -i "out of memory"`。根治办法是在 ECS 上添加交换分区（一次性）：
+  ```bash
+  sudo fallocate -l 2G /swapfile
+  sudo chmod 600 /swapfile
+  sudo mkswap /swapfile
+  sudo swapon /swapfile
+  free -h   # 确认 Swap 已生效
+  ```
+  > 若需重启后依然生效，将 `/swapfile none swap sw 0 0` 写入 `/etc/fstab`。同时 `Dockerfile` 已设置 `NODE_OPTIONS=--max-old-space-size=2048` 限制堆内存，配合交换分区即可稳定构建。
 
 ---
 
