@@ -242,7 +242,7 @@ export default function Footer() {
   ];
 
   const resourceLinks: FooterLinkItem[] = [
-    { label: t("blog"), href: "https://blog.gouxinjie.com", external: true },
+    { label: t("blog"), href: "http://blog.gouxinjie.com/", external: true },
     { label: "GitHub", href: "https://github.com/gouxinjie", external: true },
     { label: "Gitee", href: "https://gitee.com/gou-xinjie", external: true },
     { label: "CSDN", href: "https://blog.csdn.net/qq_43886365?type=blog", external: true },
