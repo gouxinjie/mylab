@@ -17,7 +17,7 @@ export default function BlogEntry() {
     <section className={styles['blog-section']}>
       <div className="container-custom">
         <Link
-          href="https://blog.gouxinjie.com"
+          href="http://blog.gouxinjie.com/"
           target="_blank"
           rel="noopener noreferrer"
           className={styles.entry}

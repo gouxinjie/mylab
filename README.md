@@ -32,7 +32,7 @@
 
 | 项目 | 简述 | 链接 |
 | --- | --- | --- |
-| blog | 我的技术博客系统 | [仓库](https://github.com/gouxinjie/gouxinjie.github.io) · [线上](http://gouxinjie.com) |
+| blog | 我的技术博客系统 | [仓库](https://github.com/gouxinjie/gouxinjie.github.io) · [线上](http://blog.gouxinjie.com/) |
 | prompt | 我的提示词案例库平台 | [仓库](https://github.com/gouxinjie/prompt-template-studio) · [线上](http://prompt.gouxinjie.com) |
 | archive | 我的个人档案管理系统 | [仓库](https://github.com/gouxinjie/archive) · [线上](http://archive.gouxinjie.com) |
 | compress-imgs | 我的个人在线图片压缩工具 | [仓库](https://github.com/gouxinjie/compress-imgs) · [线上](http://compress-imgs.gouxinjie.com) |
