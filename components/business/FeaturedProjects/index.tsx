@@ -308,6 +308,22 @@ function ProjectCard({ project, onOpen }: ProjectCardProps) {
  * 项目详情内容
  * @param project - 项目数据
  */
+/**
+ * 根据项目状态与部署情况，生成详情页顶部的外部链接文案与目标 URL
+ * @returns { label: string; url: string } 或 null（无可访问链接）
+ */
+function getDetailExternalLink(project: Project): { label: string; url: string } | null {
+  // 已上线的项目优先展示线上地址
+  if (project.url) {
+    return { label: "访问项目", url: project.url };
+  }
+  // 未上线但有仓库地址时展示"查看仓库"
+  if (project.repoUrl) {
+    return { label: "查看仓库", url: project.repoUrl };
+  }
+  return null;
+}
+
 function ProjectDetail({
   project,
   onZoom,
@@ -316,7 +332,7 @@ function ProjectDetail({
   /** 点击项目截图时回调，用于打开放大预览 */
   onZoom: (src: string) => void;
 }) {
-  const externalUrl = project.url || project.repoUrl || undefined;
+  const externalLink = getDetailExternalLink(project);
 
   return (
     <div className={styles.detail}>
@@ -329,14 +345,14 @@ function ProjectDetail({
           <span className={styles.detail__statusDot} />
           {project.status}
         </span>
-        {externalUrl ? (
+        {externalLink ? (
           <a
-            href={externalUrl}
+            href={externalLink.url}
             target="_blank"
             rel="noopener noreferrer"
             className={styles.detail__link}
           >
-            访问项目<span className={styles.detail__arrow}>→</span>
+            {externalLink.label}<span className={styles.detail__arrow}>→</span>
           </a>
         ) : null}
       </div>
@@ -368,22 +384,30 @@ function ProjectDetail({
             )}
           </dd>
         </div>
-        <div className={styles.detail__row}>
-          <dt className={styles.detail__label}>部署路径</dt>
-          <dd className={styles.detail__value}>{project.deployPath}</dd>
-        </div>
-        <div className={styles.detail__row}>
-          <dt className={styles.detail__label}>启动方式</dt>
-          <dd className={styles.detail__value}>{project.startMode}</dd>
-        </div>
-        <div className={styles.detail__row}>
-          <dt className={styles.detail__label}>端口</dt>
-          <dd className={styles.detail__value}>{project.port}</dd>
-        </div>
-        <div className={styles.detail__row}>
-          <dt className={styles.detail__label}>备注</dt>
-          <dd className={styles.detail__value}>{project.remark}</dd>
-        </div>
+        {project.deployPath ? (
+          <div className={styles.detail__row}>
+            <dt className={styles.detail__label}>部署路径</dt>
+            <dd className={styles.detail__value}>{project.deployPath}</dd>
+          </div>
+        ) : null}
+        {project.startMode ? (
+          <div className={styles.detail__row}>
+            <dt className={styles.detail__label}>启动方式</dt>
+            <dd className={styles.detail__value}>{project.startMode}</dd>
+          </div>
+        ) : null}
+        {project.port ? (
+          <div className={styles.detail__row}>
+            <dt className={styles.detail__label}>端口</dt>
+            <dd className={styles.detail__value}>{project.port}</dd>
+          </div>
+        ) : null}
+        {project.remark ? (
+          <div className={styles.detail__row}>
+            <dt className={styles.detail__label}>备注</dt>
+            <dd className={styles.detail__value}>{project.remark}</dd>
+          </div>
+        ) : null}
       </dl>
 
       <hr className={styles.detail__divider} />
