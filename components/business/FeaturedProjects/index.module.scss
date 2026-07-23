@@ -643,12 +643,35 @@
     color: var(--color-text-primary);
   }
 
-  // 技术栈简述
+  // 技术栈简述：主题色标签胶囊，自动换行
   &__techBrief {
-    margin-bottom: 12px;
-    font-size: 13px;
-    line-height: 1.6;
-    color: var(--color-text-secondary);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 16px;
+  }
+
+  // 单个技术标签：浅主题底 + 主题色文字 + 细边框
+  &__techBriefTag {
+    padding: 4px 12px;
+    font-size: 12px;
+    line-height: 1.5;
+    color: var(--color-accent);
+    background-color: rgba(var(--color-accent-rgb), 0.1);
+    border: 1px solid rgba(var(--color-accent-rgb), 0.2);
+    border-radius: var(--radius-xl);
+    transition: background-color 0.2s ease, transform 0.2s ease;
+
+    &:hover {
+      background-color: rgba(var(--color-accent-rgb), 0.18);
+      transform: translateY(-1px);
+    }
+  }
+
+  // 暗色模式：适当提高底色透明度，保证对比度
+  :global(.dark) &__techBriefTag {
+    background-color: rgba(var(--color-accent-rgb), 0.16);
+    border-color: rgba(var(--color-accent-rgb), 0.28);
   }
 
   // 技术栈明细列表

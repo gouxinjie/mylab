@@ -415,7 +415,20 @@ function ProjectDetail({
       {/* 技术栈（置于详情底部） */}
       <section className={styles.detail__section}>
         <h4 className={styles.detail__sectionTitle}>技术栈</h4>
-        <p className={styles.detail__techBrief}>{project.techStackBrief}</p>
+        <div className={styles.detail__techBrief}>
+          {project.techStackBrief
+            .split(/[、,，]/)
+            .map((tech) => tech.trim())
+            .filter(Boolean)
+            .map((tech) => (
+              <span
+                key={tech}
+                className={styles.detail__techBriefTag}
+              >
+                {tech}
+              </span>
+            ))}
+        </div>
         <ul className={styles.detail__techList}>
           {project.techStackDetail.map((item) => (
             <li
