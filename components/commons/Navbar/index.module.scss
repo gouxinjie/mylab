@@ -42,7 +42,7 @@
     transform: scale(0.95);
   }
 
-  // 品牌 logo：承载 xj 图标（图标自带绿色渐变背景），hover 旋转
+  // 品牌 logo：承载 xj 图标（图标自带绿色渐变背景）
   &__logo {
     display: flex;
     height: 32px;
@@ -51,10 +51,6 @@
     justify-content: center;
     filter: drop-shadow(var(--shadow-md));
     transition: transform 0.2s;
-  }
-
-  &:hover &__logo {
-    transform: rotate(12deg);
   }
 
   // 品牌名称：渐变文字，小屏隐藏

@@ -34,7 +34,7 @@
   }
 }
 
-// 服务项卡片：浅色表面，悬浮上浮、强调色高亮与阴影
+// 服务项卡片：浅色表面，悬浮上浮、强调色高亮与立体阴影
 .item {
   position: relative;
   overflow: hidden;
@@ -42,7 +42,21 @@
   border: 1px solid var(--color-surface-muted);
   background-color: rgba(var(--color-surface-rgb), 0.5);
   padding: 18px;
+  // 多层柔和阴影：模拟卡片自然悬浮的厚度感
+  box-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.04),
+    0 8px 18px -10px rgba(0, 0, 0, 0.12);
   transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease, background-color 0.25s ease;
+
+  // 顶部高光：模拟光源照射，增强立体凸起感
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.08), transparent 45%);
+    pointer-events: none;
+  }
 
   // 顶部强调色装饰条：悬浮时从中间向两侧展开
   &::before {
@@ -58,11 +72,11 @@
     transition: transform 0.3s ease, height 0.3s ease;
   }
 
+  // 移入只保留上浮与边框高亮，阴影维持默认轻量
   &:hover {
-    transform: translateY(-4px);
+    transform: translateY(-6px);
     background-color: var(--color-bg);
     border-color: rgba(var(--color-accent-rgb), 0.4);
-    box-shadow: var(--shadow-card);
   }
 
   &:hover::before {
@@ -70,18 +84,23 @@
     height: 1px;
   }
 
-  // 图标盒子：强调色淡底、强调色图标，hover 旋转放大
+  // 图标盒子：立体按钮式，渐变高光 + 内/外阴影
   &__icon-box {
     margin-bottom: 12px;
     @include icon-square(44px);
-    background-color: rgba(var(--color-accent-rgb), 0.12);
+    // 对角渐变背景，模拟受光面与背光面
+    background-image: linear-gradient(145deg, rgba(var(--color-accent-rgb), 0.22), rgba(var(--color-accent-rgb), 0.10));
+    // 内高光 + 外投影，营造凸起立体感
+    box-shadow:
+      inset 0 1px 1px rgba(255, 255, 255, 0.45),
+      0 4px 8px -2px rgba(var(--color-accent-rgb), 0.30);
     color: var(--color-accent);
-    transition: transform 0.25s ease, background-color 0.25s ease;
+    transition: transform 0.25s ease, background-image 0.25s ease, box-shadow 0.25s ease;
   }
 
+  // 移入时不叠加额外动效与重投影，保持默认立体感即可
   &:hover &__icon-box {
-    transform: scale(1.08);
-    background-color: rgba(var(--color-accent-rgb), 0.18);
+    background-image: linear-gradient(145deg, rgba(var(--color-accent-rgb), 0.28), rgba(var(--color-accent-rgb), 0.14));
   }
 
   // 服务标题：hover 变强调色

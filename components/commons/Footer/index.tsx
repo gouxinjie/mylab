@@ -25,6 +25,8 @@ interface FooterLinkItem {
   label: string;
   href: string;
   external?: boolean;
+  /** 是否为纯展示项：渲染为无 href 的 span，点击无任何反应 */
+  noAction?: boolean;
   icon?: React.ReactNode;
 }
 
@@ -252,9 +254,9 @@ export default function Footer() {
   const locationLabel = t("location");
 
   const contactLinks: FooterLinkItem[] = [
-    { label: "gxj1311318389@163.com", href: "mailto:gxj1311318389@163.com", external: true, icon: <MailIcon /> },
-    { label: "微信: 13113183859", href: "#", external: false, icon: <WechatIcon /> },
-    { label: locationLabel, href: "#", external: false, icon: <MapPinIcon /> },
+    { label: "gxj1311318389@163.com", href: "mailto:gxj1311318389@163.com", external: true, noAction: true, icon: <MailIcon /> },
+    { label: "微信: 13113183859", href: "#", external: false, noAction: true, icon: <WechatIcon /> },
+    { label: locationLabel, href: "#", external: false, noAction: true, icon: <MapPinIcon /> },
   ];
 
   const sections: FooterSectionItem[] = [
@@ -279,8 +281,6 @@ export default function Footer() {
               <div className={styles.brand__socials}>
                 <a
                   href="https://github.com/gouxinjie"
-                  target="_blank"
-                  rel="noopener noreferrer"
                   className={styles.brand__socialBtn}
                   aria-label="GitHub"
                 >
@@ -333,17 +333,31 @@ export default function Footer() {
                   >
                     {section.links.map((item) => (
                       <li key={`${section.id}-${item.label}`}>
-                        {item.external ? (
-                          <a
-                            href={item.href}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className={styles.section__link}
-                          >
+                        {item.noAction ? (
+                          // 纯展示项：无 href、点击无任何反应（联系分组中的邮箱/微信/地址）
+                          <span className={styles.section__link}>
                             {item.icon && <span className={styles.section__link__icon}>{item.icon}</span>}
                             <span>{item.label}</span>
-                            <ExternalIcon />
-                          </a>
+                          </span>
+                        ) : item.external ? (
+                          // 仅 http(s) 外部链接在新标签打开；mailto 等协议链接不加 target，避免强制开新窗口
+                          item.href.startsWith("http") ? (
+                            <a
+                              href={item.href}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className={styles.section__link}
+                            >
+                              {item.icon && <span className={styles.section__link__icon}>{item.icon}</span>}
+                              <span>{item.label}</span>
+                              <ExternalIcon />
+                            </a>
+                          ) : (
+                            <a href={item.href} className={styles.section__link}>
+                              {item.icon && <span className={styles.section__link__icon}>{item.icon}</span>}
+                              <span>{item.label}</span>
+                            </a>
+                          )
                         ) : (
                           <Link href={item.href} className={styles.section__link}>
                             {item.icon && <span className={styles.section__link__icon}>{item.icon}</span>}
