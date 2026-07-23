@@ -74,7 +74,24 @@
       "other": "Other",
       "learning": "Learning"
     },
-    "search_placeholder": "Search projects..."
+    "search_placeholder": "Search projects...",
+    "status": {
+      "running": "Running",
+      "developing": "In Development",
+      "unpublished": "Unpublished"
+    },
+    "labels": {
+      "repo": "Repository",
+      "visit": "Live URL",
+      "deployPath": "Deploy Path",
+      "startMode": "How to Start",
+      "port": "Port",
+      "remark": "Remark",
+      "techStack": "Tech Stack",
+      "screenshots": "Screenshots",
+      "visitProject": "Visit Project",
+      "viewRepo": "View Repository"
+    }
   },
   "About": {
     "label": "About Me",

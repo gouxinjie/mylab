@@ -10,16 +10,41 @@
 
 import { useState, useEffect, useMemo } from "react";
 import { Link } from "@/lib/navigation";
-import { projects, Project, ProjectCategory } from "@/lib/projects";
-import { useTranslations } from "next-intl";
+import { projects, Project, ProjectCategory, ProjectStatus, LocalizedText } from "@/lib/projects";
+import { useLocale, useTranslations } from "next-intl";
 import FadeIn from "@/components/commons/FadeIn";
 import Modal from "@/components/commons/Modal";
 import Lightbox from "@/components/commons/Lightbox";
 import Image from "next/image";
 import styles from "./index.module.scss";
 
+/**
+ * 根据当前语言取多语言文本
+ * @param text - 多语言文本对象
+ * @param locale - 当前语言（zh / en）
+ * @returns 对应语言的文案
+ */
+const getLocalized = (text: LocalizedText, locale: string): string => (locale === "en" ? text.en : text.zh);
+
+/**
+ * 获取项目状态的本地化展示文案
+ * @param t - 翻译函数（FeaturedProjects 命名空间）
+ * @param status - 项目状态枚举键
+ * @returns 对应语言的展示文案
+ */
+const getStatusLabel = (t: (key: string) => string, status: ProjectStatus): string => {
+  const map: Record<ProjectStatus, string> = {
+    "正常运行": t("status.running"),
+    "开发中": t("status.developing"),
+    "未发布": t("status.unpublished")
+  };
+  return map[status];
+};
+
 export default function FeaturedProjects({ limit, showFilters }: { limit?: number; showFilters?: boolean }) {
   const t = useTranslations("FeaturedProjects");
+  // 当前语言（zh / en），用于取项目双语字段
+  const locale = useLocale();
   // 当前选中的项目（用于详情弹窗）
   const [selected, setSelected] = useState<Project | null>(null);
   // 当前激活的分类筛选
@@ -58,11 +83,11 @@ export default function FeaturedProjects({ limit, showFilters }: { limit?: numbe
   const visibleProjects = useMemo(() => {
     const query = searchQuery.trim().toLowerCase();
     return baseProjects.filter((project) => {
-      const categoryMatch = activeCategory === "all" || project.category === activeCategory;
+      const categoryMatch = activeCategory === "all" || project.category.zh === activeCategory;
       const searchMatch = !query || (
         project.title.toLowerCase().includes(query) ||
-        project.brief.toLowerCase().includes(query) ||
-        project.description.toLowerCase().includes(query) ||
+        getLocalized(project.brief, locale).toLowerCase().includes(query) ||
+        getLocalized(project.description, locale).toLowerCase().includes(query) ||
         project.tags.some((tag) => tag.toLowerCase().includes(query))
       );
       return categoryMatch && searchMatch;
@@ -151,7 +176,7 @@ export default function FeaturedProjects({ limit, showFilters }: { limit?: numbe
           // 关闭详情时同步关闭可能仍在展示的放大灯箱
           setZoomSrc(null);
         }}
-        title={selected?.brief}
+        title={selected ? getLocalized(selected.brief, locale) : undefined}
         subtitle={selected?.title}
       >
         {selected ? <ProjectDetail project={selected} onZoom={setZoomSrc} /> : null}
@@ -176,6 +201,8 @@ interface ProjectCardProps {
 }
 
 function ProjectCard({ project, onOpen }: ProjectCardProps) {
+  const locale = useLocale();
+  const t = useTranslations("FeaturedProjects");
   return (
     <article
       className={styles.card}
@@ -240,18 +267,18 @@ function ProjectCard({ project, onOpen }: ProjectCardProps) {
           data-status={project.status}
         >
           <span className={styles.card__statusDot} />
-          {project.status}
+          {getStatusLabel(t, project.status)}
         </span>
         <div className={styles.card__top}>
           <h3 className={styles.card__title}>
-            {project.brief}
+            {getLocalized(project.brief, locale)}
           </h3>
           <span className={styles.card__categoryTag}>
-            {project.category}
+            {getLocalized(project.category, locale)}
           </span>
         </div>
         <p className={styles.card__desc}>
-          {project.description}
+          {getLocalized(project.description, locale)}
         </p>
 
         {/* 标签与链接：标签居左，仓库/项目图标居右 */}
@@ -312,14 +339,14 @@ function ProjectCard({ project, onOpen }: ProjectCardProps) {
  * 根据项目状态与部署情况，生成详情页顶部的外部链接文案与目标 URL
  * @returns { label: string; url: string } 或 null（无可访问链接）
  */
-function getDetailExternalLink(project: Project): { label: string; url: string } | null {
+function getDetailExternalLink(project: Project): { labelKey: string; url: string } | null {
   // 已上线的项目优先展示线上地址
   if (project.url) {
-    return { label: "访问项目", url: project.url };
+    return { labelKey: "labels.visitProject", url: project.url };
   }
   // 未上线但有仓库地址时展示"查看仓库"
   if (project.repoUrl) {
-    return { label: "查看仓库", url: project.repoUrl };
+    return { labelKey: "labels.viewRepo", url: project.repoUrl };
   }
   return null;
 }
@@ -332,6 +359,8 @@ function ProjectDetail({
   /** 点击项目截图时回调，用于打开放大预览 */
   onZoom: (src: string) => void;
 }) {
+  const locale = useLocale();
+  const t = useTranslations("FeaturedProjects");
   const externalLink = getDetailExternalLink(project);
 
   return (
@@ -343,7 +372,7 @@ function ProjectDetail({
           data-status={project.status}
         >
           <span className={styles.detail__statusDot} />
-          {project.status}
+          {getStatusLabel(t, project.status)}
         </span>
         {externalLink ? (
           <a
@@ -352,20 +381,20 @@ function ProjectDetail({
             rel="noopener noreferrer"
             className={styles.detail__link}
           >
-            {externalLink.label}<span className={styles.detail__arrow}>→</span>
+            {t(externalLink.labelKey)}<span className={styles.detail__arrow}>→</span>
           </a>
         ) : null}
       </div>
 
       {/* 完整描述 */}
-      <p className={styles.detail__desc}>{project.description}</p>
+      <p className={styles.detail__desc}>{getLocalized(project.description, locale)}</p>
 
       <hr className={styles.detail__divider} />
 
       {/* 部署与运行信息 */}
       <dl className={styles.detail__list}>
         <div className={styles.detail__row}>
-          <dt className={styles.detail__label}>仓库地址</dt>
+          <dt className={styles.detail__label}>{t("labels.repo")}</dt>
           <dd className={styles.detail__value}>
             {project.repoUrl ? (
               <a href={project.repoUrl} target="_blank" rel="noopener noreferrer">{project.repoUrl}</a>
@@ -375,7 +404,7 @@ function ProjectDetail({
           </dd>
         </div>
         <div className={styles.detail__row}>
-          <dt className={styles.detail__label}>访问地址</dt>
+          <dt className={styles.detail__label}>{t("labels.visit")}</dt>
           <dd className={styles.detail__value}>
             {project.url ? (
               <a href={project.url} target="_blank" rel="noopener noreferrer">{project.url}</a>
@@ -386,26 +415,26 @@ function ProjectDetail({
         </div>
         {project.deployPath ? (
           <div className={styles.detail__row}>
-            <dt className={styles.detail__label}>部署路径</dt>
+            <dt className={styles.detail__label}>{t("labels.deployPath")}</dt>
             <dd className={styles.detail__value}>{project.deployPath}</dd>
           </div>
         ) : null}
         {project.startMode ? (
           <div className={styles.detail__row}>
-            <dt className={styles.detail__label}>启动方式</dt>
-            <dd className={styles.detail__value}>{project.startMode}</dd>
+            <dt className={styles.detail__label}>{t("labels.startMode")}</dt>
+            <dd className={styles.detail__value}>{getLocalized(project.startMode, locale)}</dd>
           </div>
         ) : null}
         {project.port ? (
           <div className={styles.detail__row}>
-            <dt className={styles.detail__label}>端口</dt>
+            <dt className={styles.detail__label}>{t("labels.port")}</dt>
             <dd className={styles.detail__value}>{project.port}</dd>
           </div>
         ) : null}
         {project.remark ? (
           <div className={styles.detail__row}>
-            <dt className={styles.detail__label}>备注</dt>
-            <dd className={styles.detail__value}>{project.remark}</dd>
+            <dt className={styles.detail__label}>{t("labels.remark")}</dt>
+            <dd className={styles.detail__value}>{getLocalized(project.remark, locale)}</dd>
           </div>
         ) : null}
       </dl>
@@ -414,9 +443,9 @@ function ProjectDetail({
 
       {/* 技术栈（置于详情底部） */}
       <section className={styles.detail__section}>
-        <h4 className={styles.detail__sectionTitle}>技术栈</h4>
+        <h4 className={styles.detail__sectionTitle}>{t("labels.techStack")}</h4>
         <div className={styles.detail__techBrief}>
-          {project.techStackBrief
+          {getLocalized(project.techStackBrief, locale)
             .split(/[、,，]/)
             .map((tech) => tech.trim())
             .filter(Boolean)
@@ -432,11 +461,11 @@ function ProjectDetail({
         <ul className={styles.detail__techList}>
           {project.techStackDetail.map((item) => (
             <li
-              key={item.category}
+              key={item.category.zh}
               className={styles.detail__techItem}
             >
-              <span className={styles.detail__techCategory}>{item.category}</span>
-              <span className={styles.detail__techValue}>{item.tech}</span>
+              <span className={styles.detail__techCategory}>{getLocalized(item.category, locale)}</span>
+              <span className={styles.detail__techValue}>{getLocalized(item.tech, locale)}</span>
             </li>
           ))}
         </ul>
@@ -446,7 +475,7 @@ function ProjectDetail({
 
       {/* 封面轮播（置于详情末尾） */}
       <section className={styles.detail__section}>
-        <h4 className={styles.detail__sectionTitle}>项目截图</h4>
+        <h4 className={styles.detail__sectionTitle}>{t("labels.screenshots")}</h4>
         <CoverCarousel covers={project.covers} title={project.title} autoPlay onZoom={onZoom} />
       </section>
     </div>

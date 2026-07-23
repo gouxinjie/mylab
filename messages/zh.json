@@ -74,7 +74,24 @@
       "other": "其他",
       "learning": "学习研究"
     },
-    "search_placeholder": "搜索项目..."
+    "search_placeholder": "搜索项目...",
+    "status": {
+      "running": "正常运行",
+      "developing": "开发中",
+      "unpublished": "未发布"
+    },
+    "labels": {
+      "repo": "仓库地址",
+      "visit": "访问地址",
+      "deployPath": "部署路径",
+      "startMode": "启动方式",
+      "port": "端口",
+      "remark": "备注",
+      "techStack": "技术栈",
+      "screenshots": "项目截图",
+      "visitProject": "访问项目",
+      "viewRepo": "查看仓库"
+    }
   },
   "About": {
     "label": "关于我",
