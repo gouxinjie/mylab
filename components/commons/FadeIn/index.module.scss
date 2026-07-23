@@ -1,26 +1,45 @@
 /**
- * FadeIn 渐入动画样式
- * 初始隐藏，进入视口（IntersectionObserver 触发 .visible）后渐显
+ * @file FadeIn 组件样式
+ * @description 滚动渐入动画。基础态为「可见」，确保 SSR / JS 失败时不白屏；
+ *              仅客户端挂载后对未进入视口的元素隐藏，进入视口后由 CSS 动画渐显。
+ * @author gouxinjie
+ * @updated 2026-07-23 默认可见 + JS 增强，修复白屏/闪烁
  */
 
 .fadeIn {
-  opacity: 0;
-  transform: translateY(var(--fade-y, 24px));
-  transition: opacity 0.6s ease, transform 0.6s ease;
-  transition-delay: var(--fade-delay, 0s);
+  // 基础态：可见，保证无 JS / SSR 首帧也能展示内容
+  opacity: 1;
   will-change: opacity, transform;
 }
 
-.visible {
-  opacity: 1;
-  transform: translateY(0);
+// 已进入视口：播放渐入动画（纯 CSS 驱动，无需 JS 保活）
+.animate {
+  animation: fadeInUp 0.6s ease both;
+  animation-delay: var(--fade-delay, 0s);
 }
 
-// 尊重用户的“减少动效”偏好，直接展示终态
+// 尚未进入视口（位于视口外）：保持隐藏，滚动进入后切换到 .animate
+.hidden {
+  opacity: 0;
+  transform: translateY(var(--fade-y, 24px));
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(var(--fade-y, 24px));
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+// 尊重「减少动态效果」偏好：直接展示，不做动画
 @media (prefers-reduced-motion: reduce) {
   .fadeIn {
     opacity: 1;
     transform: none;
-    transition: none;
+    animation: none;
   }
 }

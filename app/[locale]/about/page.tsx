@@ -6,6 +6,7 @@
  * @updated 2026-07-15
  */
 
+import { Suspense } from "react";
 import { useTranslations } from "next-intl";
 import { setRequestLocale } from "next-intl/server";
 import {
@@ -105,7 +106,9 @@ export default function AboutPage({ params: { locale } }: { params: { locale: st
 
       {/* GitHub 数据看板（含贡献热力图） */}
       <FadeIn>
-        <GitHubDashboard />
+        <Suspense fallback={<div style={{ minHeight: 320 }} />}>
+          <GitHubDashboard />
+        </Suspense>
       </FadeIn>
 
       {/* 技术清单区域 */}
