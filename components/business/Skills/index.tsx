@@ -3,13 +3,13 @@
  * @description 技术栈展示组件，展示常用的技能和工具
  * @author gouxinjie
  * @created 2026-07-18
- * @updated 2026-07-18
+ * @updated 2026-07-23 数据通过 props 接收，避免客户端引入大数据文件
  */
 
 "use client";
 
 import { Link } from "@/lib/navigation";
-import { skills } from "@/lib/data";
+import type { Skill } from "@/lib/data";
 import { useTranslations } from "next-intl";
 import styles from "./index.module.scss";
 
@@ -67,7 +67,12 @@ const skillIcons: Record<string, JSX.Element> = {
   ),
 };
 
-export default function SkillsSection() {
+export default function SkillsSection({
+  skills,
+}: {
+  /** 技能列表数据，由服务端组件传入 */
+  skills: Skill[];
+}) {
   const t = useTranslations("Skills");
 
   return (

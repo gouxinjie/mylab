@@ -3,7 +3,7 @@
  * @description 市面上主流 AI 产品展示数据（仅作展示，链接均为官方站点）
  * @author gouxinjie
  * @created 2026-07-16
- * @updated 2026-07-16 新增 company / tags / badge 字段以匹配设计稿卡片
+ * @updated 2026-07-23 数据通过 props 流向客户端组件（类型安全，不进入客户端 bundle）
  */
 
 /** 双语文案 */

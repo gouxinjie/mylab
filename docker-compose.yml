@@ -1,32 +1,25 @@
-# ============================================================
-# docker-compose：编排 Next.js 应用 + Nginx 反代
-# 应用容器只在内部网络通信；Nginx 容器对外暴露 3500 端口。
-# 说明：宿主机已自带 nginx 占用 80 端口，故本容器改用 3500，
-#       由宿主机 nginx 将 80 转发到 127.0.0.1:3500（见部署说明）。
-# 当前阶段：仅 HTTP，后续启用 HTTPS 时再补充 443 端口与证书挂载
-# ============================================================
+version: "3.8"
+
 services:
-  # Next.js 应用（镜像由 GitHub Actions 构建并推送到 ghcr.io，ECS 仅 pull 运行）
+  ngingx:
+    image: nginx:alpine
+    ports:
+      - "80:80"
+      - "3500:3500"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      app:
+        condition: service_healthy
+    restart: always
+
   app:
-    # 镜像地址格式：ghcr.io/<owner>/<repo>:latest
-    image: ghcr.io/gouxinjie/mylab:latest
-    restart: unless-stopped
-    # 仅对内暴露，不映射到宿主机端口
-    expose:
-      - "3500"
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: mylab
+    ports:
+      - "3500:3500"
+    restart: always
     environment:
       - NODE_ENV=production
-      - NODE_OPTIONS=--dns-result-order=ipv4first
-
-  # Nginx 反向代理（处理 gzip、静态缓存、反代）
-  # 注：宿主机 nginx 已占用 80，此处映射到宿主机 3500，由宿主 nginx 转发
-  nginx:
-    image: nginx:1.27-alpine
-    restart: unless-stopped
-    ports:
-      - "3500:80"
-    volumes:
-      # 反代配置（只读挂载）
-      - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
-    depends_on:
-      - app

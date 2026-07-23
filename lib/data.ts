@@ -1,3 +1,9 @@
+/**
+ * @file data.ts
+ * @description 全局共享数据：技能、经历、统计、技术栈等类型定义与数据集
+ * @author gouxinjie
+ */
+
 export interface Skill {
   name: string;
   icon: string;

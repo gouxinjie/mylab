@@ -10,7 +10,7 @@
 
 import { useState, useEffect, useMemo } from "react";
 import { Link } from "@/lib/navigation";
-import { projects, Project, ProjectCategory, ProjectStatus, LocalizedText } from "@/lib/projects";
+import type { Project, ProjectCategory, ProjectStatus, LocalizedText } from "@/lib/projects";
 import { useLocale, useTranslations } from "next-intl";
 import FadeIn from "@/components/commons/FadeIn";
 import Modal from "@/components/commons/Modal";
@@ -41,7 +41,16 @@ const getStatusLabel = (t: (key: string) => string, status: ProjectStatus): stri
   return map[status];
 };
 
-export default function FeaturedProjects({ limit, showFilters }: { limit?: number; showFilters?: boolean }) {
+export default function FeaturedProjects({
+  limit,
+  showFilters,
+  projects,
+}: {
+  limit?: number;
+  showFilters?: boolean;
+  /** 项目数据列表，由服务端组件传入（避免客户端直接引入大数据文件） */
+  projects: Project[];
+}) {
   const t = useTranslations("FeaturedProjects");
   // 当前语言（zh / en），用于取项目双语字段
   const locale = useLocale();

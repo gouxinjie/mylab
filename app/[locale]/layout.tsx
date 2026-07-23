@@ -1,3 +1,10 @@
+/**
+ * RootLayout
+ * @description 根布局组件，集成 i18n、主题、导航和动画
+ * @author gouxinjie
+ * @updated 2026-07-23 添加关键资源预加载、完善 SEO 元数据
+ */
+
 import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
 import "@/styles/global.scss";
@@ -5,10 +12,10 @@ import { AppProvider } from "@/components/commons/AppProviders";
 import Navbar from "@/components/commons/Navbar";
 import Footer from "@/components/commons/Footer";
 import PageTransition from "@/components/commons/PageTransition";
-import { NextIntlClientProvider } from 'next-intl';
-import { getMessages, setRequestLocale } from 'next-intl/server';
-import { locales, type Locale } from '@/i18n';
-import { notFound } from 'next/navigation';
+import { NextIntlClientProvider } from "next-intl";
+import { getMessages, setRequestLocale } from "next-intl/server";
+import { locales, type Locale } from "@/i18n";
+import { notFound } from "next/navigation";
 
 // Inter 字体自托管：从本地 woff2 加载，避免编译期访问 Google Fonts 失败
 const inter = localFont({
@@ -44,11 +51,8 @@ const notoSansSC = localFont({
 });
 
 /**
- * RootLayout
- * @description 根布局组件，集成 i18n、主题、导航和动画
- * @author gouxinjie
+ * 全局元数据：标题模板、描述、关键词、OpenGraph、Twitter Card
  */
-
 export const metadata: Metadata = {
   title: {
     default: "xinjie | web开发",
@@ -69,6 +73,38 @@ export const metadata: Metadata = {
   ],
   authors: [{ name: "xinjie", url: "https://gouxinjie.com" }],
   creator: "xinjie",
+  // OpenGraph 社交媒体分享预览
+  openGraph: {
+    type: "website",
+    locale: "zh_CN",
+    alternateLocale: "en_US",
+    siteName: "xinjie",
+    title: "xinjie | web开发",
+    description:
+      "全栈开发者，AI 探索者。用代码构建价值，用 AI 探索未来。",
+    url: "https://gouxinjie.com",
+    images: [{ url: "/images/hero-bg-1.png", width: 1200, height: 630 }],
+  },
+  // Twitter 卡片
+  twitter: {
+    card: "summary_large_image",
+    title: "xinjie | web开发",
+    description:
+      "全栈开发者，AI 探索者。用代码构建价值，用 AI 探索未来。",
+    images: ["/images/hero-bg-1.png"],
+  },
+  // 机器人索引规则
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
   icons: {
     icon: "/icon.svg",
   },
@@ -93,7 +129,7 @@ export function generateStaticParams() {
 
 export default async function RootLayout({
   children,
-  params: { locale }
+  params: { locale },
 }: Readonly<{
   children: React.ReactNode;
   params: { locale: string };
@@ -110,8 +146,13 @@ export default async function RootLayout({
   const messages = await getMessages();
 
   return (
-    <html lang={locale} suppressHydrationWarning className={`${inter.variable} ${jetbrainsMono.variable} ${notoSansSC.variable}`}>
+    <html
+      lang={locale}
+      suppressHydrationWarning
+      className={`${inter.variable} ${jetbrainsMono.variable} ${notoSansSC.variable}`}
+    >
       <head>
+        {/* 结构化数据：个人资料 */}
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{

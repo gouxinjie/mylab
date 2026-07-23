@@ -3,10 +3,11 @@
  * @description 关于我页面，参考设计稿重新设计
  * @author gouxinjie
  * @created 2026-07-18
- * @updated 2026-07-15
+ * @updated 2026-07-23 添加 SEO metadata
  */
 
 import { Suspense } from "react";
+import type { Metadata } from "next";
 import { useTranslations } from "next-intl";
 import { setRequestLocale } from "next-intl/server";
 import {
@@ -20,14 +21,27 @@ import {
   values,
   aboutStats,
   techCategories,
+  skills,
   type Experience,
   type Value,
 } from "@/lib/data";
 import FadeIn from "@/components/commons/FadeIn";
 import Section from "@/components/commons/Section";
 import GitHubDashboard from "@/components/business/GitHubDashboard";
+import SkillsSection from "@/components/business/Skills";
 import Image from "next/image";
 import styles from "./page.module.scss";
+
+/** 关于页 SEO 元数据 */
+export const metadata: Metadata = {
+  title: "关于我",
+  description:
+    "全栈开发者 xinjie 的个人介绍、技术栈、工作经历和价值观。了解我的成长足迹与技术能力。",
+  openGraph: {
+    title: "关于 xinjie",
+    description: "全栈开发者 | AI 探索者",
+  },
+};
 
 // 价值观图标映射
 const valueIcons: Record<string, JSX.Element> = {
@@ -109,6 +123,11 @@ export default function AboutPage({ params: { locale } }: { params: { locale: st
         <Suspense fallback={<div style={{ minHeight: 320 }} />}>
           <GitHubDashboard />
         </Suspense>
+      </FadeIn>
+
+      {/* 核心技能区域 */}
+      <FadeIn>
+        <SkillsSection skills={skills} />
       </FadeIn>
 
       {/* 技术清单区域 */}

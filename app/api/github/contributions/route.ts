@@ -1,156 +1,142 @@
 /**
  * @file route.ts
- * @description GitHub 贡献热力图代理接口（同源，规避浏览器跨域与网络限制）
+ * @description GitHub 贡献热力图 API - 代理获取用户年度贡献数据
  * @author gouxinjie
- * @created 2026-07-15
+ * @updated 2026-07-23 抽取公共工具函数 + 限流
  */
 
-import { NextRequest, NextResponse } from "next/server";
-import { readFileSync, existsSync } from "fs";
-import path from "path";
-import type { GithubContributionsData } from "@/types/api";
+import { NextResponse } from "next/server";
+import { fetchWithTimeout } from "@/utils/fetch-with-timeout";
+import { createRateLimiter } from "@/utils/rate-limiter";
 
-// 默认 GitHub 用户名（与看板保持一致）
-const DEFAULT_USERNAME = "gouxinjie";
-// 上游数据来源模板：公开贡献统计服务
-const UPSTREAM_TEMPLATE = "https://github-contributions-api.jogruber.de/v4";
-// 上游请求超时时间（毫秒），防止生产环境外网请求无限挂起
-const UPSTREAM_TIMEOUT = 10000;
-// 内存缓存有效期（毫秒）：缓存命中且未过期时直接返回，降低上游压力
-const CACHE_TTL = 60 * 60 * 1000;
-// 构建期预生成的兜底快照（国内 ECS 运行时往往无法直连境外上游）
-const SNAPSHOT_FILE = path.join(process.cwd(), "public", "data", "github-contributions.json");
+/** GitHub GraphQL API 请求超时时间（毫秒） */
+const GITHUB_API_TIMEOUT = 15000;
 
-/**
- * 贡献数据内存缓存条目
- * @property data - 上游返回的贡献数据
- * @property savedAt - 成功写入缓存的时间戳
- */
-interface CacheEntry {
-  data: GithubContributionsData;
-  savedAt: number;
-}
+/** 每 IP 每分钟最多 5 次请求（GraphQL 成本较高） */
+const limiter = createRateLimiter({ windowMs: 60 * 1000, maxRequests: 5 });
 
-// 模块级内存缓存：standalone 单实例下有效，可避免每次请求都打上游，
-// 并在上游抖动时提供“过期兜底”返回，保证看板始终可渲染。
-const cache = new Map<string, CacheEntry>();
-// 兜底快照读取缓存（仅首次读盘），避免每次请求都访问文件系统
-let snapshotCache: GithubContributionsData | null = null;
-let snapshotTried = false;
-
-/**
- * 读取构建期生成的兜底快照
- * @returns 快照数据；文件不存在或解析失败返回 null
- */
-function readSnapshot(): GithubContributionsData | null {
-  if (snapshotTried) return snapshotCache;
-  snapshotTried = true;
+export async function GET(request: Request) {
   try {
-    if (existsSync(SNAPSHOT_FILE)) {
-      snapshotCache = JSON.parse(readFileSync(SNAPSHOT_FILE, "utf8")) as GithubContributionsData;
-    }
-  } catch (err) {
-    const message = err instanceof Error ? err.message : String(err);
-    console.error(`[GitHub Contributions] 读取兜底快照失败: ${message}`);
-  }
-  return snapshotCache;
-}
+    // 获取客户端 IP 进行速率限制
+    const clientIp =
+      request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ||
+      request.headers.get("x-real-ip") ||
+      "unknown";
 
-/**
- * 获取 GitHub 贡献热力图（最近一年）
- * @remarks 由服务端代理请求上游，统一返回 ApiResponse 结构；浏览器仅请求同源 /api 路径。
- * 不使用 fetch 的 next 缓存（standalone 镜像未携带 .next/cache，会触发 500）。
- * 运行时优先取上游，失败则依次回退：内存缓存 → 构建期兜底快照文件。
- */
-export async function GET(req: NextRequest) {
-  const username = req.nextUrl.searchParams.get("username") || DEFAULT_USERNAME;
-  const upstream = `${UPSTREAM_TEMPLATE}/${username}`;
-
-  // 命中未过期内存缓存则直接返回，避免重复请求上游
-  const cached = cache.get(username);
-  if (cached && Date.now() - cached.savedAt < CACHE_TTL) {
-    return NextResponse.json({
-      success: true,
-      code: 200,
-      message: "操作成功",
-      data: cached.data,
-    });
-  }
-
-  try {
-    // 添加 AbortController 超时控制，防止生产环境外网请求无限挂起
-    const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), UPSTREAM_TIMEOUT);
-
-    const res = await fetch(upstream, {
-      headers: { Accept: "application/json" },
-      // 显式不缓存：交由本路由自管理内存缓存，规避 standalone 下 .next/cache 缺失问题
-      cache: "no-store",
-      signal: controller.signal,
-    });
-
-    clearTimeout(timeoutId);
-
-    if (!res.ok) {
-      console.error(
-        `[GitHub Contributions] 上游返回非 2xx: ${res.status} ${res.statusText}, username=${username}, upstream=${upstream}`
+    const retryAfter = limiter.check(clientIp);
+    if (retryAfter !== null) {
+      return NextResponse.json(
+        { success: false, code: "RATE_LIMITED", message: "请求过于频繁，请稍后再试", data: null },
+        { status: 429, headers: { "Retry-After": String(retryAfter) } },
       );
-      return fallback(username, cached);
     }
 
-    const data = (await res.json()) as GithubContributionsData;
-    // 写入内存缓存（含过期兜底），下次请求优先复用
-    cache.set(username, { data, savedAt: Date.now() });
+    const { searchParams } = new URL(request.url);
+    const username = searchParams.get("username");
+
+    if (!username) {
+      return NextResponse.json(
+        { success: false, code: "MISSING_PARAM", message: "缺少必要参数: username", data: null },
+        { status: 400 },
+      );
+    }
+
+    // 计算从一年前到今天
+    const to = new Date();
+    const from = new Date(to);
+    from.setFullYear(from.getFullYear() - 1);
+
+    const query = `
+      query($username: String!, $from: DateTime!, $to: DateTime!) {
+        user(login: $username) {
+          contributionsCollection(from: $from, to: $to) {
+            contributionCalendar {
+              totalContributions
+              weeks {
+                contributionDays {
+                  contributionCount
+                  date
+                  color
+                }
+              }
+            }
+          }
+        }
+      }
+    `;
+
+    const response = await fetchWithTimeout(
+      "https://api.github.com/graphql",
+      {
+        method: "POST",
+        headers: {
+          Authorization: `bearer ${process.env.GITHUB_TOKEN}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          query,
+          variables: {
+            username,
+            from: from.toISOString(),
+            to: to.toISOString(),
+          },
+        }),
+      },
+      GITHUB_API_TIMEOUT,
+    );
+
+    if (!response.ok) {
+      return NextResponse.json(
+        {
+          success: false,
+          code: "GITHUB_ERROR",
+          message: `GitHub GraphQL 接口返回错误: ${response.status}`,
+          data: null,
+        },
+        { status: response.status },
+      );
+    }
+
+    const result = await response.json();
+
+    if (result.errors) {
+      return NextResponse.json(
+        {
+          success: false,
+          code: "GRAPHQL_ERROR",
+          message: result.errors[0]?.message || "GraphQL 查询错误",
+          data: null,
+        },
+        { status: 500 },
+      );
+    }
+
+    const contributionsData =
+      result.data?.user?.contributionsCollection?.contributionCalendar;
+
+    if (!contributionsData) {
+      return NextResponse.json(
+        { success: false, code: "NO_DATA", message: "获取贡献数据为空", data: null },
+        { status: 500 },
+      );
+    }
+
     return NextResponse.json({
       success: true,
       code: 200,
       message: "操作成功",
-      data,
+      data: contributionsData,
     });
-  } catch (err) {
-    // 记录完整错误信息，便于生产环境排查
-    const message = err instanceof Error ? err.message : String(err);
-    console.error(
-      `[GitHub Contributions] 请求异常: ${message}, username=${username}, upstream=${upstream}`
+  } catch (error) {
+    const message =
+      error instanceof Error && error.name === "AbortError"
+        ? "请求超时，请稍后重试"
+        : error instanceof Error
+          ? error.message
+          : "未知错误";
+    return NextResponse.json(
+      { success: false, code: "UNKNOWN_ERROR", message, data: null },
+      { status: 500 },
     );
-    return fallback(username, cached);
   }
-}
-
-/**
- * 上游不可达时的逐级兜底：内存缓存 → 构建期静态快照；皆无则返回错误
- * @param username - GitHub 用户名
- * @param cached - 已有内存缓存（可能过期），优先于静态快照
- * @returns NextResponse（成功或错误）
- */
-function fallback(
-  username: string,
-  cached: CacheEntry | undefined
-): NextResponse {
-  if (cached) {
-    return NextResponse.json({
-      success: true,
-      code: 200,
-      message: "操作成功（使用缓存）",
-      data: cached.data,
-    });
-  }
-  const snapshot = readSnapshot();
-  if (snapshot) {
-    return NextResponse.json({
-      success: true,
-      code: 200,
-      message: "操作成功（使用快照）",
-      data: snapshot,
-    });
-  }
-  return NextResponse.json(
-    {
-      success: false,
-      code: "UPSTREAM_ERROR",
-      message: "获取 GitHub 贡献数据失败",
-      data: null,
-    },
-    { status: 502 }
-  );
 }

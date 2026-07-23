@@ -10,14 +10,7 @@
 
 import { useMemo, useState } from "react";
 import { useLocale, useTranslations } from "next-intl";
-import {
-  aiProducts,
-  aiRegionLabels,
-  aiCategoryLabels,
-  categoryOrder,
-  type AiCategory,
-  type AiProduct,
-} from "@/lib/ai-products";
+import type { AiCategory, AiProduct, AiRegion, I18nText } from "@/lib/ai-products";
 import Image from "next/image";
 import styles from "./index.module.scss";
 
@@ -96,9 +89,27 @@ const ProductLogo = ({ product }: { product: AiProduct }) => {
 
 /**
  * AI 产品展示（搜索 + 分类 Tab 过滤）
+ * @param aiProducts - AI 产品数据列表，由服务端组件传入
+ * @param aiRegionLabels - 区域标签映射表
+ * @param aiCategoryLabels - 分类标签映射表
+ * @param categoryOrder - 分类排序数组
  * @returns 搜索框、分类 Tab 与按条件过滤的产品网格
  */
-const AiProducts = () => {
+const AiProducts = ({
+  aiProducts,
+  aiRegionLabels,
+  aiCategoryLabels,
+  categoryOrder,
+}: {
+  /** AI 产品数据列表 */
+  aiProducts: AiProduct[];
+  /** 区域标签映射 */
+  aiRegionLabels: Record<AiRegion, I18nText>;
+  /** 分类标签映射 */
+  aiCategoryLabels: Record<AiCategory | "all", I18nText>;
+  /** 分类排序数组 */
+  categoryOrder: (AiCategory | "all")[];
+}) => {
   // 当前语言（zh / en）
   const locale = useLocale();
   const localeKey = locale === "zh" ? "zh" : "en";
