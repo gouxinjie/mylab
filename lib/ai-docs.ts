@@ -101,7 +101,7 @@ export const aiDocGroups: AiDocGroup[] = [
         slug: "rag",
         desc: "RAG 原理与落地方案",
         icon: "search",
-        iconColor: "#F59E0B",
+        iconColor: "var(--color-accent)",
       },
       {
         text: "什么是MCP协议",
@@ -157,7 +157,7 @@ export const aiDocGroups: AiDocGroup[] = [
         slug: "agent-skills",
         desc: "定制化 AI Agent 技能包",
         icon: "zap",
-        iconColor: "#F59E0B",
+        iconColor: "var(--color-accent)",
       },
     ],
   },
