@@ -12,23 +12,55 @@ import type { GithubContributionsData } from "@/types/api";
 const DEFAULT_USERNAME = "gouxinjie";
 // 上游数据来源模板：公开贡献统计服务
 const UPSTREAM_TEMPLATE = "https://github-contributions-api.jogruber.de/v4";
+// 上游请求超时时间（毫秒），防止生产环境外网请求无限挂起
+const UPSTREAM_TIMEOUT = 10000;
+// 内存缓存有效期（毫秒）：缓存命中且未过期时直接返回，降低上游压力
+const CACHE_TTL = 60 * 60 * 1000;
+
+/**
+ * 贡献数据内存缓存条目
+ * @property data - 上游返回的贡献数据
+ * @property savedAt - 成功写入缓存的时间戳
+ */
+interface CacheEntry {
+  data: GithubContributionsData;
+  savedAt: number;
+}
+
+// 模块级内存缓存：standalone 单实例下有效，可避免每次请求都打上游，
+// 并在上游抖动时提供“过期兜底”返回，保证看板始终可渲染。
+const cache = new Map<string, CacheEntry>();
 
 /**
  * 获取 GitHub 贡献热力图（最近一年）
  * @remarks 由服务端代理请求上游，统一返回 ApiResponse 结构；浏览器仅请求同源 /api 路径。
+ * 不使用 fetch 的 next 缓存（standalone 镜像未携带 .next/cache，会触发 500），
+ * 改为自管理内存缓存 + 超时控制 + 过期兜底。
  */
 export async function GET(req: NextRequest) {
   const username = req.nextUrl.searchParams.get("username") || DEFAULT_USERNAME;
   const upstream = `${UPSTREAM_TEMPLATE}/${username}`;
+
+  // 命中未过期缓存则直接返回，避免重复请求上游
+  const cached = cache.get(username);
+  if (cached && Date.now() - cached.savedAt < CACHE_TTL) {
+    return NextResponse.json({
+      success: true,
+      code: 200,
+      message: "操作成功",
+      data: cached.data,
+    });
+  }
+
   try {
     // 添加 AbortController 超时控制，防止生产环境外网请求无限挂起
     const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 10000);
+    const timeoutId = setTimeout(() => controller.abort(), UPSTREAM_TIMEOUT);
 
     const res = await fetch(upstream, {
       headers: { Accept: "application/json" },
-      // 缓存一天，降低上游压力（standalone 模式下配合 ISR 生效）
-      next: { revalidate: 86400 },
+      // 显式不缓存：交由本路由自管理内存缓存，规避 standalone 下 .next/cache 缺失问题
+      cache: "no-store",
       signal: controller.signal,
     });
 
@@ -38,6 +70,15 @@ export async function GET(req: NextRequest) {
       console.error(
         `[GitHub Contributions] 上游返回非 2xx: ${res.status} ${res.statusText}, username=${username}, upstream=${upstream}`
       );
+      // 上游异常但有旧缓存时，返回过期数据保证看板可渲染；否则返回错误
+      if (cached) {
+        return NextResponse.json({
+          success: true,
+          code: 200,
+          message: "操作成功（使用缓存）",
+          data: cached.data,
+        });
+      }
       return NextResponse.json(
         {
           success: false,
@@ -50,6 +91,8 @@ export async function GET(req: NextRequest) {
     }
 
     const data = (await res.json()) as GithubContributionsData;
+    // 写入内存缓存（含过期兜底），下次请求优先复用
+    cache.set(username, { data, savedAt: Date.now() });
     return NextResponse.json({
       success: true,
       code: 200,
@@ -62,6 +105,15 @@ export async function GET(req: NextRequest) {
     console.error(
       `[GitHub Contributions] 请求异常: ${message}, username=${username}, upstream=${upstream}`
     );
+    // 请求异常（超时/网络/解析失败）但存在旧缓存时，降级返回过期数据
+    if (cached) {
+      return NextResponse.json({
+        success: true,
+        code: 200,
+        message: "操作成功（使用缓存）",
+        data: cached.data,
+      });
+    }
     return NextResponse.json(
       {
         success: false,
