@@ -11,8 +11,21 @@ import FeaturedProjects from "@/components/business/FeaturedProjects";
 import QuoteSection from "@/components/business/Quote";
 import FadeIn from "@/components/commons/FadeIn";
 import { projects } from "@/lib/projects";
+import { unstable_setRequestLocale } from "next-intl/server";
+import { type Locale } from "@/i18n";
 
-export default function HomePage() {
+/**
+ * 首页
+ * @description 通过 unstable_setRequestLocale 固定 locale，使 next-intl 在 Server Component 中支持静态渲染
+ */
+export default function HomePage({
+  params: { locale },
+}: Readonly<{
+  params: { locale: string };
+}>) {
+  // 启用静态渲染，避免 next-intl 在 Server Component 中强制动态渲染
+  unstable_setRequestLocale(locale as Locale);
+
   return (
     <>
       {/* 英雄区域 */}
