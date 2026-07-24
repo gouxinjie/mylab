@@ -81,8 +81,10 @@ jobs:
           username: ${{ secrets.ECS_USERNAME }}
           key: ${{ secrets.ECS_SSH_KEY }}
           # host_key: ${{ secrets.ECS_HOST_KEY }}
-          timeout: 30m
-          command_timeout: 20m
+          # 国内 ECS 拉取 ghcr.io 镜像较慢，单次 docker compose pull 可能超过 20 分钟，
+          # 故放大超时：连接总超时 120m，单条命令超时 90m，避免被中途 kill
+          timeout: 120m
+          command_timeout: 90m
           script_stop: true
           script: |
             set -e
