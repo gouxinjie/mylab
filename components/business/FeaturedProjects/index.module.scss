@@ -41,6 +41,11 @@
 .projects {
   @include section-padding;
   background-color: var(--color-bg);
+
+  // 移动端：去除上内边距
+  @media (max-width: 639px) {
+    padding-top: 0;
+  }
 }
 
 // 区块头部：标题 + "查看全部" 链接
@@ -176,6 +181,7 @@
 // 使用 minmax(0, 1fr) 强制等宽，避免某张卡片最小内容宽度撑大所在列导致封面容器/卡片大小不一致
 .grid {
   display: grid;
+  grid-template-columns: minmax(0, 1fr); // 移动端：单列且强制收缩，防止内容撑破容器
   gap: 16px;
 
   @media (min-width: 640px) {

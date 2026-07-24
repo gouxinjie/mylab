@@ -26,14 +26,15 @@
 // 服务栅格：移动端单列，中屏两列，大屏三列（6 张卡片排成 2×3）
 .grid {
   display: grid;
+  grid-template-columns: minmax(0, 1fr); // 移动端：单列且强制收缩
   gap: 16px;
 
   @media (min-width: 640px) {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
   @media (min-width: 1024px) {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 }
 

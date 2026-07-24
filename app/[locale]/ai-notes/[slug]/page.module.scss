@@ -290,7 +290,7 @@
 // ─── 上一篇 / 下一篇 ─────────────────────────
 .pager {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(2, minmax(0, 1fr)); // 强制收缩，防止长标题撑破列宽
   gap: 16px;
   padding-top: 24px;
   border-top: 1px solid var(--color-border);

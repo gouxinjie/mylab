@@ -44,6 +44,7 @@ $gh-link: #0969da;
 .grid {
   margin-top: 16px;
   display: grid;
+  grid-template-columns: minmax(0, 1fr); // 移动端：单列且强制收缩，防止内容撑破容器
   gap: 12px;
 
   @media (min-width: 640px) {
@@ -65,16 +66,16 @@ $gh-link: #0969da;
 // ==========================================
 .statsGrid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(2, minmax(0, 1fr)); // 强制收缩，防止内容撑破列宽
   gap: 12px;
 
   @media (min-width: 640px) {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 16px;
   }
 
   @media (min-width: 1024px) {
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(4, minmax(0, 1fr));
   }
 }
 

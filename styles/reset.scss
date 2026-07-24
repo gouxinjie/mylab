@@ -12,6 +12,7 @@
 
 html {
   scroll-behavior: smooth;
+  overflow-x: hidden; // 防止移动端因 100vw 或子元素溢出导致的横向滚动
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
