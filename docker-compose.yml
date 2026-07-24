@@ -16,10 +16,23 @@ services:
     # 注意：此处必须使用 image 而非 build，否则 ECS 会回退到本地构建并因缺少 Dockerfile 失败
     image: ghcr.io/gouxinjie/mylab:latest
     container_name: mylab
+    # Next.js standalone 的 server.js 以 process.env.HOSTNAME 作为监听地址，
+    # 而 Docker 默认把 HOSTNAME 设为容器主机名（仅绑定容器 IP，非 0.0.0.0），
+    # 导致容器内的 localhost 健康检查连接被拒。此处显式覆盖为 0.0.0.0 监听所有网卡，
+    # 使 localhost（健康检查）与 nginx（app:3500）均可访问。
+    command: sh -c "cd /app && HOSTNAME=0.0.0.0 exec node server.js"
     # app 仅在 docker 内网通过 3500 端口被 nginx 代理访问，不对外暴露宿主机端口，
     # 避免与 nginx 服务的 3500 映射冲突导致 "port is already allocated"
     expose:
       - "3500"
+    # 覆盖镜像内的健康检查：使用真实 GET 请求（跟随重定向），避免 wget --spider 发送 HEAD
+    # 在页面路由上偶发不稳定导致误判不健康
+    healthcheck:
+      test: ["CMD", "wget", "-q", "-O", "/dev/null", "http://localhost:3500/zh"]
+      interval: 30s
+      timeout: 5s
+      start_period: 15s
+      retries: 3
     restart: always
     environment:
       - NODE_ENV=production
