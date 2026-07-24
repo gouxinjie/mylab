@@ -14,9 +14,9 @@ services:
     restart: always
 
   app:
-    build:
-      context: .
-      dockerfile: Dockerfile
+    # 应用镜像由 CI 构建并推送到 ghcr.io，ECS 仅拉取运行（详见 .github/workflows/deploy.yml）
+    # 注意：此处必须使用 image 而非 build，否则 ECS 会回退到本地构建并因缺少 Dockerfile 失败
+    image: ghcr.io/gouxinjie/mylab:latest
     container_name: mylab
     ports:
       - "3500:3500"
