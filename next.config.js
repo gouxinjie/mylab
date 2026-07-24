@@ -27,8 +27,13 @@ const nextConfig = {
   images: {
     // 允许 Sharp 自动将 PNG/JPG 转换为 WebP/AVIF 以减小传输体积
     formats: ["image/avif", "image/webp"],
-    // 允许的远程图片域（如需要）
-    remotePatterns: [],
+    // 允许的远程图片域（GitHub 头像）
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "avatars.githubusercontent.com",
+      },
+    ],
   },
 
   /**

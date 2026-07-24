@@ -45,10 +45,10 @@ export async function GET(request: Request) {
     const response = await fetchWithTimeout(
       `https://api.github.com/users/${encodeURIComponent(username)}/repos?sort=updated&per_page=${perPage}`,
       {
-        headers: {
-          Authorization: `token ${process.env.GITHUB_TOKEN}`,
-          Accept: "application/vnd.github.v3+json",
-        },
+      headers: {
+        Authorization: `Bearer ${process.env.GITHUB_TOKEN}`,
+        Accept: "application/vnd.github.v3+json",
+      },
       },
       GITHUB_API_TIMEOUT,
     );

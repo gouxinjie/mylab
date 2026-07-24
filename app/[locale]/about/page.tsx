@@ -9,7 +9,7 @@
 import { Suspense } from "react";
 import type { Metadata } from "next";
 import { useTranslations } from "next-intl";
-import { setRequestLocale } from "next-intl/server";
+import { unstable_setRequestLocale } from "next-intl/server";
 import {
   BookOpen,
   Code2,
@@ -21,14 +21,12 @@ import {
   values,
   aboutStats,
   techCategories,
-  skills,
   type Experience,
   type Value,
 } from "@/lib/data";
 import FadeIn from "@/components/commons/FadeIn";
 import Section from "@/components/commons/Section";
 import GitHubDashboard from "@/components/business/GitHubDashboard";
-import SkillsSection from "@/components/business/Skills";
 import Image from "next/image";
 import styles from "./page.module.scss";
 
@@ -53,7 +51,7 @@ const valueIcons: Record<string, JSX.Element> = {
 
 export default function AboutPage({ params: { locale } }: { params: { locale: string } }) {
   // 启用静态渲染，避免 next-intl 在 Server Component 中强制动态渲染
-  setRequestLocale(locale);
+  unstable_setRequestLocale(locale);
   const t = useTranslations("About");
 
   return (
@@ -125,11 +123,6 @@ export default function AboutPage({ params: { locale } }: { params: { locale: st
         </Suspense>
       </FadeIn>
 
-      {/* 核心技能区域 */}
-      <FadeIn>
-        <SkillsSection skills={skills} />
-      </FadeIn>
-
       {/* 技术清单区域 */}
       <Section id="tech" title={t("tech_title")} subtitle={t("tech_subtitle")}>
         <FadeIn delay={0.05}>
@@ -141,18 +134,15 @@ export default function AboutPage({ params: { locale } }: { params: { locale: st
                 </h4>
                 <div className={styles.techGroup__badges}>
                   {/* 技术徽章为远程 SVG（shields.io），矢量图无法被 next/image 优化，
-                      使用 unoptimized 由浏览器直接加载原始 SVG，避免优化器拒绝 SVG 导致不显示 */}
+                      使用原生 img 标签由浏览器直接加载，避免宽高比警告和优化器限制 */}
                   {category.badges.map((badge) => (
-                  <Image
-                    key={badge.label}
-                    src={badge.img}
-                    alt={badge.label}
-                    width={88}
-                    height={20}
-                    loading="lazy"
-                    className={styles.techBadge}
-                    unoptimized
-                  />
+                    <img
+                      key={badge.label}
+                      src={badge.img}
+                      alt={badge.label}
+                      loading="lazy"
+                      className={styles.techBadge}
+                    />
                   ))}
                 </div>
               </div>

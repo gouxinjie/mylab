@@ -13,7 +13,7 @@ import Navbar from "@/components/commons/Navbar";
 import Footer from "@/components/commons/Footer";
 import PageTransition from "@/components/commons/PageTransition";
 import { NextIntlClientProvider } from "next-intl";
-import { getMessages, setRequestLocale } from "next-intl/server";
+import { getMessages, unstable_setRequestLocale } from "next-intl/server";
 import { locales, type Locale } from "@/i18n";
 import { notFound } from "next/navigation";
 
@@ -54,6 +54,8 @@ const notoSansSC = localFont({
  * 全局元数据：标题模板、描述、关键词、OpenGraph、Twitter Card
  */
 export const metadata: Metadata = {
+  // 用于解析 OpenGraph / Twitter 等相对图片地址，避免回退到 localhost
+  metadataBase: new URL("https://gouxinjie.com"),
   title: {
     default: "xinjie | web开发",
     template: "%s | xinjie",
@@ -140,7 +142,7 @@ export default async function RootLayout({
   }
 
   // 启用静态渲染，避免 next-intl 在 Server Component 中强制动态渲染
-  setRequestLocale(locale);
+  unstable_setRequestLocale(locale);
 
   // 获取翻译消息
   const messages = await getMessages();

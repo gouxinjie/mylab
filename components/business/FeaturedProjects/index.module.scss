@@ -5,6 +5,9 @@
  * @updated 2026-07-15 暗色模式修复：标签/链接图标/卡片边框适配暗色主题
  */
 
+// 引入全局混合宏（section-padding / title-lg / card-base / desc-text 等）
+@use "mixins" as *;
+
 // 状态圆点呼吸动画
 @keyframes fproj-pulse {
   0% {

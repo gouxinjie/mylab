@@ -4,11 +4,6 @@
  * @author gouxinjie
  */
 
-export interface Skill {
-  name: string;
-  icon: string;
-}
-
 export interface Experience {
   id: string;
   company: string;
@@ -56,20 +51,6 @@ export interface TechCategory {
   titleEn: string;
   badges: TechBadge[];
 }
-
-// ─── 技术栈 ────────────────────────────────────────
-
-export const skills: Skill[] = [
-  { name: "TypeScript", icon: "ts" },
-  { name: "JavaScript", icon: "js" },
-  { name: "React", icon: "react" },
-  { name: "Next.js", icon: "nextjs" },
-  { name: "Node.js", icon: "nodejs" },
-  { name: "Vue.js", icon: "vue" },
-  { name: "Go", icon: "go" },
-  { name: "Tailwind CSS", icon: "tailwind" },
-  { name: "PostgreSQL", icon: "postgresql" },
-];
 
 // ─── 工作经历 ──────────────────────────────────────
 

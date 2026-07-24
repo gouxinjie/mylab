@@ -4,6 +4,9 @@
  * @author gouxinjie
  */
 
+// 引入全局混合宏（section-padding / title-lg / icon-square / desc-text 等）
+@use "mixins" as *;
+
 // 服务区块：上下内边距、浅色背景
 .services {
   @include section-padding;

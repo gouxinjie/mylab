@@ -3,7 +3,6 @@
     "home": "首页",
     "projects": "项目",
     "about": "关于",
-    "skills": "技术栈",
     "ai": "AI 相关",
     "ainotes": "AI 笔记",
     "switch_locale": "English",
@@ -103,7 +102,6 @@
     "email": "gxj13113183859@163.com",
     "experience_years": "6+ 年开发经验",
     "download_resume": "下载我的简历",
-    "skills_title": "技术栈",
     "experience_title": "成长足迹",
     "experience_subtitle": "一路走来的学习、实践与成长",
     "values_title": "我的理念",
@@ -141,11 +139,6 @@
     "title": "探索更多技术分享与思考",
     "subtitle": "欢迎访问我的博客，阅读最新的技术文章和教程",
     "button": "访问博客"
-  },
-  "Skills": {
-    "title": "技术栈",
-    "subtitle": "我常用的技术和工具",
-    "view_more": "查看更多技术"
   },
   "Footer": {
     "description": "用代码构建价值，用 AI 探索未来。",

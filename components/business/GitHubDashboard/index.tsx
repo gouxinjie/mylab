@@ -147,8 +147,11 @@ const STATIC_SPARKLINES: Record<string, number[]> = {
 
 export default function GitHubDashboard() {
   const t = useTranslations("GitHubDashboard");
-  const months = t.raw("months" as never) as string[];
-  const weekdayLabels = t.raw("weekday_labels" as never) as string[];
+
+  /** 获取 raw 翻译数据（数组格式），绕过 next-intl raw() 的类型推断限制 */
+  const raw = (key: "months" | "weekday_labels"): string[] => t.raw(key) as string[];
+  const months = raw("months");
+  const weekdayLabels = raw("weekday_labels");
 
   const [data, setData] = useState<GithubData | null>(null);
   const [loading, setLoading] = useState(true);
@@ -335,7 +338,7 @@ export default function GitHubDashboard() {
 
   // 热力图周数据
   const heatmapWeeks = useMemo(() => {
-    if (!recentContributions) return [];
+    if (!recentContributions || recentContributions.length === 0) return [];
     const sorted = [...recentContributions].sort((a, b) => a.date.localeCompare(b.date));
     const weeks: (GithubContributionDay | null)[][] = [];
     const firstDate = new Date(`${sorted[0].date}T00:00:00`);

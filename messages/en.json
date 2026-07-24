@@ -3,7 +3,6 @@
     "home": "Home",
     "about": "About",
     "projects": "Projects",
-    "skills": "Skills",
     "ai": "AI",
     "ainotes": "AI Notes",
     "switch_locale": "简体中文",
@@ -103,7 +102,6 @@
     "email": "gxj13113183859@163.com",
     "experience_years": "6+ years of experience",
     "download_resume": "Download Resume",
-    "skills_title": "Tech Stack",
     "experience_title": "Growth Journey",
     "experience_subtitle": "My learning, practice and growth along the way",
     "values_title": "My Values",
@@ -141,11 +139,6 @@
     "title": "Explore more technical sharing and thinking",
     "subtitle": "Welcome to my blog, read the latest technical articles and tutorials",
     "button": "Visit Blog"
-  },
-  "Skills": {
-    "title": "Tech Stack",
-    "subtitle": "My commonly used technologies and tools",
-    "view_more": "View More Skills"
   },
   "Footer": {
     "description": "Building value with code, exploring the future with AI.",

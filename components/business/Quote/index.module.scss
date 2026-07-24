@@ -4,6 +4,9 @@
  * @author gouxinjie
  */
 
+// 引入全局混合宏（section-padding / icon-square 等）
+@use "mixins" as *;
+
 // 引言区块：上下内边距、浅色表面背景
 .quote-section {
   @include section-padding;

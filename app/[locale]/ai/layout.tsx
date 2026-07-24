@@ -1,4 +1,4 @@
-import { setRequestLocale } from "next-intl/server";
+import { unstable_setRequestLocale } from "next-intl/server";
 import styles from "./layout.module.scss";
 
 /**
@@ -17,7 +17,7 @@ export default async function AILayout({
   params: { locale: string };
 }) {
   // 启用静态渲染，避免 next-intl 在 Server Component 中强制动态渲染
-  setRequestLocale(locale);
+  unstable_setRequestLocale(locale);
 
   return (
     <div className={styles.wrapper}>

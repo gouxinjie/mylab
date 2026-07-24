@@ -70,7 +70,7 @@ export async function GET(request: Request) {
       {
         method: "POST",
         headers: {
-          Authorization: `bearer ${process.env.GITHUB_TOKEN}`,
+          Authorization: `Bearer ${process.env.GITHUB_TOKEN}`,
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
@@ -121,11 +121,55 @@ export async function GET(request: Request) {
       );
     }
 
+    const { totalContributions, weeks } = contributionsData as {
+      totalContributions: number;
+      weeks: Array<{ contributionDays: Array<{ date: string; contributionCount: number; color: string }> }>;
+    };
+
+    // GitHub 默认主题颜色与贡献等级的映射
+    const colorToLevel: Record<string, number> = {
+      "#ebedf0": 0,
+      "#9be9a8": 1,
+      "#40c463": 2,
+      "#30a14e": 3,
+      "#216e39": 4,
+      // 暗色主题兜底（较旧版本可能返回）
+      "#161b22": 0,
+      "#0e4429": 1,
+      "#006d32": 2,
+      "#26a641": 3,
+      "#39d353": 4,
+    };
+
+    const levelFromCount = (count: number): number => {
+      if (count <= 0) return 0;
+      if (count <= 3) return 1;
+      if (count <= 6) return 2;
+      if (count <= 10) return 3;
+      return 4;
+    };
+
+    const allDays = weeks.flatMap((week) => week.contributionDays);
+
+    const contributions = allDays
+      .map((day) => {
+        const level = colorToLevel[day.color.toLowerCase()] ?? levelFromCount(day.contributionCount);
+        return {
+          date: day.date,
+          count: day.contributionCount,
+          level,
+        };
+      })
+      .sort((a, b) => a.date.localeCompare(b.date));
+
     return NextResponse.json({
       success: true,
       code: 200,
       message: "操作成功",
-      data: contributionsData,
+      data: {
+        total: { lastYear: totalContributions },
+        contributions,
+      },
     });
   } catch (error) {
     const message =

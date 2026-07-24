@@ -1,6 +1,6 @@
 import { Fragment, type ReactNode } from "react";
 import { Metadata } from "next";
-import { getTranslations, setRequestLocale } from "next-intl/server";
+import { getTranslations, unstable_setRequestLocale } from "next-intl/server";
 import FadeIn from "@/components/commons/FadeIn";
 import { Link } from "@/lib/navigation";
 import { aiDocGroups, type AiDocNode } from "@/lib/ai-docs";
@@ -191,7 +191,7 @@ export default async function AINotesPage({
   params: { locale: string };
 }) {
   // 启用静态渲染，避免 next-intl 在 Server Component 中强制动态渲染
-  setRequestLocale(locale);
+  unstable_setRequestLocale(locale);
   const t = await getTranslations("AINotes");
 
   /**

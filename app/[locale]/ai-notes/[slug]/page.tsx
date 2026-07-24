@@ -1,6 +1,6 @@
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { getTranslations, setRequestLocale } from "next-intl/server";
+import { getTranslations, unstable_setRequestLocale } from "next-intl/server";
 import React from "react";
 import type { Components } from "react-markdown";
 import Markdown from "@/components/commons/Markdown";
@@ -112,7 +112,7 @@ function extractToc(content: string): { level: number; text: string; id: string 
 export default async function AIDocPage({ params }: DocPageParams) {
   const { locale, slug } = params;
   // 启用静态渲染，避免 next-intl 在 Server Component 中强制动态渲染
-  setRequestLocale(locale);
+  unstable_setRequestLocale(locale);
   const t = await getTranslations("AINotes");
 
   // 读取文档内容，不存在则返回 404

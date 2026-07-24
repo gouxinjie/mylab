@@ -5,6 +5,9 @@
  * @updated 2026-07-17
  */
 
+// 引入全局混合宏（card-base 等）；@use 须置于局部变量声明之前
+@use "mixins" as *;
+
 // GitHub 贡献热力图配色（Light 主题）
 $gh-l0: #ebedf0;
 $gh-l1: #9be9a8;

@@ -4,6 +4,9 @@
  * @author gouxinjie
  */
 
+// 引入全局混合宏（card-base 等）
+@use "mixins" as *;
+
 // 数据指标区块：负上边距上浮，上下内边距随屏幕增大
 .stats {
   margin-top: -16px;

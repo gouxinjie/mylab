@@ -8,7 +8,7 @@
 
 import React from "react";
 import { Metadata } from "next";
-import { getTranslations, setRequestLocale } from "next-intl/server";
+import { getTranslations, unstable_setRequestLocale } from "next-intl/server";
 import AiFeatures from "@/components/business/AiFeatures";
 import AiProducts from "@/components/business/AiProducts";
 import { aiProducts, aiRegionLabels, aiCategoryLabels, categoryOrder } from "@/lib/ai-products";
@@ -30,7 +30,7 @@ export default async function AIPage({
   params: { locale: string };
 }) {
   // 启用静态渲染，避免 next-intl 在 Server Component 中强制动态渲染
-  setRequestLocale(locale);
+  unstable_setRequestLocale(locale);
   const t = await getTranslations("AI");
 
   return (
