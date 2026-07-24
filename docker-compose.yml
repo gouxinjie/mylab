@@ -1,7 +1,5 @@
-version: "3.8"
-
 services:
-  ngingx:
+  nginx:
     image: nginx:alpine
     ports:
       - "80:80"
@@ -18,9 +16,11 @@ services:
     # 注意：此处必须使用 image 而非 build，否则 ECS 会回退到本地构建并因缺少 Dockerfile 失败
     image: ghcr.io/gouxinjie/mylab:latest
     container_name: mylab
-    ports:
-      - "3500:3500"
+    # app 仅在 docker 内网通过 3500 端口被 nginx 代理访问，不对外暴露宿主机端口，
+    # 避免与 nginx 服务的 3500 映射冲突导致 "port is already allocated"
+    expose:
+      - "3500"
     restart: always
     environment:
       - NODE_ENV=production
-      - GITHUB_TOKEN=${GITHUB_TOKEN}
+      - GITHUB_TOKEN=${GITHUB_TOKEN:-}

@@ -96,6 +96,7 @@ jobs:
               echo "[重试 ${i}/3] pull 失败，等待 30 秒后重试..."
               sleep 30
             done
-            docker compose down || true
+            # 清理可能残留的孤儿容器（如服务改名后遗留的旧容器），避免其占用端口导致启动失败
+            docker compose down --remove-orphans || true
             docker compose up -d
             docker image prune -f
