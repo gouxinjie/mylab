@@ -41,6 +41,19 @@ export async function GET(request: Request) {
       );
     }
 
+    const token = process.env.GITHUB_TOKEN;
+    if (!token) {
+      return NextResponse.json(
+        {
+          success: false,
+          code: "GITHUB_TOKEN_MISSING",
+          message: "环境变量 GITHUB_TOKEN 未配置，无法获取贡献数据",
+          data: null,
+        },
+        { status: 401 },
+      );
+    }
+
     // 计算从一年前到今天
     const to = new Date();
     const from = new Date(to);
@@ -70,7 +83,7 @@ export async function GET(request: Request) {
       {
         method: "POST",
         headers: {
-          Authorization: `Bearer ${process.env.GITHUB_TOKEN}`,
+          Authorization: `Bearer ${token}`,
           "Content-Type": "application/json",
         },
         body: JSON.stringify({

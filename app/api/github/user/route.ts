@@ -41,14 +41,17 @@ export async function GET(request: Request) {
       );
     }
 
+    const token = process.env.GITHUB_TOKEN;
+    const headers: Record<string, string> = {
+      Accept: "application/vnd.github.v3+json",
+    };
+    if (token) {
+      headers.Authorization = `Bearer ${token}`;
+    }
+
     const response = await fetchWithTimeout(
       `https://api.github.com/users/${encodeURIComponent(username)}`,
-      {
-        headers: {
-          Authorization: `Bearer ${process.env.GITHUB_TOKEN}`,
-          Accept: "application/vnd.github.v3+json",
-        },
-      },
+      { headers },
       GITHUB_API_TIMEOUT,
     );
 
