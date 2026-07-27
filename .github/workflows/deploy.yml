@@ -89,6 +89,8 @@ jobs:
           script: |
             set -e
             cd /var/www/mylab
+            # 写入 GITHUB_TOKEN 环境变量到 .env，docker compose 会自动读取
+            echo "GITHUB_TOKEN=${{ secrets.GITHUB_PERSONAL_TOKEN }}" > .env
             # 重试 pull，应对国内 ECS 拉 ghcr.io 偶发慢速/超时
             for i in 1 2 3; do
               echo "[第${i}次] docker compose pull..."
