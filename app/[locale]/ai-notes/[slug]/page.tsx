@@ -98,12 +98,26 @@ function createHeadingComponents(slugger: BananaSlug): Components {
  * @param content - Markdown 正文（已去除首个一级标题）
  * @returns 目录项数组，包含层级、标题文本与锚点 id
  */
-function extractToc(content: string): { level: number; text: string; id: string }[] {
-  const slugger = new BananaSlug();
+/**
+ * 从 markdown 原文中提取标题目录（h2/h3/h4）。
+ * 注意：必须与正文标题渲染共用同一个 slugger 实例，否则两端生成的锚点 id 会出现不一致导致目录无法跳转。
+ * @param content - Markdown 正文（已去除首个一级标题）
+ * @param slugger - 与正文标题共用的 BananaSlug 实例
+ * @returns 目录项数组，包含层级、标题文本与锚点 id
+ */
+function extractToc(content: string, slugger: BananaSlug): { level: number; text: string; id: string }[] {
   const headings: { level: number; text: string; id: string }[] = [];
   const lines = content.split("\n");
+  // 跳过 ``` 围栏包裹的代码块，避免代码块内的 # 标题被误识别而打乱 slug 计数
+  let inFence = false;
 
   for (const line of lines) {
+    if (/^\s*```/.test(line)) {
+      inFence = !inFence;
+      continue;
+    }
+    if (inFence) continue;
+
     const match = line.match(/^(#{2,4})\s+(.+)$/);
     if (match) {
       const level = match[1].length;
@@ -134,12 +148,14 @@ export default async function AIDocPage({ params }: DocPageParams) {
   // 去除正文首个一级标题，避免与页面级 h1（doc.title）重复渲染
   const bodyContent = doc.content.replace(/^\s*#\s+.+\r?\n/, "");
 
-  // 提取本页目录（h2/h3/h4），标题锚点 id 与正文标题保持一致
-  const toc = extractToc(bodyContent);
+  // 创建与正文标题共用的 slugger 实例（必须唯一且共用，保证 TOC 锚点 id 与正文标题 id 完全一致）
+  const slugger = new BananaSlug();
 
-  // 创建自定义标题组件，使用同一个 slugger 确保 TOC 锚点与正文标题 id 完全一致
-  const headingSlugger = new BananaSlug();
-  const components = createHeadingComponents(headingSlugger);
+  // 提取本页目录（h2/h3/h4），需在正文渲染前调用以相同顺序消费同一个 slugger
+  const toc = extractToc(bodyContent, slugger);
+
+  // 创建自定义标题组件，与 extractToc 共用同一个 slugger
+  const components = createHeadingComponents(slugger);
 
   return (
     <article className={styles.doc}>

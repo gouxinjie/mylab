@@ -583,7 +583,7 @@ export const projects: Project[] = [
   {
     id: 'animated-login-react',
     title: 'Animated Login React',
-    category: L('应用', 'Application'),
+    category: L('学习研究', 'Learning'),
     tags: ['React', 'Vite', 'Tailwind CSS', 'Framer Motion', 'CSS Animation'],
     featured: false,
     order: 11,
