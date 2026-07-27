@@ -1,7 +1,7 @@
 # 个人技术站点 mylab — 部署运维文档
 
 > **mylab**
-> 版本 v1.0 | 2026-07-22
+> 版本 v1.1 | 2026-07-27
 > 运行环境：阿里云 ECS | 部署方式：Docker (standalone) + Nginx + GitHub Actions
 
 
@@ -303,6 +303,14 @@ services:
       - app
 ```
 
+#### 3.4.3 回归修复：nginx 端口配置回退
+
+在后续排障迭代中，`docker-compose.yml` 的 nginx 端口曾被误写成 `"80:80"` 与 `"3500:3500"`，导致：
+- `80:80` 与宿主 Nginx 抢占，报 `bind: address already in use`
+- `3500:3500` 无意义（容器内 Nginx 仅 `listen 80`，不监听 3500）
+
+修复为恢复原先的 `"3500:80"`。提交：`df4ba22`。
+
 ### 3.5 问题五：宿主机 Nginx 转发配置未随 SCP 传输
 
 #### 3.5.1 现象
@@ -333,6 +341,99 @@ CI 的 SCP 步骤 `source` 仅指定 `nginx.conf,docker-compose.yml`，**不传�
 | 部署（误判） | 80 端口被旧容器占用 | `docker compose down`（无效，保留无害） | `6c84b4a` |
 | 部署（根因） | 宿主机裸 nginx 占用 80 | 容器改映射 `8080:80` → `3500:80` + 宿主转发 | `24aa204` / `62d88ef` |
 | 部署 | `deploy/` 未随 SCP 传输，ECS 缺转发配置 | 删除仓库配置，改为 ECS 手动创建 | `da297dd` |
+| 部署 | nginx 端口回退（误写成 `80:80`） | 修正为 `3500:80` | `df4ba22` |
+| 部署 | app 容器 unhealthy（Next.js 监听主机名） | `command` 强制 `HOSTNAME=0.0.0.0`，覆盖 healthcheck 探针 | `35c6e43` |
+| 部署 | nginx 容器静态资源 404（alias 跨容器无效） | `alias` 改为 `proxy_pass http://app:3500`，加 `^~` 前缀优先 | `db36cab` |
+| 运行时 | GitHub API 401（ECS 缺 GITHUB_TOKEN） | REST 接口兼容无 Token，CI 通过 `export` 注入 `GH_TOKEN` | `d657aa3` |
+
+### 3.7 问题六：app 容器 unhealthy 导致 nginx 启动失败
+
+#### 3.7.1 现象
+
+`docker compose up -d` 后 nginx 容器反复 restart，日志显示 `dependency failed to start: container mylab is unhealthy`。同时 podman / docker exec 进 app 容器执行 `wget localhost:3500` 报 `Connection refused`。
+
+#### 3.7.2 根因分析
+
+Next.js 14 standalone 模式的 `server.js` 默认监听 `process.env.HOSTNAME`。Docker 容器启动时，`HOSTNAME` 被设为容器 ID（如 `729b4e27a769`）而非 `0.0.0.0`，导致 `server.js` 只监听该主机名对应的内部地址，`localhost` 或 `127.0.0.1` 的请求被拒绝。
+
+同时 Nginx 容器的 `depends_on` 使用了 `condition: service_healthy`，app 的 healthcheck 探针 `wget http://localhost:3500/zh` 永远失败，nginx 无法启动。
+
+#### 3.7.3 解决方案
+
+在 `docker-compose.yml` 的 app 服务中添加 `command`，强制覆盖 `HOSTNAME` 为 `0.0.0.0`：
+
+```yaml
+app:
+  command: sh -c "cd /app && HOSTNAME=0.0.0.0 exec node server.js"
+```
+
+同时将 healthcheck 探针从 `--spider`（HEAD 请求，Next.js 可能拒绝）改为真实 GET：
+
+```yaml
+healthcheck:
+  test: ["CMD", "wget", "-q", "-O", "/dev/null", "http://localhost:3500/zh"]
+```
+
+提交：`35c6e43`。
+
+### 3.8 问题七：nginx 容器静态资源全部 404
+
+#### 3.8.1 现象
+
+页面可访问，但所有 `/_next/static/` 下的 CSS、JS、字体文件（woff2）全部返回 404，页面样式完全丢失。
+
+#### 3.8.2 根因分析
+
+`nginx.conf` 中对 `/_next/static/` 等路径使用了 `alias /app/.next/static/`。Docker Compose 中 nginx 和 app 是两个独立容器，**文件系统相互隔离**——`/app/.next/static/` 只存在于 app 容器内，nginx 容器中没有这个目录，`alias` 指向的路径根本不存在任何文件，因此返回 404。
+
+此外，nginx 匹配规则中正则 `location ~* \.(woff2|woff|ttf)$` 优先级高于普通前缀匹配，导致字体文件被正则 location 捕获，而该正则 location 也没有有效的文件来源。
+
+#### 3.8.3 解决方案
+
+将所有静态资源 location 从 `alias`（本地文件）改为 `proxy_pass http://app:3500`（代理到 app 容器由 Next.js standalone 服务），并为前缀匹配 location 添加 `^~` 修饰符阻止正则匹配覆盖：
+
+```nginx
+location ^~ /_next/static/ {
+    expires 1y;
+    add_header Cache-Control "public, max-age=31536000, immutable" always;
+    proxy_pass http://app:3500;
+}
+
+location ^~ /images/ {
+    expires 30d;
+    add_header Cache-Control "public, max-age=2592000, must-revalidate" always;
+    proxy_pass http://app:3500;
+}
+# ... 其他静态路径同理
+```
+
+提交：`db36cab`。
+
+### 3.9 问题八：GitHub API 线上 401（ECS 缺 GITHUB_TOKEN）
+
+#### 3.9.1 现象
+
+本地开发正常，但线上 GitHub Dashboard 组件的贡献热力图显示"贡献数据加载失败，请稍后重试"，同时统计卡片的兜底值也未正确渲染。控制台 Network 面板显示 `/api/github/user`、`/api/github/repos`、`/api/github/contributions` 均返回 401。
+
+#### 3.9.2 根因分析
+
+三个 API route 均需要 `process.env.GITHUB_TOKEN`。`docker-compose.yml` 中配置为 `GITHUB_TOKEN=${GITHUB_TOKEN:-}`，即从宿主机环境变量读取。ECS 宿主机未设置该变量，容器内拿到空字符串，向 GitHub API 发送 `Authorization: Bearer `（空 token）导致 401。
+
+#### 3.9.3 解决方案
+
+**两层面修复：**
+
+**API 层兼容无 Token（代码防御）：**
+- `user` 和 `repos` 接口（GitHub REST API）：读取公开数据不需要 Token，仅当 Token 存在时才添加 `Authorization` header，否则正常发起未认证请求（rate limit 降为 60 req/h，对个人站点足够）。
+- `contributions` 接口（GitHub GraphQL API）：GraphQL **必须认证**，Token 为空时返回中文友好错误 `"环境变量 GITHUB_TOKEN 未配置，无法获取贡献数据"`，前端正常进入 `contributionsError` 兜底状态。
+
+**部署层注入 Token（CI 修复）：**
+- 在 GitHub Actions → Repository secrets 中添加 `GH_TOKEN`（值为 GitHub Personal Access Token）。
+- `deploy.yml` 中 SSH 部署时通过 `export GITHUB_TOKEN="${{ secrets.GH_TOKEN }}"` 注入，`docker compose` 的 `${GITHUB_TOKEN:-}` 从 shell 环境变量读取到真实值。
+
+提交：`d657aa3`。
+
+**注意：** Secret 名称不能用 `GITHUB_` 前缀（GitHub 保留字），故使用 `GH_TOKEN`。
 
 
 ## 四、关键配置文件说明
@@ -349,20 +450,33 @@ CI 的 SCP 步骤 `source` 仅指定 `nginx.conf,docker-compose.yml`，**不传�
 
 定义 `app`（应用镜像，来自 ghcr.io）与 `nginx`（反代）两个服务。`app` 仅 `expose` 对内；`nginx` 映射 `3500:80` 并挂载 `nginx.conf`。生产启动由 CI 自动执行 `docker compose pull && up -d`。
 
+关键配置要点：
+
+- **`command` 覆盖**：`HOSTNAME=0.0.0.0 exec node server.js`，解决 Next.js standalone 默认监听容器 ID 导致 healthcheck 失败的问题（见 3.7 节）。
+- **healthcheck**：`wget -q -O /dev/null http://localhost:3500/zh`（真实 GET，避免 `--spider` HEAD 被拒绝）。
+- **`depends_on: service_healthy`**：nginx 须等待 app 通过健康检查后才启动，防止启动时序问题。
+- **`restart: always`**：app 容器崩溃自动重启。
+- **`GITHUB_TOKEN=${GITHUB_TOKEN:-}`**：从 shell 环境变量（CI 中由 `export` 注入）读取 GitHub Token，不存在时为空。目前仅 contributions GraphQL 强制要求，user / repos REST 接口无 Token 仍可工作。
+- **`--remove-orphans`**：CI 每次部署前执行 `docker compose down --remove-orphans || true`，清理因容器改名留下的孤儿容器，避免端口被旧容器占用。
+
 ### 4.3 nginx.conf（容器内 Nginx 反代配置）
 
-**挂载位置**：容器内 `/etc/nginx/conf.d/default.conf`（只读）
+**挂载位置**：容器内 `/etc/nginx/nginx.conf`（只读，完整主配置含 `events` + `http` 块）
 
 关键规则：
-- `upstream next_app { server app:3500; }`（Docker 服务发现）
-- `listen 80; server_name gouxinjie.com www.gouxinjie.com;`
+- `listen 80`（容器内 Nginx 监听 80 端口，由 docker compose 映射到宿主 3500）
 - Gzip 压缩已开启（comp_level 6）
-- `location /` 反代到 `http://next_app`，透传 `Host` / `X-Real-IP` / `X-Forwarded-*` 头，并支持 WebSocket（`Upgrade` / `Connection` 头）
-- 该文件由 CI 的 SCP 步骤传输，属于受管文件
+- `location /` 反代到 `http://app:3500`，透传 `Host` / `X-Real-IP` / `X-Forwarded-*` 头，并支持 WebSocket（`Upgrade` / `Connection` 头）
+
+**静态资源处理（重要）**：
+
+由于 nginx 与 app 是两个独立容器，文件系统隔离，`/_next/static/` 等静态文件**不存在于 nginx 容器内**，不能使用 `alias` 或 `root` 直接读取。所有静态资源 location 均使用 `proxy_pass http://app:3500` 交由 Next.js standalone 服务，并在前缀匹配上添加 `^~` 阻止正则 location 覆盖（详见 3.8 节）。
+
+该文件由 CI 的 SCP 步骤传输，属于受管文件。
 
 ### 4.4 .github/workflows/deploy.yml（CI/CD 工作流）
 
-push `master` 触发：Runner 端 checkout → 登录 ghcr.io → build-push 镜像 → SCP 传 `nginx.conf`+`docker-compose.yml` → ECS 端 `docker compose pull && up -d`。所用 Secrets：`ECS_HOST`、`ECS_USERNAME`、`ECS_SSH_KEY`（可选 `ECS_HOST_KEY` 做严格主机指纹校验）。
+push `master` 触发：Runner 端 checkout → 登录 ghcr.io → build-push 镜像 → SCP 传 `nginx.conf`+`docker-compose.yml` → ECS 端 `export GITHUB_TOKEN`（注入 GitHub API Token）→ `docker compose pull && up -d --remove-orphans`。所用 Secrets：`ECS_HOST`、`ECS_USERNAME`、`ECS_SSH_KEY`、`GH_TOKEN`（可选 `ECS_HOST_KEY` 做严格主机指纹校验）。
 
 ### 4.5 宿主 Nginx 配置（手动维护）
 
@@ -479,6 +593,7 @@ server {
 | `ECS_USERNAME` | ECS 服务器 SSH 登录用户名 | `root` |
 | `ECS_SSH_KEY` | ECS 服务器 SSH 私钥全文，用于 GitHub Actions 免密登录 | `-----BEGIN OPENSSH PRIVATE KEY-----...` |
 | `ECS_HOST_KEY` | 可选，主机指纹，用于严格校验（首次连接报 host key 失败时配置） | `ssh-keyscan <ECS公网IP>` 输出 |
+| `GH_TOKEN` | GitHub Personal Access Token，注入容器供 contributions API 使用（名称不能以 `GITHUB_` 开头） | `ghp_xxxxxxxxxxxx` |
 
 配置路径：GitHub 仓库 → Settings → Secrets and variables → Actions → New repository secret
 
