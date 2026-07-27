@@ -33,6 +33,19 @@ const parseApiResponse = async <T>(
   return body.data;
 };
 
+/** 前端请求超时时间（毫秒），略大于服务端上游超时，保证服务端有机会先返回明确错误 */
+const CLIENT_TIMEOUT_MS = 20000;
+
+/**
+ * 带超时的同源 fetch 封装
+ * @param url - 请求地址（同源相对路径）
+ * @returns fetch 响应
+ * @throws 超时时抛出 TimeoutError，由调用方 catch 后进入错误兜底状态
+ */
+const fetchWithClientTimeout = (url: string): Promise<Response> => {
+  return fetch(url, { signal: AbortSignal.timeout(CLIENT_TIMEOUT_MS) });
+};
+
 /**
  * 获取 GitHub 用户信息
  * @param username - GitHub 用户名
@@ -40,7 +53,7 @@ const parseApiResponse = async <T>(
  * @remarks 走同源代理 /api/github/user，由服务端鉴权请求上游，规避浏览器跨域与速率限制。
  */
 export const getGithubUser = async (username: string): Promise<GithubUserData> => {
-  const response = await fetch(
+  const response = await fetchWithClientTimeout(
     `/api/github/user?username=${encodeURIComponent(username)}`,
   );
   return parseApiResponse<GithubUserData>(response, "用户数据为空");
@@ -61,7 +74,7 @@ export const getGithubRepos = async (
     username,
     per_page: String(perPage),
   });
-  const response = await fetch(`/api/github/repos?${query}`);
+  const response = await fetchWithClientTimeout(`/api/github/repos?${query}`);
   return parseApiResponse<GithubRepoData[]>(response, "仓库列表为空");
 };
 
@@ -76,7 +89,7 @@ export const getGithubRepos = async (
 export const getGithubContributions = async (
   username: string,
 ): Promise<GithubContributionsData> => {
-  const response = await fetch(
+  const response = await fetchWithClientTimeout(
     `/api/github/contributions?username=${encodeURIComponent(username)}`,
   );
   return parseApiResponse<GithubContributionsData>(response, "贡献数据为空");

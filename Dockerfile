@@ -29,6 +29,9 @@ RUN adduser --system --uid 1001 nextjs
 COPY --from=builder /app/public ./public
 COPY --from=builder /app/.next/standalone ./
 COPY --from=builder /app/.next/static ./.next/static
+# standalone 产物不包含运行时 fs 读取的 markdown 源文件，需显式复制，
+# 保证任何运行时读取 content 的逻辑（如 generateMetadata 兜底）不会因目录缺失而报错
+COPY --from=builder /app/content ./content
 
 USER nextjs
 

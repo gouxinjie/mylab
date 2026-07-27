@@ -48,6 +48,9 @@ export async function GET(request: Request) {
     };
     if (token) {
       headers.Authorization = `Bearer ${token}`;
+    } else {
+      // 无 Token 降级为未认证请求（限流 60 次/小时），记录告警便于线上排查配置缺失
+      console.warn("[github/repos] GITHUB_TOKEN 未配置，使用未认证请求（限流较低）");
     }
 
     const response = await fetchWithTimeout(

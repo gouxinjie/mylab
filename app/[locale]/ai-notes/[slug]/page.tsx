@@ -35,6 +35,13 @@ export function generateStaticParams() {
 }
 
 /**
+ * 禁止未预渲染的 slug 触发运行时渲染
+ * @description standalone 镜像内不含 content 源文件，未知 slug 若进入运行时渲染会因 fs 读取失败返回 500；
+ * 关闭 dynamicParams 后未知 slug 直接返回 404，不再触碰文件系统
+ */
+export const dynamicParams = false;
+
+/**
  * 生成文章页 SEO 元信息
  * @param params - 路由参数
  * @returns 页面 Metadata
