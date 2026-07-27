@@ -260,12 +260,37 @@
     text-align: left;
   }
 
+  // 左侧分组：版权文字 + ICP 备案号
+  &__left {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    order: 1;
+
+    @media (min-width: 768px) {
+      align-items: flex-start;
+      order: 0;
+    }
+  }
+
   // 版权文字
   &__rights {
     order: 1;
 
     @media (min-width: 768px) {
       order: 0;
+    }
+  }
+
+  // ICP 备案号链接
+  &__icp {
+    color: var(--color-text-muted);
+    text-decoration: none;
+    transition: color 0.2s;
+
+    &:hover {
+      color: var(--color-accent);
     }
   }
 

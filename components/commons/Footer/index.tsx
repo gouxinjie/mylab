@@ -374,7 +374,18 @@ export default function Footer() {
 
           {/* 底部版权与操作 */}
           <div className={styles.bottom}>
-            <p className={styles.bottom__rights}>{t("rights")}</p>
+            <div className={styles.bottom__left}>
+              <p className={styles.bottom__rights}>{t("rights")}</p>
+              {/* ICP 备案号：按工信部要求展示并指向备案查询网站 */}
+              <a
+                className={styles.bottom__icp}
+                href="https://beian.miit.gov.cn/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                {t("icp")}
+              </a>
+            </div>
             <button
               type="button"
               className={styles.bottom__top}
