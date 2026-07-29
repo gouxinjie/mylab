@@ -10,6 +10,12 @@ RUN pnpm install --frozen-lockfile --prod=false
 
 COPY . .
 
+# 接收构建参数：百度统计站点 ID
+# NEXT_PUBLIC_ 前缀变量需在 next build 时注入客户端 bundle，
+# 由 CI 的 docker build --build-arg 传入（本地 .env.local 亦可），不可依赖运行时环境变量。
+ARG NEXT_PUBLIC_BAIDU_TONGJI_ID
+ENV NEXT_PUBLIC_BAIDU_TONGJI_ID=${NEXT_PUBLIC_BAIDU_TONGJI_ID}
+
 # 构建 Next.js 应用
 RUN pnpm run build
 

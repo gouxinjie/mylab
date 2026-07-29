@@ -12,6 +12,7 @@ import { AppProvider } from "@/components/commons/AppProviders";
 import Navbar from "@/components/commons/Navbar";
 import Footer from "@/components/commons/Footer";
 import PageTransition from "@/components/commons/PageTransition";
+import BaiduTongji from "@/components/commons/BaiduTongji";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages, unstable_setRequestLocale } from "next-intl/server";
 import { locales, type Locale } from "@/i18n";
@@ -174,6 +175,8 @@ export default async function RootLayout({
         />
       </head>
       <body>
+        {/* 百度统计：站点流量分析（含 SPA 路由 PV 上报） */}
+        <BaiduTongji />
         <NextIntlClientProvider locale={locale} messages={messages}>
           <AppProvider>
             {/* 顶部导航栏 */}

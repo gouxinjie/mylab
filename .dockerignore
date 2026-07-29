@@ -7,6 +7,8 @@ out
 .git
 .gitignore
 .github
+# 切勿将本地环境变量文件打入镜像（含真实 GITHUB_TOKEN 等机密，否则会随镜像层泄露到 ghcr.io）
+.env*
 .vscode
 .idea
 

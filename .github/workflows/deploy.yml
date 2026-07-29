@@ -55,6 +55,10 @@ jobs:
           # 利用 GitHub Actions 缓存加速层复用
           cache-from: type=gha
           cache-to: type=gha,mode=max
+          # 传入构建参数：百度统计站点 ID 在 next build 时内联进客户端 bundle
+          # 需先在仓库 Settings → Secrets 配置 BAIDU_TONGJI_ID
+          build-args: |
+            NEXT_PUBLIC_BAIDU_TONGJI_ID=${{ secrets.BAIDU_TONGJI_ID }}
 
       # 步骤 4：通过 SCP 把运行时所需文件传到 ECS（仅 nginx.conf 与 pull 版 docker-compose.yml，
       #         应用镜像由上方推送到 ghcr.io，ECS 无需源码）
