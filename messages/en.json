@@ -30,17 +30,17 @@
       },
       {
         "title": "AI Tooling Platforms",
-        "description": "Building AI application platforms such as prompt galleries and content management, covering the full loop of display, submission, review and management.",
+        "description": "Building deepxinjie enterprise-grade AI chat and AI application platforms such as prompt galleries and content management, covering the full loop of conversation, display, submission, review and management.",
         "icon": "sparkles"
       },
       {
         "title": "Automated Deployment & Ops",
-        "description": "Setting up CI/CD pipelines with GitHub Actions, Docker and Nginx to achieve zero-downtime auto-deployment and process supervision on ECS.",
+        "description": "Deeply proficient in the GitHub Actions, Docker and Nginx stack, building highly available CI/CD pipelines and independently solving deployment challenges like zero-downtime releases, canary rollbacks and process supervision.",
         "icon": "rocket"
       },
       {
         "title": "Python Backend & Tooling",
-        "description": "Building Python services like image compression with FastAPI, with cloud Tinify and local Pillow dual engines falling back automatically.",
+        "description": "Proficient in full-stack Python development and familiar with its rich ecosystem, building high-performance web sites and backend services with FastAPI.",
         "icon": "zap"
       },
       {

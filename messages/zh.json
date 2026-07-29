@@ -30,17 +30,17 @@
       },
       {
         "title": "AI 工具平台",
-        "description": "构建 Prompt 案例库、内容管理等 AI 应用平台，覆盖展示、投稿、审核与管理的完整业务闭环。",
+        "description": "构建 deepxinjie 企业级 AI 对话与 Prompt 案例库、内容管理等 AI 应用平台，覆盖对话、展示、投稿、审核与管理的完整业务闭环。",
         "icon": "sparkles"
       },
       {
         "title": "自动化部署运维",
-        "description": "基于 GitHub Actions、Docker、Nginx 搭建 CI/CD 流水线，在 ECS 上实现零停机自动部署与进程守护。",
+        "description": "深度掌握 GitHub Actions、Docker、Nginx 技术栈，熟练搭建高可用 CI/CD 流水线，进行项目的部署和管理。",
         "icon": "rocket"
       },
       {
         "title": "Python 后端与工具",
-        "description": "使用 FastAPI 构建图片压缩等 Python 服务，云端 Tinify 与本地 Pillow 双引擎智能回退。",
+        "description": "熟悉 Python 全栈开发并了解其丰富生态，基于 FastAPI 构建高性能 Web 网站与后端服务。",
         "icon": "zap"
       },
       {
