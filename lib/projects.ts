@@ -225,12 +225,67 @@ export const projects: Project[] = [
     ]
   },
   {
+    id: 'deepxinjie',
+    title: 'deepxinjie',
+    category: L('AI 聊天应用', 'AI Chat Application'),
+    tags: ['React', 'FastAPI', 'Docker'],
+    featured: true,
+    order: 3,
+    brief: L('企业级 AI 聊天网站', 'Enterprise-grade AI Chat Website'),
+    description: L(
+      '一个前后端分离的 AI 聊天网站，产品形态参考企业级 AI 聊天产品。支持流式对话与中断、深度思考、联网搜索与来源侧边栏、消息编辑后重新生成、基于上一轮继续生成、会话自动命名与全文搜索，并用 IndexedDB 做本地缓存实现秒开与断网恢复；桌面端与移动端双端适配',
+      'A frontend/backend separated AI chat website modeled on enterprise-grade AI chat products. Supports streaming chat with interruption, deep thinking, web search with a sources sidebar, message editing and regeneration, continuation from the previous turn, auto-generated session titles and full-text search, plus IndexedDB local caching for instant rendering and offline recovery; adapted for both desktop and mobile.'
+    ),
+    repoUrl: 'https://github.com/gouxinjie/deepxinjie',
+    deployPath: '/var/www/chat（数据库由 Docker Volume `mysql_data` 持久化，首次启动自动执行 schema.sql 建表）',
+    startMode: L(
+      'Docker Compose 三容器（db + api + web）→ 宿主 Nginx 反代到 127.0.0.1:3610，GitHub Actions 自动构建镜像同步；本地开发根目录 start.bat 一键启动（前端 3600 / 后端 3601）',
+      'Docker Compose three containers (db + api + web) -> host Nginx reverse proxy to 127.0.0.1:3610; GitHub Actions auto-build and sync images. Local dev: start.bat one-click startup (frontend 3600 / backend 3601).'
+    ),
+    status: '正常运行',
+    remark: L(
+      'GitHub Actions 自动部署，push main 触发 docker build 前端+后端镜像 → push 阿里云 ACR（commit sha 作版本）→ scp 上传 docker-compose.yml + schema.sql → ECS docker compose pull + up -d --remove-orphans（滚动替换）→ curl /api/hello 健康检查',
+      'Automated deployment via GitHub Actions: push to main triggers docker build frontend+backend images -> push to Alibaba Cloud ACR (commit sha as version) -> scp upload docker-compose.yml + schema.sql -> ECS docker compose pull + up -d --remove-orphans (rolling replacement) -> health check via curl /api/hello.'
+    ),
+    port: 'web 容器 80 → 宿主仅回环 3610，api 仅内网 3601，db MySQL 仅内网，宿主 Nginx 对外 80',
+    url: 'http://chat.gouxinjie.com',
+    covers: [
+      '/images/project-cover/deepxinjie-v2.png',
+      '/images/project-cover/deepxinjie-1-v2.png',
+      '/images/project-cover/deepxinjie-2-v2.png'
+    ],
+    techStackBrief: L(
+      'React 19、Vite 8、TypeScript 前端、Zustand 5、Radix UI、FastAPI、MySQL 8、OpenAI SDK（DeepSeek 兼容）、IndexedDB 本地缓存、Docker Compose 部署',
+      'React 19, Vite 8, TypeScript frontend, Zustand 5, Radix UI, FastAPI, MySQL 8, OpenAI SDK (DeepSeek compatible), IndexedDB local cache, Docker Compose deployment'
+    ),
+    techStackDetail: [
+      { category: L('前端框架', 'Frontend'), tech: L('React 19 + Vite 8 + TypeScript 5（React Router 7）', 'React 19 + Vite 8 + TypeScript 5 (React Router 7)') },
+      { category: L('状态管理', 'State Management'), tech: L('Zustand 5（persist 中间件持久化偏好，authStore / sessionStore / themeStore）', 'Zustand 5 (persist middleware for preferences; authStore / sessionStore / themeStore)') },
+      { category: L('UI 组件', 'UI Components'), tech: L('Radix UI（dialog / dropdown-menu / toast / tooltip）+ framer-motion 动画', 'Radix UI (dialog / dropdown-menu / toast / tooltip) + framer-motion animations') },
+      { category: L('样式', 'Styling'), tech: L('SCSS（Sass）+ CSS Modules 局部作用域，全局变量 variables.scss / mixins.scss', 'SCSS (Sass) + CSS Modules scoped styles, global variables.scss / mixins.scss') },
+      { category: L('内容渲染', 'Content Rendering'), tech: L('react-markdown + remark-gfm + remark-math + rehype-highlight + rehype-katex + mermaid 图表', 'react-markdown + remark-gfm + remark-math + rehype-highlight + rehype-katex + mermaid') },
+      { category: L('流式聊天', 'Streaming'), tech: L('fetch + POST 手动解析 SSE 分片，支持中断与 401 自动刷新重放', 'fetch + POST manual SSE parsing, supports interruption and 401 auto-refresh replay') },
+      { category: L('本地缓存', 'Local Cache'), tech: L('IndexedDB（deepxinjie_cache：messages / sessions / drafts 三级缓存，按 user_id 命名空间隔离）', 'IndexedDB (deepxinjie_cache: messages / sessions / drafts, isolated per user_id)') },
+      { category: L('后端框架', 'Backend'), tech: L('FastAPI + Uvicorn + MySQL 8（mysql-connector-python 参数化查询）', 'FastAPI + Uvicorn + MySQL 8 (mysql-connector-python parameterized queries)') },
+      { category: L('模型接入', 'Model Integration'), tech: L('OpenAI Python SDK（DeepSeek 兼容，流式 + 非流式；深度思考 deepseek-v4-flash + thinking）', 'OpenAI Python SDK (DeepSeek compatible, streaming + non-streaming; deep thinking via deepseek-v4-flash + thinking)') },
+      { category: L('鉴权', 'Auth'), tech: L('pyjwt（Access + Refresh Token）+ passlib[bcrypt]（bcrypt==4.0.1）+ CSRF Token，刷新/CSRF 仅以哈希入库', 'pyjwt (Access + Refresh Token) + passlib[bcrypt] (bcrypt==4.0.1) + CSRF Token, refresh/CSRF stored hashed only') },
+      { category: L('联网搜索', 'Web Search'), tech: L('requests + xmltodict（多查询并发 + 网页正文摘要并发抓取，降低首字延迟）', 'requests + xmltodict (parallel queries + concurrent page content summarization)') },
+      { category: L('容器编排', 'Orchestration'), tech: L('Docker + Docker Compose（三容器 bridge 网络：db + api + web，MySQL 数据卷持久化）', 'Docker + Docker Compose (three-container bridge network: db + api + web, MySQL volume)') },
+      { category: L('反向代理', 'Reverse Proxy'), tech: L('Nginx（宿主 80 分流，关闭缓冲保证流式逐块透传 + 前端容器 nginx 托管并反代 /api）', 'Nginx (host 80 routing with buffering off for streaming + frontend container nginx serves and proxies /api)') },
+      { category: L('镜像仓库', 'Registry'), tech: L('阿里云 ACR 个人实例（gouxinjie 命名空间，commit sha + latest 标签）', 'Alibaba Cloud ACR (gouxinjie namespace, commit sha + latest tags)') },
+      { category: L('部署', 'Deployment'), tech: L('阿里云 ECS', 'Alibaba Cloud ECS') },
+      { category: L('CI/CD', 'CI/CD'), tech: L('GitHub Actions（镜像构建 + SCP 编排文件同步 + compose 滚动更新 + 健康检查）', 'GitHub Actions (image build + SCP orchestration sync + compose rolling update + health check)') },
+      { category: L('代码质量', 'Code Quality'), tech: L('ESLint 9 + typescript-eslint + react-hooks（strict 模式，零错误要求）', 'ESLint 9 + typescript-eslint + react-hooks (strict mode, zero-error required)') },
+      { category: L('包管理', 'Package Manager'), tech: L('npm', 'npm') }
+    ]
+  },
+  {
     id: 'archive',
     title: 'archive',
     category: L('应用', 'Application'),
     tags: ['Nuxt 4', 'Vue 3', 'SQLite'],
     featured: false,
-    order: 3,
+    order: 4,
     brief: L('个人档案管理系统', 'Personal Archive Management System'),
     description: L(
       '一个本地优先的私人资料管理系统，集中保存和管理账号密码、文档资料、简历文件、图片、证件和学习资料。按用户账号隔离数据，面向个人长期沉淀工作记录、生活资料和数字资产。',
@@ -274,7 +329,7 @@ export const projects: Project[] = [
     category: L('工具', 'Tool'),
     tags: ['FastAPI', 'Python', 'Pillow'],
     featured: false,
-    order: 4,
+    order: 5,
     brief: L('在线图片压缩工具', 'Online Image Compression Tool'),
     description: L(
       '一个类似 TinyPNG 的在线图片无损压缩工具，支持 PNG、JPG、JPEG、WebP 格式。提供拖拽上传、点击选择、实时进度展示、单图下载和批量 ZIP 下载。优先使用 Tinify 云端 API 压缩，无 API Key 时回退到本地 Pillow 压缩。面向个人使用和轻量部署场景，不处理高并发。',
@@ -320,7 +375,7 @@ export const projects: Project[] = [
     category: L('数据可视化', 'Data Visualization'),
     tags: ['React', 'Express', 'ECharts'],
     featured: true,
-    order: 5,
+    order: 6,
     brief: L('GitHub 项目数据可视化看板', 'GitHub Project Data Visualization Dashboard'),
     description: L(
       '一个面向个人开发者的 GitHub 项目数据可视化产品，将分散的 GitHub 仓库数据同步到本地 SQLite 并沉淀为可持续查看的可视化经营面板。支持仓库列表与基础信息同步持久化、提交记录/语言分布/流量数据采集、活跃度趋势与热力图展示、技术栈标签分析、四维度项目评分、自动洞察卡片生成。前端经 Nginx 反向代理透传 `/api` 到 Express 后端，GitHub Token 加密存储并按配置定时增量同步。',
@@ -369,7 +424,7 @@ export const projects: Project[] = [
     category: L('应用', 'Application'),
     tags: ['Next.js', 'React 19', 'Prisma'],
     featured: false,
-    order: 6,
+    order: 7,
     brief: L('月历生活记录工具（H5）', 'Monthly Calendar Life Journal (H5)'),
     description: L(
       '一个用来知道"之前做过什么"的记录与回顾工具——不做计划、不设 KPI，只是把已经发生过的生活清晰地留在月历上',
@@ -415,7 +470,7 @@ export const projects: Project[] = [
     category: L('数据可视化', 'Data Visualization'),
     tags: ['React', 'ECharts', 'Docker'],
     featured: false,
-    order: 7,
+    order: 8,
     brief: L('城市天气可视化大屏平台', 'City Weather Visualization Dashboard Platform'),
     description: L(
       '一个用来"一眼看懂此刻城市天气"的聚合与展示工具——不做预测规划，只是把实时天气、空气质量、灾害预警、趋势与统计清晰地留在同一屏上',
@@ -464,7 +519,7 @@ export const projects: Project[] = [
     category: L('其他', 'Other'),
     tags: ['md'],
     featured: false,
-    order: 8,
+    order: 9,
     brief: L('github的个人主页介绍页面', 'GitHub Personal Profile Page'),
     description: L(
       '这个项目是一个github的个人主页介绍页面，只有一个md，仓库命名需要和用户名保持一致且公开',
@@ -494,7 +549,7 @@ export const projects: Project[] = [
     category: L('平台', 'Platform'),
     tags: ['React', 'FastAPI', 'MySQL', 'TypeScript', 'Ant Design'],
     featured: false,
-    order: 9,
+    order: 10,
     brief: L('企业 IT 项目交付与资源统一管理平台', 'Enterprise IT Project Delivery & Resource Management Platform'),
     description: L(
       '一个把项目基础信息、前后端资源、成员、外部依赖（OSS/数据库/Redis/中间件）和账号权限收口到一个控制台的企业内部管理工具——方便日常维护、交接与审计。包含项目总览仪表盘、项目管理、成员管理、外部资源管理、账号管理与登录注册等模块，支持角色权限、公开注册开关与 Bearer JWT 认证。',
@@ -532,52 +587,6 @@ export const projects: Project[] = [
       { category: L('配置', 'Config'), tech: L('python-dotenv（.env）', 'python-dotenv (.env)') },
       { category: L('包管理', 'Package Manager'), tech: L('前端 pnpm / npm；后端 pip', 'Frontend pnpm / npm; Backend pip') },
       { category: L('代码质量', 'Code Quality'), tech: L('ESLint（前端）', 'ESLint (frontend)') }
-    ]
-  },
-  /**
-   * 未上线的项目：deepxinjie
-   */
-  {
-    id: 'deepxinjie',
-    title: 'deepxinjie',
-    category: L('应用', 'Application'),
-    tags: ['React', 'FastAPI', 'MySQL', 'TypeScript'],
-    featured: false,
-    order: 10,
-    brief: L('AI 聊天平台', 'AI Chat Platform'),
-    description: L(
-      '一个前后端分离的 AI 聊天项目，产品形态参考企业级 AI 聊天网站——支持账号密码注册登录、基于 Access/Refresh Token 与 CSRF 的登录态管理、流式聊天输出与中断、深度思考模式、联网搜索与来源展示、会话管理（新建/历史/重命名/置顶/删除）以及桌面端和移动端双端适配',
-      'A decoupled front/back AI chat project modeled after enterprise AI chat sites, supporting account/password signup & login, Access/Refresh Token + CSRF session management, streaming chat output with interruption, deep-thinking mode, web search with source display, conversation management (new/history/rename/pin/delete), and desktop + mobile adaptation.'
-    ),
-    repoUrl: 'https://github.com/gouxinjie/deepxinjie',
-    deployPath: '',
-    startMode: L('', ''),
-    status: '未发布',
-    remark: L('', ''),
-    port: '',
-    url: null,
-    covers: ['/images/project-cover/deepxinjie.png', '/images/project-cover/deepxinjie-1.png', '/images/project-cover/deepxinjie-2.png', '/images/project-cover/deepxinjie-3.png', '/images/project-cover/deepxinjie-4.png'],
-    techStackBrief: L(
-      'React 19、Vite 8、TypeScript 5 前端、React Router 7、Zustand 状态管理、Axios 请求、Sass/SCSS 样式、FastAPI + Uvicorn 后端、MySQL 8 数据库、PyJWT + passlib 鉴权、OpenAI Python SDK 模型接入',
-      'React 19, Vite 8, TypeScript 5 frontend, React Router 7, Zustand, Axios, Sass/SCSS, FastAPI + Uvicorn backend, MySQL 8, PyJWT + passlib auth, OpenAI Python SDK model integration'
-    ),
-    techStackDetail: [
-      { category: L('前端框架', 'Frontend'), tech: L('React 19 + Vite 8 + TypeScript 5', 'React 19 + Vite 8 + TypeScript 5') },
-      { category: L('路由', 'Routing'), tech: L('React Router 7', 'React Router 7') },
-      { category: L('状态管理', 'State Management'), tech: L('Zustand（跨组件共享）+ useState（局部状态）', 'Zustand (cross-component sharing) + useState (local state)') },
-      { category: L('请求', 'HTTP Client'), tech: L('Axios', 'Axios') },
-      { category: L('样式', 'Styling'), tech: L('Sass / SCSS', 'Sass / SCSS') },
-      { category: L('Markdown 渲染', 'Markdown'), tech: L('react-markdown + remark-gfm + rehype-highlight', 'react-markdown + remark-gfm + rehype-highlight') },
-      { category: L('图标', 'Icons'), tech: L('lucide-react', 'lucide-react') },
-      { category: L('后端', 'Backend'), tech: L('FastAPI + Uvicorn', 'FastAPI + Uvicorn') },
-      { category: L('数据库', 'Database'), tech: L('MySQL 8 + mysql-connector-python', 'MySQL 8 + mysql-connector-python') },
-      { category: L('鉴权', 'Auth'), tech: L('PyJWT + passlib[bcrypt]（Access Token + Refresh Token + CSRF Token）', 'PyJWT + passlib[bcrypt] (Access + Refresh + CSRF Token)') },
-      { category: L('模型接入', 'Model Integration'), tech: L('OpenAI Python SDK（兼容 DeepSeek 等接口）', 'OpenAI Python SDK (compatible with DeepSeek etc.)') },
-      { category: L('联网搜索', 'Web Search'), tech: L('Tavily Search API', 'Tavily Search API') },
-      { category: L('配置', 'Config'), tech: L('python-dotenv', 'python-dotenv') },
-      { category: L('运行环境', 'Runtime'), tech: L('Node.js 20+ / Python 3.11+ / MySQL 8+', 'Node.js 20+ / Python 3.11+ / MySQL 8+') },
-      { category: L('包管理', 'Package Manager'), tech: L('npm（前端）/ pip（后端）', 'npm (frontend) / pip (backend)') },
-      { category: L('代码质量', 'Code Quality'), tech: L('ESLint', 'ESLint') }
     ]
   },
   {
