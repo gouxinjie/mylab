@@ -14,9 +14,12 @@ services:
     restart: always
 
   app:
-    # 应用镜像由 CI 构建并推送到 ghcr.io，ECS 仅拉取运行（详见 .github/workflows/deploy.yml）
+    # 应用镜像由 CI 构建并推送到阿里云 ACR，ECS 仅拉取运行（详见 .github/workflows/deploy.yml）
     # 注意：此处必须使用 image 而非 build，否则 ECS 会回退到本地构建并因缺少 Dockerfile 失败
-    image: ghcr.io/gouxinjie/mylab:latest
+    # 镜像地址为 ACR 新版个人版实例上海地域公网域名
+    # （crpi-5ue84w8rjgqxg0s0.cn-shanghai.personal.cr.aliyuncs.com），
+    # ECS 需先 docker login 该仓库（由 CI 的 SSH 脚本完成）才能拉取私有镜像
+    image: crpi-5ue84w8rjgqxg0s0.cn-shanghai.personal.cr.aliyuncs.com/gouxinjie/mylab:latest
     container_name: mylab
     # Next.js standalone 的 server.js 以 process.env.HOSTNAME 作为监听地址，
     # 而 Docker 默认把 HOSTNAME 设为容器主机名（仅绑定容器 IP，非 0.0.0.0），

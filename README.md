@@ -32,11 +32,11 @@
 
 - **仓库地址**：https://github.com/gouxinjie/mylab
 - **部署路径**：/var/www/mylab
-- **镜像仓库**：ghcr.io/gouxinjie/mylab:latest
+- **镜像仓库**：crpi-5ue84w8rjgqxg0s0.cn-shanghai.personal.cr.aliyuncs.com/gouxinjie/mylab:latest（阿里云 ACR 新版个人版）
 - **启动方式**：Docker Compose 双容器（app + nginx）→ 宿主 Nginx 反代到 127.0.0.1:3500，GitHub Actions 自动构建与部署
 - **端口**：nginx 容器 80 → 宿主 3500，app 仅内网 3500，宿主 Nginx 对外 80
 - **访问**：http://gouxinjie.com
-- **CI/CD**：GitHub Actions（push master 触发 docker build → push ghcr.io → SCP 上传 → ECS docker compose pull + up -d）
+- **CI/CD**：GitHub Actions（push master 触发 docker build → push 阿里云 ACR → SCP 上传 → ECS 登录 ACR 后 docker compose pull + up -d）
 
 ## 收录项目
 

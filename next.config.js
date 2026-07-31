@@ -16,6 +16,9 @@ const withMDX = require("@next/mdx")({
 });
 
 /** @type {import('next').NextConfig} */
+// 是否为生产环境（生产环境才开启静态资源长缓存，避免 dev 模式缓存过期 chunk）
+const isProd = process.env.NODE_ENV === "production";
+
 const nextConfig = {
   // MDX 文件解析页面
   pageExtensions: ["js", "jsx", "mdx", "ts", "tsx"],
@@ -90,25 +93,29 @@ const nextConfig = {
         source: "/((?!_next/static|_next/image|favicon.ico|images/|logos/|data/).*)",
         headers: securityHeaders,
       },
-      // 静态资源添加长期缓存
-      {
-        source: "/_next/static/(.*)",
-        headers: [
-          {
-            key: "Cache-Control",
-            value: "public, max-age=31536000, immutable",
-          },
-        ],
-      },
-      {
-        source: "/images/(.*)",
-        headers: [
-          {
-            key: "Cache-Control",
-            value: "public, max-age=86400, must-revalidate",
-          },
-        ],
-      },
+      // 静态资源添加长期缓存（仅生产环境；dev 模式保持默认缓存策略，避免浏览器缓存过期 chunk）
+      ...(isProd
+        ? [
+            {
+              source: "/_next/static/(.*)",
+              headers: [
+                {
+                  key: "Cache-Control",
+                  value: "public, max-age=31536000, immutable",
+                },
+              ],
+            },
+            {
+              source: "/images/(.*)",
+              headers: [
+                {
+                  key: "Cache-Control",
+                  value: "public, max-age=86400, must-revalidate",
+                },
+              ],
+            },
+          ]
+        : []),
     ];
   },
   // Sass 配置

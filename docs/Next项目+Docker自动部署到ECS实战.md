@@ -29,7 +29,7 @@ mylab 是作者的个人技术站点，集 **技术文档、Markdown 文章、�
 | 条目 | 内容 |
 |------|------|
 | 源码仓库 | https://github.com/gouxinjie/mylab |
-| 镜像仓库 | ghcr.io/gouxinjie/mylab:latest |
+| 镜像仓库 | crpi-5ue84w8rjgqxg0s0.cn-shanghai.personal.cr.aliyuncs.com/gouxinjie/mylab:latest（阿里云 ACR 新版个人版） |
 | 线上访问 | http://gouxinjie.com |
 | ECS 部署路径 | /var/www/mylab |
 | 容器数 | 2（app + nginx） |
@@ -144,54 +144,55 @@ app 容器 :3500                ← Next.js standalone server
 | # | 阶段 | 操作 |
 |---|------|------|
 | 1 | 检出 | GitHub Actions Runner 上 `checkout` 完整代码（含 `pnpm-lock.yaml`） |
-| 2 | 登录 | 登录 `ghcr.io`（使用内置 `GITHUB_TOKEN`，无需额外密钥） |
-| 3 | 构建推送 | `docker/build-push-action` 在 Runner 上 `docker build` 并推送 `ghcr.io/gouxinjie/mylab:latest`（启用 gha 缓存加速） |
+| 2 | 登录 | 登录阿里云 `ACR`（新版个人版公网域名，使用仓库 Secrets 中的 `ACR_USERNAME` / `ACR_PASSWORD`） |
+| 3 | 构建推送 | `docker/build-push-action` 在 Runner 上 `docker build` 并推送 `crpi-5ue84w8rjgqxg0s0.cn-shanghai.personal.cr.aliyuncs.com/gouxinjie/mylab:latest`（启用 gha 缓存加速） |
 | 4 | 传运行时文件 | SCP 把 `nginx.conf` + `docker-compose.yml` 上传到 ECS `/var/www/mylab`（`rm: true` 先清空） |
-| 5 | 拉起容器 | ECS 端 SSH 执行：`docker compose pull` → `docker compose down \|\| true` → `docker compose up -d` → `docker image prune -f` |
+| 5 | 拉起容器 | ECS 端 SSH 执行：`docker login ACR` → `docker compose pull` → `docker compose down \|\| true` → `docker compose up -d` → `docker image prune -f` |
 
 **安全性 / 资源要点：**
 - ECS 无需安装 Node.js 或编译工具链 —— 重构建在 GitHub Runner（内存充足）完成，ECS 仅 `docker compose pull` 运行，规避小内存机器（1.8G）`next build` 的 OOM / swap 卡死。
-- 本项目暂未接入第三方密钥；后续如需密钥，应通过 GitHub Secrets 注入，不进入源码仓库。
-- ECS 无需访问 GitHub（镜像来自 `ghcr.io`），无需配置 Deploy Key。
+- 镜像存阿里云 ACR（国内仓库），ECS 拉取速度快且稳定，不依赖 GitHub。
+- ACR 登录凭据（用户名 / 密码）通过 GitHub Secrets 注入，不进入源码仓库；后续如需密钥，同样通过 GitHub Secrets 注入。
 
-### 2.5 镜像仓库（ghcr.io）
+### 2.5 镜像仓库（阿里云 ACR）
 
-#### 2.5.1 ghcr.io 是什么
+#### 2.5.1 ACR 是什么
 
-`ghcr.io` 是 **GitHub Container Registry（GitHub 容器镜像仓库）** 的域名，由 GitHub 官方提供，用于存储和分发 Docker 镜像。它和 GitHub 代码仓库同属一套账户与权限体系，镜像地址格式为：
+`ACR`（Alibaba Cloud Container Registry，阿里云容器镜像服务）是阿里云提供的 Docker 镜像存储与分发服务，支持个人版（免费）与企业版。本项目使用 **ACR 新版个人版实例（上海地域）**，镜像地址格式为：
 
 ```text
-ghcr.io/<GitHub用户名或组织名>/<镜像名>:<标签>
+crpi-<实例ID>.cn-<地域>.personal.cr.aliyuncs.com/<命名空间>/<镜像名>:<标签>
 ```
 
-本项目镜像完整地址为 `ghcr.io/gouxinjie/mylab:latest`（见 1.3 节）。
+本项目镜像完整地址为 `crpi-5ue84w8rjgqxg0s0.cn-shanghai.personal.cr.aliyuncs.com/gouxinjie/mylab:latest`（命名空间 `gouxinjie`，仓库 `mylab`，见 1.3 节）。
 
-#### 2.5.2 为什么用 ghcr.io
+> **关于地址形式**：ACR 新版个人版实例在不同网络场景有不同域名——公网 `crpi-xxx.cn-shanghai.personal.cr.aliyuncs.com`、专有网络（VPC）`crpi-xxx-vpc.cn-shanghai.personal.cr.aliyuncs.com` 等（`-vpc` 后缀表示 VPC 内网域名，仅阿里云 VPC 内可访问）。GitHub Actions 为海外 Runner，且 ECS 公网拉取同样走公网，因此本项目统一使用**公网域名** `crpi-5ue84w8rjgqxg0s0.cn-shanghai.personal.cr.aliyuncs.com`；VPC 地址仅供 ECS 与 ACR 在同一专有网络内时使用，CI 无法访问。
 
-相比自建 Registry 或推到 Docker Hub，这里选 ghcr.io 的原因：
+#### 2.5.2 为什么用 ACR
+
+相比 ghcr.io / Docker Hub，这里选阿里云 ACR 的原因：
 
 | 优势 | 说明 |
 |------|------|
-| 与代码同源 | 镜像与 `github.com/gouxinjie/mylab` 在同一 GitHub 账户下，无需额外注册/管理独立的镜像服务 |
-| 免密钥登录 | CI 内使用 GitHub 自带的 `GITHUB_TOKEN` 即可 `docker login ghcr.io`，无需在 Secrets 里额外配置用户名/密码 |
-| 权限打通 | 仓库是 private 时镜像默认也私有；协作者/部署机通过 GitHub 权限即可拉取，无需分发 Docker Hub 凭证 |
-| 延迟低、稳定 | ECS 拉取 GitHub 提供的镜像源速度快且稳定，避免 Docker Hub 匿名拉取限流（rate limit） |
-| CI 天然集成 | `docker/build-push-action` 原生支持推送到 ghcr.io，配合 gha 缓存可复用构建层加速 |
+| 国内拉取快 | ACR 与 ECS 同处国内（上海），`docker pull` 速度快且稳定，避免 ghcr.io 跨境慢速/超时 |
+| 免费个人版 | 个人版免费使用，对本项目规模足够，无需额外费用 |
+| 阿里云生态 | 与 ECS 同属阿里云，后续可平滑接入 VPC 内网拉取、RAM 子账号授权等能力 |
+| 私有化控制 | 仓库默认为私有，需登录才可拉取，凭据经 GitHub Secrets 注入，可控性强 |
 
 #### 2.5.3 本项目中的用法
 
-- **推送（写）**：仅发生在 GitHub Actions Runner 上。工作流登录 `ghcr.io` 后，把构建好的镜像打标签 `ghcr.io/gouxinjie/mylab:latest` 并 `push`（见 2.4 节第 3 步）。
-- **拉取（读）**：仅发生在 ECS 上。CI 的 SSH 步骤执行 `docker compose pull`，Compose 文件里 `app` 服务 `image: ghcr.io/gouxinjie/mylab:latest` 即指向该地址，`docker compose up -d` 时自动拉取最新镜像。
+- **推送（写）**：仅发生在 GitHub Actions Runner 上。工作流用 `ACR_USERNAME` / `ACR_PASSWORD` 登录 `crpi-5ue84w8rjgqxg0s0.cn-shanghai.personal.cr.aliyuncs.com` 后，把构建好的镜像打标签 `crpi-5ue84w8rjgqxg0s0.cn-shanghai.personal.cr.aliyuncs.com/gouxinjie/mylab:latest` 并 `push`（见 2.4 节第 3 步）。
+- **拉取（读）**：仅发生在 ECS 上。CI 的 SSH 步骤先 `docker login` ACR，再执行 `docker compose pull`。Compose 文件里 `app` 服务 `image: crpi-5ue84w8rjgqxg0s0.cn-shanghai.personal.cr.aliyuncs.com/gouxinjie/mylab:latest` 即指向该地址，`docker compose up -d` 时自动拉取最新镜像。
 
-> ECS 侧拉取 ghcr.io 镜像**不需要 GitHub 账号凭证**：公开镜像任何机器都能 `pull`；即便镜像为私有，也只需在 ECS 上做一次 `docker login ghcr.io`（用带 `read:packages` 权限的 Personal Access Token），之后 `pull` 即可免登录。本项目当前镜像为公开，故 ECS 无需登录即可拉取。
+> ECS 侧拉取 ACR **需要登录**（仓库为私有）：CI 的 SSH 脚本通过 `docker login --username "$ACR_USERNAME" --password-stdin crpi-5ue84w8rjgqxg0s0.cn-shanghai.personal.cr.aliyuncs.com` 注入凭据（值来自 GitHub Secrets），之后 `docker compose pull` 即可拉取私有镜像。登录状态在 ECS 本地 Docker 有缓存，但每次部署仍重新登录以保证凭据新鲜。
 
 #### 2.5.4 镜像标签与回滚
 
 当前固定使用 `latest` 标签（每次 CI 构建覆盖）。因此：
 
-- ghcr.io 上**只保留最新**一份 `latest` 镜像，不自动留存历史版本；
-- 回滚靠重新构建旧代码（见 5.4 节），而非切换 ghcr.io 上的旧标签；
-- 如需保留历史版本，可在 `build-push` 步骤追加语义化标签（如 `ghcr.io/gouxinjie/mylab:v1.0.3` + `latest`），再在 `docker-compose.yml` 中显式指定版本号回滚。
+- ACR 上**只保留最新**一份 `latest` 镜像，不自动留存历史版本（个人版空间有限，需留意清理）；
+- 回滚靠重新构建旧代码（见 5.4 节），而非切换 ACR 上的旧标签；
+- 如需保留历史版本，可在 `build-push` 步骤追加语义化标签（如 `crpi-5ue84w8rjgqxg0s0.cn-shanghai.personal.cr.aliyuncs.com/gouxinjie/mylab:v1.0.3` + `latest`），再在 `docker-compose.yml` 中显式指定版本号回滚。
 
 ## 三、部署遇到的问题与解决
 
@@ -288,7 +289,7 @@ Process exited with status 1
 ```yaml
 services:
   app:
-    image: ghcr.io/gouxinjie/mylab:latest
+    image: crpi-5ue84w8rjgqxg0s0.cn-shanghai.personal.cr.aliyuncs.com/gouxinjie/mylab:latest
     restart: unless-stopped
     expose:
       - "3500"            # 仅对内暴露，不映射宿主端口
@@ -448,7 +449,7 @@ location ^~ /images/ {
 
 ### 4.2 docker-compose.yml（Docker 编排核心）
 
-定义 `app`（应用镜像，来自 ghcr.io）与 `nginx`（反代）两个服务。`app` 仅 `expose` 对内；`nginx` 映射 `3500:80` 并挂载 `nginx.conf`。生产启动由 CI 自动执行 `docker compose pull && up -d`。
+定义 `app`（应用镜像，来自阿里云 ACR）与 `nginx`（反代）两个服务。`app` 仅 `expose` 对内；`nginx` 映射 `3500:80` 并挂载 `nginx.conf`。生产启动由 CI 自动执行 `docker login ACR && docker compose pull && up -d`。
 
 关键配置要点：
 
@@ -476,7 +477,7 @@ location ^~ /images/ {
 
 ### 4.4 .github/workflows/deploy.yml（CI/CD 工作流）
 
-push `master` 触发：Runner 端 checkout → 登录 ghcr.io → build-push 镜像 → SCP 传 `nginx.conf`+`docker-compose.yml` → ECS 端 `export GITHUB_TOKEN`（注入 GitHub API Token）→ `docker compose pull && up -d --remove-orphans`。所用 Secrets：`ECS_HOST`、`ECS_USERNAME`、`ECS_SSH_KEY`、`GH_TOKEN`（可选 `ECS_HOST_KEY` 做严格主机指纹校验）。
+push `master` 触发：Runner 端 checkout → 登录阿里云 ACR → build-push 镜像 → SCP 传 `nginx.conf`+`docker-compose.yml` → ECS 端 `docker login ACR` + `export GITHUB_TOKEN`（注入 GitHub API Token）→ `docker compose pull && up -d --remove-orphans`。所用 Secrets：`ECS_HOST`、`ECS_USERNAME`、`ECS_SSH_KEY`、`ACR_USERNAME`、`ACR_PASSWORD`、`GH_TOKEN`（可选 `ECS_HOST_KEY` 做严格主机指纹校验）。
 
 ### 4.5 宿主 Nginx 配置（手动维护）
 
@@ -593,7 +594,15 @@ server {
 | `ECS_USERNAME` | ECS 服务器 SSH 登录用户名 | `root` |
 | `ECS_SSH_KEY` | ECS 服务器 SSH 私钥全文，用于 GitHub Actions 免密登录 | `-----BEGIN OPENSSH PRIVATE KEY-----...` |
 | `ECS_HOST_KEY` | 可选，主机指纹，用于严格校验（首次连接报 host key 失败时配置） | `ssh-keyscan <ECS公网IP>` 输出 |
+| `ACR_USERNAME` | 阿里云 ACR 登录用户名（新版个人版为阿里云账号全名），用于 CI 推送与 ECS 拉取 | `aliyun4356291210` |
+| `ACR_PASSWORD` | ACR 容器镜像服务「访问凭证」中设置的独立固定密码（非阿里云账号密码） | `xxxxx` |
 | `GH_TOKEN` | GitHub Personal Access Token，注入容器供 contributions API 使用（名称不能以 `GITHUB_` 开头） | `ghp_xxxxxxxxxxxx` |
+
+**ACR 前置准备（首次部署前）：**
+- 在阿里云「容器镜像服务 → 访问凭证」设置独立固定密码（非阿里云账号密码）。
+- 确认实例为**新版个人版**（域名含 `personal.cr.aliyuncs.com`），登录用户名为阿里云账号全名。
+- 创建命名空间 `gouxinjie` 与镜像仓库 `mylab`（或开启「自动创建仓库」）。
+- 将 ACR 登录用户名与密码分别填入 GitHub Secrets 的 `ACR_USERNAME` / `ACR_PASSWORD`。
 
 配置路径：GitHub 仓库 → Settings → Secrets and variables → Actions → New repository secret
 

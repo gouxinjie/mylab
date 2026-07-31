@@ -2,10 +2,11 @@
 # GitHub Actions：推送 master 分支后自动部署到阿里云 ECS
 # 原理：
 #   1. Runner 检出完整代码（含 pnpm-lock.yaml）
-#   2. 在 Runner 上 docker build 并推送镜像到 ghcr.io（构建不再发生在 ECS）
+#   2. 在 Runner 上 docker build 并推送镜像到阿里云 ACR（构建不再发生在 ECS）
 #   3. 通过 SCP 把运行时所需文件（nginx.conf / docker-compose.yml 等）传到 ECS
 #   4. ECS 上 docker compose pull && up -d，仅拉取并运行，不再执行 next build
 # 优势：ECS（仅 1.8G 内存）无需承担重型构建，彻底规避 OOM / swap 卡死问题。
+#      且镜像存放在国内 ACR（阿里云容器镜像服务），ECS 拉取速度更快更稳定。
 # ============================================================
 name: 部署到阿里云 ECS
 
@@ -16,11 +17,24 @@ on:
   # 允许在 Actions 页面手动触发
   workflow_dispatch:
 
-# 授予推送镜像到 ghcr.io 的权限（GITHUB_TOKEN 需 packages: write）
+# 环境变量：ACR 新版个人版实例信息（上海地域，公网域名）
+# 镜像地址：crpi-5ue84w8rjgqxg0s0.cn-shanghai.personal.cr.aliyuncs.com/gouxinjie/mylab:latest
+# 说明：REGISTRY（仓库域名）/ ACR_NAMESPACE（命名空间）/ IMAGE_NAME（镜像名）三者
+#       共同拼出完整镜像地址，集中在此维护，改一处即全局生效。
+# 注意：ACR 新版个人版实例公网域名含 personal.cr.aliyuncs.com，登录用户名为阿里云账号全名
+#       （如 aliyun4356291210，与密码分离，密码为「容器镜像服务访问凭证」中的独立固定密码）。
+#       VPC 地址（crpi-xxx-vpc...）仅阿里云 VPC 内可访问，GitHub Actions 海外 Runner
+#       与 ECS 公网拉取均必须使用本公网域名。
+env:
+  REGISTRY: crpi-5ue84w8rjgqxg0s0.cn-shanghai.personal.cr.aliyuncs.com
+  ACR_NAMESPACE: gouxinjie
+  IMAGE_NAME: mylab
+
+# 权限说明：
 # actions: read 供 docker/build-push-action 的 gha 缓存使用
+# contents: read 供检出代码使用
 permissions:
   contents: read
-  packages: write
   actions: read
 
 jobs:
@@ -32,26 +46,29 @@ jobs:
       - name: 检出代码
         uses: actions/checkout@v4
 
-      # 步骤 2：登录 ghcr.io（使用内置 GITHUB_TOKEN，无需额外密钥）
-      - name: 登录 ghcr.io
+      # 步骤 2：登录阿里云 ACR（新版个人版实例，公网域名）
+      # 需在仓库 Settings → Secrets 配置：
+      #   ACR_USERNAME：阿里云账号全名（本项目为 aliyun4356291210）
+      #   ACR_PASSWORD：容器镜像服务「访问凭证」中设置的独立固定密码
+      - name: 登录阿里云 ACR
         uses: docker/login-action@v3
         with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+          registry: ${{ env.REGISTRY }}
+          username: ${{ secrets.ACR_USERNAME }}
+          password: ${{ secrets.ACR_PASSWORD }}
 
       # 步骤 2.5：配置 buildx（使用 docker-container 驱动以支持 gha 缓存导出）
       - name: 配置 Docker Buildx
         uses: docker/setup-buildx-action@v3
 
-      # 步骤 3：构建并推送镜像到 ghcr.io
+      # 步骤 3：构建并推送镜像到阿里云 ACR
       - name: 构建并推送镜像
         uses: docker/build-push-action@v6
         with:
           context: .
           push: true
-          # 镜像地址：ghcr.io/<owner>/<repo>:latest
-          tags: ghcr.io/${{ github.repository }}:latest
+          # 镜像地址：crpi-5ue84w8rjgqxg0s0.cn-shanghai.personal.cr.aliyuncs.com/gouxinjie/mylab:latest
+          tags: ${{ env.REGISTRY }}/${{ env.ACR_NAMESPACE }}/${{ env.IMAGE_NAME }}:latest
           # 利用 GitHub Actions 缓存加速层复用
           cache-from: type=gha
           cache-to: type=gha,mode=max
@@ -61,7 +78,7 @@ jobs:
             NEXT_PUBLIC_BAIDU_TONGJI_ID=${{ secrets.NEXT_PUBLIC_BAIDU_TONGJI_ID }}
 
       # 步骤 4：通过 SCP 把运行时所需文件传到 ECS（仅 nginx.conf 与 pull 版 docker-compose.yml，
-      #         应用镜像由上方推送到 ghcr.io，ECS 无需源码）
+      #         应用镜像由上方推送到 ACR，ECS 无需源码）
       - name: 传输运行时文件到 ECS
         uses: appleboy/scp-action@v1
         with:
@@ -72,35 +89,36 @@ jobs:
           # host_key: ${{ secrets.ECS_HOST_KEY }}
           # 传输前清空目标目录，保证无残留旧文件
           rm: true
-          # 仅传输运行所需文件（应用镜像来自 ghcr.io，ECS 不再持有源码）
+          # 仅传输运行所需文件（应用镜像来自阿里云 ACR，ECS 不再持有源码）
           source: "nginx.conf,docker-compose.yml"
           target: "/var/www/mylab"
 
       # 步骤 5：在 ECS 上拉取镜像并启动容器（不再 --build）
-      # 增加超时与重试机制，防止 ECS 到 ghcr.io 网络波动导致部署失败
-      - name: 在 ECS 上拉取并启动容器
+      # ACR 为国内仓库，ECS 拉取速度快，但为稳妥仍保留一次重试兜底
+      - name: 在 ECS 上登录 ACR 并启动容器
         uses: appleboy/ssh-action@v1.0.3
         with:
           host: ${{ secrets.ECS_HOST }}
           username: ${{ secrets.ECS_USERNAME }}
           key: ${{ secrets.ECS_SSH_KEY }}
           # host_key: ${{ secrets.ECS_HOST_KEY }}
-          # 国内 ECS 拉取 ghcr.io 镜像较慢，单次 docker compose pull 可能超过 20 分钟，
-          # 故放大超时：连接总超时 120m，单条命令超时 90m，避免被中途 kill
-          timeout: 120m
-          command_timeout: 90m
+          # ACR 国内拉取较快，超时按常规设置即可
+          timeout: 30m
+          command_timeout: 20m
           script_stop: true
           script: |
             set -e
             cd /var/www/mylab
+            # 登录阿里云 ACR（公网域名），供 docker compose pull 拉取私有镜像使用
+            echo "${{ secrets.ACR_PASSWORD }}" | docker login --username "${{ secrets.ACR_USERNAME }}" --password-stdin ${{ env.REGISTRY }}
             # 将 GitHub Token 导出为环境变量，docker compose 的 ${GITHUB_TOKEN:-} 可直接读取
             export GITHUB_TOKEN="${{ secrets.GH_TOKEN }}"
-            # 重试 pull，应对国内 ECS 拉 ghcr.io 偶发慢速/超时
+            # 重试 pull，应对偶发网络波动（国内 ACR 一般一次即可成功）
             for i in 1 2 3; do
               echo "[第${i}次] docker compose pull..."
               docker compose pull && break
-              echo "[重试 ${i}/3] pull 失败，等待 30 秒后重试..."
-              sleep 30
+              echo "[重试 ${i}/3] pull 失败，等待 20 秒后重试..."
+              sleep 20
             done
             # 清理可能残留的孤儿容器（如服务改名后遗留的旧容器），避免其占用端口导致启动失败
             docker compose down --remove-orphans || true

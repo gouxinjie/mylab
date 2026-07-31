@@ -103,13 +103,13 @@ export const projects: Project[] = [
     repoUrl: 'https://github.com/gouxinjie/mylab',
     deployPath: '/var/www/mylab',
     startMode: L(
-      'Docker Compose 编排（Next.js standalone 镜像 + Nginx 反代），GitHub Actions 构建镜像推送到 ghcr.io 后由 ECS 拉取运行',
-      'Orchestrated with Docker Compose (Next.js standalone image + Nginx reverse proxy). GitHub Actions builds the image and pushes it to ghcr.io, then ECS pulls and runs it.'
+      'Docker Compose 编排（Next.js standalone 镜像 + Nginx 反代），GitHub Actions 构建镜像推送到阿里云 ACR 后由 ECS 拉取运行',
+      'Orchestrated with Docker Compose (Next.js standalone image + Nginx reverse proxy). GitHub Actions builds the image and pushes it to Alibaba Cloud ACR, then ECS pulls and runs it.'
     ),
     status: '正常运行',
     remark: L(
-      'GitHub Actions 自动部署，push main 触发 → 类型校验 → 构建 standalone 镜像 → 推送 ghcr.io → SSH 解压发布包 → Docker Compose pull + up -d（滚动替换）',
-      'Automated deployment via GitHub Actions: push to main triggers type checking -> build standalone image -> push to ghcr.io -> SSH extract release package -> Docker Compose pull + up -d (rolling replacement).'
+      'GitHub Actions 自动部署，push main 触发 → 类型校验 → 构建 standalone 镜像 → 推送阿里云 ACR → SSH 解压发布包 → Docker Compose pull + up -d（滚动替换）',
+      'Automated deployment via GitHub Actions: push to main triggers type checking -> build standalone image -> push to Alibaba Cloud ACR -> SSH extract release package -> Docker Compose pull + up -d (rolling replacement).'
     ),
     port: 'Next.js standalone 监听 3500，容器 Nginx 反代对外 3500，宿主机 Nginx 转发 80 → 127.0.0.1:3500',
     url: 'https://www.gouxinjie.com',
@@ -130,7 +130,7 @@ export const projects: Project[] = [
       { category: L('代码质量', 'Code Quality'), tech: L('ESLint + eslint-config-next', 'ESLint + eslint-config-next') },
       { category: L('包管理', 'Package Manager'), tech: L('pnpm', 'pnpm') },
       { category: L('构建', 'Build'), tech: L('Next.js standalone 输出（多阶段 Docker 镜像精简体积）', 'Next.js standalone output (multi-stage Docker image for smaller size)') },
-      { category: L('CI/CD', 'CI/CD'), tech: L('GitHub Actions（构建镜像 → 推送 ghcr.io → SSH 远程部署）', 'GitHub Actions (build image -> push to ghcr.io -> SSH remote deploy)') },
+      { category: L('CI/CD', 'CI/CD'), tech: L('GitHub Actions（构建镜像 → 推送阿里云 ACR → SSH 远程部署）', 'GitHub Actions (build image -> push to Alibaba Cloud ACR -> SSH remote deploy)') },
       { category: L('部署', 'Deployment'), tech: L('阿里云 ECS + Docker Compose（Next.js 应用 + Nginx 反代）', 'Alibaba Cloud ECS + Docker Compose (Next.js app + Nginx reverse proxy)') }
     ]
   },

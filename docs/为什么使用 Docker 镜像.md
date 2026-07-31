@@ -63,7 +63,7 @@
 
 - **复制**：同一份镜像能在测试机、生产机、同事电脑上跑出一样的结果。
 - **回滚**：出问题了，把容器换回旧镜像重启即可（本项目当前用 `latest` 标签，回滚靠重新构建旧代码，见《阿里云ECS部署方案（Docker）》5.4 节）。
-- **分发**：镜像存在 `ghcr.io`（GitHub 容器仓库），ECS 一条 `docker pull` 就拿到，无需把源码和构建工具搬上服务器。
+- **分发**：镜像存在阿里云 `ACR`（容器镜像服务，新版个人版实例 `crpi-5ue84w8rjgqxg0s0.cn-shanghai.personal.cr.aliyuncs.com`），ECS 一条 `docker pull` 就拿到，无需把源码和构建工具搬上服务器。
 
 ### 3.5 与 CI/CD 天然契合
 
@@ -103,9 +103,9 @@
 
 ```text
 GitHub Actions Runner（内存充足）
-   │  docker build  →  产出镜像 ghcr.io/gouxinjie/mylab:latest
+   │  docker build  →  产出镜像 crpi-5ue84w8rjgqxg0s0.cn-shanghai.personal.cr.aliyuncs.com/gouxinjie/mylab:latest
    ▼
-ghcr.io（镜像仓库）
+阿里云 ACR（镜像仓库，国内拉取快）
    │  docker pull
    ▼
 ECS（只运行，不构建）  →  docker compose up -d
@@ -126,7 +126,7 @@ ECS（只运行，不构建）  →  docker compose up -d
 结合《阿里云ECS部署方案（Docker）》：
 
 1. `Dockerfile` 用多阶段构建，产出轻量 `standalone` 镜像；
-2. GitHub Actions `docker build` + `push` 到 `ghcr.io/gouxinjie/mylab:latest`；
+2. GitHub Actions `docker build` + `push` 到阿里云 ACR `crpi-5ue84w8rjgqxg0s0.cn-shanghai.personal.cr.aliyuncs.com/gouxinjie/mylab:latest`；
 3. ECS 的 `docker-compose.yml` 里 `app` 服务直接引用该镜像；
 4. CI 每次 push 自动 `docker compose pull && up -d`，用最新镜像替换旧容器；
 5. `nginx` 容器（独立镜像 `nginx:1.27-alpine`）反代到 `app`，对外只暴露 3500。
@@ -142,7 +142,7 @@ ECS（只运行，不构建）  →  docker compose up -d
 | 镜像干嘛用？ | 把「应用 + 环境」打包成一份可到处原样运行的文件 |
 | 为什么不直接宿主机跑 Node？ | 环境易错配、污染系统、多项目冲突、回滚难 |
 | 为什么连构建都不放宿主机？ | ECS 仅 1.8G 内存，`next build` 会 OOM，重活在 GitHub Runner 干 |
-| 镜像放哪？ | 放 `ghcr.io`，ECS 只 `pull` 运行，不装 Node |
+| 镜像放哪？ | 放阿里云 ACR（`crpi-5ue84w8rjgqxg0s0.cn-shanghai.personal.cr.aliyuncs.com`），ECS 只 `pull` 运行，不装 Node |
 | 容器和镜像区别？ | 镜像是静态模板，容器是跑起来的实例 |
 
 > 一句话：**镜像让你把「运行环境」和「服务器」解耦——服务器只管提供 Docker，应用的一切都在镜像里。**
