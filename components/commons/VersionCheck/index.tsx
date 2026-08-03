@@ -10,8 +10,8 @@
 import { useEffect, useRef } from "react";
 import toast from "react-hot-toast";
 
-/** 轮询间隔（毫秒），默认 60s，可按需调整 */
-const POLL_INTERVAL = 60_000;
+/** 轮询间隔（毫秒），默认 1 小时（3600s），可按需调整 */
+const POLL_INTERVAL = 3_600_000;
 /** 请求控制：禁用缓存，确保每次都能拿到最新 version.json */
 const FETCH_INIT: RequestInit = { cache: "no-cache" };
 /** 本地存储 key：持久化最近一次已知的 buildTime，跨会话也能检测到发版 */
