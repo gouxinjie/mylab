@@ -14,6 +14,8 @@ import toast from "react-hot-toast";
 const POLL_INTERVAL = 60_000;
 /** 请求控制：禁用缓存，确保每次都能拿到最新 version.json */
 const FETCH_INIT: RequestInit = { cache: "no-cache" };
+/** 本地存储 key：持久化最近一次已知的 buildTime，跨会话也能检测到发版 */
+const STORAGE_KEY = "__APP_BUILD_TIME__";
 
 /** version.json 数据结构 */
 interface VersionInfo {
@@ -22,19 +24,18 @@ interface VersionInfo {
 }
 
 /**
- * 拉取最新版本信息并与当前构建时间对比
- * @param currentBuildTime - 当前页面记录的构建时间
- * @returns 若远端 buildTime 与当前不一致（已发版）返回 true，否则 false
+ * 拉取最新版本信息
+ * @returns 远端 version.json 的 buildTime；请求失败或结构异常时返回 null
  */
-const fetchAndCompare = async (currentBuildTime: number): Promise<boolean> => {
+const fetchLatestBuildTime = async (): Promise<number | null> => {
   try {
     const res = await fetch("/version.json", FETCH_INIT);
-    if (!res.ok) return false;
+    if (!res.ok) return null;
     const data = (await res.json()) as VersionInfo;
-    return typeof data.buildTime === "number" && data.buildTime !== currentBuildTime;
+    return typeof data.buildTime === "number" ? data.buildTime : null;
   } catch {
     // 网络异常静默失败，下次轮询再试，避免影响正常访问
-    return false;
+    return null;
   }
 };
 
@@ -55,34 +56,47 @@ const renderUpdateToast = (): React.ReactElement => (
 
 export default function VersionCheck() {
   // 用 ref 持有基准构建时间与去重标记，避免闭包陈旧值
-  // 基准以服务端 version.json 的 buildTime 为准，而非本地时间，防止首屏误报
   const buildTimeRef = useRef<number>(0);
   const notifiedRef = useRef<boolean>(false);
 
   useEffect(() => {
-    // 初始化基准：先拉取一次服务端版本，将远端 buildTime 作为对比基准
+    // 初始化基准：读取本地持久化的旧 buildTime（跨会话检测的关键），
+    // 并拉取一次服务端版本。若本地旧值与远端不一致，说明自上次访问后已发版，立即提示。
     const init = async () => {
-      try {
-        const res = await fetch("/version.json", FETCH_INIT);
-        if (res.ok) {
-          const data = (await res.json()) as VersionInfo;
-          if (typeof data.buildTime === "number") {
-            buildTimeRef.current = data.buildTime;
-          }
-        }
-      } catch {
-        // 初始化失败不阻塞，后续轮询会补齐基准
+      // 本地持久化的最近一次 buildTime
+      const stored = Number(localStorage.getItem(STORAGE_KEY));
+      const storedValid = Number.isFinite(stored) && stored > 0;
+      if (storedValid) {
+        buildTimeRef.current = stored;
+      }
+
+      const latest = await fetchLatestBuildTime();
+      if (latest === null) return;
+
+      // 首次访问（无本地记录）以远端为准，避免首屏误报
+      if (!storedValid) {
+        buildTimeRef.current = latest;
+      }
+      // 持久化最新版本号
+      localStorage.setItem(STORAGE_KEY, String(latest));
+
+      // 跨会话发版检测：本地记录的旧版本与远端不一致则立即弹窗
+      if (storedValid && stored !== latest) {
+        notifiedRef.current = true;
+        toast(renderUpdateToast(), { id: "version-update", duration: Infinity });
       }
     };
 
     void init();
 
     const timer = setInterval(async () => {
-      // 基准未就绪（首次拉取未完成或失败）时跳过，避免误报
+      // 基准未就绪时跳过，避免误报
       if (buildTimeRef.current === 0) return;
-      const changed = await fetchAndCompare(buildTimeRef.current);
-      if (changed && !notifiedRef.current) {
+      const latest = await fetchLatestBuildTime();
+      if (latest !== null && latest !== buildTimeRef.current && !notifiedRef.current) {
         notifiedRef.current = true;
+        // 更新持久化记录，避免重复提示
+        localStorage.setItem(STORAGE_KEY, String(latest));
         toast(renderUpdateToast(), { id: "version-update", duration: Infinity });
       }
     }, POLL_INTERVAL);
