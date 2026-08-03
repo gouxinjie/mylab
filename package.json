@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev --port 3500",
+    "dev": "node scripts/generate-version.mjs && next dev --port 3500",
     "build": "node scripts/generate-version.mjs && next build",
     "start": "node scripts/generate-version.mjs && next start --port 3500",
     "lint": "next lint",

@@ -44,6 +44,9 @@ dev.err
 package-lock.json
 yarn.lock
 
+# Generated version file
+public/version.json
+
 # Temporary files
 *.tmp
 *.temp
