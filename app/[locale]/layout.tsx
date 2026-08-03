@@ -15,6 +15,8 @@ import PageTransition from "@/components/commons/PageTransition";
 import BaiduTongji from "@/components/commons/BaiduTongji";
 import { NextIntlClientProvider } from "next-intl";
 import { getMessages, unstable_setRequestLocale } from "next-intl/server";
+import { Toaster } from "react-hot-toast";
+import VersionCheck from "@/components/commons/VersionCheck";
 import { locales, type Locale } from "@/i18n";
 import { notFound } from "next/navigation";
 
@@ -186,6 +188,10 @@ export default async function RootLayout({
             </main>
             {/* 页脚 */}
             <Footer />
+            {/* 全局轻提示容器，承载发版刷新等 toast 通知 */}
+            <Toaster position="top-center" />
+            {/* 发版检测：定时对比版本，提示用户刷新 */}
+            <VersionCheck />
           </AppProvider>
         </NextIntlClientProvider>
       </body>

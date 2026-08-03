@@ -4,8 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "next dev --port 3500",
-    "build": "next build",
-    "start": "next start --port 3500",
+    "build": "node scripts/generate-version.mjs && next build",
+    "start": "node scripts/generate-version.mjs && next start --port 3500",
     "lint": "next lint",
     "lint:fix": "next lint --fix",
     "format": "prettier --write .",
