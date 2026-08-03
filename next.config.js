@@ -90,7 +90,7 @@ const nextConfig = {
 
     return [
       {
-        source: "/((?!_next/static|_next/image|favicon.ico|images/|logos/|data/).*)",
+        source: "/((?!_next/static|_next/image|favicon.ico|images/|logos/|data/|version.json).*)",
         headers: securityHeaders,
       },
       // 静态资源添加长期缓存（仅生产环境；dev 模式保持默认缓存策略，避免浏览器缓存过期 chunk）

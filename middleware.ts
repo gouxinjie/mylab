@@ -21,10 +21,11 @@ export default createMiddleware({
 /**
  * 匹配器：仅对非静态资源路径应用国际化中间件
  * 排除：_next（构建产物）、images（图片资源）、logos（品牌图标）、data（静态数据）、
- *       imgs（其他图片）、favicon、api（API 路由）
+ *       imgs（其他图片）、favicon、api（API 路由）、version.json（发版检测文件，不能被重写为 /zh/ 前缀）、
+ *       以及各类静态文件后缀
  */
 export const config = {
   matcher: [
-    "/((?!_next|images|logos|data|imgs|favicon.ico|api|health|.*\\.png|.*\\.svg|.*\\.ico|.*\\.woff2).*)",
+    "/((?!_next|images|logos|data|imgs|favicon.ico|api|health|version.json|.*\\.json|.*\\.png|.*\\.svg|.*\\.ico|.*\\.woff2).*)",
   ],
 };
