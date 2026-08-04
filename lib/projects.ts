@@ -202,7 +202,14 @@ export const projects: Project[] = [
     ),
     port: 'Nginx 监听 80 端口反代到 5174（PM2 管理 Node 进程）',
     url: 'http://prompt.gouxinjie.com',
-    covers: ['/images/project-cover/prompt.png', '/images/project-cover/prompt-1.png', '/images/project-cover/prompt-2.png', '/images/project-cover/prompt-3.png'],
+    covers: [
+      // 注意：更换封面图后请重命名文件（如 prompt-v3.png）并同步更新此处引用，
+      // 否则 next/image 优化 URL 不变，浏览器/CDN 会命中旧缓存
+      '/images/project-cover/prompt-v2.png',
+      '/images/project-cover/prompt-1-v2.png',
+      '/images/project-cover/prompt-2-v2.png',
+      '/images/project-cover/prompt-3-v2.png',
+    ],
     techStackBrief: L(
       'Next.js 16、React 19、TypeScript、Supabase、SCSS Modules、Radix UI',
       'Next.js 16, React 19, TypeScript, Supabase, SCSS Modules, Radix UI'
