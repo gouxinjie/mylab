@@ -599,11 +599,11 @@ export const projects: Project[] = [
   {
     id: 'animated-login-react',
     title: 'Animated Login React',
-    category: L('学习研究', 'Learning'),
+    category: L('应用', 'Application'),
     tags: ['React', 'Vite', 'Tailwind CSS', 'Framer Motion', 'CSS Animation'],
     featured: false,
-    order: 11,
-    brief: L('有趣的交互式动画登录页', 'Fun Interactive Animated Login Page'),
+    order: 9.5,
+    brief: L('交互式动画登录页示例', 'Interactive Animated Login Page Demo'),
     description: L(
       '一个基于 React + Vite 的交互式登录页示例。页面左侧是会响应用户操作的抽象角色动画（眼球跟随鼠标、随机眨眼、回避/偷看密码、提交结果反馈），右侧是带邮箱与密码校验、显示/隐藏密码、提交状态反馈的演示登录表单。重点在状态联动、角色反馈和按钮动效，而非真实后端认证——登录流程为前端模拟（正确密码固定为 123456，成功触发庆祝动效，失败触发回弹反馈）。',
       'A React + Vite interactive login page demo. The left side shows an abstract character animation that responds to the user (eyes follow the cursor, random blinks, avoids/peeks at the password, reacts to submit results); the right side is a demo login form with email/password validation, show/hide password, and submit-state feedback. The focus is on state linkage, character feedback, and button motion, not real backend auth. The login flow is front-end simulated (correct password fixed as 123456; success triggers a celebration animation, failure a bounce-back).'
@@ -611,13 +611,13 @@ export const projects: Project[] = [
     repoUrl: 'https://github.com/gouxinjie/animatedLogin-react',
     deployPath: '',
     startMode: L(
-      '本地启动：`npm install` 安装依赖，然后 `npm run dev` 启动 Vite 开发服务器（默认 http://localhost:5173）；`npm run build` 构建，或 `npm run preview` 预览产物',
-      'Local: `npm install` to install deps, then `npm run dev` to start the Vite dev server (default http://localhost:5173); `npm run build` to build, or `npm run preview` to preview.'
+      '本地启动：`npm install` 安装依赖，然后 `npm run dev` 启动 Vite 开发服务器（默认 http://localhost:5173）；`npm run build` 构建产物并部署上线。线上访问 https://login.gouxinjie.com',
+      'Local: `npm install` to install deps, then `npm run dev` to start the Vite dev server (default http://localhost:5173); `npm run build` to build and deploy. Live at https://login.gouxinjie.com'
     ),
-    status: '未发布',
-    remark: L('', ''),
-    port: '5173',
-    url: null,
+    status: '正常运行',
+    remark: L('已上线', 'Live'),
+    port: '',
+    url: 'https://login.gouxinjie.com',
     covers: [
       '/images/project-cover/animated-login-react.png',
       '/images/project-cover/animated-login-react-1.png',
