@@ -1,7 +1,7 @@
 # 个人技术站点 mylab — 部署运维文档
 
 > **mylab**
-> 版本 v1.1 | 2026-07-27
+> 版本 v1.2 | 2026-08-04
 > 运行环境：阿里云 ECS | 部署方式：Docker (standalone) + Nginx + GitHub Actions
 
 
@@ -578,6 +578,57 @@ server {
 3. GitHub Actions 自动执行 build + deploy，覆盖当前容器。
 
 注意：Docker 镜像为每次构建产生的 `latest` 标签，ECS 上不保留历史镜像，因此回滚实际上是通过重新构建旧版本实现的。
+
+### 5.5 封面图与静态图片更新规范
+
+#### 5.5.1 问题背景
+
+站点项目封面图放在 `public/images/project-cover/`，通过 `next/image` 组件优化展示。`next/image` 对 `public/` 下静态图片的优化 URL 形如：
+
+```
+/_next/image?url=/images/project-cover/prompt.png&w=384&q=95
+```
+
+该 URL **不包含图片内容哈希**，只由「路径 + 尺寸 + 质量」决定。因此**即使替换了 `prompt.png` 的源文件，优化 URL 也完全不变**，浏览器与 CDN 会持续命中旧缓存，导致生产环境「换了图但界面还是旧图」。
+
+#### 5.5.2 规范：换图必须重命名文件
+
+**凡是更新 `public/images/` 下的静态图片，必须重命名文件（或改文件名使其变化），并同步更新引用。** 严禁原地覆盖同名文件。
+
+正确做法示例（假设 `prompt.png` 要更新到 v3）：
+
+```bash
+# 1. 在项目中重命名（推荐用 git mv 保留历史）
+git mv public/images/project-cover/prompt-v2.png public/images/project-cover/prompt-v3.png
+
+# 2. 同步更新 lib/projects.ts 中的引用
+```
+
+```ts
+// lib/projects.ts —— 更新后
+covers: [
+  '/images/project-cover/prompt-v3.png',
+  '/images/project-cover/prompt-1-v3.png',
+  '/images/project-cover/prompt-2-v3.png',
+  '/images/project-cover/prompt-3-v3.png',
+],
+```
+
+#### 5.5.3 相关缓存配置（勿随意改动）
+
+- `nginx.conf` 中 `location ^~ /images/`：`expires 30d`（30 天强缓存）。
+- `next.config.js` 中 `/images/(.*)`：`Cache-Control: public, max-age=86400, must-revalidate`（1 天）。
+
+这两处强缓存决定了必须用「文件名变化」来强制失效。若把强缓存改为协商缓存（`no-cache`），则换图可免重命名，但每次访问都会向后端校验，性能略降。当前项目采用重命名方案，保持强缓存以提升访问性能。
+
+#### 5.5.4 排查 Checklist
+
+遇到「换了图但线上不更新」时按序检查：
+
+1. 是否重命名了文件（而不是原地覆盖）？→ 未重命名则必然命中旧缓存。
+2. 是否同步更新了 `lib/projects.ts` 的引用路径？
+3. 浏览器是否仍缓存旧 URL？→ 可强制刷新（Ctrl+F5）或在新无痕窗口验证。
+4. 部署是否完成？→ 确认 GitHub Actions 部署成功、容器已重建。
 
 
 ## 六、附录
