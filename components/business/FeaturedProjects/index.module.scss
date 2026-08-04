@@ -279,13 +279,13 @@
     letter-spacing: 0.02em;
   }
 
-  // 状态徽标：圆点 + 文字，内联显示
+  // 状态徽标：圆点 + 文字，与标题并排于标题行右侧，简洁无底色，禁止被压缩
   &__status {
+    flex: 0 0 auto;
     display: inline-flex;
     align-items: center;
     gap: 6px;
-    margin-bottom: 8px;
-    font-size: 12px;
+    font-size: 13px;
     font-weight: 500;
     @include status-badge-colors;
   }
@@ -311,49 +311,68 @@
     padding: 10px 16px 16px 16px;
   }
 
-  // 顶部行：标题 + 外链图标
+  // 顶部行：标题 + 右侧状态徽标
   &__top {
     margin-bottom: 8px;
     display: flex;
     align-items: center;
     justify-content: space-between;
+    gap: 12px;
   }
 
-  // 项目标题
+  // 项目标题：作为"打开详情"的键盘入口，可聚焦；允许收缩，过长时单行省略，避免挤压右侧状态徽标
   &__title {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
     font-size: 17px;
     font-weight: bold;
     color: var(--color-text-primary);
+    cursor: pointer;
+    border-radius: 4px;
     transition: color 0.2s;
 
     &:hover {
       color: var(--color-accent);
     }
+
+    // 键盘聚焦时显示可见焦点圈，方便键盘用户识别可点击的标题入口
+    &:focus-visible {
+      outline: 2px solid var(--color-accent);
+      outline-offset: 2px;
+    }
   }
 
-  // 项目分类标签：标题行右侧，小字圆角胶囊
+  // 项目分类标签：小字圆角胶囊，绝对定位悬浮在封面右上角
   &__categoryTag {
-    flex: 0 0 auto;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 1;
     padding: 3px 10px;
     border-radius: 9999px;
     font-size: 12px;
     font-weight: 600;
-    color: #33bf98;
-    background-color: #e5f7ed;
+    color: #fff;
+    background-color: rgba(17, 24, 39, 0.55);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
   }
 
-  // 暗色模式：分类标签用半透明深色底替代浅绿底，文字微调为亮绿
+  // 暗色模式：分类标签底色微调，保证在深色封面上依然清晰
   :global(.dark) &__categoryTag {
-    color: #4ade80;
-    background-color: rgba(51, 191, 152, 0.12);
+    background-color: rgba(17, 24, 39, 0.6);
   }
 
-  // 项目描述：两行截断
+  // 项目描述：最多三行截断；最小高度保证不满三行的卡片与满三行卡片高度一致，底部标签/链接对齐
   &__desc {
     margin-bottom: 12px;
     @include desc-text;
+    // 三行最小高度（14px * 1.625 行高 * 3 行），避免用固定 height 导致第 3 行被裁切，改用 min-height 更稳妥
+    min-height: 68px;
     display: -webkit-box;
-    -webkit-line-clamp: 2;
+    -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
     overflow: hidden;
   }
@@ -599,23 +618,30 @@
     box-shadow: none;
   }
 
-  // 外链按钮
+  // 外链按钮：主题色实底 + 白字，醒目易识别，hover 上浮并加深底色
   &__link {
     display: inline-flex;
     align-items: center;
+    padding: 7px 16px;
     font-size: 14px;
     font-weight: 500;
-    color: var(--color-accent);
-    transition: color 0.2s;
+    color: #fff;
+    background-color: var(--color-accent);
+    border-radius: 999px;
+    text-decoration: none;
+    transition: background-color 0.2s, transform 0.2s;
 
     &:hover {
-      color: var(--color-accent-dark);
+      background-color: var(--color-accent-dark);
+      transform: translateY(-1px);
     }
   }
 
   // 外链箭头
   &__arrow {
-    margin-left: 4px;
+    margin-left: 6px;
+    font-size: 15px;
+    line-height: 1;
     transition: transform 0.2s ease;
   }
 
