@@ -43,6 +43,19 @@
   --color-accent-rgb: 16, 185, 129;
   --color-bg-secondary-rgb: 250, 250, 250;
 
+  // 标题渐变配色（浅色主题）：正文色 → 深绿 → 品牌绿 → 青 → 回到正文色
+  --gradient-title: linear-gradient(
+    112deg,
+    var(--color-text-primary) 0%,
+    #047857 32%,
+    #10B981 56%,
+    #14B8A6 78%,
+    var(--color-text-primary) 100%
+  );
+
+  // 主按钮渐变（浅色主题）：与标题渐变同源，保持品牌色系统一
+  --gradient-btn: linear-gradient(135deg, #059669 0%, #10b981 55%, #14b8a6 100%);
+
   // 浅色表面变量（卡片/占位灰）
   --color-surface: #F9FAFB;
   --color-surface-rgb: 249, 250, 251;
@@ -67,4 +80,14 @@
   --color-surface: #1E293B;
   --color-surface-rgb: 30, 41, 59;
   --color-surface-muted: #334155;
+
+  // 标题渐变配色（暗色主题）：正文白 → 亮绿 → 品牌绿 → 亮青 → 回到正文白
+  --gradient-title: linear-gradient(
+    112deg,
+    var(--color-text-primary) 0%,
+    #34D399 32%,
+    #10B981 56%,
+    #2DD4BF 78%,
+    var(--color-text-primary) 100%
+  );
 }

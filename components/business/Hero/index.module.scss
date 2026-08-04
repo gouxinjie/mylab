@@ -25,6 +25,7 @@
   }
 
   // 主标题：支持换行，字号随屏幕尺寸递增
+  // 文字渐变：background-clip: text 将渐变裁剪到文字轮廓，文字本身透明
   &__title {
     margin-top: 16px;
     white-space: pre-line;
@@ -32,7 +33,11 @@
     font-weight: bold;
     line-height: 1.35; // 中文含手动换行，1.35 比 1.25 更舒适
     letter-spacing: -0.01em; // 中文为主，弱负字距即可，避免字形拥挤
-    color: var(--color-text-primary);
+    background: var(--gradient-title);
+    background-clip: text;
+    -webkit-background-clip: text; // Safari / 旧 Chrome 兼容
+    -webkit-text-fill-color: transparent; // 文字本身透明，露出背景渐变
+    color: transparent; // 兜底：不支持 background-clip 时文字透明（现代浏览器均支持）
     overflow-wrap: break-word; // 避免长英文串溢出容器
 
     @media (min-width: 640px) {
@@ -44,9 +49,13 @@
     }
   }
 
-  // 标题中高亮的 "Web" 主题词，使用强调色（绿色，扁平化类名 .info__highlight 匹配 TSX）
+  // 标题中高亮的 "Web" 主题词：继承父级同一渐变，保持整体连贯
   &__highlight {
-    color: var(--color-accent);
+    background: var(--gradient-title);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
   }
 
   // 描述文本：次要色，大屏限制最大宽度
@@ -79,7 +88,19 @@
   justify-content: center;
   border-radius: var(--radius-xl);
   font-weight: 500;
-  transition: all 0.2s;
+  // 分属性过渡：仅过渡视觉相关属性，避免 transform/opacity 触发整帧重排
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease,
+    box-shadow 0.2s ease,
+    transform 0.2s ease;
+
+  // 键盘聚焦可见性：保证可访问性，不依赖鼠标 hover
+  &:focus-visible {
+    outline: 2px solid var(--color-accent);
+    outline-offset: 2px;
+  }
 
   // 移动端默认尺寸：缩小高度与内边距，避免小屏下按钮过大占满宽度
   height: 40px;
@@ -96,31 +117,32 @@
   }
 
   &:active {
-    transform: scale(0.95);
+    transform: scale(0.96); // 0.95 → 0.96，点击反馈更克制
   }
 
-  // 主按钮：强调色填充
+  // 主按钮：品牌绿渐变填充 + 细腻阴影
   &--primary {
-    background-color: var(--color-accent);
-    color: white;
+    // 渐变：深绿 → 品牌绿 → 亮青，引用全局变量与标题渐变同源，强化品牌一致性
+    background-image: var(--gradient-btn);
+    background-size: 150% 150%; // 扩大渐变面积，配合 hover 位移产生流动感
+    color: #ffffff;
 
     &:hover {
-      background-color: var(--color-accent-dark);
-      box-shadow: var(--shadow-md);
-      transform: translateY(-1px); // 轻微上浮，增强可点击感
+      background-position: 100% 100%; // 渐变流动反馈
+      box-shadow: 0 10px 20px -6px rgba(16, 185, 129, 0.45); // 品牌色投影，比中性阴影更有层次
+      transform: translateY(-2px); // 轻微上浮，增强可点击感
     }
   }
 
-  // 描边按钮：固定白底，hover 切换为浅灰表面
-  // 设计意图：作为"亮块"在暗色背景中凸显，故两套主题下背景均为白色
-  // 暗色模式下 --color-text-primary 为白色会与白底冲突，需强制深色文字
+  // 描边按钮：白底 + hover 边框与文字联动品牌色
   &--outline {
     border: 1px solid var(--color-border);
-    background-color: white;
+    background-color: #ffffff;
     color: var(--color-text-primary);
 
     &:hover {
-      background-color: var(--color-surface);
+      border-color: var(--color-accent); // 边框变为品牌绿
+      color: var(--color-accent); // 文字联动品牌绿
       box-shadow: var(--shadow-sm); // 与主按钮 hover 反馈对齐
       transform: translateY(-1px);
     }
@@ -130,16 +152,14 @@
     }
   }
 
-  // 暗色模式覆盖：保持白底"亮块" + 深色文字，hover 切换为浅灰
-  // 独立顶层选择器（CSS Modules + :global），避免在 &--outline 内嵌套过深
+  // 暗色模式覆盖：保持白底"亮块" + 深色文字，hover 切换为品牌绿边框与文字
   :global(.dark) &--outline {
     color: #111827;
     border-color: rgba(0, 0, 0, 0.1);
 
-    // 暗色模式下 --color-surface 为深蓝灰，会与深色文字冲突
-    // 使用固定浅灰 #F3F4F6 保持深色文字可读，且与白底有清晰对比
     &:hover {
-      background-color: #F3F4F6;
+      border-color: var(--color-accent); // 暗色下同样联动品牌绿
+      color: var(--color-accent); // 文字保持品牌绿，在白底上足够清晰
       box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
       transform: translateY(-1px);
     }

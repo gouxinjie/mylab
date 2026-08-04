@@ -43,7 +43,7 @@
     }
   }
 
-  // 页头大标题
+  // 页头大标题：文字渐变（与首页 Hero 一致的品牌绿系）
   .title {
     margin-top: 16px;
     white-space: pre-line;
@@ -51,7 +51,11 @@
     font-weight: bold;
     line-height: 1.35; // 中文含手动换行，1.35 比 1.25 更舒适
     letter-spacing: -0.01em; // 中文为主，弱负字距即可，避免字形拥挤
-    color: var(--color-text-primary);
+    background: var(--gradient-title);
+    background-clip: text;
+    -webkit-background-clip: text; // Safari / 旧 Chrome 兼容
+    -webkit-text-fill-color: transparent; // 文字本身透明，露出背景渐变
+    color: transparent; // 兜底：不支持 background-clip 时文字透明（现代浏览器均支持）
     overflow-wrap: break-word; // 避免长英文串溢出容器
 
     @media (min-width: 640px) {
