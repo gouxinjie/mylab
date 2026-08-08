@@ -148,14 +148,14 @@ export default async function AIDocPage({ params }: DocPageParams) {
   // 去除正文首个一级标题，避免与页面级 h1（doc.title）重复渲染
   const bodyContent = doc.content.replace(/^\s*#\s+.+\r?\n/, "");
 
-  // 创建与正文标题共用的 slugger 实例（必须唯一且共用，保证 TOC 锚点 id 与正文标题 id 完全一致）
-  const slugger = new BananaSlug();
+  // 生成本页目录与正文标题的锚点 id。
+  // 注意：github-slugger 是有状态的（相同文本会递增后缀 -1/-2），因此 extractToc 与正文标题
+  // 必须各自使用独立的实例；由于两者处理的是相同标题文本、相同顺序，独立实例生成的 slug 序列完全一致，
+  // 可确保 TOC 链接 href 与正文标题 id 精确匹配（若共用同一实例会导致渲染阶段 id 整体偏移 -1，锚点失效）
+  const toc = extractToc(bodyContent, new BananaSlug());
 
-  // 提取本页目录（h2/h3/h4），需在正文渲染前调用以相同顺序消费同一个 slugger
-  const toc = extractToc(bodyContent, slugger);
-
-  // 创建自定义标题组件，与 extractToc 共用同一个 slugger
-  const components = createHeadingComponents(slugger);
+  // 创建自定义标题组件，使用独立实例保证与 TOC 生成的 id 一致
+  const components = createHeadingComponents(new BananaSlug());
 
   return (
     <article className={styles.doc}>
