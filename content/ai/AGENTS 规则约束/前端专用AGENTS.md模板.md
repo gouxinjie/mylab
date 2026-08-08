@@ -1,12 +1,12 @@
 ---
-title: 前端专用 AGENTS.md 模板
+title: 前端专用AGENTS.md模板
 slug: agents-md-frontend
-updated: 2026-07-20
+updated: 2026-08-08
 ---
 
-# 前端专用 AGENTS.md 模板
+# 前端开发规范（React和Vue3）
 
-下面是一份可直接复用的前端项目 `AGENTS.md` 模板，覆盖类型安全、代码风格、目录结构、组件规范、接口封装、安全与 AI 行为约束等常见约束。把以下内容保存为项目根目录的 `AGENTS.md` 即可让 AI 编辑器自动加载并遵循。
+![agentmd-1](/images/ai/agentmd-1.png)
 
 本文档为开发团队的核心约束指南。所有生成的代码、注释、数据库设计必须遵循以下规则。注释必须使用中文。
 

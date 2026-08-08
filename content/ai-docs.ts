@@ -70,7 +70,7 @@ export interface AiDocContent {
 export const aiDocGroups: AiDocGroup[] = [
   {
     text: "基础认知",
-    desc: "从概念到协议，构建扎实的 AI 基础知识体系",
+    desc: "从概念到原理，构建扎实的 AI 基础知识体系",
     icon: "bookOpen",
     iconColor: "#10B981",
     collapsed: false,
@@ -83,11 +83,18 @@ export const aiDocGroups: AiDocGroup[] = [
         iconColor: "#10B981",
       },
       {
-        text: "AI模型中的token是什么",
+        text: "AI模型中的Token是什么",
         slug: "what-is-token",
         desc: "深入理解 token 的组成与作用",
         icon: "database",
         iconColor: "#3B82F6",
+      },
+      {
+        text: "什么是模型蒸馏",
+        slug: "model-distillation",
+        desc: "蒸馏技术与应用场景",
+        icon: "layers",
+        iconColor: "#10B981",
       },
       {
         text: "什么是提示词工程",
@@ -104,66 +111,100 @@ export const aiDocGroups: AiDocGroup[] = [
         iconColor: "var(--color-accent)",
       },
       {
-        text: "什么是MCP协议",
-        slug: "mcp",
+        text: "为什么 Prompt 开头要写「你是 xx 专家」？",
+        slug: "prompt-expert-opening",
+        desc: "理解角色设定提示词的背后原理",
+        icon: "messageCircle",
+        iconColor: "#EF4444",
+      },
+    ],
+  },
+  {
+    text: "MCP",
+    desc: "从概念到落地，掌握 MCP 协议",
+    icon: "network",
+    iconColor: "#3B82F6",
+    collapsed: false,
+    items: [
+      {
+        text: "MCP核心概念",
+        slug: "mcp-core-concept",
         desc: "MCP 协议基础与应用",
         icon: "network",
         iconColor: "#3B82F6",
       },
       {
-        text: "什么是模型蒸馏",
-        slug: "model-distillation",
-        desc: "蒸馏技术与应用场景",
-        icon: "layers",
+        text: "MCP端到端流程",
+        slug: "mcp-end-to-end-flow",
+        desc: "MCP 端到端完整流程",
+        icon: "gitBranch",
         iconColor: "#10B981",
+      },
+      {
+        text: "MCP从零编写到发布上线",
+        slug: "mcp-from-zero-to-publish",
+        desc: "从零开发 MCP 服务并发布上线",
+        icon: "rocket",
+        iconColor: "#8B5CF6",
       },
     ],
   },
   {
-    text: "工具提效",
+    text: "Skill",
+    desc: "沉淀 AI 智能体的可复用能力资产",
+    icon: "zap",
+    iconColor: "var(--color-accent)",
+    collapsed: false,
+    items: [
+      {
+        text: "Skill（技能）详解",
+        slug: "skill-detail",
+        desc: "Skill 的概念、结构与设计原则",
+        icon: "zap",
+        iconColor: "var(--color-accent)",
+      },
+      {
+        text: "Skill 从零编写到发布上线",
+        slug: "skill-from-zero-to-publish",
+        desc: "从零开发 Skill 并发布上线",
+        icon: "rocket",
+        iconColor: "#F59E0B",
+      },
+    ],
+  },
+  {
+    text: "AGENTS 规则约束",
     desc: "模板与规范，提升使用效率",
     icon: "wrench",
     iconColor: "#10B981",
     collapsed: false,
     items: [
       {
-        text: "AGENTS规则约束",
-        items: [
-          {
-            text: "什么是AGENTS.md",
-            slug: "what-is-agents-md",
-            desc: "AGENTS.md 规则详解",
-            icon: "fileText",
-            iconColor: "#3B82F6",
-          },
-          {
-            text: "前端专用AGENTS.md模板",
-            slug: "agents-md-frontend",
-            desc: "适用于前端项目的模板",
-            icon: "code",
-            iconColor: "#10B981",
-          },
-          {
-            text: "后端专用AGENTS.md模板",
-            slug: "agents-md-backend",
-            desc: "适用于后端项目的模板",
-            icon: "server",
-            iconColor: "#8B5CF6",
-          },
-        ],
+        text: "什么是AGENTS.md",
+        slug: "what-is-agents-md",
+        desc: "AGENTS.md 规则详解",
+        icon: "fileText",
+        iconColor: "#3B82F6",
       },
       {
-        text: "Agent Skills",
-        slug: "agent-skills",
-        desc: "定制化 AI Agent 技能包",
-        icon: "zap",
-        iconColor: "var(--color-accent)",
+        text: "前端专用AGENTS.md模板",
+        slug: "agents-md-frontend",
+        desc: "适用于前端项目的模板",
+        icon: "code",
+        iconColor: "#10B981",
+      },
+      {
+        text: "后端专用AGENTS.md模板",
+        slug: "agents-md-backend",
+        desc: "适用于后端项目的模板",
+        icon: "server",
+        iconColor: "#8B5CF6",
       },
     ],
   },
 ];
 
-/** Markdown 内容目录（相对项目根目录），按分类分子目录存放（基础认知 / 工具提效） */
+/** Markdown 内容目录（相对项目根目录），按分类分子目录存放 */
 const AI_CONTENT_DIR = path.join(process.cwd(), "content", "ai");
 
 /** slug → 文件路径 索引缓存（模块级，避免每次请求重复递归扫描磁盘） */

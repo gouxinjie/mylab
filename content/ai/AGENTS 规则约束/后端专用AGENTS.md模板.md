@@ -1,12 +1,12 @@
 ---
-title: 后端专用 AGENTS.md 模板
+title: 后端专用AGENTS.md模板
 slug: agents-md-backend
-updated: 2026-07-20
+updated: 2026-08-08
 ---
 
-# 后端专用 AGENTS.md 模板
+# 后端开发规范（Python和Node.js）
 
-下面是一份可直接复用的后端项目 `AGENTS.md` 模板，覆盖 Python 与 Node.js 双语言、数据库安全、接口规范、异步编程、测试与日志等约束。把以下内容保存为项目根目录的 `AGENTS.md` 即可让 AI 编辑器自动加载并遵循。
+![agentmd-2](/images/ai/agentmd-2.png)
 
 本文档为后端开发团队的核心约束指南。 所有生成的代码、注释、数据库设计必须遵循以下规则。注释必须使用简体中文。
 
@@ -726,10 +726,18 @@ describe('UserService', () => {
 - 特殊情况必须说明原因
 - 违反规范必须拒绝生成代码
 
-## 使用建议
+## 主要变更说明
 
-- 与前端约定同一套响应结构，减少联调成本
-- 把鉴权、错误码等团队规范固化进模板
-- 为关键规则补充「正例 / 反例」，AI 的还原度会明显更高
-
-> 后端规范的核心：**安全、可预测、可追溯。**
+| 变更项 | 说明 |
+|--------|------|
+| **语言支持** | 新增 Python 和 Node.js 双后端语言规范 |
+| **数据库支持** | 新增 MySQL、PostgreSQL、SQLite 三种数据库的异步连接和查询示例 |
+| **项目结构** | 按后端分层架构（API / Service / Repository / Model）重新设计 |
+| **异步规范** | 强制所有 IO 操作使用 async/await |
+| **类型安全** | Python 强制 Type Hints，Node.js 强制 TypeScript |
+| **日志规范** | 新增请求追踪（request_id）和上下文变量规范 |
+| **测试规范** | 新增 pytest 和 Jest 测试示例 |
+| **@author** | 统一为 `gouxinjie` |
+| **路径规范** | 禁止 `../../`，使用项目根目录别名 |
+| **包管理** | Python 使用 pip/poetry，Node.js 使用 pnpm |
+| **自检机制** | 新增数据库参数化查询和异步编程检查项 |

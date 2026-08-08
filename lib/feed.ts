@@ -5,7 +5,7 @@
  * @created 2026-07-18
  */
 
-import { getFlatDocList, getDocContent } from "@/lib/ai-docs";
+import { getFlatDocList, getDocContent } from "@/content/ai-docs";
 import type { Locale } from "@/i18n";
 
 /** 文章元信息（用于订阅源与站点地图） */

@@ -126,7 +126,7 @@ export const projects: Project[] = [
       { category: L('图表', 'Charts'), tech: L('Mermaid 11（AI 笔记流程图 / 架构图）', 'Mermaid 11 (AI notes flowcharts / architecture diagrams)') },
       { category: L('图标', 'Icons'), tech: L('lucide-react（optimizePackageImports 按需导入）', 'lucide-react (optimizePackageImports on-demand import)') },
       { category: L('字体', 'Fonts'), tech: L('@fontsource/noto-sans-sc（思源黑体）', '@fontsource/noto-sans-sc (Source Han Sans)') },
-      { category: L('内容管理', 'Content'), tech: L('文件系统 Markdown（content/ai/*.md 运行时读取，lib/ai-docs.ts 解析）', 'Filesystem Markdown (content/ai/*.md read at runtime, parsed by lib/ai-docs.ts)') },
+      { category: L('内容管理', 'Content'), tech: L('文件系统 Markdown（content/ai/*.md 运行时读取，content/ai-docs.ts 解析）', 'Filesystem Markdown (content/ai/*.md read at runtime, parsed by content/ai-docs.ts)') },
       { category: L('代码质量', 'Code Quality'), tech: L('ESLint + eslint-config-next', 'ESLint + eslint-config-next') },
       { category: L('包管理', 'Package Manager'), tech: L('pnpm', 'pnpm') },
       { category: L('构建', 'Build'), tech: L('Next.js standalone 输出（多阶段 Docker 镜像精简体积）', 'Next.js standalone output (multi-stage Docker image for smaller size)') },

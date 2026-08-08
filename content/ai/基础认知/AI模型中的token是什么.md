@@ -3,6 +3,11 @@ title: AI 模型中的 token 是什么
 slug: what-is-token
 updated: 2026-07-15
 ---
+# AI模型中的Token：理解语言模型的基本单位
+
+[[toc]]
+
+![](/images/ai/token.png)
 
 
 在人工智能尤其是大语言模型（LLM）中，“token”是一个非常基础但关键的概念。理解token的概念，对于深入掌握AI模型的工作原理、优化提示词以及控制成本都有重要意义。本文将系统讲解token的定义、作用以及在实际应用中的影响。
@@ -24,11 +29,10 @@ updated: 2026-07-15
 * 单词：单位太大，可能导致词汇表过大，不易处理罕见词
 * token（子词）：折中方案，既能表示常见单词，也能拆分罕见词，提高模型效率
 
-> **提示：模型 token 计算网站**
->
-> [https://token-caculator.static.tezign.com/](https://token-caculator.static.tezign.com/)
->
-> ![token 计算器示意图](/images/ai/基础认知/token-2.png)
+> tip 模型token计算网站
+[https://token-caculator.static.tezign.com/](https://token-caculator.static.tezign.com/)
+![](/images/ai/token-2.png)
+
 
 ## 二、Token在模型中的作用
 
@@ -96,4 +100,4 @@ Token是大语言模型处理文本的基本单位，它既不是简单的字符
 
 **图解如下：**
 
-![token 图解](/images/ai/基础认知/token-1.png "w=500")
+![token-1.png](/images/ai/token-1.png){width=500}

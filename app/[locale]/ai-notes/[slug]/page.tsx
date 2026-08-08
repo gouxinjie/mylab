@@ -6,7 +6,7 @@ import type { Components } from "react-markdown";
 import Markdown from "@/components/commons/Markdown";
 import ScrollToTop from "@/components/commons/ScrollToTop";
 import { Link } from "@/lib/navigation";
-import { getAllDocSlugs, getDocContent, getDocNeighbors } from "@/lib/ai-docs";
+import { getAllDocSlugs, getDocContent, getDocNeighbors } from "@/content/ai-docs";
 import styles from "./page.module.scss";
 import BananaSlug from "github-slugger";
 

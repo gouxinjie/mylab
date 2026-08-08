@@ -3,7 +3,7 @@ import { Metadata } from "next";
 import { getTranslations, unstable_setRequestLocale } from "next-intl/server";
 import FadeIn from "@/components/commons/FadeIn";
 import { Link } from "@/lib/navigation";
-import { aiDocGroups, type AiDocNode } from "@/lib/ai-docs";
+import { aiDocGroups, type AiDocNode } from "@/content/ai-docs";
 import styles from "./page.module.scss";
 
 /**
@@ -48,6 +48,22 @@ function GroupIcon({ type }: { type: string }) {
       return (
         <svg {...svgProps}>
           <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z" />
+        </svg>
+      );
+    case "network":
+      return (
+        <svg {...svgProps}>
+          <circle cx="5" cy="6" r="3" />
+          <circle cx="19" cy="6" r="3" />
+          <circle cx="12" cy="18" r="3" />
+          <line x1="5" y1="9" x2="12" y2="15" />
+          <line x1="19" y1="9" x2="12" y2="15" />
+        </svg>
+      );
+    case "zap":
+      return (
+        <svg {...svgProps}>
+          <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
         </svg>
       );
     default:
@@ -165,6 +181,33 @@ function ColorIcon({ type, color }: { type: string; color: string }) {
       icon = (
         <svg {...svgProps}>
           <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
+        </svg>
+      );
+      break;
+    case "messageCircle":
+      icon = (
+        <svg {...svgProps}>
+          <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" />
+        </svg>
+      );
+      break;
+    case "gitBranch":
+      icon = (
+        <svg {...svgProps}>
+          <line x1="6" y1="3" x2="6" y2="15" />
+          <circle cx="18" cy="6" r="3" />
+          <circle cx="6" cy="18" r="3" />
+          <path d="M18 9a9 9 0 0 1-9 9" />
+        </svg>
+      );
+      break;
+    case "rocket":
+      icon = (
+        <svg {...svgProps}>
+          <path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z" />
+          <path d="M12 15l-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z" />
+          <path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0" />
+          <path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5" />
         </svg>
       );
       break;
