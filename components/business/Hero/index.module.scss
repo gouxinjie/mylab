@@ -120,16 +120,23 @@
     transform: scale(0.96); // 0.95 → 0.96，点击反馈更克制
   }
 
-  // 主按钮：品牌绿渐变填充 + 细腻阴影
+  // 主按钮：品牌渐变填充 + 细腻阴影，纯左右渐变
   &--primary {
-    // 渐变：深绿 → 品牌绿 → 亮青，引用全局变量与标题渐变同源，强化品牌一致性
+    // 渐变：与 h1 标题渐变同源，90deg 从左到右，深青 → 品牌绿 → 更深青，两端偏深不泛白
     background-image: var(--gradient-btn);
-    background-size: 150% 150%; // 扩大渐变面积，配合 hover 位移产生流动感
+    background-size: 200% 100%; // 放大两倍，配合 background-position 横向平滑移动实现渐变流动
+    background-position: 0% 50%; // 默认显示渐变左半段
     color: #ffffff;
+    // 关键：transition 必须包含 background-position，否则 hover 颜色跳变生硬
+    transition:
+      background-position 0.4s ease,
+      box-shadow 0.2s ease,
+      transform 0.2s ease;
+    box-shadow: 0 4px 12px -4px rgba(16, 185, 129, 0.25); // 品牌色投影，细腻立体
 
     &:hover {
-      background-position: 100% 100%; // 渐变流动反馈
-      box-shadow: 0 10px 20px -6px rgba(16, 185, 129, 0.45); // 品牌色投影，比中性阴影更有层次
+      background-position: 100% 50%; // 渐变向左流动，平滑过渡到右半段
+      box-shadow: 0 10px 20px -6px rgba(16, 185, 129, 0.45); // 品牌色投影增强
       transform: translateY(-2px); // 轻微上浮，增强可点击感
     }
   }

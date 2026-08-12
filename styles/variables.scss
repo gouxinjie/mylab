@@ -53,8 +53,15 @@
     var(--color-text-primary) 100%
   );
 
-  // 主按钮渐变（浅色主题）：与标题渐变同源，保持品牌色系统一
-  --gradient-btn: linear-gradient(135deg, #059669 0%, #10b981 55%, #14b8a6 100%);
+  // 主按钮渐变（浅色主题）：与 h1 标题渐变同源，90deg 从左到右
+  // 深青 → 品牌绿 → 深青：左端亮（主色），右端最深的青，整体不泛白
+  --gradient-btn: linear-gradient(
+    90deg,
+    #0F766E 0%,
+    #10B981 45%,
+    #0D9488 75%,
+    #0B5E4E 100%
+  );
 
   // 浅色表面变量（卡片/占位灰）
   --color-surface: #F9FAFB;
