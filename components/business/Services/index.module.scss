@@ -1,33 +1,171 @@
 /**
- * @file index.scss
- * @description Services 区域样式
+ * @file index.module.scss
+ * @description "我能做什么" 区块样式：标题+点阵装饰 + 6 张主题色卡片
  * @author gouxinjie
+ * @updated 2026-08-12 一比一还原设计稿：6 张卡片主题色化 + 底部波浪
  */
 
-// 引入全局混合宏（section-padding / title-lg / icon-square / desc-text 等）
 @use "mixins" as *;
 
-// 服务区块：上下内边距、浅色背景
-.services {
-  @include section-padding;
-  background-color: var(--color-bg);
-}
+// 主题色映射（通过 CSS 自定义属性驱动卡片强调色）
+// 颜色体系：每张卡片拥有独立的图标背景 / 标题主色 / 要点勾选 / 底部波浪
+$colors: (
+  green: (
+    icon-bg: #10B981,
+    icon-ring: rgba(16, 185, 129, 0.18),
+    icon-inner: #FFFFFF,
+    title: #047857,
+    check-bg: rgba(16, 185, 129, 0.12),
+    check-fg: #059669,
+    wave: rgba(16, 185, 129, 0.10),
+    ribbon: rgba(16, 185, 129, 0.12),
+  ),
+  blue: (
+    icon-bg: #3B82F6,
+    icon-ring: rgba(59, 130, 246, 0.18),
+    icon-inner: #FFFFFF,
+    title: #1D4ED8,
+    check-bg: rgba(59, 130, 246, 0.12),
+    check-fg: #2563EB,
+    wave: rgba(59, 130, 246, 0.10),
+    ribbon: rgba(59, 130, 246, 0.12),
+  ),
+  purple: (
+    icon-bg: #A855F7,
+    icon-ring: rgba(168, 85, 247, 0.18),
+    icon-inner: #FFFFFF,
+    title: #7E22CE,
+    check-bg: rgba(168, 85, 247, 0.12),
+    check-fg: #9333EA,
+    wave: rgba(168, 85, 247, 0.10),
+    ribbon: rgba(168, 85, 247, 0.12),
+  ),
+  indigo: (
+    icon-bg: #6366F1,
+    icon-ring: rgba(99, 102, 241, 0.18),
+    icon-inner: #FFFFFF,
+    title: #4338CA,
+    check-bg: rgba(99, 102, 241, 0.12),
+    check-fg: #4F46E5,
+    wave: rgba(99, 102, 241, 0.10),
+    ribbon: rgba(99, 102, 241, 0.12),
+  ),
+  orange: (
+    icon-bg: #F97316,
+    icon-ring: rgba(249, 115, 22, 0.18),
+    icon-inner: #FFFFFF,
+    title: #C2410C,
+    check-bg: rgba(249, 115, 22, 0.12),
+    check-fg: #EA580C,
+    wave: rgba(249, 115, 22, 0.10),
+    ribbon: rgba(249, 115, 22, 0.12),
+  ),
+  teal: (
+    icon-bg: #14B8A6,
+    icon-ring: rgba(20, 184, 166, 0.18),
+    icon-inner: #FFFFFF,
+    title: #0F766E,
+    check-bg: rgba(20, 184, 166, 0.12),
+    check-fg: #0D9488,
+    wave: rgba(20, 184, 166, 0.10),
+    ribbon: rgba(20, 184, 166, 0.12),
+  ),
+);
 
-// 区块头部：标题
-.header {
-  margin-bottom: 12px;
-
-  // 标题：大字号加粗
-  &__title {
-    @include title-lg;
+// 主题色 mixin：根据 key 应用对应强调色变量到卡片
+@mixin apply-theme($key) {
+  $palette: map-get($colors, $key);
+  @each $name, $val in $palette {
+    --c-#{$name}: #{$val};
   }
 }
 
-// 服务栅格：移动端单列，中屏两列，大屏三列（6 张卡片排成 2×3）
+// 顶层容器：与页面主版心宽度对齐
+.services {
+  @include section-padding;
+  padding-top: 30px;
+  padding-bottom: 20px;
+  background-color: var(--color-bg);
+}
+
+.container {
+  @include container-custom;
+}
+
+// ---------- 顶部标题区 ----------
+.header {
+  position: relative;
+  margin-bottom: 24px;
+
+  &__left {
+    position: relative;
+    z-index: 1;
+  }
+
+  // 主标题：品牌绿色渐变文字
+  &__title {
+    margin: 0 0 10px;
+    font-size: 24px;
+    font-weight: 800;
+    line-height: 1.3;
+    letter-spacing: -0.02em;
+    background: linear-gradient(135deg, #047857 0%, #10B981 40%, #14B8A6 80%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+  }
+
+  // 副标题 + 下方绿色短下划线（设计稿亮点）
+  &__subtitle {
+    position: relative;
+    display: inline-block;
+    padding-bottom: 10px;
+    margin: 0;
+    font-size: 14px;
+    color: var(--color-text-secondary);
+
+    &::after {
+      content: "";
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 32px;
+      height: 3px;
+      border-radius: 2px;
+      background-color: var(--color-accent);
+    }
+  }
+
+  // 右上角点阵装饰
+  &__dots {
+    position: absolute;
+    top: 0;
+    right: 0;
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    gap: 10px;
+    pointer-events: none;
+    opacity: 0.55;
+
+    @media (max-width: 639px) {
+      display: none;
+    }
+  }
+
+  &__dot {
+    width: 4px;
+    height: 4px;
+    border-radius: 9999px;
+    background-color: var(--color-accent);
+  }
+}
+
+// ---------- 卡片栅格 ----------
 .grid {
   display: grid;
-  grid-template-columns: minmax(0, 1fr); // 移动端：单列且强制收缩
-  gap: 16px;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 14px;
 
   @media (min-width: 640px) {
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -38,90 +176,184 @@
   }
 }
 
-// 服务项卡片：浅色表面，悬浮上浮、强调色高亮与立体阴影
+// ---------- 单张卡片 ----------
 .item {
+  // 默认色（兜底）：绿色 — 与 i18n 中第一项一致
+  @include apply-theme(green);
+
   position: relative;
   overflow: hidden;
-  border-radius: var(--radius-xl);
-  border: 1px solid var(--color-surface-muted);
-  background-color: rgba(var(--color-surface-rgb), 0.5);
-  padding: 18px;
-  // 多层柔和阴影：模拟卡片自然悬浮的厚度感
-  box-shadow:
-    0 1px 2px rgba(0, 0, 0, 0.04),
-    0 8px 18px -10px rgba(0, 0, 0, 0.12);
-  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease, background-color 0.25s ease;
+  display: flex;
+  flex-direction: column;
+  padding: 16px 18px 36px;
+  border-radius: 16px;
+  border: 1px solid var(--color-border);
+  background-color: var(--color-bg);
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
 
-  // 顶部高光：模拟光源照射，增强立体凸起感
-  &::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    border-radius: inherit;
-    background: linear-gradient(180deg, rgba(255, 255, 255, 0.08), transparent 45%);
-    pointer-events: none;
-  }
-
-  // 顶部强调色装饰条：悬浮时从中间向两侧展开
-  &::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 2px;
-    width: 100%;
-    background: linear-gradient(90deg, var(--color-accent), var(--color-accent-dark));
-    transform: scaleX(0);
-    transform-origin: center;
-    transition: transform 0.3s ease, height 0.3s ease;
-  }
-
-  // 移入只保留上浮与边框高亮，阴影维持默认轻量
   &:hover {
     transform: translateY(-6px);
-    background-color: var(--color-bg);
-    border-color: rgba(var(--color-accent-rgb), 0.4);
+    box-shadow: 0 18px 40px -20px rgba(15, 23, 42, 0.18);
+    border-color: var(--c-icon-bg);
   }
 
-  &:hover::before {
-    transform: scaleX(1);
-    height: 1px;
+  // 主题色变体：编译期为 6 张卡片生成对应强调色
+  &--green {
+    @include apply-theme(green);
+  }
+  &--blue {
+    @include apply-theme(blue);
+  }
+  &--purple {
+    @include apply-theme(purple);
+  }
+  &--indigo {
+    @include apply-theme(indigo);
+  }
+  &--orange {
+    @include apply-theme(orange);
+  }
+  &--teal {
+    @include apply-theme(teal);
   }
 
-  // 图标盒子：立体按钮式，渐变高光 + 内/外阴影
-  &__icon-box {
+  // 卡片顶部行：圆形图标 + 右侧编号
+  &__top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
     margin-bottom: 12px;
-    @include icon-square(44px);
-    // 对角渐变背景，模拟受光面与背光面
-    background-image: linear-gradient(145deg, rgba(var(--color-accent-rgb), 0.22), rgba(var(--color-accent-rgb), 0.10));
-    // 内高光 + 外投影，营造凸起立体感
-    box-shadow:
-      inset 0 1px 1px rgba(255, 255, 255, 0.45),
-      0 4px 8px -2px rgba(var(--color-accent-rgb), 0.30);
-    color: var(--color-accent);
-    transition: transform 0.25s ease, background-image 0.25s ease, box-shadow 0.25s ease;
   }
 
-  // 移入时不叠加额外动效与重投影，保持默认立体感即可
-  &:hover &__icon-box {
-    background-image: linear-gradient(145deg, rgba(var(--color-accent-rgb), 0.28), rgba(var(--color-accent-rgb), 0.14));
+  // 圆形彩色图标盒（带外圈光晕）
+  &__iconCircle {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    height: 38px;
+    border-radius: 9999px;
+    background-color: var(--c-icon-bg);
+    box-shadow: 0 0 0 4px var(--c-icon-ring);
+
+    &::after {
+      content: "";
+      position: absolute;
+      inset: -8px;
+      border-radius: 9999px;
+      background-color: var(--c-icon-ring);
+      opacity: 0.45;
+      z-index: -1;
+      filter: blur(6px);
+    }
   }
 
-  // 服务标题：hover 变强调色
+  &__iconInner {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--c-icon-inner);
+  }
+
+  // 右上角编号（带主题色弱背景胶囊）
+  &__number {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 32px;
+    height: 24px;
+    padding: 0 8px;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--c-title);
+    background-color: var(--c-ribbon);
+    border-radius: 9999px;
+  }
+
+  // 卡片标题
   &__title {
-    margin-bottom: 6px;
+    margin: 0 0 8px;
     font-size: 16px;
     font-weight: 700;
-    color: var(--color-text-primary);
+    color: var(--c-title);
     transition: color 0.2s ease;
   }
 
-  &:hover &__title {
-    color: var(--color-accent-dark);
+  // 卡片描述
+  &__desc {
+    margin: 0 0 12px;
+    font-size: 14px;
+    line-height: 1.625;
+    color: var(--color-text-secondary);
   }
 
-  // 服务描述：次要色
-  &__desc {
-    @include desc-text;
+  // 要点 bullet 列表
+  &__features {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  &__featureItem {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    line-height: 1.5;
+    color: var(--color-text-secondary);
+  }
+
+  // 圆形勾选图标：主题色实心背景 + 白色勾选
+  &__check {
+    display: inline-flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+    width: 16px;
+    height: 16px;
+    border-radius: 9999px;
+    background-color: var(--c-icon-bg);
+    color: #FFFFFF;
+  }
+
+  // 右下角跳转按钮：圆形主题色按钮
+  &__arrow {
+    position: absolute;
+    right: 14px;
+    bottom: 14px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    padding: 0;
+    border: none;
+    border-radius: 9999px;
+    background-color: var(--c-icon-bg);
+    color: #FFFFFF;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+    &:hover {
+      transform: translate(2px, -2px);
+      box-shadow: 0 8px 16px -6px var(--c-icon-bg);
+    }
+  }
+
+  // 卡片底部彩色波浪装饰：占据卡片底部条状区域
+  &__wave {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    height: 24px;
+    color: var(--c-wave);
+    pointer-events: none;
   }
 }

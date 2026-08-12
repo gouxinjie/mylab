@@ -17,36 +17,79 @@
   },
   "Services": {
     "title": "我能做什么",
+    "subtitle": "以技术为核心，提供高质量的开发与解决方案",
     "items": [
       {
         "title": "全栈 Web 应用",
         "description": "基于 Vue 3、React、Next.js、Nuxt 等全栈框架，独立构建从前端交互到后端服务与接口闭环的 Web 应用。",
-        "icon": "code"
+        "icon": "code",
+        "color": "green",
+        "number": "01",
+        "features": [
+          "现代化前端架构开发",
+          "服务端接口与数据库设计",
+          "高性能与可扩展性优化"
+        ]
       },
       {
         "title": "数据可视化看板",
         "description": "使用 ECharts 等图表库，将 GitHub 数据、天气环境等实时数据沉淀为可交互的可视化经营面板与监控大屏。",
-        "icon": "chart"
+        "icon": "chart",
+        "color": "blue",
+        "number": "02",
+        "features": [
+          "多维数据可视化",
+          "实时数据监控",
+          "大屏自适应与交互体验"
+        ]
       },
       {
         "title": "AI 工具平台",
         "description": "构建 deepxinjie 企业级 AI 对话与 Prompt 案例库、内容管理等 AI 应用平台，覆盖对话、展示、投稿、审核与管理的完整业务闭环。",
-        "icon": "sparkles"
+        "icon": "sparkles",
+        "color": "purple",
+        "number": "03",
+        "features": [
+          "AI 对话与 Prompt 工程",
+          "内容管理与审核流程",
+          "权限控制与数据安全"
+        ]
       },
       {
         "title": "自动化部署运维",
         "description": "深度掌握 GitHub Actions、Docker、Nginx 技术栈，熟练搭建高可用 CI/CD 流水线，进行项目的部署和管理。",
-        "icon": "rocket"
+        "icon": "rocket",
+        "color": "indigo",
+        "number": "04",
+        "features": [
+          "CI/CD 自动化流程",
+          "Docker 容器化部署",
+          "Nginx 反向代理与优化"
+        ]
       },
       {
         "title": "Python 后端与工具",
         "description": "熟悉 Python 全栈开发并了解其丰富生态，基于 FastAPI 构建高性能 Web 网站与后端服务。",
-        "icon": "zap"
+        "icon": "zap",
+        "color": "orange",
+        "number": "05",
+        "features": [
+          "FastAPI 高性能接口",
+          "Python 脚本与工具开发",
+          "数据库与异步任务处理"
+        ]
       },
       {
         "title": "用户体验设计",
         "description": "注重清透克制的视觉与流畅交互，在 H5、可视化大屏等场景打磨直观易用的产品体验。",
-        "icon": "palette"
+        "icon": "palette",
+        "color": "teal",
+        "number": "06",
+        "features": [
+          "界面设计与交互优化",
+          "H5 与响应式设计",
+          "可视化大屏体验"
+        ]
       }
     ]
   },

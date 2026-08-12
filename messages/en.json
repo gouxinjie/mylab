@@ -17,36 +17,79 @@
   },
   "Services": {
     "title": "What I Can Do",
+    "subtitle": "Technology-driven, delivering high-quality development and solutions",
     "items": [
       {
         "title": "Full-stack Web Apps",
         "description": "Building end-to-end web applications with front-end UX and back-end services & APIs, using full-stack frameworks like Vue 3, React, Next.js and Nuxt.",
-        "icon": "code"
+        "icon": "code",
+        "color": "green",
+        "number": "01",
+        "features": [
+          "Modern front-end architecture",
+          "Server APIs and database design",
+          "High performance and scalability"
+        ]
       },
       {
         "title": "Data Visualization Dashboards",
         "description": "Turning real-time data such as GitHub stats and weather into interactive dashboards and monitoring big screens with charting libraries like ECharts.",
-        "icon": "chart"
+        "icon": "chart",
+        "color": "blue",
+        "number": "02",
+        "features": [
+          "Multi-dimensional data viz",
+          "Real-time data monitoring",
+          "Adaptive big-screen interactions"
+        ]
       },
       {
         "title": "AI Tooling Platforms",
         "description": "Building deepxinjie enterprise-grade AI chat and AI application platforms such as prompt galleries and content management, covering the full loop of conversation, display, submission, review and management.",
-        "icon": "sparkles"
+        "icon": "sparkles",
+        "color": "purple",
+        "number": "03",
+        "features": [
+          "AI chat and prompt engineering",
+          "Content management and review",
+          "Permission control and data safety"
+        ]
       },
       {
         "title": "Automated Deployment & Ops",
         "description": "Deeply proficient in the GitHub Actions, Docker and Nginx stack, building highly available CI/CD pipelines and independently solving deployment challenges like zero-downtime releases, canary rollbacks and process supervision.",
-        "icon": "rocket"
+        "icon": "rocket",
+        "color": "indigo",
+        "number": "04",
+        "features": [
+          "CI/CD automation pipeline",
+          "Docker containerized deployment",
+          "Nginx reverse proxy and tuning"
+        ]
       },
       {
         "title": "Python Backend & Tooling",
         "description": "Proficient in full-stack Python development and familiar with its rich ecosystem, building high-performance web sites and backend services with FastAPI.",
-        "icon": "zap"
+        "icon": "zap",
+        "color": "orange",
+        "number": "05",
+        "features": [
+          "FastAPI high-performance APIs",
+          "Python scripting and tooling",
+          "Databases and async tasks"
+        ]
       },
       {
         "title": "User Experience Design",
         "description": "Pursuing clean, restrained visuals and smooth interactions, polishing intuitive and easy-to-use experiences across H5 and big-screen scenarios.",
-        "icon": "palette"
+        "icon": "palette",
+        "color": "teal",
+        "number": "06",
+        "features": [
+          "UI design and interaction polish",
+          "H5 and responsive design",
+          "Big-screen visualization experience"
+        ]
       }
     ]
   },
