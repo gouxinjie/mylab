@@ -450,7 +450,7 @@ export const projects: Project[] = [
     ),
     port: 'Next.js 监听 127.0.0.1:3400，Nginx 反代对外 80',
     url: 'http://flow-calendar.gouxinjie.com',
-    covers: ['/images/project-cover/flow-calendar.png', '/images/project-cover/flow-calendar-1.png', '/images/project-cover/flow-calendar-2.png', '/images/project-cover/flow-calendar-3.png'],
+    covers: ['/images/project-cover/flow-calendar-v2.png', '/images/project-cover/flow-calendar-1-v2.png', '/images/project-cover/flow-calendar-2-v2.png'],
     techStackBrief: L(
       'Next.js、React 19、TypeScript、Prisma、SQLite、Tailwind CSS 4、SCSS',
       'Next.js, React 19, TypeScript, Prisma, SQLite, Tailwind CSS 4, SCSS'
