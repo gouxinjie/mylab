@@ -5,6 +5,9 @@
  * @updated 2026-07-16 按设计稿还原卡片：logo/标记/名称/公司/描述/标签/访问按钮
  */
 
+// 引入全局混合宏（card-float / tab-pill / card-grid / line-clamp / pill 等）
+@use "mixins" as *;
+
 // 容器
 .wrap {
   width: 100%;
@@ -84,19 +87,7 @@
 
 // 单个分类标签：无背景无边框，仅文字色区分激活态
 .tab {
-  padding: 6px 14px;
-  font-size: 14px;
-  font-weight: 500;
-  color: var(--color-text-secondary);
-  background-color: transparent;
-  border: none;
-  border-radius: var(--radius-full);
-  cursor: pointer;
-  transition: color 0.2s, background-color 0.2s, font-weight 0.2s;
-
-  &:hover {
-    color: var(--color-text-primary);
-  }
+  @include tab-pill;
 }
 
 // Tab 选中态：主色填充 + 白字加粗
@@ -112,17 +103,7 @@
 
 // 产品卡片网格：移动端单列，桌面端多列
 .grid {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr); // 移动端：单列且强制收缩，防止内容撑破容器
-  gap: 16px;
-
-  @media (min-width: 640px) {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  @media (min-width: 1024px) {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-  }
+  @include card-grid;
 }
 
 // 单个产品卡片：白底、圆角，无边框，多层阴影增加立体感
@@ -132,13 +113,8 @@
   flex-direction: column;
   padding: 16px;
   overflow: hidden;
-  background-color: var(--color-bg);
   border-radius: 16px;
-  box-shadow:
-    0 1px 2px rgba(0, 0, 0, 0.06),
-    0 4px 8px rgba(0, 0, 0, 0.06),
-    0 8px 24px rgba(0, 0, 0, 0.07);
-  transition: box-shadow 0.25s ease, transform 0.25s ease;
+  @include card-float;
   text-decoration: none;
 }
 
@@ -159,11 +135,6 @@
 .product > *:not(.glow) {
   position: relative;
   z-index: 1;
-}
-
-.product:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06), 0 12px 28px rgba(0, 0, 0, 0.08);
 }
 
 // 卡片头部行：Logo + 右侧标记，两端对齐
@@ -236,11 +207,7 @@
   font-size: 13.5px;
   line-height: 1.7;
   color: var(--color-text-secondary);
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 2;
-  line-clamp: 2;
-  overflow: hidden;
+  @include line-clamp(2);
 }
 
 // 功能标签行：左对齐，超出换行
@@ -253,13 +220,8 @@
 
 // 单个功能标签：小药丸样式，浅品牌色底 + 品牌色字（无边框，与 badge 保持一致）
 .tag {
-  display: inline-block;
-  padding: 3px 10px;
-  font-size: 12px;
-  font-weight: 500;
-  line-height: 1.6;
+  @include pill;
   border: none;
-  border-radius: var(--radius-full);
   transition: opacity 0.2s ease;
 }
 

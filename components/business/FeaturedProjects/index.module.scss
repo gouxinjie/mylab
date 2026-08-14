@@ -109,27 +109,16 @@
 
   // 单个分类标签：无背景无边框，仅文字色区分激活态
   &__tab {
-    padding: 6px 14px;
-    border-radius: 9999px;
-    border: none;
-    background-color: transparent;
-    font-size: 14px;
-    font-weight: 500;
-    color: var(--color-text-secondary);
-    cursor: pointer;
-    transition: color 0.2s, background-color 0.2s, font-weight 0.2s;
+    @include tab-pill;
 
-    &:hover {
-      color: var(--color-text-primary);
-    }
-
+    // 激活态：主色填充 + 白字加粗
     &--active {
-      color: #fff;
+      color: var(--color-text-inverse);
       font-weight: 700;
       background-color: var(--color-accent);
 
       &:hover {
-        color: #fff;
+        color: var(--color-text-inverse);
         background-color: var(--color-accent);
       }
     }
@@ -180,17 +169,7 @@
 // 项目栅格：移动端单列，中屏两列，大屏三列
 // 使用 minmax(0, 1fr) 强制等宽，避免某张卡片最小内容宽度撑大所在列导致封面容器/卡片大小不一致
 .grid {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr); // 移动端：单列且强制收缩，防止内容撑破容器
-  gap: 16px;
-
-  @media (min-width: 640px) {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  @media (min-width: 1024px) {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-  }
+  @include card-grid;
 }
 
 // 项目卡片：复用 card-base，hover 时显示 1px 绿色边框并向上浮动
@@ -292,12 +271,7 @@
 
   // 状态圆点（呼吸动画）
   &__statusDot {
-    width: 6px;
-    height: 6px;
-    border-radius: 9999px;
-    background-color: currentColor;
-    box-shadow: 0 0 0 0 rgba(var(--color-accent-rgb), 0.6);
-    animation: fproj-pulse 1.4s infinite;
+    @include status-dot(fproj-pulse);
   }
 
   // 未发布状态：不展示扩散/呼吸动效，仅保留静态圆点
@@ -401,7 +375,7 @@
   &__tag {
     flex-shrink: 0;
     border-radius: var(--radius-xl);
-    background-color: #f3f4f6;
+    background-color: var(--color-surface-muted);
     padding: 4px 12px;
     font-size: 12px;
     font-weight: 600;
@@ -604,12 +578,7 @@
 
   // 状态圆点（呼吸动画）
   &__statusDot {
-    width: 6px;
-    height: 6px;
-    border-radius: 9999px;
-    background-color: currentColor;
-    box-shadow: 0 0 0 0 rgba(var(--color-accent-rgb), 0.6);
-    animation: fproj-pulse 1.4s infinite;
+    @include status-dot(fproj-pulse);
   }
 
   // 未发布状态：不展示扩散/呼吸动效，仅保留静态圆点

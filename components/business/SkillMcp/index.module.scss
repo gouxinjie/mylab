@@ -43,25 +43,13 @@
   }
 }
 
-// 单个作品卡片
+// 单个作品卡片：复用 card-float 统一阴影与悬浮反馈
 .card {
   display: flex;
   flex-direction: column;
   padding: 12px;
-  background-color: var(--color-bg);
   border-radius: 12px;
-  box-shadow:
-    0 1px 2px rgba(0, 0, 0, 0.06),
-    0 4px 8px rgba(0, 0, 0, 0.06),
-    0 8px 24px rgba(0, 0, 0, 0.07);
-  transition: box-shadow 0.25s ease, transform 0.25s ease;
-
-  &:hover {
-    transform: translateY(-4px);
-    box-shadow:
-      0 4px 12px rgba(0, 0, 0, 0.06),
-      0 12px 28px rgba(0, 0, 0, 0.08);
-  }
+  @include card-float;
 }
 
 // 卡片头部：类型徽章 + 仓库链接，两端对齐
@@ -127,11 +115,7 @@
   font-size: 13.5px;
   line-height: 1.7;
   color: var(--color-text-secondary);
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-line-clamp: 3;
-  line-clamp: 3;
-  overflow: hidden;
+  @include line-clamp(3);
 }
 
 // 安装命令区：命令 + 复制按钮
@@ -192,12 +176,7 @@
 
 // 单个技术标签：使用 surface-muted 底色，与卡片形成视觉对比；字体颜色更深以提升可读性
 .card__tag {
-  display: inline-block;
-  padding: 3px 10px;
-  font-size: 12px;
-  font-weight: 500;
-  line-height: 1.6;
+  @include pill;
   color: var(--color-text-primary);
   background-color: var(--color-surface-muted);
-  border-radius: var(--radius-full);
 }

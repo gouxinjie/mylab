@@ -99,3 +99,93 @@
   justify-content: center;
   border-radius: var(--radius-xl);
 }
+
+// 浮动卡片：白底 + 多层柔和阴影 + hover 上浮（SkillMcp / AiProducts 卡片统一）
+@mixin card-float {
+  background-color: var(--color-bg);
+  box-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.06),
+    0 4px 8px rgba(0, 0, 0, 0.06),
+    0 8px 24px rgba(0, 0, 0, 0.07);
+  transition: box-shadow 0.25s ease, transform 0.25s ease;
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow:
+      0 4px 12px rgba(0, 0, 0, 0.06),
+      0 12px 28px rgba(0, 0, 0, 0.08);
+  }
+}
+
+// 药丸胶囊标签：小字号 + 全圆角 + 自动换行排列
+// 参数可覆盖内边距与字号，颜色由使用方按需覆盖
+@mixin pill($padding: 3px 10px, $font-size: 12px) {
+  display: inline-block;
+  padding: $padding;
+  font-size: $font-size;
+  font-weight: 500;
+  line-height: 1.6;
+  border-radius: var(--radius-full);
+}
+
+// 分类/筛选药丸 Tab：无背景无边框，仅文字色区分 hover/激活态
+// 激活态由使用方按各自命名约定补充（BEM 修饰符或独立类），避免混入产生死代码
+@mixin tab-pill {
+  padding: 6px 14px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--color-text-secondary);
+  background-color: transparent;
+  border: none;
+  border-radius: var(--radius-full);
+  cursor: pointer;
+  transition: color 0.2s, background-color 0.2s, font-weight 0.2s;
+
+  &:hover {
+    color: var(--color-text-primary);
+  }
+}
+
+// 卡片响应式栅格：移动端 1 列 → 640px 2 列 → 1024px 3 列，minmax(0,1fr) 强制等宽
+@mixin card-grid($gap: 16px) {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr); // 移动端单列，强制收缩防止内容撑破容器
+  gap: $gap;
+
+  @media (min-width: 640px) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  @media (min-width: 1024px) {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+// 浅品牌色徽章底 + 品牌色字：用于强调色标签/徽章（颜色走变量，随主题切换）
+@mixin accent-soft {
+  color: var(--color-accent);
+  background-color: rgba(var(--color-accent-rgb), 0.1);
+}
+
+// 文本多行省略：超出指定行数显示省略号
+@mixin line-clamp($lines: 3) {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: $lines;
+  line-clamp: $lines;
+  overflow: hidden;
+}
+
+// 状态圆点：小圆点，颜色跟随文字色（currentColor），尺寸/阴影统一
+// 呼吸动画名由使用方通过 $animation 传入（动画 keyframes 定义在各自模块内，避免跨文件依赖）
+@mixin status-dot($animation: null) {
+  width: 6px;
+  height: 6px;
+  border-radius: 9999px;
+  background-color: currentColor;
+  box-shadow: 0 0 0 0 rgba(var(--color-accent-rgb), 0.6);
+
+  @if $animation {
+    animation: $animation 1.4s infinite;
+  }
+}
