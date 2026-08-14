@@ -3,7 +3,7 @@
     "home": "Home",
     "about": "About",
     "projects": "Projects",
-    "ai": "AI",
+    "ai": "AI Directory",
     "ainotes": "AI Notes",
     "switch_locale": "简体中文",
     "theme_toggle": "Toggle Theme"
@@ -196,7 +196,7 @@
     "icp": "沪ICP备2026024942号"
   },
   "AI": {
-    "title": "AI",
+    "title": "AI Directory",
     "products_title": "AI Products on the Market",
     "products_subtitle": "A curated selection of today's mainstream AI tools, grouped by AI Chat, AI Dev Tools, AI Agent Workbench, Image/Video and more, across Domestic and Overseas.",
     "search_placeholder": "Search AI products (name or description)...",

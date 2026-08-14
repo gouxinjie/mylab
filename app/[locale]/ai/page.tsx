@@ -15,11 +15,11 @@ import { aiProducts, aiRegionLabels, aiCategoryLabels, categoryOrder } from "@/l
 import styles from "./page.module.scss";
 
 export const metadata: Metadata = {
-  title: "AI 相关",
+  title: "AI 导航",
   description:
     "探索主流 AI 产品和服务，涵盖大语言模型、AI 绘画、代码助手、效率工具等前沿 AI 技术与产品。",
   openGraph: {
-    title: "AI 产品 | xinjie",
+    title: "AI 导航 | xinjie",
     description: "前沿 AI 技术与产品探索",
   },
 };

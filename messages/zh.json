@@ -3,7 +3,7 @@
     "home": "首页",
     "projects": "项目",
     "about": "关于",
-    "ai": "AI 相关",
+    "ai": "AI 导航",
     "ainotes": "AI 笔记",
     "switch_locale": "English",
     "theme_toggle": "切换主题"
@@ -196,7 +196,7 @@
     "icp": "沪ICP备2026024942号"
   },
   "AI": {
-    "title": "AI 相关",
+    "title": "AI 导航",
     "products_title": "市面上的 AI 产品",
     "products_subtitle": "精选当前主流的 AI 工具，按 AI 对话、AI 开发工具、AI 智能体工作台、文生图 / 文生视频等分类，覆盖国内外产品。",
     "search_placeholder": "搜索 AI 产品（名称或简介）...",
