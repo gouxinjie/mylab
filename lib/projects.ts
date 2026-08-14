@@ -240,7 +240,7 @@ export const projects: Project[] = [
   {
     id: 'deepxinjie',
     title: 'deepxinjie',
-    category: L('AI 聊天应用', 'AI Chat Application'),
+    category: L('应用', 'Application'),
     tags: ['React', 'FastAPI', 'Docker'],
     featured: true,
     order: 3,

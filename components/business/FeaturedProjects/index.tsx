@@ -83,8 +83,11 @@ export default function FeaturedProjects({
     [t]
   );
 
-  // 按排序权重升序排列（静态数据，仅计算一次，避免每次渲染重复排序）
-  const sortedProjects = useMemo(() => [...projects].sort((a, b) => a.order - b.order), []);
+  // 按排序权重升序排列（依赖 projects 变化时重算）
+  const sortedProjects = useMemo(
+    () => [...projects].sort((a, b) => a.order - b.order),
+    [projects]
+  );
 
   // 首页精选：传入 featuredIds 时按其顺序取项目；否则沿用 order 排序后的全量列表
   const baseProjects = useMemo(() => {
@@ -117,7 +120,7 @@ export default function FeaturedProjects({
       );
       return categoryMatch && searchMatch;
     });
-  }, [limitedProjects, activeCategory, searchQuery]);
+  }, [limitedProjects, activeCategory, searchQuery, locale]);
 
   return (
     <section className={styles.projects}>

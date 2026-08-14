@@ -4,6 +4,15 @@
  * @author gouxinjie
  */
 
+import {
+  APIFOX_BADGE,
+  APIPOST_BADGE,
+  TRAE_BADGE,
+  CURSOR_BADGE,
+  ALIYUN_YUNXIAO_BADGE,
+  YUQUE_BADGE,
+} from "@/lib/badge-icons";
+
 export interface Experience {
   id: string;
   company: string;
@@ -136,7 +145,7 @@ export const values: Value[] = [
 export const aboutStats: AboutStat[] = [
   { icon: "💼", value: "6+", label: "工作年限", labelEn: "Years of Experience", color: "#00C853", bgColor: "rgba(0, 200, 83, 0.08)" },
   { icon: "⚡", value: "50+", label: "技术沉淀", labelEn: "Tech Skills", color: "#FF9800", bgColor: "rgba(255, 152, 0, 0.08)" },
-  { icon: "📝", value: "300+", label: "发布文章", labelEn: "Articles Published", color: "#7C4DFF", bgColor: "rgba(124, 77, 255, 0.08)" },
+  { icon: "📝", value: "440+", label: "发布文章", labelEn: "Articles Published", color: "#7C4DFF", bgColor: "rgba(124, 77, 255, 0.08)" },
   { icon: "📦", value: "20+", label: "开源项目", labelEn: "Open Source Projects", color: "#2196F3", bgColor: "rgba(33, 150, 243, 0.08)" },
   { icon: "🚀", value: "+∞", label: "学习热情", labelEn: "Learning Enthusiasm", color: "#F50057", bgColor: "rgba(245, 0, 87, 0.08)" },
 ];
@@ -214,8 +223,8 @@ export const techCategories: TechCategory[] = [
       { label: "GitLab", img: "https://img.shields.io/badge/-GitLab-FC6D26?logo=GitLab&logoColor=FFF" },
       { label: "GitHub Pages", img: "https://img.shields.io/badge/-GitHub%20Pages-222?logo=GitHub-Pages&logoColor=FFF" },
       { label: "GitHub Actions", img: "https://img.shields.io/badge/-GitHub%20Actions-2088FF?logo=GitHub-Actions&logoColor=FFF" },
-      { label: "Apifox", img: "https://img.shields.io/badge/Apifox-F64952?style=flat-square&logo=data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0iI2ZmZmZmZiI+PHBhdGggZD0iTTEyIDJhMiAyIDAgMSAwIDAgNCAyIDIgMCAwIDAgMC00em0wIDJhMiAyIDAgMSAwIDAgNCAyIDIgMCAwIDAgMC00em0wIDJhMiAyIDAgMSAwIDAgNCAyIDIgMCAwIDAgMC00em0wIDJhMiAyIDAgMSAwIDAgNCAyIDIgMCAwIDAgMC00em0wIDJhMiAyIDAgMSAwIDAgNCAyIDIgMCAwIDAgMC00eiIvPjwvc3ZnPg==&logoColor=white" },
-      { label: "ApiPost", img: "https://img.shields.io/badge/ApiPost-FF6A33?style=flat-square&logo=data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0iI2ZmZmZmZiI+PHBhdGggZD0iTTEyIDJMMiA3bDEwIDUgMTAtNS0xMC01em0wIDdMNyAxM2w1LTIuNUwxNyAxM2wtNSAyLjV6bTAgNmwtMTAtNSAxMC01IDEwIDUtMTAtNXoiLz48L3N2Zz4=&logoColor=white" },
+      { label: "Apifox", img: APIFOX_BADGE },
+      { label: "ApiPost", img: APIPOST_BADGE },
       { label: "Postman", img: "https://img.shields.io/badge/-Postman-FF6C37?logo=Postman&logoColor=FFF" },
     ],
   },
@@ -240,10 +249,10 @@ export const techCategories: TechCategory[] = [
     badges: [
       { label: "Markdown", img: "https://img.shields.io/badge/-Markdown-000?logo=Markdown&logoColor=FFF" },
       { label: "VS Code", img: "https://img.shields.io/badge/VS%20Code-007ACC?style=flat-square&logo=visualstudiocode&logoColor=white" },
-      { label: "Trae", img: "https://img.shields.io/badge/Trae-000000?style=flat-square&logo=data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0iI2ZmZmZmZiI+PGNpcmNsZSBjeD0iMTIiIGN5PSIxMiIgcj0iMTAiLz48L3N2Zz4=&logoColor=white" },
-      { label: "Cursor", img: "https://img.shields.io/badge/Cursor-000000?style=flat-square&logo=data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0iI2ZmZmZmZiI+PHBhdGggZD0iTTMgM2gydjE4SDN6bTQgMGgxNHYxOEg3eiIvPjwvc3ZnPg==&logoColor=white" },
-      { label: "阿里云云效", img: "https://img.shields.io/badge/阿里云云效-1A6CFF?style=flat-square&logo=data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAxMDI0IDEwMjQiPjxnIGZpbGw9IiNmZmZmZmYiPjxwYXRoIGQ9Ik01MTIgNjRDMjY0LjYgNjQgNjQgMjY0LjYgNjQgNTEyczIwMC42IDQ0OCA0NDggNDQ4IDQ0OC0yMDAuNiA0NDgtNDQ4Uzc1OS40IDY0IDUxMiA2NHptMjU2IDU3Nkg1MTJWMzA0aDI1NnYzMzZ6TTUxMiA1NzZWMzA0SDI1NnYyNzJoMjU2eiIvPjwvZz48L3N2Zz4=&logoColor=white" },
-      { label: "语雀", img: "https://img.shields.io/badge/语雀-25B864?style=flat-square&logo=data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0iI2ZmZmZmZiI+PHBhdGggZD0iTTIwLjUgMTJhOC41IDguNSAwIDAgMC04LjUtOC41QTguNSA4LjUgMCAwIDAgMy41IDEyYTguNSA4LjUgMCAwIDAgOC41IDguNWE4LjUgOC41IDAgMCAwIDguNS04LjV6bS0xMiAwYTMuNSAzLjUgMCAxIDEgMy41IDMuNUExMy45NSAxMy45NSAwIDAgMSAxMiAxM2EzLjUgMy41IDAgMCAxLTMuNS0zLjV6Ii8+PC9zdmc+&logoColor=white" },
+      { label: "Trae", img: TRAE_BADGE },
+      { label: "Cursor", img: CURSOR_BADGE },
+      { label: "阿里云云效", img: ALIYUN_YUNXIAO_BADGE },
+      { label: "语雀", img: YUQUE_BADGE },
       { label: "蓝湖", img: "https://img.shields.io/badge/蓝湖-00A1E9?style=flat-square" },
       { label: "Iconfont", img: "https://img.shields.io/badge/Iconfont-FF6A00?style=flat-square" },
     ],

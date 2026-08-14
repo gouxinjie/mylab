@@ -1,4 +1,5 @@
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import type { RefObject } from "react";
 
 /**
  * 基于 IntersectionObserver 的视口可见性 Hook
@@ -30,7 +31,7 @@ const useIsomorphicLayoutEffect =
  */
 export function useInView<T extends Element = HTMLDivElement>(
   options: UseInViewOptions = {},
-): [React.RefObject<T>, boolean, boolean] {
+): [RefObject<T>, boolean, boolean] {
   const { once = true, margin = "0px" } = options;
   const ref = useRef<T>(null);
   const [inView, setInView] = useState(false);

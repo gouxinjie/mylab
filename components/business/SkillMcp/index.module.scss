@@ -50,6 +50,12 @@
   padding: 12px;
   border-radius: 12px;
   @include card-float;
+
+  // 暗色模式：阴影不明显，改用浅色表面底 + 半透明描边，与页面背景区分
+  :global(.dark) & {
+    background-color: var(--color-bg-secondary);
+    border: 1px solid rgba(51, 65, 85, 0.5);
+  }
 }
 
 // 卡片头部：类型徽章 + 仓库链接，两端对齐
