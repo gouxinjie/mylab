@@ -132,7 +132,7 @@ const AiProducts = ({
         product.desc.en.toLowerCase().includes(kw)
       );
     });
-  }, [active, search]);
+  }, [aiProducts, active, search]);
 
   return (
     <div className={styles.wrap}>

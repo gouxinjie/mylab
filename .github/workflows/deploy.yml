@@ -72,6 +72,11 @@ jobs:
           # 利用 GitHub Actions 缓存加速层复用
           cache-from: type=gha
           cache-to: type=gha,mode=max
+          # 关闭 provenance 与 SBOM 证明：buildx 默认生成的 OCI attestation manifest
+          # 含 application/vnd.oci.empty.v1+json 空 layer，阿里云个人版 ACR 不支持该
+          # OCI media type，会导致推送报「unknown manifest class」，故必须关闭
+          provenance: false
+          sbom: false
           # 传入构建参数：百度统计站点 ID 在 next build 时内联进客户端 bundle
           # 需在仓库 Settings → Secrets 配置同名密钥 NEXT_PUBLIC_BAIDU_TONGJI_ID
           build-args: |

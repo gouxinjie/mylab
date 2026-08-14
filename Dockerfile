@@ -1,5 +1,5 @@
 # ---- 构建阶段 ----
-FROM node:20-alpine AS builder
+FROM node:22-alpine AS builder
 
 WORKDIR /app
 
@@ -20,7 +20,7 @@ ENV NEXT_PUBLIC_BAIDU_TONGJI_ID=${NEXT_PUBLIC_BAIDU_TONGJI_ID}
 RUN pnpm run build
 
 # ---- 运行阶段 ----
-FROM node:20-alpine AS runner
+FROM node:22-alpine AS runner
 
 WORKDIR /app
 
