@@ -85,6 +85,12 @@ export interface Project {
 }
 
 /**
+ * 首页精选项目的展示顺序（按 id 指定，顺序即展示顺序）
+ * @description 不依赖 order 字段，单独维护首页精选的挑选与排序
+ */
+export const homeFeaturedIds: string[] = ['blog', 'prompt', 'deepxinjie'];
+
+/**
  * 所有项目的数组（可直接用于展示或数据处理）
  */
 export const projects: Project[] = [

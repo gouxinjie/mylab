@@ -11,7 +11,7 @@ import FeaturedProjects from "@/components/business/FeaturedProjects";
 import SkillMcp from "@/components/business/SkillMcp";
 import QuoteSection from "@/components/business/Quote";
 import FadeIn from "@/components/commons/FadeIn";
-import { projects } from "@/lib/projects";
+import { projects, homeFeaturedIds } from "@/lib/projects";
 import { skillMcpItems } from "@/lib/skill-mcp";
 import { unstable_setRequestLocale } from "next-intl/server";
 import { type Locale } from "@/i18n";
@@ -39,8 +39,8 @@ export default function HomePage({
       </FadeIn>
 
       <FadeIn delay={0.2}>
-        {/* 精选项目区域：展示前 3 个项目 */}
-        <FeaturedProjects limit={3} projects={projects} />
+        {/* 精选项目区域：按 homeFeaturedIds 指定的顺序展示首页精选项目 */}
+        <FeaturedProjects limit={3} projects={projects} featuredIds={homeFeaturedIds} />
       </FadeIn>
 
       <FadeIn delay={0.25}>

@@ -45,11 +45,14 @@ export default function FeaturedProjects({
   limit,
   showFilters,
   projects,
+  featuredIds,
 }: {
   limit?: number;
   showFilters?: boolean;
   /** 项目数据列表，由服务端组件传入（避免客户端直接引入大数据文件） */
   projects: Project[];
+  /** 首页精选项目 id 顺序列表；传入时按此顺序筛选展示，未传则按 order 排序 */
+  featuredIds?: string[];
 }) {
   const t = useTranslations("FeaturedProjects");
   // 当前语言（zh / en），用于取项目双语字段
@@ -82,16 +85,29 @@ export default function FeaturedProjects({
 
   // 按排序权重升序排列（静态数据，仅计算一次，避免每次渲染重复排序）
   const sortedProjects = useMemo(() => [...projects].sort((a, b) => a.order - b.order), []);
+
+  // 首页精选：传入 featuredIds 时按其顺序取项目；否则沿用 order 排序后的全量列表
+  const baseProjects = useMemo(() => {
+    if (featuredIds && featuredIds.length > 0) {
+      // 以 id 建立索引，按 featuredIds 声明的顺序映射为项目对象（忽略不在列表中的 id）
+      const map = new Map(projects.map((project) => [project.id, project]));
+      return featuredIds
+        .map((id) => map.get(id))
+        .filter((project): project is Project => project !== undefined);
+    }
+    return sortedProjects;
+  }, [featuredIds, projects, sortedProjects]);
+
   // 按 limit 截取（首页精选 N 个，全部项目页不传则展示全部）
-  const baseProjects = useMemo(
-    () => (limit ? sortedProjects.slice(0, limit) : sortedProjects),
-    [limit, sortedProjects]
+  const limitedProjects = useMemo(
+    () => (limit ? baseProjects.slice(0, limit) : baseProjects),
+    [limit, baseProjects]
   );
 
   // 根据分类与搜索关键词过滤；仅在依赖变化时重算
   const visibleProjects = useMemo(() => {
     const query = searchQuery.trim().toLowerCase();
-    return baseProjects.filter((project) => {
+    return limitedProjects.filter((project) => {
       const categoryMatch = activeCategory === "all" || project.category.zh === activeCategory;
       const searchMatch = !query || (
         project.title.toLowerCase().includes(query) ||
@@ -101,7 +117,7 @@ export default function FeaturedProjects({
       );
       return categoryMatch && searchMatch;
     });
-  }, [baseProjects, activeCategory, searchQuery]);
+  }, [limitedProjects, activeCategory, searchQuery]);
 
   return (
     <section className={styles.projects}>
