@@ -45,13 +45,13 @@
       },
       {
         "title": "AI Tooling Platforms",
-        "description": "Building deepxinjie enterprise-grade AI chat and AI application platforms such as prompt galleries and content management, covering the full loop of conversation, display, submission, review and management.",
+        "description": "Building AI chat and prompt gallery platforms, while curating reusable AI capabilities like a CodeBuddy review Skill and a local-time MCP Server.",
         "icon": "sparkles",
         "color": "purple",
         "number": "03",
         "features": [
           "AI chat and prompt engineering",
-          "Content management and review",
+          "Skill & MCP services",
           "Permission control and data safety"
         ]
       },
@@ -158,6 +158,18 @@
     "label": "My Projects",
     "title": "Solving real problems with code,\nbuilding high-quality apps and tools",
     "subtitle": "Here are some projects I've independently developed or deeply participated in, covering Web applications, tool libraries, backend services, and more."
+  },
+  "SkillMcp": {
+    "title": "Skill/MCP",
+    "subtitle": "AI ecosystem capabilities (Skills & MCP servers) I've published, distributed as npm packages — install and use with one command.",
+    "type_skill": "Skill",
+    "type_mcp": "MCP Server",
+    "copy": "Copy",
+    "copied": "Copied",
+    "labels": {
+      "repo": "View repository",
+      "copy": "Copy install command"
+    }
   },
   "GitHubDashboard": {
     "title": "GitHub Dashboard",

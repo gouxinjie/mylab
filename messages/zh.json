@@ -45,13 +45,13 @@
       },
       {
         "title": "AI 工具平台",
-        "description": "构建 deepxinjie 企业级 AI 对话与 Prompt 案例库、内容管理等 AI 应用平台，覆盖对话、展示、投稿、审核与管理的完整业务闭环。",
+        "description": "构建 AI 对话与 Prompt 案例库等应用平台，并沉淀 CodeBuddy 审查 Skill、本地时间 MCP Server 等可复用 AI 能力。",
         "icon": "sparkles",
         "color": "purple",
         "number": "03",
         "features": [
           "AI 对话与 Prompt 工程",
-          "内容管理与审核流程",
+          "Skill 技能与 MCP 服务",
           "权限控制与数据安全"
         ]
       },
@@ -158,6 +158,18 @@
     "label": "我的项目",
     "title": "用代码解决实际问题，构建高质量\n的应用与工具",
     "subtitle": "以下是我独立开发或深度参与的一些项目，涵盖 Web 应用、工具库、后端服务等不同领域。"
+  },
+  "SkillMcp": {
+    "title": "Skill/MCP",
+    "subtitle": "我发布的 AI 生态能力资产（Skill 技能 / MCP 服务），以 npm 包形式分发，一键安装即可使用。",
+    "type_skill": "Skill",
+    "type_mcp": "MCP Server",
+    "copy": "复制",
+    "copied": "已复制",
+    "labels": {
+      "repo": "查看仓库",
+      "copy": "复制安装命令"
+    }
   },
   "GitHubDashboard": {
     "title": "GitHub 数据看板",

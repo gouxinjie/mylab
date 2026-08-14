@@ -8,9 +8,11 @@
 import Hero from "@/components/business/Hero";
 import Services from "@/components/business/Services";
 import FeaturedProjects from "@/components/business/FeaturedProjects";
+import SkillMcp from "@/components/business/SkillMcp";
 import QuoteSection from "@/components/business/Quote";
 import FadeIn from "@/components/commons/FadeIn";
 import { projects } from "@/lib/projects";
+import { skillMcpItems } from "@/lib/skill-mcp";
 import { unstable_setRequestLocale } from "next-intl/server";
 import { type Locale } from "@/i18n";
 
@@ -39,6 +41,11 @@ export default function HomePage({
       <FadeIn delay={0.2}>
         {/* 精选项目区域：展示前 3 个项目 */}
         <FeaturedProjects limit={3} projects={projects} />
+      </FadeIn>
+
+      <FadeIn delay={0.25}>
+        {/* Skill / MCP 能力资产：置于精选项目之下 */}
+        <SkillMcp items={skillMcpItems} />
       </FadeIn>
 
       <FadeIn delay={0.3}>

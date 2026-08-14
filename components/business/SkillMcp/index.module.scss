@@ -1,0 +1,203 @@
+/**
+ * @file index.module.scss
+ * @description Skill / MCP 展示模块样式：标题区 + 卡片网格 + 安装命令复制
+ * @author gouxinjie
+ * @created 2026-08-14
+ */
+
+// 引入全局混合宏（title-lg 等）
+@use "mixins" as *;
+
+// 模块容器：与项目列表模块保持一致的纵向节奏
+.oss {
+  padding: 0 0 32px;
+  background-color: var(--color-bg);
+}
+
+// 标题区：标题 + 副标题
+.oss__head {
+  margin-bottom: 28px;
+
+  // 模块主标题：与「精选项目」标题字号一致
+  .oss__title {
+    @include title-lg;
+  }
+
+  // 副标题：不限制最大宽度，让其在容器内自然占满一行
+  .oss__subtitle {
+    margin-top: 12px;
+    font-size: 15px;
+    line-height: 1.7;
+    color: var(--color-text-secondary);
+  }
+}
+
+// 卡片网格：移动端单列，桌面端双列
+.oss__grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 16px;
+
+  @media (min-width: 640px) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+// 单个作品卡片
+.card {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  background-color: var(--color-bg);
+  border-radius: 16px;
+  box-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.06),
+    0 4px 8px rgba(0, 0, 0, 0.06),
+    0 8px 24px rgba(0, 0, 0, 0.07);
+  transition: box-shadow 0.25s ease, transform 0.25s ease;
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow:
+      0 4px 12px rgba(0, 0, 0, 0.06),
+      0 12px 28px rgba(0, 0, 0, 0.08);
+  }
+}
+
+// 卡片头部：类型徽章 + 仓库链接，两端对齐
+.card__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+// 类型徽章：浅品牌色底 + 品牌色字 + 椭圆药丸
+.card__type {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 12px;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1.2;
+  border-radius: var(--radius-full);
+}
+
+// 仓库链接图标：可独立聚焦，不嵌套交互元素
+.card__repo {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  color: var(--color-text-secondary);
+  border-radius: 8px;
+  transition: color 0.2s ease, background-color 0.2s ease;
+
+  &:hover {
+    color: var(--color-text-primary);
+    background-color: var(--color-bg-secondary);
+  }
+}
+
+// 作品名称：npm 包名
+.card__name {
+  margin: 0 0 6px;
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 1.3;
+  color: var(--color-text-primary);
+  word-break: break-all;
+}
+
+// 一句话简介
+.card__brief {
+  margin: 0 0 10px;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.5;
+  color: var(--color-text-primary);
+}
+
+// 详细描述：弹性占位，最多显示四行省略
+.card__desc {
+  flex: 1;
+  margin: 0 0 16px;
+  font-size: 13.5px;
+  line-height: 1.7;
+  color: var(--color-text-secondary);
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 4;
+  line-clamp: 4;
+  overflow: hidden;
+}
+
+// 安装命令区：命令 + 复制按钮
+.card__install {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 14px;
+  padding: 10px 12px;
+  border: 1px solid var(--color-border);
+  border-radius: 10px;
+  background-color: var(--color-bg-secondary);
+}
+
+// 安装命令文本：等宽字体，可横向滚动不换行
+.card__cmd {
+  flex: 1;
+  min-width: 0;
+  overflow-x: auto;
+  white-space: nowrap;
+  font-family: var(--font-mono, ui-monospace, SFMono-Regular, Menlo, Consolas, monospace);
+  font-size: 13px;
+  color: var(--color-text-primary);
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+// 复制按钮：浅品牌色底 + 品牌色字
+.card__copy {
+  flex-shrink: 0;
+  padding: 5px 12px;
+  font-size: 12px;
+  font-weight: 600;
+  line-height: 1;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+
+  &:hover {
+    opacity: 0.85;
+  }
+
+  &:active {
+    transform: scale(0.96);
+  }
+}
+
+// 技术标签行
+.card__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+// 单个技术标签
+.card__tag {
+  display: inline-block;
+  padding: 3px 10px;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.6;
+  color: var(--color-text-secondary);
+  background-color: var(--color-bg-secondary);
+  border-radius: var(--radius-full);
+}

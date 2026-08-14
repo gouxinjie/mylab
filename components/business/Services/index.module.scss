@@ -287,6 +287,12 @@ $colors: (
     font-size: 14px;
     line-height: 1.625;
     color: var(--color-text-secondary);
+    // 最多显示 3 行，超出省略
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
+    overflow: hidden;
   }
 
   // 要点 bullet 列表
