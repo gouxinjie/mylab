@@ -293,6 +293,48 @@ export const projects: Project[] = [
     ]
   },
   {
+    id: 'ai-toolkit-map',
+    title: 'AI 工具全景图',
+    category: L('平台', 'Platform'),
+    tags: ['HTML', 'CSS', 'JavaScript', '原生前端', 'JSON 数据驱动', 'Nginx'],
+    featured: true,
+    order: 3.5,
+    brief: L('AI 工具全景交互地图', 'Interactive AI Toolkit Map'),
+    description: L(
+      '一张覆盖 8 大板块、30+ 款 AI 工具的交互式全景地图：从编程助手（Claude Code / Cursor）、办公智能体（Coze / Dify）、智能体框架（OpenClaw / Hermes）、图像生成、视频生成、语音处理，到主流大模型与插件生态。每款工具按「介绍 → 配置 / 使用指导 → 实战案例」三段式拆解，并附带选型决策表、六维能力排行、MCP / Skills 双 TOP 10 清单与完整能力栈架构图。纯前端单页应用，无需构建、无需后端，所有数据集中在 JSON 节点中驱动渲染。',
+      'An interactive panorama map covering 8 sections and 30+ AI tools: from coding assistants (Claude Code / Cursor), office agents (Coze / Dify), agent frameworks (OpenClaw / Hermes), image generation, video generation, voice processing, to mainstream LLMs and plugin ecosystems. Each tool is broken down in a three-part format: intro -> configuration/usage guide -> real-world case. It includes selection decision tables, six-dimensional capability rankings, dual TOP 10 lists for MCP/Skills, and a complete capability-stack architecture diagram. A pure-frontend single-page app, no build required, no backend, all data rendered from a centralized JSON node.'
+    ),
+    repoUrl: 'https://github.com/gouxinjie/ai-toolkit-map',
+    deployPath: '/var/www/ai-toolkit-map',
+    startMode: L(
+      '纯静态站点，GitHub Actions 推送后由 ECS 的 Nginx 直接托管静态文件',
+      'Pure static site, hosted directly by Nginx on ECS after GitHub Actions pushes the code.'
+    ),
+    status: '正常运行',
+    remark: L(
+      'GitHub Actions 自动部署，push master 触发 → SSH 同步代码到 ECS /var/www/ai-toolkit-map → Nginx 直接服务静态文件（server_name 与其它项目共存隔离）',
+      'Automated deployment via GitHub Actions: push to master triggers SSH sync of code to ECS /var/www/ai-toolkit-map -> Nginx serves static files directly (isolated from other projects by server_name).'
+    ),
+    port: 'Nginx 监听 80 端口，按 server_name 区分域名（HTTP 80）',
+    url: 'http://aihot.gouxinjie.com',
+    covers: ['/images/project-cover/ai-toolkit-map.png', '/images/project-cover/ai-toolkit-map-1.png', '/images/project-cover/ai-toolkit-map-2.png', '/images/project-cover/ai-toolkit-map-3.png'],
+    techStackBrief: L(
+      '原生 HTML / CSS / JavaScript、JSON 数据驱动渲染、响应式布局、双主题切换、GitHub Actions + Nginx 部署',
+      'Vanilla HTML / CSS / JavaScript, JSON data-driven rendering, responsive layout, dual theme toggle, GitHub Actions + Nginx deployment'
+    ),
+    techStackDetail: [
+      { category: L('框架', 'Framework'), tech: L('零框架纯原生（HTML / CSS / JS 单页应用，无需构建）', 'Zero-framework vanilla (HTML / CSS / JS single-page app, no build required)') },
+      { category: L('样式', 'Styling'), tech: L('原生 CSS 变量 + [data-theme="dark"] 双主题切换，响应式 Grid 布局', 'Native CSS variables + [data-theme="dark"] dual theme toggle, responsive grid layout') },
+      { category: L('数据驱动', 'Data-driven'), tech: L('所有工具数据集中在 script type="application/json" 的 yb-data 节点，与 aihot_data.json 双副本维护', 'All tool data centralized in a yb-data JSON node within script type="application/json", dual-maintained with aihot_data.json') },
+      { category: L('可视化', 'Visualization'), tech: L('六维能力排行榜、MCP / Skills 双 TOP 10、能力栈 L0-L4 分层架构图', 'Six-dimensional capability rankings, dual TOP 10 lists for MCP/Skills, L0-L4 layered capability-stack architecture diagram') },
+      { category: L('交互', 'Interaction'), tech: L('命令一键复制、实时搜索（/ 聚焦 + Esc 退出）、板块全部展开 / 折叠、滚动渐入动画、阅读进度条', 'One-click command copy, real-time search (/ to focus + Esc to exit), per-section expand/collapse all, scroll-in animations, reading progress bar') },
+      { category: L('动效与无障碍', 'A11y'), tech: L('prefers-reduced-motion 减弱动画支持、返回顶部按钮、移动端侧边栏抽屉导航', 'prefers-reduced-motion support, back-to-top button, mobile sidebar drawer navigation') },
+      { category: L('图标与字体', 'Icons & Fonts'), tech: L('Inter + JetBrains Mono（Google Fonts 外链，无其它外部依赖）', 'Inter + JetBrains Mono (Google Fonts external link, no other external dependencies)') },
+      { category: L('部署', 'Deployment'), tech: L('阿里云 ECS + Nginx 静态托管（HTTP 80，server_name 多站点隔离）', 'Alibaba Cloud ECS + Nginx static hosting (HTTP 80, server_name multi-site isolation)') },
+      { category: L('CI/CD', 'CI/CD'), tech: L('GitHub Actions（push master → SSH 同步代码到 ECS）', 'GitHub Actions (push master -> SSH sync code to ECS)') }
+    ]
+  },
+  {
     id: 'archive',
     title: 'archive',
     category: L('应用', 'Application'),
