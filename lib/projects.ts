@@ -335,6 +335,59 @@ export const projects: Project[] = [
     ]
   },
   {
+    "id": "kaomoji",
+    "title": "颜文字图鉴",
+    "category": {
+      "zh": "平台",
+      "en": "Platform"
+    },
+    "tags": ["HTML", "CSS", "JavaScript", "原生前端", "JS 数据驱动", "Nginx"],
+    "featured": true,
+    "order": 3.6,
+    "brief": {
+      "zh": "颜文字 / Emoji 一键复制收藏站",
+      "en": "Kaomoji / Emoji Copy-Paste Gallery"
+    },
+    "description": {
+      "zh": "一个覆盖 6 大板块、131 个分类、2341 个精选条目的纯静态中文表达符号收藏站：颜文字（51 大类 534 个）、Emoji 图标（15 大类 484 个）、特殊符号（18 大类 281 个）、汉字部首（康熙字典 214 部首）、花字变体（20 大类 674 个）、装饰长串（10 大类 154 个）。所有内容均为 Unicode 文本字符，点击一键复制到剪贴板并伴以 Toast 提示。支持顶部 Tab 一键切换、实时搜索、侧边栏多选分类筛选、超过 5 条自动折叠「查看更多」、移动端抽屉式筛选与响应式自适应。纯前端单页应用，数据集中在 data/ 下 6 个独立数据源中驱动渲染，无需构建、无需后端，双击即可打开。",
+      "en": "A pure-static Chinese expression-symbol collection site covering 6 sections, 131 categories, and 2341 curated items: kaomoji (51 categories, 534 items), Emoji icons (15 categories, 484 items), special symbols (18 categories, 281 items), Chinese radicals (214 Kangxi radicals), fancy-letter variants (20 categories, 674 items), and decorative strings (10 categories, 154 items). All content is Unicode text; click once to copy to clipboard with a Toast hint. Supports one-click top-tab switching, real-time search, multi-select sidebar category filtering, auto-collapse with \"view more\" for categories over 5 items, mobile drawer filtering, and responsive layout. A pure-frontend single-page app, data rendered from 6 independent data sources under data/, no build required, no backend, double-click to open."
+    },
+    "repoUrl": "https://github.com/gouxinjie/kaomoji",
+    "deployPath": "/var/www/kaomoji",
+    "startMode": {
+      "zh": "纯静态站点，GitHub Actions 推送后由 ECS 的 Nginx 直接托管静态文件；本地可直接双击 index.html 或运行 start.ps1 预览",
+      "en": "Pure static site, hosted directly by Nginx on ECS after GitHub Actions pushes the code; locally double-click index.html or run start.ps1 to preview."
+    },
+    "status": "正常运行",
+    "remark": {
+      "zh": "GitHub Actions 自动部署，push master 触发 → SSH 同步代码到 ECS /var/www/kaomoji → Nginx 直接服务静态文件（server_name 与其它项目共存隔离）；亦部署到 Gitee Pages 与 GitHub Pages",
+      "en": "Automated deployment via GitHub Actions: push to master triggers SSH sync of code to ECS /var/www/kaomoji -> Nginx serves static files directly (isolated from other projects by server_name); also deployed to Gitee Pages and GitHub Pages."
+    },
+    "port": "Nginx 监听 80 端口，按 server_name 区分域名（HTTP 80）；本地预览默认 8000",
+    "url": "http://kaomoji.gouxinjie.com",
+    "covers": [
+      "/images/project-cover/kaomoji.png",
+      "/images/project-cover/kaomoji-1.png",
+      "/images/project-cover/kaomoji-2.png",
+      "/images/project-cover/kaomoji-3.png"
+    ],
+    "techStackBrief": {
+      "zh": "原生 HTML / CSS / JavaScript、JS 数据源驱动渲染、响应式布局、零依赖免构建、GitHub Actions + Nginx 部署",
+      "en": "Vanilla HTML / CSS / JavaScript, JS data-source driven rendering, responsive layout, zero-dependency no-build, GitHub Actions + Nginx deployment"
+    },
+    "techStackDetail": [
+      { "category": { "zh": "框架", "en": "Framework" }, "tech": { "zh": "零框架纯原生（HTML / CSS / JS 单页应用，无需构建）", "en": "Zero-framework vanilla (HTML / CSS / JS single-page app, no build required)" } },
+      { "category": { "zh": "样式", "en": "Styling" }, "tech": { "zh": "原生 CSS，卡片式 Grid 布局，卡片交错渐入动效", "en": "Native CSS, card-based grid layout, staggered card fade-in animations" } },
+      { "category": { "zh": "数据驱动", "en": "Data-driven" }, "tech": { "zh": "所有内容数据集中在 data/ 下 6 个独立数据源（window.KAOMOJI_* 全局对象），纯 JS 驱动渲染", "en": "All content data centralized in 6 independent data sources under data/ (window.KAOMOJI_* global objects), pure JS-driven rendering" } },
+      { "category": { "zh": "交互", "en": "Interaction" }, "tech": { "zh": "一键复制到剪贴板 + Toast 提示、实时搜索、侧边栏多选分类筛选、超过 5 条自动折叠「查看更多」", "en": "One-click copy to clipboard + Toast hint, real-time search, multi-select sidebar category filter, auto-collapse \"view more\" for categories over 5 items" } },
+      { "category": { "zh": "动效与无障碍", "en": "A11y" }, "tech": { "zh": "移动端抽屉式筛选、响应式自适应、交互 aria 语义标注", "en": "Mobile drawer filter, responsive adaptation, aria semantics for interactions" } },
+      { "category": { "zh": "图标与字体", "en": "Icons & Fonts" }, "tech": { "zh": "内联 favicon.svg 矢量图标，系统字体栈（Segoe UI / PingFang SC / Microsoft YaHei），无外部依赖", "en": "Inline favicon.svg vector icon, system font stack (Segoe UI / PingFang SC / Microsoft YaHei), no external dependencies" } },
+      { "category": { "zh": "部署", "en": "Deployment" }, "tech": { "zh": "阿里云 ECS + Nginx 静态托管（HTTP 80，server_name 多站点隔离）；另有 Gitee Pages / GitHub Pages 双静态部署", "en": "Alibaba Cloud ECS + Nginx static hosting (HTTP 80, server_name multi-site isolation); also Gitee Pages / GitHub Pages dual static deployment" } },
+      { "category": { "zh": "CI/CD", "en": "CI/CD" }, "tech": { "zh": "GitHub Actions（push master → SSH 同步代码到 ECS）", "en": "GitHub Actions (push master -> SSH sync code to ECS)" } }
+    ]
+  }
+  ,
+  {
     id: 'archive',
     title: 'archive',
     category: L('应用', 'Application'),
