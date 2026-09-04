@@ -432,6 +432,55 @@ export const projects: Project[] = [
     ]
   },
   {
+    id: 'genshin-map',
+    title: '空荧酒馆原神地图',
+    category: L('游戏工具', 'Game Tool'),
+    tags: ['Preact', 'CanvasKit', 'TypeScript', '瓦片地图', '原神'],
+    featured: true,
+    order: 4.5,
+    brief: L('基于 CanvasKit 的丝滑原神地图', 'A smooth CanvasKit-powered Genshin map'),
+    description: L(
+      '基于 Preact + CanvasKit（Skia）的高性能原神地图 Web 应用。用户可按地区切换地图、点选标记查看点位详情、标记/收藏点位并通过 localStorage 存档导入导出；移动端适配支持点按标记与抽屉侧滑。瓦片与地图数据来自第三方数据源（空荧酒馆），渲染层使用自研 Canvas 地图库，启动即用 splash 进度条避免白屏。',
+      'A high-performance Genshin Impact map web app built with Preact + CanvasKit (Skia). Users can switch regions, tap markers to view point details, mark/favorite points with localStorage-backed import/export; mobile-friendly with tap markers and drawer slides. Tiles and map data come from a third-party source (Kongying Jiuguan); the render layer uses a self-built Canvas map library, with a splash progress bar to avoid white screens on startup.'
+    ),
+    repoUrl: 'https://github.com/qiuxiang/ky-genshin-map',
+    deployPath: 'GitHub Pages 静态托管 + 腾讯云 COS（无 ECS 部署路径）',
+    startMode: L(
+      '纯静态站点由 GitHub Pages 托管，构建产物经脚本同步到腾讯云 COS；无 Node 常驻服务进程',
+      'Pure static site hosted on GitHub Pages, build artifacts synced to Tencent Cloud COS via script; no long-running Node process.'
+    ),
+    status: '正常运行',
+    remark: L(
+      'GitHub Actions 自动部署：push main 触发 esbuild 构建 + uno 生成样式 → 产物上传 COS / 推 gh-pages → GitHub Pages 生效',
+      'Automated deployment via GitHub Actions: push to main triggers esbuild build + uno CSS generation -> artifacts uploaded to COS / push gh-pages -> GitHub Pages live.'
+    ),
+    port: 'GitHub Pages 监听 80/443；COS 经 CDN 提供静态资源',
+    url: 'https://qiuxiang.github.io/ky-genshin-map',
+    covers: [
+      // 注意：封面图需自行准备并替换路径（如 genshin-map-v1.png），
+      // 否则 CDN/浏览器会命中旧缓存；以下为占位路径
+      '/images/project-cover/genshin-map.png',
+      '/images/project-cover/genshin-map-1.png',
+      '/images/project-cover/genshin-map-2.png',
+    ],
+    techStackBrief: L(
+      'Preact 10、CanvasKit（Skia）、TypeScript、UnoCSS、esbuild',
+      'Preact 10, CanvasKit (Skia), TypeScript, UnoCSS, esbuild'
+    ),
+    techStackDetail: [
+      { category: L('框架', 'Framework'), tech: L('Preact 10 + TypeScript（以 react 包名引用，JSX react-jsx）', 'Preact 10 + TypeScript (aliased as react, JSX react-jsx)') },
+      { category: L('地图渲染', 'Map Rendering'), tech: L('@canvaskit-map/core + @canvaskit-map/react（自研 Canvas 地图库）', '@canvaskit-map/core + @canvaskit-map/react (self-built Canvas map lib)') },
+      { category: L('渲染引擎', 'Render Engine'), tech: L('canvaskit-wasm（Skia），wasm 从 cdnjs 加载', 'canvaskit-wasm (Skia), wasm loaded from cdnjs') },
+      { category: L('状态管理', 'State'), tech: L('valtio（proxy / proxySet / ref）', 'valtio (proxy / proxySet / ref)') },
+      { category: L('数据解析', 'Data Parsing'), tech: L('google-protobuf + fflate（gz 解压）', 'google-protobuf + fflate (gz decompress)') },
+      { category: L('样式', 'Styling'), tech: L('UnoCSS（生成 dist/uno.css）', 'UnoCSS (generates dist/uno.css)') },
+      { category: L('打包', 'Bundling'), tech: L('esbuild（自定义 build.ts 脚本）', 'esbuild (custom build.ts script)') },
+      { category: L('资源', 'Assets'), tech: L('require 静态图片（esbuild file loader），图标统一 .png', 'require static images (esbuild file loader), icons with .png') },
+      { category: L('部署', 'Deployment'), tech: L('GitHub Pages + 腾讯云 COS（CDN）', 'GitHub Pages + Tencent Cloud COS (CDN)') },
+      { category: L('CI/CD', 'CI/CD'), tech: L('GitHub Actions（构建并同步产物）', 'GitHub Actions (build and sync artifacts)') },
+    ]
+  },
+  {
     id: 'compress-imgs',
     title: 'compress-imgs',
     category: L('工具', 'Tool'),
@@ -723,7 +772,6 @@ export const projects: Project[] = [
       '/images/project-cover/animated-login-react.png',
       '/images/project-cover/animated-login-react-1.png',
       '/images/project-cover/animated-login-react-2.png',
-      '/images/project-cover/animated-login-react-3.png',
     ],
     techStackBrief: L(
       'React 18 + Vite 5 前端、Tailwind CSS 4、Framer Motion 12 动画、原生 CSS 关键帧动画、JavaScript (JSX)',
@@ -799,7 +847,7 @@ export const projects: Project[] = [
     "remark": L('', ''),
     "port": "",
     "url": null,
-    "covers": ['/images/project-cover/life-record-hub.png', '/images/project-cover/life-record-hub-1.png', '/images/project-cover/life-record-hub-2.png', '/images/project-cover/life-record-hub-3.png', '/images/project-cover/life-record-hub-4.png'],
+    "covers": ['/images/project-cover/life-record-hub.png', '/images/project-cover/life-record-hub-1.png', '/images/project-cover/life-record-hub-2.png', '/images/project-cover/life-record-hub-3.png',],
     "techStackBrief": L(
       "React 18、Vite 5、TypeScript 5 前端、React Router 6、Ant Design 5 + Tailwind CSS + SCSS 样式、Axios 请求、React Context 状态管理、FastAPI + Uvicorn 后端、MySQL 8 数据库、SQLAlchemy 2.0 ORM、OAuth2 + JWT + bcrypt 鉴权",
       "React 18, Vite 5, TypeScript 5 frontend, React Router 6, Ant Design 5 + Tailwind CSS + SCSS, Axios, React Context state, FastAPI + Uvicorn backend, MySQL 8, SQLAlchemy 2.0 ORM, OAuth2 + JWT + bcrypt auth"
