@@ -455,7 +455,7 @@ export const projects: Project[] = [
       'Automated deployment via GitHub Actions: push to main triggers esbuild build + uno CSS generation -> artifacts uploaded to COS / push gh-pages -> GitHub Pages live.'
     ),
     port: 'GitHub Pages 监听 80/443；COS 经 CDN 提供静态资源',
-    url: 'https://qiuxiang.github.io/ky-genshin-map',
+    url: 'http://yuanshen.gouxinjie.com',
     covers: [
       // 注意：封面图需自行准备并替换路径（如 genshin-map-v1.png），
       // 否则 CDN/浏览器会命中旧缓存；以下为占位路径
