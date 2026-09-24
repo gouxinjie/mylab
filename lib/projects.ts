@@ -293,6 +293,62 @@ export const projects: Project[] = [
     ]
   },
   {
+    id: 'weekly',
+    title: 'weekly',
+    category: L('应用', 'Application'),
+    tags: ['React', 'Fastify', 'SQLite'],
+    featured: true,
+    order: 3.4,
+    brief: L('以周为单位的工作记录工具', 'A week-based work logging tool'),
+    description: L(
+      '一个多用户的周工作记录工具，由三个互相独立、可单独使用的模块组成：周报按 ISO 周组织，左侧「年 > 月 > 周」三层时间轴固定从 2026 年第 1 周开始，一周一篇、自动保存、Markdown 编辑 / 预览双模式、状态角标区分已写与未写，模板按需注入不自动填充；待办是单一清单加状态分组（置顶 / 未完成 / 已完成），条目可标记所属周并出现在该周周报右栏，四选一筛选带计数；便签是纯文本碎片墙，多列瀑布流随窗口自适应，卡内直接编辑、三种纸色、置顶优先。每个账号的周报、待办、便签按 user_id 完全隔离，另有浅色 / 暖纸 / 深色三套主题、修改密码与一键登出所有设备；仅提供桌面端布局',
+      'A multi-user weekly work logging tool made of three independent, individually usable modules: Weekly reports organized by ISO week, with a "year > month > week" three-level timeline anchored permanently at ISO week 1 of 2026 — one entry per week, auto-save, Markdown edit/preview modes and a written/unwritten badge, with a template injected on demand rather than automatically; a single Todo list with status grouping (pinned / active / done) whose items can be tagged to a week and surface in that week\'s sidebar, plus four-way filtering with counts; and Notes, a plain-text fragment wall with a multi-column masonry layout that adapts to window width, inline editing, three paper colors and pinning. Every account\'s reports, todos and notes are fully isolated by user_id. Also includes three themes (light / paper / dark), password change and sign-out-all-devices. Desktop layout only.'
+    ),
+    repoUrl: 'https://github.com/gouxinjie/weekly',
+    deployPath: '/var/www/weekly（web/dist 由宿主 Nginx 静态托管 + server/dist 由 pm2 以 node dist/index.js 启动；SQLite 唯一数据源位于 data/weekly.db，VACUUM INTO 快照落在 backup/，发布包保留于 releases/ 最近 5 个）',
+    startMode: L(
+      'pm2 守护 Node 后端（进程名 weekly，fork 单实例，仅监听 127.0.0.1:3701）+ 宿主 Nginx 对外 80，托管前端静态产物并把 /api 反代到内网端口；GitHub Actions 自动构建与发布。本地开发根目录 start.ps1 一键启动（前端 3700 / 后端 3701，开发态 Vite 代理 /api 所以同源无 CORS）',
+      'Node backend daemonized by pm2 (process name weekly, single fork instance, listening only on 127.0.0.1:3701) + host Nginx on port 80 serving the static frontend and reverse-proxying /api to the internal port; build and release automated by GitHub Actions. Local dev: start.ps1 at the repo root for one-click startup (frontend 3700 / backend 3701; in dev Vite proxies /api so it stays same-origin with no CORS).'
+    ),
+    status: '正常运行',
+    remark: L(
+      'GitHub Actions 自动部署：push main 触发构建（前端 tsc --noEmit + vite build，后端 tsc）→ 打包含 web/dist、server/dist 与两份 package*.json → scp 上传产物与 deploy/ 脚本 → SSH 执行 release.sh（发布前 VACUUM INTO 备份 → 暂存旧产物供回滚 → 解包 → package-lock 变化时才 npm ci --omit=dev，原生模块须在目标机编译 → pm2 startOrReload → curl /api/health 健康检查，失败自动回滚并以非 0 退出）→ 公网验证首页与 /api/health。CI 不传源码、不传 node_modules、不传 .env，也不改 Nginx 配置；数据库另有 cron 每日 3 点备份，保留 30 天',
+      'Automated deployment via GitHub Actions: push to main triggers the build (frontend tsc --noEmit + vite build, backend tsc) -> package web/dist, server/dist and both package*.json -> scp the artifacts and deploy/ scripts -> run release.sh over SSH (pre-release VACUUM INTO backup -> stash previous artifacts for rollback -> unpack -> npm ci --omit=dev only when package-lock changed, native modules must be built on the target machine -> pm2 startOrReload -> curl /api/health health check, auto-rollback with a non-zero exit on failure) -> public verification of the homepage and /api/health. CI ships no source, no node_modules and no .env, and never touches the Nginx config; the database is additionally backed up daily at 3 AM by cron with 30-day retention.'
+    ),
+    port: '宿主 Nginx 对外 80（weekly.gouxinjie.com），/api 反代到 127.0.0.1:3701；Node 仅回环监听、公网不可达，安全组只放行 22 / 80；本地开发前端 3700 / 后端 3701',
+    url: 'http://weekly.gouxinjie.com',
+    covers: [
+      '/images/project-cover/weekly.png',
+      '/images/project-cover/weekly-1.png',
+      '/images/project-cover/weekly-2.png'
+    ],
+    techStackBrief: L(
+      'React 19、Vite 8、TypeScript 5.9、React Router 7、TipTap 3、markdown-it 15、CSS Modules + SCSS（三套主题）、dayjs（isoWeek）、Fastify 5、SQLite（better-sqlite3 WAL + 手写 SQL）、argon2、pm2、Nginx、GitHub Actions',
+      'React 19, Vite 8, TypeScript 5.9, React Router 7, TipTap 3, markdown-it 15, CSS Modules + SCSS (three themes), dayjs (isoWeek), Fastify 5, SQLite (better-sqlite3 WAL + hand-written SQL), argon2, pm2, Nginx, GitHub Actions'
+    ),
+    techStackDetail: [
+      { category: L('前端框架', 'Frontend'), tech: L('React 19 + Vite 8 + TypeScript 5.9（React Router 7，函数组件 + Hooks）', 'React 19 + Vite 8 + TypeScript 5.9 (React Router 7, function components + Hooks)') },
+      { category: L('状态管理', 'State Management'), tech: L('不引入状态库，useState + Context（ThemeContext 往根元素写 data-theme）；主题等偏好仅存 localStorage，不进服务端', 'No state library: useState + Context (ThemeContext writes data-theme on the root element); preferences such as theme live only in localStorage, never on the server') },
+      { category: L('Markdown 编辑', 'Markdown Editing'), tech: L('TipTap 3（含 @tiptap/markdown、表格、列表扩展）所见即所得，底层仍以 Markdown 存储', 'TipTap 3 (with @tiptap/markdown, table and list extensions) WYSIWYG, still stored as Markdown underneath') },
+      { category: L('Markdown 渲染', 'Markdown Rendering'), tech: L('markdown-it 15，固定 html: false 转义原始 HTML，React 侧不使用 dangerouslySetInnerHTML（防存储型 XSS）', 'markdown-it 15 with html: false to escape raw HTML; no dangerouslySetInnerHTML on the React side (stored-XSS defence)') },
+      { category: L('样式', 'Styling'), tech: L('SCSS（Sass）+ CSS Modules 局部作用域，设计变量集中在 variables.scss，data-theme 驱动 light / paper / dark 三套主题', 'SCSS (Sass) + CSS Modules scoped styles; design tokens centralized in variables.scss, with data-theme driving the light / paper / dark themes') },
+      { category: L('日期处理', 'Date Handling'), tech: L('dayjs + isoWeek 插件，ISO 年与周次计算；起点固定 2026、周次上限 53，服务端强制校验', 'dayjs + isoWeek plugin for ISO year/week math; start year fixed at 2026 and max week 53, enforced server-side') },
+      { category: L('数据请求', 'Data Fetching'), tech: L('原生 fetch + 薄封装（无 axios / react-query），前后端同源携带 HttpOnly Cookie', 'Native fetch + a thin wrapper (no axios / react-query); same-origin with HttpOnly cookie auth') },
+      { category: L('后端框架', 'Backend'), tech: L('Fastify 5 + @fastify/cookie（分层：routes 只做参数校验，SQL 全部集中在 db/）', 'Fastify 5 + @fastify/cookie (layered: routes only validate input, all SQL lives in db/)') },
+      { category: L('数据库', 'Database'), tech: L('SQLite（better-sqlite3 12，WAL 模式 + 外键开启）+ 手写 SQL，每条查询强制带 user_id，写操作以 changes > 0 判定', 'SQLite (better-sqlite3 12, WAL mode + foreign keys on) + hand-written SQL; every query is scoped by user_id and writes are validated with changes > 0') },
+      { category: L('鉴权', 'Auth'), tech: L('argon2 密码哈希 + 自建 session 表；HttpOnly + SameSite=Strict Cookie（30 天）；登录 / 注册按 IP 与失败次数限流', 'argon2 password hashing + a self-managed session table; HttpOnly + SameSite=Strict cookie (30 days); login/registration rate-limited by IP and failure count') },
+      { category: L('代码质量', 'Code Quality'), tech: L('ESLint 9 + typescript-eslint + react-hooks / react（strict，禁用 any）；后端用 node --test 跑跨用户访问隔离测试', 'ESLint 9 + typescript-eslint + react-hooks / react (strict, any banned); backend runs cross-user isolation tests via node --test') },
+      { category: L('进程守护', 'Process Manager'), tech: L('pm2（ecosystem.config.cjs，进程名 weekly，fork 单实例 —— SQLite 是单写者，不可 cluster）', 'pm2 (ecosystem.config.cjs, process name weekly, single fork instance — SQLite is single-writer, clustering is not allowed)') },
+      { category: L('反向代理', 'Reverse Proxy'), tech: L('Nginx（托管 web/dist 并回退 SPA 路由，/api 反代到 127.0.0.1:3701，透传 X-Real-IP 保证限流按真实 IP 生效）', 'Nginx (serves web/dist with SPA fallback, reverse-proxies /api to 127.0.0.1:3701, forwards X-Real-IP so rate limiting sees the real client IP)') },
+      { category: L('数据备份', 'Backup'), tech: L('由 better-sqlite3 执行 VACUUM INTO 生成一致性快照（不用系统 sqlite3 CLI），cron 每日 3 点 + 每次发布前各一次，保留 30 天', 'Consistent snapshots via VACUUM INTO executed by better-sqlite3 (not the system sqlite3 CLI), daily at 3 AM by cron plus one before every release, 30-day retention') },
+      { category: L('CI/CD', 'CI/CD'), tech: L('GitHub Actions（构建产物 → 打包上传 → release.sh 解包与 pm2 重载 → 健康检查，失败自动回滚）', 'GitHub Actions (build -> package and upload -> release.sh unpacks and reloads pm2 -> health check with automatic rollback on failure)') },
+      { category: L('部署', 'Deployment'), tech: L('阿里云 ECS（单体形态：Nginx 托管静态产物 + Node 回环监听，安全组仅放行 22 / 80）', 'Alibaba Cloud ECS (single-node: Nginx serves statics, Node binds to loopback; security group allows only 22 / 80)') },
+      { category: L('包管理', 'Package Manager'), tech: L('npm', 'npm') }
+    ]
+  },
+
+
+  {
     id: 'ai-toolkit-map',
     title: 'AI 工具全景图',
     category: L('平台', 'Platform'),
