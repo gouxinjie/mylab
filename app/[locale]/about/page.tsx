@@ -28,8 +28,17 @@ import FadeIn from "@/components/commons/FadeIn";
 import Section from "@/components/commons/Section";
 import GitHubDashboard from "@/components/business/GitHubDashboard";
 import Image from "next/image";
-import { assetUrl } from "@/utils/oss";
+import { isOssProcessed, ossImageUrl } from "@/utils/oss";
 import styles from "./page.module.scss";
+
+/**
+ * 头像输出宽度
+ * @description 展示尺寸 136px，按 2 倍屏取 320
+ */
+const AVATAR_IMAGE_WIDTH = 320;
+
+/** 头像地址：经 OSS 端缩放转码，浏览器直连 OSS，避免应用服务器实时转码 */
+const avatarImageSrc = ossImageUrl("/images/avatar.png", { width: AVATAR_IMAGE_WIDTH });
 
 /** 关于页 SEO 元数据 */
 export const metadata: Metadata = {
@@ -66,10 +75,12 @@ export default function AboutPage({ params: { locale } }: { params: { locale: st
             <FadeIn>
               <div className={styles.hero__avatar}>
                 <Image
-                  src={assetUrl("/images/avatar.png")}
+                  src={avatarImageSrc}
                   alt="Avatar"
                   width={136}
                   height={136}
+                  // 已由 OSS 处理过的地址跳过 next/image 优化，避免二次转码
+                  unoptimized={isOssProcessed(avatarImageSrc)}
                   className={styles.hero__avatarImg}
                   priority
                 />

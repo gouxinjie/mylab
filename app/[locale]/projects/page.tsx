@@ -10,7 +10,6 @@ import FeaturedProjects from "@/components/business/FeaturedProjects";
 import FadeIn from "@/components/commons/FadeIn";
 import PageBanner from "@/components/commons/PageBanner";
 import { projects } from "@/lib/projects";
-import { assetUrl } from "@/utils/oss";
 import { useTranslations } from "next-intl";
 import { unstable_setRequestLocale } from "next-intl/server";
 import styles from "./page.module.scss";
@@ -36,7 +35,7 @@ export default function ProjectsPage({ params: { locale } }: { params: { locale:
       <div className="container-custom">
         {/* 页头横幅：复用 PageBanner 通用组件 */}
         <FadeIn>
-          <PageBanner bgImage={assetUrl("/images/project-bg.png")}>
+          <PageBanner bgImage="/images/project-bg.png">
             <div className={styles.content}>
               <span className={styles.label}>{t("label")}</span>
               <h1 className={styles.title}>{t("title")}</h1>

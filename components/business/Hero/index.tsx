@@ -9,7 +9,6 @@
 import { Link } from "@/lib/navigation";
 import { useTranslations } from "next-intl";
 import PageBanner from "@/components/commons/PageBanner";
-import { assetUrl } from "@/utils/oss";
 import styles from "./index.module.scss";
 
 export default function Hero() {
@@ -21,7 +20,7 @@ export default function Hero() {
     <section className={styles.hero}>
       <div className="container-custom">
         {/* 通用页头横幅：背景图 + 左侧文案 */}
-        <PageBanner bgImage={assetUrl("/images/hero-bg-1.png")} bottomMargin="0" priority>
+        <PageBanner bgImage="/images/hero-bg-1.png" bottomMargin="0" priority>
           <div className={styles.info}>
             <span
               className={`${styles.info__greeting} ${styles.animRise}`}

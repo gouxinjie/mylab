@@ -45,6 +45,12 @@ COPY --from=builder /app/.next/static ./.next/static
 # 保证任何运行时读取 content 的逻辑（如 generateMetadata 兜底）不会因目录缺失而报错
 COPY --from=builder /app/content ./content
 
+# Next.js 图片优化结果缓存目录为 .next/cache/images：
+# 上面的 COPY 使 .next 归属 root，而运行用户是 nextjs(uid 1001)，
+# 若不预先创建并授权，缓存写入会因权限不足（EACCES）失败，
+# 表现为每次请求都重新转码（X-Nextjs-Cache 恒为 MISS），严重拖慢图片加载。
+RUN mkdir -p /app/.next/cache/images && chown -R nextjs:nodejs /app/.next
+
 USER nextjs
 
 EXPOSE 3500

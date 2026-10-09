@@ -15,7 +15,18 @@ import styles from "./index.module.scss";
 import type { Components } from "react-markdown";
 import Mermaid from "./Mermaid";
 import ImageZoom from "@/components/commons/ImageZoom";
-import { assetUrl } from "@/utils/oss";
+import { ossImageUrl } from "@/utils/oss";
+
+/**
+ * 文章配图输出宽度
+ * @description 正文展示宽度约 720px，取 1600 兼顾高分屏与灯箱放大查看；
+ *              由 OSS 端缩放转码，实测 496KB 的原图可压到约 126KB；
+ *              若更看重加载速度，可下调到 1200（约 90KB）
+ */
+const ARTICLE_IMAGE_WIDTH = 1600;
+
+/** 文章配图压缩质量：兼顾截图类图片的文字清晰度 */
+const ARTICLE_IMAGE_QUALITY = 75;
 
 // 仅注册常用语言子集（common 约 37 种），避免 rehype-highlight 默认加载全量 200+ 语言，
 // 从而减轻 SSR 计算负担并缩小生成的 HTML 体积，改善详情页 TTFB
@@ -53,10 +64,14 @@ const defaultComponents: Components = {
     if (width) imgStyle.width = `${width}px`;
     if (height) imgStyle.height = `${height}px`;
     // 交由 ImageZoom 渲染：点击可弹出灯箱并按原始比例放大查看
-    // 文章内的本地 /images 图片统一转换为 OSS 地址，加速图片加载
+    // 文章内的本地 /images 图片统一转换为带 OSS 处理参数的地址，缩放与转码由 OSS 完成
     return (
       <ImageZoom
-        src={typeof src === "string" ? assetUrl(src) : undefined}
+        src={
+          typeof src === "string"
+            ? ossImageUrl(src, { width: ARTICLE_IMAGE_WIDTH, quality: ARTICLE_IMAGE_QUALITY })
+            : undefined
+        }
         alt={typeof alt === "string" ? alt : undefined}
         title={restTitle}
         style={imgStyle}

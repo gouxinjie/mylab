@@ -16,7 +16,26 @@ import FadeIn from "@/components/commons/FadeIn";
 import Modal from "@/components/commons/Modal";
 import Lightbox from "@/components/commons/Lightbox";
 import Image from "next/image";
+import { isOssProcessed, ossImageUrl } from "@/utils/oss";
 import styles from "./index.module.scss";
+
+/**
+ * 卡片封面输出宽度
+ * @description 卡片封面展示宽度为 384px，按 2 倍屏取 828，OSS 处理后的 webp 约 3KB
+ */
+const CARD_COVER_WIDTH = 828;
+
+/**
+ * 封面模糊背景层输出宽度
+ * @description 该层经 CSS 模糊铺底，取极小尺寸即可，避免为同一张图重复下载大图
+ */
+const COVER_BLUR_WIDTH = 128;
+
+/**
+ * 详情轮播主图输出宽度
+ * @description 轮播区最大展示宽度约 640px，取 1280 兼顾高分屏；放大查看仍走原图
+ */
+const CAROUSEL_COVER_WIDTH = 1280;
 
 /**
  * 根据当前语言取多语言文本
@@ -231,6 +250,9 @@ interface ProjectCardProps {
 function ProjectCard({ project, onOpen }: ProjectCardProps) {
   const locale = useLocale();
   const t = useTranslations("FeaturedProjects");
+  // 封面经 OSS 端缩放转码，浏览器直连 OSS；背景层单独取小图，避免为同一张图重复下载大图
+  const coverSrc = ossImageUrl(project.covers[0], { width: CARD_COVER_WIDTH });
+  const coverBlurSrc = ossImageUrl(project.covers[0], { width: COVER_BLUR_WIDTH, quality: 60 });
   return (
     // 整卡可点击打开详情；卡片本身不使用 button 语义（内部含链接，避免交互元素嵌套），
     // 键盘打开详情的入口改为标题，链接保持独立可聚焦
@@ -248,21 +270,20 @@ function ProjectCard({ project, onOpen }: ProjectCardProps) {
           <>
             {/* 模糊背景层：同图放大模糊铺满容器，避免 contain 留白露出底色，提升观感 */}
             <Image
-              src={project.covers[0]}
+              src={coverBlurSrc}
               alt=""
               aria-hidden
               fill
-              quality={80}
-              sizes="(min-width: 1024px) 384px, (min-width: 640px) 50vw, 100vw"
+              // 已由 OSS 处理过的地址跳过 next/image 优化，避免二次转码
+              unoptimized={isOssProcessed(coverBlurSrc)}
               className={styles['card__cover-bg']}
               loading="lazy"
             />
             <Image
-              src={project.covers[0]}
+              src={coverSrc}
               alt={`${project.title} 封面`}
               fill
-              quality={95}
-              sizes="(min-width: 1024px) 384px, (min-width: 640px) 50vw, 100vw"
+              unoptimized={isOssProcessed(coverSrc)}
               className={styles.card__cover}
               loading="lazy"
             />
@@ -570,6 +591,10 @@ function CoverCarousel({
     setIndex((current) => (current + direction + covers.length) % covers.length);
   };
 
+  // 主图与背景层分别经 OSS 缩放：背景层取小图，主图按轮播区展示宽度取值
+  const carouselSrc = ossImageUrl(covers[index], { width: CAROUSEL_COVER_WIDTH });
+  const carouselBlurSrc = ossImageUrl(covers[index], { width: COVER_BLUR_WIDTH, quality: 60 });
+
   return (
     <div
       className={`${styles.carousel}`}
@@ -578,22 +603,21 @@ function CoverCarousel({
     >
       {/* 模糊背景层：同图放大模糊铺满容器，避免 contain 留白露出底色 */}
       <Image
-        src={covers[index]}
+        src={carouselBlurSrc}
         alt=""
         aria-hidden
         fill
-        quality={80}
-        sizes="(max-width: 640px) 100vw, 640px"
+        // 已由 OSS 处理过的地址跳过 next/image 优化，避免二次转码
+        unoptimized={isOssProcessed(carouselBlurSrc)}
         className={styles['carousel__bg']}
         loading="lazy"
       />
       <Image
         key={index}
-        src={covers[index]}
+        src={carouselSrc}
         alt={`${title} 封面 ${index + 1}`}
         fill
-        quality={95}
-        sizes="(max-width: 640px) 100vw, 640px"
+        unoptimized={isOssProcessed(carouselSrc)}
         className={styles.carousel__img}
         loading="lazy"
       />

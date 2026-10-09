@@ -8,11 +8,19 @@
 
 import Image from "next/image";
 import { ReactNode } from "react";
+import { isOssProcessed, ossImageUrl } from "@/utils/oss";
 import styles from "./index.module.scss";
+
+/**
+ * 背景图输出宽度
+ * @description 横幅为全宽展示，1920 已覆盖常见桌面端；
+ *              由 OSS 端缩放输出，体积约 10KB，无需再按断点区分
+ */
+const BANNER_IMAGE_WIDTH = 1920;
 
 /** PageBanner 组件属性 */
 interface PageBannerProps {
-  /** 背景图片路径（经 next/image 自动压缩/响应式优化） */
+  /** 背景图片路径（本地 /images 路径或 OSS 地址，组件内部按需转换为 OSS 处理地址） */
   bgImage?: string;
   /** 子内容（标签、标题、描述、按钮等） */
   children: ReactNode;
@@ -44,19 +52,23 @@ export default function PageBanner({
   bottomMargin = "12px",
   priority = false,
 }: PageBannerProps) {
+  // 交由 OSS 完成缩放与转码后浏览器直连 OSS，避免经 next/image 在应用服务器上实时转码
+  const bannerSrc = bgImage ? ossImageUrl(bgImage, { width: BANNER_IMAGE_WIDTH }) : "";
+
   return (
     <div
       className={`${styles.banner} ${className}`}
       style={{ marginBottom: bottomMargin }}
     >
-      {bgImage ? (
+      {bannerSrc ? (
         <div className={styles.bannerBg}>
           <Image
-            src={bgImage}
+            src={bannerSrc}
             alt=""
             fill
             priority={priority}
-            sizes="100vw"
+            // 已由 OSS 处理过的地址跳过 next/image 优化，避免二次转码
+            unoptimized={isOssProcessed(bannerSrc)}
             className={styles.bannerImg}
           />
         </div>
