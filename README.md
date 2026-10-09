@@ -65,6 +65,26 @@ pnpm dev
 pnpm build
 ```
 
+## 图片资源与 OSS 加速
+
+站点图片集中存放在 `public/images/`（文章配图 `ai/`、项目封面 `project-cover/`）。配置 OSS 后，代码中的 `/images/xxx.png` 会由 `utils/oss.ts` 的 `assetUrl()` 统一转换为 OSS 绝对地址；未配置时自动回退为本地路径，本地开发不受影响。
+
+```bash
+# 1. 复制环境变量示例，并填写 OSS 配置（详见 .env.example）
+cp .env.example .env.local
+
+# 2. 上传图片到 OSS（增量同步：内容一致的对象自动跳过）
+pnpm uploadOss
+
+# 3. 预演（不实际上传）与强制覆盖
+pnpm uploadOss -- --dry-run
+pnpm uploadOss -- --force
+# 4. 更换对象键前缀（默认 images，与本地 /images 路径对应）
+pnpm uploadOss -- --prefix=images
+```
+
+> 更换封面图后请重命名文件（如 `prompt-v3.png`）并同步更新引用，否则 OSS 一年强缓存与 next/image 优化缓存会命中旧图。
+
 ## 目录结构
 
 ```

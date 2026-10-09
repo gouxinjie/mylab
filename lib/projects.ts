@@ -4,6 +4,8 @@
  * @author gouxinjie
  */
 
+import { assetUrls } from '@/utils/oss';
+
 /**
  * 多语言文本（中文 + 英文）
  */
@@ -91,9 +93,9 @@ export interface Project {
 export const homeFeaturedIds: string[] = ['blog', 'prompt', 'deepxinjie'];
 
 /**
- * 所有项目的数组（可直接用于展示或数据处理）
+ * 原始项目数据（covers 为本地 /images 路径）
  */
-export const projects: Project[] = [
+const rawProjects: Project[] = [
   {
     id: 'mylab',
     title: 'mylab',
@@ -931,3 +933,13 @@ export const projects: Project[] = [
     ]
   }
 ];
+
+/**
+ * 所有项目的数组（可直接用于展示或数据处理）
+ * @description covers 中的本地路径在此统一转换为 OSS 访问地址，
+ *              卡片封面、轮播图与灯箱等所有消费方均自动获得加速后的图片地址
+ */
+export const projects: Project[] = rawProjects.map((project) => ({
+  ...project,
+  covers: assetUrls(project.covers),
+}));

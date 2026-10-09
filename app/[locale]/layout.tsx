@@ -19,6 +19,7 @@ import { Toaster } from "react-hot-toast";
 import VersionCheck from "@/components/commons/VersionCheck";
 import { locales, type Locale } from "@/i18n";
 import { notFound } from "next/navigation";
+import { assetUrl } from "@/utils/oss";
 
 // Inter 字体自托管：从本地 woff2 加载，避免编译期访问 Google Fonts 失败
 const inter = localFont({
@@ -88,7 +89,7 @@ export const metadata: Metadata = {
     description:
       "全栈开发者，AI 探索者。用代码构建价值，用 AI 探索未来。",
     url: "https://gouxinjie.com",
-    images: [{ url: "/images/hero-bg-1.png", width: 1200, height: 630 }],
+    images: [{ url: assetUrl("/images/hero-bg-1.png"), width: 1200, height: 630 }],
   },
   // Twitter 卡片
   twitter: {
@@ -96,7 +97,7 @@ export const metadata: Metadata = {
     title: "xinjie | web开发",
     description:
       "全栈开发者，AI 探索者。用代码构建价值，用 AI 探索未来。",
-    images: ["/images/hero-bg-1.png"],
+    images: [assetUrl("/images/hero-bg-1.png")],
   },
   // 机器人索引规则
   robots: {

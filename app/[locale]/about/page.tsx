@@ -28,6 +28,7 @@ import FadeIn from "@/components/commons/FadeIn";
 import Section from "@/components/commons/Section";
 import GitHubDashboard from "@/components/business/GitHubDashboard";
 import Image from "next/image";
+import { assetUrl } from "@/utils/oss";
 import styles from "./page.module.scss";
 
 /** 关于页 SEO 元数据 */
@@ -65,7 +66,7 @@ export default function AboutPage({ params: { locale } }: { params: { locale: st
             <FadeIn>
               <div className={styles.hero__avatar}>
                 <Image
-                  src="/images/avatar.png"
+                  src={assetUrl("/images/avatar.png")}
                   alt="Avatar"
                   width={136}
                   height={136}

@@ -16,6 +16,12 @@ COPY . .
 ARG NEXT_PUBLIC_BAIDU_TONGJI_ID
 ENV NEXT_PUBLIC_BAIDU_TONGJI_ID=${NEXT_PUBLIC_BAIDU_TONGJI_ID}
 
+# 接收构建参数：OSS 图片访问基础地址
+# 该变量由 utils/oss.ts 读取，用于把 /images 路径转换为 OSS 绝对地址；
+# 同属 NEXT_PUBLIC_ 变量，必须在 next build 阶段注入，否则线上会静默回退为本地路径。
+ARG NEXT_PUBLIC_OSS_BASE_URL
+ENV NEXT_PUBLIC_OSS_BASE_URL=${NEXT_PUBLIC_OSS_BASE_URL}
+
 # 构建 Next.js 应用
 RUN pnpm run build
 

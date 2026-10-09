@@ -2,7 +2,7 @@
  * @file next.config.js
  * @description Next.js 配置：国际化、MDX、图片优化、HTTP 安全响应头
  * @author gouxinjie
- * @updated 2026-07-23 添加安全响应头与图片格式优化
+ * @updated 2026-10-09 增加 OSS 图片域名白名单（由环境变量驱动）
  */
 
 const createNextIntlPlugin = require("next-intl/plugin");
@@ -19,6 +19,33 @@ const withMDX = require("@next/mdx")({
 // 是否为生产环境（生产环境才开启静态资源长缓存，避免 dev 模式缓存过期 chunk）
 const isProd = process.env.NODE_ENV === "production";
 
+/**
+ * 解析 OSS 图片公网域名，生成 next/image 远程图片白名单规则
+ * @description 从 NEXT_PUBLIC_OSS_BASE_URL 提取协议、主机名与可选路径前缀；
+ *              未配置或格式非法时返回 null（此时图片地址自动回退为本地路径）
+ * @returns {import('next').NextConfig['images']['remotePatterns'][number] | null} 白名单规则或 null
+ */
+const resolveOssRemotePattern = () => {
+  const baseUrl = process.env.NEXT_PUBLIC_OSS_BASE_URL;
+  if (!baseUrl) return null;
+  try {
+    const { protocol, hostname, pathname } = new URL(baseUrl);
+    const normalizedPath = pathname.replace(/\/+$/, "");
+    return {
+      protocol: protocol.replace(":", ""),
+      hostname,
+      // 域名下存在路径前缀时（如 CDN 的 /img）限定范围，避免白名单过宽
+      ...(normalizedPath ? { pathname: `${normalizedPath}/**` } : {}),
+    };
+  } catch {
+    console.warn("[next.config] NEXT_PUBLIC_OSS_BASE_URL 格式非法，已忽略 OSS 图片白名单");
+    return null;
+  }
+};
+
+// OSS 图片域名白名单（未配置环境变量时为 null）
+const ossRemotePattern = resolveOssRemotePattern();
+
 const nextConfig = {
   // MDX 文件解析页面
   pageExtensions: ["js", "jsx", "mdx", "ts", "tsx"],
@@ -30,12 +57,14 @@ const nextConfig = {
   images: {
     // 允许 Sharp 自动将 PNG/JPG 转换为 WebP/AVIF 以减小传输体积
     formats: ["image/avif", "image/webp"],
-    // 允许的远程图片域（GitHub 头像）
+    // 允许的远程图片域（GitHub 头像 + OSS 图片域名）
     remotePatterns: [
       {
         protocol: "https",
         hostname: "avatars.githubusercontent.com",
       },
+      // OSS 图片域名：由 NEXT_PUBLIC_OSS_BASE_URL 驱动，未配置时不追加
+      ...(ossRemotePattern ? [ossRemotePattern] : []),
     ],
   },
 

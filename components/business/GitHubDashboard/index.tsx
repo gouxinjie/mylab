@@ -14,6 +14,7 @@ import { getGithubUser, getGithubRepos, getGithubContributions } from "@/service
 import type { GithubContributionDay, GithubContributionsData } from "@/types/api";
 import Section from "@/components/commons/Section";
 import Image from "next/image";
+import { assetUrl } from "@/utils/oss";
 import styles from "./index.module.scss";
 
 interface GithubData {
@@ -465,7 +466,9 @@ export default function GitHubDashboard() {
               width={72}
               height={72}
               className={styles.profileCard__avatar}
-              onError={() => setAvatarSrc("/images/avatar-placeholder.svg")}
+              // SVG 占位图无法经过图片优化管线处理，需关闭优化直接使用源文件
+              unoptimized={avatarSrc.endsWith(".svg")}
+              onError={() => setAvatarSrc(assetUrl("/images/avatar-placeholder.svg"))}
             />
             <div className={styles.profileCard__info}>
               <h3 className={styles.profileCard__name}>{t("profile_name")}</h3>
