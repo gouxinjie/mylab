@@ -21,7 +21,8 @@ import styles from "./index.module.scss";
 
 /**
  * 卡片封面输出宽度
- * @description 卡片封面展示宽度为 384px，按 2 倍屏取 828，OSS 处理后的 webp 约 3KB
+ * @description 卡片封面展示宽度为 384px，按 2 倍屏取 828；
+ *              处理后的 webp 实测 8~22KB（截图类封面细节多，压缩率偏低）
  */
 const CARD_COVER_WIDTH = 828;
 
